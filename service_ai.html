@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Service.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F2F2F0;
+    --white: #FFFFFF;
+    --black: #0A0A0A;
+    --accent: #C8F135;
+    --accent-dark: #8aaa1a;
+    --muted: #999;
+    --border: rgba(0,0,0,0.07);
+    --shadow: 0 2px 20px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.10);
+    --radius: 24px;
+    --radius-sm: 14px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--black);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ─── PHONE SHELL ─── */
+  .shell {
+    width: 390px;
+    min-height: 844px;
+    background: var(--bg);
+    border-radius: 48px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── STATUS BAR ─── */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+  .status-bar .time { font-size: 15px; font-weight: 700; }
+  .status-icons { display: flex; gap: 5px; align-items: center; }
+  .status-icons svg { width: 16px; height: 16px; }
+
+  /* ─── SCREENS ─── */
+  .screen { display: none; flex-direction: column; flex: 1; padding: 0 24px 32px; overflow-y: auto; }
+  .screen.active { display: flex; }
+
+  /* ─── TOP NAV BAR ─── */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0 8px;
+    flex-shrink: 0;
+  }
+  .nav-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow);
+    font-size: 14px;
+    color: var(--black);
+    transition: transform 0.15s;
+  }
+  .nav-btn:hover { transform: scale(0.95); }
+  .nav-btn:active { transform: scale(0.92); }
+  .top-bar-title { text-align: center; flex: 1; }
+  .top-bar-title .label { font-size: 15px; font-weight: 600; }
+  .top-bar-title .sublabel { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+  /* ─── FAB ─── */
+  .fab {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    background: var(--black);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    color: #fff;
+    font-size: 22px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .fab:hover { transform: scale(1.05); box-shadow: 0 6px 28px rgba(0,0,0,0.3); }
+  .fab:active { transform: scale(0.96); }
+  .fab.accent { background: var(--accent); color: var(--black); }
+
+  /* ─── LOGIN ─── */
+  #screen-login {
+    background: var(--white);
+    padding: 0 28px 40px;
+    justify-content: space-between;
+  }
+  .login-hero { padding: 32px 0 24px; }
+  .logo-mark {
+    width: 52px; height: 52px;
+    background: var(--black);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+  }
+  .logo-mark span { color: var(--accent); font-family: 'Instrument Serif', serif; font-size: 20px; font-weight: 400; }
+  .login-hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 38px;
+    line-height: 1.1;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+  .login-hero h1 em { font-style: italic; color: var(--muted); }
+  .login-hero p { font-size: 15px; color: var(--muted); line-height: 1.5; }
+
+  .field-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+  .field {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    border: 1.5px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .field:focus-within { border-color: var(--black); background: var(--white); }
+  .field label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+  .field input { width: 100%; border: none; background: transparent; font-size: 15px; font-family: 'DM Sans', sans-serif; outline: none; color: var(--black); }
+  .field input::placeholder { color: #bbb; }
+
+  .btn-full {
+    width: 100%; padding: 16px;
+    border-radius: var(--radius-sm);
+    border: none; cursor: pointer;
+    font-size: 15px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    transition: transform 0.12s, opacity 0.12s;
+  }
+  .btn-full:active { transform: scale(0.98); opacity: 0.9; }
+  .btn-dark { background: var(--black); color: #fff; }
+  .btn-accent { background: var(--accent); color: var(--black); }
+  .btn-ghost-full { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
+
+  .divider-row { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+  .divider-row span { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ─── WIZARD ─── */
+  .wizard-header { padding: 12px 0 24px; }
+  .wizard-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 30px; font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .wizard-header p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+  .progress-dots { display: flex; gap: 6px; margin-bottom: 8px; }
+  .pdot { height: 4px; border-radius: 2px; background: var(--border); transition: all 0.3s; }
+  .pdot.active { background: var(--black); }
+  .pdot.done { background: var(--accent-dark); }
+
+  .card-field {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .card-field:focus-within { border-color: var(--black); }
+  .card-field label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+  .card-field input, .card-field textarea, .card-field select {
+    width: 100%; border: none; background: transparent;
+    font-size: 15px; font-family: 'DM Sans', sans-serif;
+    outline: none; color: var(--black); resize: none;
+  }
+  .card-field input::placeholder, .card-field textarea::placeholder { color: #ccc; }
+  .card-field select { appearance: none; cursor: pointer; }
+  .card-field textarea { min-height: 72px; line-height: 1.5; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* tone cards */
+  .tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .tone-card {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 16px 14px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .tone-card:hover { border-color: rgba(0,0,0,0.1); }
+  .tone-card.selected { border-color: var(--black); background: var(--black); color: #fff; }
+  .tone-card .tone-icon { font-size: 22px; }
+  .tone-card .tone-name { font-size: 13px; font-weight: 600; }
+  .tone-card .tone-desc { font-size: 11px; color: var(--muted); line-height: 1.3; }
+  .tone-card.selected .tone-desc { color: rgba(255,255,255,0.5); }
+
+  /* review card */
+  .review-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+  }
+  .review-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .review-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .review-row .rk { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .review-row .rv { font-size: 14px; font-weight: 600; text-align: right; max-width: 55%; }
+
+  .accent-notice {
+    background: #f5ffe6;
+    border: 1.5px solid #c8f135;
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #4a7a10;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .fab-row { display: flex; justify-content: center; padding-top: 8px; }
+
+  /* ─── GENERATING ─── */
+  #screen-generating {
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    padding: 40px 28px;
+    gap: 0;
+    text-align: center;
+  }
+  .gen-icon {
+    width: 80px; height: 80px;
+    background: var(--black);
+    border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    margin-bottom: 28px;
+    animation: breathe 2s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0.1); }
+    50% { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(0,0,0,0.04); }
+  }
+  #screen-generating h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px; font-weight: 400;
+    margin-bottom: 6px;
+  }
+  #screen-generating p { font-size: 14px; color: var(--muted); margin-bottom: 36px; }
+
+  .gen-steps-list { width: 100%; text-align: left; display: flex; flex-direction: column; gap: 0; }
+  .gen-step-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .gen-step-row:last-child { border-bottom: none; }
+  .gsdot {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: all 0.4s;
+  }
+  .gen-step-row.active .gsdot { background: var(--black); animation: pulse-dot 0.8s ease infinite alternate; }
+  .gen-step-row.done .gsdot { background: var(--accent); }
+  @keyframes pulse-dot { to { opacity: 0.5; } }
+  .gen-step-text { font-size: 14px; color: var(--muted); transition: color 0.3s; }
+  .gen-step-row.active .gen-step-text { color: var(--black); font-weight: 500; }
+  .gen-step-row.done .gen-step-text { color: var(--black); }
+
+  /* ─── DASHBOARD ─── */
+  #screen-dashboard { padding: 0 0 32px; overflow-y: auto; }
+  .dash-header {
+    background: var(--black);
+    padding: 20px 24px 28px;
+    border-radius: 0 0 32px 32px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+  }
+  .dash-logo { color: #fff; font-family: 'Instrument Serif', serif; font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .dash-logo .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .dash-welcome { color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 4px; }
+  .dash-status-row { display: flex; align-items: center; justify-content: space-between; }
+  .dash-status-row h2 { color: #fff; font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; }
+  .pill-live {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(200,241,53,0.15);
+    border: 1px solid rgba(200,241,53,0.3);
+    border-radius: 20px; padding: 5px 12px;
+    font-size: 12px; font-weight: 600; color: var(--accent);
+  }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 1.2s ease infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .dash-body { padding: 0 20px; }
+
+  .metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .metric-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    box-shadow: var(--shadow);
+  }
+  .metric-card.full { grid-column: 1 / -1; }
+  .metric-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
+  .metric-value { font-family: 'Instrument Serif', serif; font-size: 34px; font-weight: 400; line-height: 1; }
+  .metric-sub { font-size: 12px; color: #22c55e; margin-top: 5px; font-weight: 500; }
+  .metric-sub.neutral { color: var(--muted); }
+
+  .section-title { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 10px; }
+
+  .chat-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 0;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .chat-card-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .chat-card-header h3 { font-size: 14px; font-weight: 600; }
+  .tag-live { font-size: 11px; background: #f0fdf4; color: #16a34a; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .messages { padding: 14px; display: flex; flex-direction: column; gap: 8px; max-height: 160px; overflow-y: auto; }
+  .msg {
+    max-width: 78%; padding: 9px 13px;
+    border-radius: 16px; font-size: 13px; line-height: 1.45;
+  }
+  .msg.agent { background: var(--bg); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .msg.user { background: var(--black); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .chat-input-row { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); }
+  .chat-input-row input {
+    flex: 1; padding: 9px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px; font-size: 13px;
+    font-family: 'DM Sans', sans-serif; outline: none;
+    background: var(--bg); transition: border-color 0.15s;
+  }
+  .chat-input-row input:focus { border-color: var(--black); }
+  .chat-send-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--black); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 14px; flex-shrink: 0;
+    transition: transform 0.12s;
+  }
+  .chat-send-btn:active { transform: scale(0.92); }
+
+  .connect-card-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .connect-card {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    box-shadow: var(--shadow);
+    transition: all 0.15s;
+  }
+  .connect-card:hover { border-color: rgba(0,0,0,0.08); }
+  .connect-card.connected { border-color: #bbf7d0; background: #f0fdf4; }
+  .connect-icon { font-size: 20px; margin-bottom: 5px; }
+  .connect-name { font-size: 11px; font-weight: 600; }
+  .connect-status { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .connect-card.connected .connect-status { color: #16a34a; }
+
+  /* workflow preview */
+  .workflow-preview {
+    background: var(--black);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .workflow-preview::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 12px);
+  }
+  .wf-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .wf-header span { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.4px; }
+  .copy-btn {
+    font-size: 11px; color: var(--accent); background: rgba(200,241,53,0.1);
+    border: 1px solid rgba(200,241,53,0.25); border-radius: 8px;
+    padding: 4px 10px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-weight: 600; transition: background 0.15s;
+  }
+  .copy-btn:hover { background: rgba(200,241,53,0.2); }
+  .wf-code {
+    font-size: 10px; color: rgba(255,255,255,0.4);
+    font-family: monospace; line-height: 1.5;
+    max-height: 80px; overflow: hidden;
+    white-space: pre;
+  }
+  .wf-fade {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
+    background: linear-gradient(transparent, var(--black));
+  }
+
+  /* typing indicator */
+  .typing-indicator { display: flex; gap: 4px; padding: 10px 14px; align-self: flex-start; }
+  .typing-indicator span {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
+    animation: bounce-dot 1s ease infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce-dot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+
+  /* ─── TRANSITIONS ─── */
+  .screen { animation: fade-up 0.35s ease; }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5C5.5 4.5 10.5 2.5 12 2.5s6.5 2 10.5 6L21 10c-2.5-2.5-5.5-4.5-9-4.5S7.5 7.5 5 10L1.5 8.5z"/><path d="M5 12c1.9-1.9 4.3-3 7-3s5.1 1.1 7 3l-1.5 1.5C15.9 12 14 11 12 11s-3.9 1-5.5 2.5L5 12z"/><circle cx="12" cy="18" r="2"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><rect x="1" y="6" width="5" height="12" rx="1"/><rect x="9" y="3" width="5" height="15" rx="1"/><rect x="17" y="1" width="5" height="17" rx="1"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
+    </div>
+  </div>
+
+  <!-- ══════════ LOGIN ══════════ -->
+  <div class="screen active" id="screen-login">
+    <div class="login-hero">
+      <div class="logo-mark"><span>S</span></div>
+      <h1>Your AI sales<br/>agent, <em>built<br/>in minutes.</em></h1>
+      <p style="margin-top:12px;">Connect your WhatsApp. Feed it your offer.<br/>Watch it sell while you sleep.</p>
+    </div>
+
+    <div>
+      <div class="field-group">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" placeholder="you@company.com" id="email-in" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" placeholder="••••••••" />
+        </div>
+      </div>
+      <button class="btn-full btn-dark" onclick="startWizard()" style="margin-bottom:10px;">Sign in →</button>
+      <div class="divider-row"><div class="divider-line"></div><span>or</span><div class="divider-line"></div></div>
+      <button class="btn-full btn-accent" onclick="startWizard()">Create free account</button>
+    </div>
+  </div>
+
+  <!-- ══════════ WIZARD ══════════ -->
+  <div class="screen" id="screen-wizard">
+    <div class="top-bar">
+      <button class="nav-btn" onclick="wizardBack()" id="wizard-back-btn">←</button>
+      <div class="top-bar-title">
+        <div class="label" id="wizard-title">Your business</div>
+        <div class="sublabel" id="wizard-sub">Step <span id="step-num">1</span> of 5</div>
+      </div>
+      <button class="nav-btn" onclick="goLogin()">✕</button>
+    </div>
+
+    <div class="progress-dots" id="pdots">
+      <div class="pdot active" style="flex:1" id="pd1"></div>
+      <div class="pdot" style="flex:1" id="pd2"></div>
+      <div class="pdot" style="flex:1" id="pd3"></div>
+      <div class="pdot" style="flex:1" id="pd4"></div>
+      <div class="pdot" style="flex:1" id="pd5"></div>
+    </div>
+
+    <!-- Step 1 -->
+    <div id="wstep-1">
+      <div class="wizard-header">
+        <h2>Tell us about<br/>your business</h2>
+        <p>This shapes how your agent talks to leads.</p>
+      </div>
+      <div class="two-col">
+        <div class="card-field" style="grid-column:1/-1">
+          <label>Company name</label>
+          <input id="f-company" placeholder="Acme Coaching" />
+        </div>
+        <div class="card-field">
+          <label>Industry</label>
+          <select id="f-industry">
+            <option value="">Select…</option>
+            <option>Business coaching</option>
+            <option>Fitness & wellness</option>
+            <option>Real estate</option>
+            <option>E-commerce</option>
+            <option>Digital marketing</option>
+            <option>Financial advice</option>
+            <option>Online education</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="card-field">
+          <label>WhatsApp number</label>
+          <input id="f-whatsapp" placeholder="+1 234 567 8900" />
+        </div>
+      </div>
+      <div class="fab-row"><button class="fab" onclick="wizardNext(2)">→</button></div>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="wstep-2" style="display:none">
+      <div class="wizard-header">
+        <h2>What are you<br/>selling?</h2>
+        <p>Your agent will pitch this to every lead it talks to.</p>
+      </div>
+      <div class="card-field">
+        <label>Your main offer</label>
+        <textarea id="f-offer" placeholder="e.g. A 12-week 1:1 coaching program to help entrepreneurs build their first $10k/month online business…"></textarea>
+      </div>
+      <div class="two-col">
+        <div class="card-field">
+          <label>Price</label>
+          <input id="f-price" placeholder="$997 or $297/mo" />
+        </div>
+        <div class="card-field">
+          <label>Lead magnet</label>
+          <input id="f-magnet" placeholder="Free ebook…" />
+        </div>
+      </div>
+      <div class="fab-row"><button class="fab" onclick="wizardNext(3)">→</button></div>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="wstep-3" style="display:none">
+      <div class="wizard-header">
+        <h2>Who are<br/>your leads?</h2>
+        <p>Your agent needs to know exactly who it's talking to.</p>
+      </div>
+      <div class="card-field">
+        <label>Target audience</label>
+        <textarea id="f-audience" placeholder="e.g. Entrepreneurs aged 25-40 who want to make money online but have no idea where to start…"></textarea>
+      </div>
+      <div class="card-field">
+        <label>Common objections</label>
+        <textarea id="f-objections" placeholder="e.g. 'Too expensive', 'I don't have time', 'I've tried before and it didn't work'…"></textarea>
+      </div>
+      <div class="fab-row"><button class="fab" onclick="wizardNext(4)">→</button></div>
+    </div>
+
+    <!-- Step 4 -->
+    <div id="wstep-4" style="display:none">
+      <div class="wizard-header">
+        <h2>Choose your<br/>agent's tone</h2>
+        <p>How should your agent communicate with leads?</p>
+      </div>
+      <div class="tone-grid">
+        <div class="tone-card selected" onclick="pickTone(this,'Direct closer')">
+          <div class="tone-icon">⚡</div>
+          <div class="tone-name">Direct closer</div>
+          <div class="tone-desc">Bold, confident, cuts to the offer fast</div>
+        </div>
+        <div class="tone-card" onclick="pickTone(this,'Friendly advisor')">
+          <div class="tone-icon">😊</div>
+          <div class="tone-name">Friendly advisor</div>
+          <div class="tone-desc">Warm, helpful, relationship-first</div>
+        </div>
+        <div class="tone-card" onclick="pickTone(this,'Premium consultant')">
+          <div class="tone-icon">💎</div>
+          <div class="tone-name">Premium consultant</div>
+          <div class="tone-desc">Refined, high-ticket, exclusive feel</div>
+        </div>
+        <div class="tone-card" onclick="pickTone(this,'Empathetic coach')">
+          <div class="tone-icon">🫂</div>
+          <div class="tone-name">Empathetic coach</div>
+          <div class="tone-desc">Listens first, earns trust slowly</div>
+        </div>
+        <div class="tone-card" onclick="pickTone(this,'Bold & energetic')">
+          <div class="tone-icon">🔥</div>
+          <div class="tone-name">Bold & energetic</div>
+          <div class="tone-desc">Hype, excitement, high energy</div>
+        </div>
+        <div class="tone-card" onclick="pickTone(this,'Professional & calm')">
+          <div class="tone-icon">🎯</div>
+          <div class="tone-name">Professional</div>
+          <div class="tone-desc">Measured, credible, no fluff</div>
+        </div>
+      </div>
+      <div class="fab-row"><button class="fab" onclick="wizardNext(5)">→</button></div>
+    </div>
+
+    <!-- Step 5 — Review -->
+    <div id="wstep-5" style="display:none">
+      <div class="wizard-header">
+        <h2>Ready to build<br/>your agent</h2>
+        <p>Review your info then hit build.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-row"><span class="rk">Company</span><span class="rv" id="rv-company">—</span></div>
+        <div class="review-row"><span class="rk">Industry</span><span class="rv" id="rv-industry">—</span></div>
+        <div class="review-row"><span class="rk">WhatsApp</span><span class="rv" id="rv-whatsapp">—</span></div>
+        <div class="review-row"><span class="rk">Price</span><span class="rv" id="rv-price">—</span></div>
+        <div class="review-row"><span class="rk">Tone</span><span class="rv" id="rv-tone">Direct closer</span></div>
+      </div>
+      <div class="accent-notice">✦ Our AI will generate your custom sales script, set up your WhatsApp agent, and return a ready-to-import n8n workflow.</div>
+      <div class="fab-row"><button class="fab accent" onclick="buildAgent()" style="width:auto;border-radius:28px;padding:0 28px;gap:8px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;">Build my agent ✦</button></div>
+    </div>
+  </div>
+
+  <!-- ══════════ GENERATING ══════════ -->
+  <div class="screen" id="screen-generating">
+    <div class="gen-icon">✦</div>
+    <h2>Building your<br/>agent…</h2>
+    <p>This takes about 30 seconds. Sit tight.</p>
+    <div class="gen-steps-list">
+      <div class="gen-step-row active" id="gs-1"><div class="gsdot">1</div><span class="gen-step-text">Analyzing your business profile</span></div>
+      <div class="gen-step-row" id="gs-2"><div class="gsdot">2</div><span class="gen-step-text">Generating your custom sales script</span></div>
+      <div class="gen-step-row" id="gs-3"><div class="gsdot">3</div><span class="gen-step-text">Building n8n workflow template</span></div>
+      <div class="gen-step-row" id="gs-4"><div class="gsdot">4</div><span class="gen-step-text">Activating your WhatsApp agent</span></div>
+      <div class="gen-step-row" id="gs-5"><div class="gsdot">✓</div><span class="gen-step-text">Agent is live</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════ DASHBOARD ══════════ -->
+  <div class="screen" id="screen-dashboard">
+    <div class="dash-header">
+      <div class="dash-logo"><span>Service</span><span style="color:var(--accent)">.AI</span><div class="dot"></div></div>
+      <div class="dash-welcome">Good morning 👋</div>
+      <div class="dash-status-row">
+        <h2 id="dash-company-name">Your Agent</h2>
+        <div class="pill-live"><div class="live-dot"></div>Live</div>
+      </div>
+    </div>
+
+    <div class="dash-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Leads handled</div>
+          <div class="metric-value" id="m-leads">—</div>
+          <div class="metric-sub" id="m-leads-sub">+0 this week</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Conversion</div>
+          <div class="metric-value" id="m-conv">—</div>
+          <div class="metric-sub" id="m-conv-sub">vs last week</div>
+        </div>
+        <div class="metric-card full">
+          <div class="metric-label">Revenue closed</div>
+          <div class="metric-value" id="m-rev">—</div>
+          <div class="metric-sub neutral" id="m-rev-sub">This month</div>
+        </div>
+      </div>
+
+      <div class="section-title">Test your agent</div>
+      <div class="chat-card" style="margin-bottom:16px">
+        <div class="chat-card-header">
+          <h3>Live sandbox</h3>
+          <span class="tag-live">● Connected</span>
+        </div>
+        <div class="messages" id="dash-messages">
+          <div class="msg agent">Hey! 👋 I saw you're interested in learning more. What's your main goal right now?</div>
+        </div>
+        <div class="chat-input-row">
+          <input id="dash-chat-in" placeholder="Type as a lead…" onkeydown="if(event.key==='Enter')dashSend()" />
+          <button class="chat-send-btn" onclick="dashSend()">↑</button>
+        </div>
+      </div>
+
+      <div class="section-title">Workflow preview</div>
+      <div class="workflow-preview" id="workflow-preview-card">
+        <div class="wf-header">
+          <span>n8n workflow JSON</span>
+          <button class="copy-btn" onclick="copyWorkflow()">Copy JSON</button>
+        </div>
+        <div class="wf-code" id="wf-code-preview">Loading…</div>
+        <div class="wf-fade"></div>
+      </div>
+
+      <div class="section-title">Connected platforms</div>
+      <div class="connect-card-row">
+        <div class="connect-card connected">
+          <div class="connect-icon">💬</div>
+          <div class="connect-name">WhatsApp</div>
+          <div class="connect-status">Connected</div>
+        </div>
+        <div class="connect-card" onclick="toggleConnect(this)">
+          <div class="connect-icon">📸</div>
+          <div class="connect-name">Instagram</div>
+          <div class="connect-status">Connect →</div>
+        </div>
+        <div class="connect-card" onclick="toggleConnect(this)">
+          <div class="connect-icon">🎵</div>
+          <div class="connect-name">TikTok</div>
+          <div class="connect-status">Connect →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end shell -->
+
+<script>
+// ─── STATE ───
+const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/da76f813-8351-4598-8d8b-486d07519adc';
+const YASSINE_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/da76f813-8351-4598-8d8b-486d07519adc'; // reuse or swap for chat
+
+let currentStep = 1;
+let selectedTone = 'Direct closer';
+let clientData = {};
+let workflowJSON = null;
+let chatHistory = [];
+let clientId = null;
+
+// Load from localStorage
+function loadState() {
+  const saved = localStorage.getItem('serviceai_client');
+  if (saved) {
+    clientData = JSON.parse(saved);
+    clientId = clientData.client_id || null;
+    workflowJSON = clientData.workflow || null;
+  }
+  const metrics = localStorage.getItem('serviceai_metrics');
+  if (metrics) return JSON.parse(metrics);
+  return { leads: 0, conv: '0%', rev: '$0', leads_sub: '+0 this week', conv_sub: '—', rev_sub: 'This month' };
+}
+
+function saveState() {
+  localStorage.setItem('serviceai_client', JSON.stringify(clientData));
+}
+
+// ─── NAVIGATION ───
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goLogin() { show('screen-login'); }
+
+function startWizard() {
+  show('screen-wizard');
+  renderStep(1);
+}
+
+// ─── WIZARD ───
+const stepTitles = ['Your business','Your offer','Your audience','Agent tone','Review & build'];
+
+function renderStep(n) {
+  // hide all steps
+  for (let i=1;i<=5;i++) {
+    const el = document.getElementById('wstep-'+i);
+    if (el) el.style.display = i===n ? 'block' : 'none';
+  }
+  // update dots
+  for (let i=1;i<=5;i++) {
+    const d = document.getElementById('pd'+i);
+    d.classList.remove('active','done');
+    if (i < n) d.classList.add('done');
+    else if (i === n) d.classList.add('active');
+  }
+  document.getElementById('wizard-title').textContent = stepTitles[n-1];
+  document.getElementById('step-num').textContent = n;
+  document.getElementById('wizard-back-btn').style.opacity = n===1 ? '0.3' : '1';
+  currentStep = n;
+}
+
+function wizardNext(n) {
+  if (n === 5) populateReview();
+  renderStep(n);
+}
+
+function wizardBack() {
+  if (currentStep > 1) renderStep(currentStep - 1);
+  else goLogin();
+}
+
+function pickTone(el, tone) {
+  document.querySelectorAll('.tone-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedTone = tone;
+}
+
+function populateReview() {
+  document.getElementById('rv-company').textContent = document.getElementById('f-company').value || '—';
+  document.getElementById('rv-industry').textContent = document.getElementById('f-industry').value || '—';
+  document.getElementById('rv-whatsapp').textContent = document.getElementById('f-whatsapp').value || '—';
+  document.getElementById('rv-price').textContent = document.getElementById('f-price').value || '—';
+  document.getElementById('rv-tone').textContent = selectedTone;
+}
+
+// ─── BUILD AGENT ───
+async function buildAgent() {
+  show('screen-generating');
+
+  // Collect form data
+  const payload = {
+    company: document.getElementById('f-company').value,
+    industry: document.getElementById('f-industry').value,
+    whatsapp: document.getElementById('f-whatsapp').value,
+    offer: document.getElementById('f-offer').value,
+    price: document.getElementById('f-price').value,
+    lead_magnet: document.getElementById('f-magnet').value,
+    audience: document.getElementById('f-audience').value,
+    objections: document.getElementById('f-objections').value,
+    tone: selectedTone,
+    email: document.getElementById('email-in').value || 'user@serviceai.app'
+  };
+
+  // Animate steps while calling webhook
+  const steps = ['gs-1','gs-2','gs-3','gs-4','gs-5'];
+  let stepIdx = 0;
+
+  const stepInterval = setInterval(() => {
+    if (stepIdx > 0) {
+      document.getElementById(steps[stepIdx-1]).classList.remove('active');
+      document.getElementById(steps[stepIdx-1]).classList.add('done');
+    }
+    if (stepIdx < steps.length) {
+      document.getElementById(steps[stepIdx]).classList.add('active');
+      stepIdx++;
+    } else {
+      clearInterval(stepInterval);
+    }
+  }, 1800);
+
+  try {
+    const res = await fetch(PROVISIONING_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    // Mark all steps done
+    clearInterval(stepInterval);
+    steps.forEach(s => {
+      document.getElementById(s).classList.remove('active');
+      document.getElementById(s).classList.add('done');
+    });
+
+    // Store client data
+    clientId = data.client_id || 'client_' + Date.now();
+    clientData = {
+      ...payload,
+      client_id: clientId,
+      system_prompt: data.system_prompt || '',
+      workflow: data.workflow_preview || data.workflow || null
+    };
+    workflowJSON = clientData.workflow;
+    saveState();
+
+    // Set mock metrics
+    localStorage.setItem('serviceai_metrics', JSON.stringify({
+      leads: 0, conv: '0%', rev: '$0',
+      leads_sub: 'Just launched 🚀',
+      conv_sub: 'No data yet',
+      rev_sub: 'This month'
+    }));
+
+    setTimeout(() => goToDashboard(), 800);
+
+  } catch (err) {
+    console.error('Webhook error:', err);
+
+    // Fallback: still go to dashboard with local data
+    clearInterval(stepInterval);
+    steps.forEach(s => {
+      document.getElementById(s).classList.remove('active');
+      document.getElementById(s).classList.add('done');
+    });
+
+    clientId = 'client_' + Date.now();
+    clientData = { ...payload, client_id: clientId, workflow: null };
+    workflowJSON = null;
+    saveState();
+
+    setTimeout(() => goToDashboard(), 800);
+  }
+}
+
+// ─── DASHBOARD ───
+function goToDashboard() {
+  show('screen-dashboard');
+  const metrics = loadState();
+
+  document.getElementById('dash-company-name').textContent = clientData.company || 'Your Agent';
+  document.getElementById('m-leads').textContent = metrics.leads ?? '0';
+  document.getElementById('m-conv').textContent = metrics.conv ?? '0%';
+  document.getElementById('m-rev').textContent = metrics.rev ?? '$0';
+  document.getElementById('m-leads-sub').textContent = metrics.leads_sub ?? '+0 this week';
+  document.getElementById('m-conv-sub').textContent = metrics.conv_sub ?? '—';
+  document.getElementById('m-rev-sub').textContent = metrics.rev_sub ?? 'This month';
+
+  // Show workflow preview
+  const preview = workflowJSON
+    ? JSON.stringify(workflowJSON, null, 2).substring(0, 400) + '\n…'
+    : '// No workflow returned yet.\n// Check your provisioning webhook\n// and ensure it returns workflow_preview.';
+  document.getElementById('wf-code-preview').textContent = preview;
+}
+
+function copyWorkflow() {
+  const text = workflowJSON ? JSON.stringify(workflowJSON, null, 2) : '// No workflow available';
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => btn.textContent = 'Copy JSON', 1800);
+  });
+}
+
+function toggleConnect(el) {
+  el.classList.add('connected');
+  el.querySelector('.connect-status').textContent = 'Connected';
+}
+
+// ─── CHAT SANDBOX ───
+async function dashSend() {
+  const input = document.getElementById('dash-chat-in');
+  const val = input.value.trim();
+  if (!val) return;
+
+  const msgs = document.getElementById('dash-messages');
+  input.value = '';
+
+  // Add user bubble
+  const userBubble = document.createElement('div');
+  userBubble.className = 'msg user';
+  userBubble.textContent = val;
+  msgs.appendChild(userBubble);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // Add typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'typing-indicator';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // Push to history
+  chatHistory.push({ role: 'user', content: val });
+
+  try {
+    const res = await fetch(YASSINE_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: val,
+        client_id: clientId,
+        history: chatHistory,
+        sandbox: true
+      })
+    });
+
+    const data = await res.json();
+    typing.remove();
+
+    // Parse response — handle both string and JSON
+    let replyMessages = [];
+    if (data.messages && Array.isArray(data.messages)) {
+      replyMessages = data.messages;
+    } else if (data.message) {
+      replyMessages = [data.message];
+    } else if (typeof data === 'string') {
+      replyMessages = [data];
+    } else {
+      replyMessages = ['got it'];
+    }
+
+    // Display replies with delay
+    replyMessages.forEach((msg, i) => {
+      setTimeout(() => {
+        chatHistory.push({ role: 'assistant', content: msg });
+        const agentBubble = document.createElement('div');
+        agentBubble.className = 'msg agent';
+        agentBubble.textContent = msg;
+        msgs.appendChild(agentBubble);
+        msgs.scrollTop = msgs.scrollHeight;
+      }, i * 700);
+    });
+
+  } catch (err) {
+    typing.remove();
+    // Fallback scripted replies for demo
+    const fallbacks = [
+      "That's great to hear! Have you tried anything before to reach that goal?",
+      "I get that. What's holding you back the most right now?",
+      "Makes sense. If you had a clear step-by-step system, would you be ready to move forward?",
+      "Perfect. Let me send you our free guide first — it breaks everything down. Sound good?",
+      "Great. I'll send it over now. We also have a limited offer this week only. Want to hear about it?"
+    ];
+    chatHistory.push({ role: 'assistant', content: fallbacks[chatHistory.length % fallbacks.length] });
+    const agentBubble = document.createElement('div');
+    agentBubble.className = 'msg agent';
+    agentBubble.textContent = fallbacks[Math.floor(chatHistory.length / 2) % fallbacks.length];
+    msgs.appendChild(agentBubble);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+}
+
+// ─── INIT ───
+(function init() {
+  const saved = localStorage.getItem('serviceai_client');
+  if (saved) {
+    clientData = JSON.parse(saved);
+    clientId = clientData.client_id;
+    workflowJSON = clientData.workflow;
+  }
+})();
+</script>
+</body>
+</html>

@@ -360,14 +360,39 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
 .btn-close-modal{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
 .modal-body{flex:1;overflow:hidden;position:relative;}
 
-/* Node canvas */
-.node-canvas{width:100%;height:460px;position:relative;overflow:auto;background:var(--bg);background-image:radial-gradient(circle,rgba(0,0,0,0.08) 1px,transparent 1px);background-size:24px 24px;}
-.node-canvas-inner{position:relative;min-width:1200px;min-height:400px;padding:40px;}
-.wf-node{position:absolute;background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;min-width:140px;max-width:180px;box-shadow:var(--shadow);cursor:default;transition:border-color 0.15s;}
+/* Node canvas — scrollable in both directions */
+.node-canvas{
+  width:100%;height:460px;
+  overflow:auto;
+  background:var(--bg);
+  background-image:radial-gradient(circle,rgba(0,0,0,0.08) 1px,transparent 1px);
+  background-size:24px 24px;
+  position:relative;
+}
+/* inner is sized dynamically by JS */
+.node-canvas-inner{position:relative;}
+
+.wf-node{
+  position:absolute;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:10px 14px;
+  width:160px;
+  box-shadow:var(--shadow);
+  cursor:default;
+  transition:border-color 0.15s;
+  z-index:1;
+}
 .wf-node:hover{border-color:var(--black);}
-.wf-node-icon{font-size:18px;margin-bottom:4px;}
-.wf-node-name{font-size:11px;font-weight:600;color:var(--black);line-height:1.3;word-break:break-word;}
-.wf-node-type{font-size:10px;color:var(--muted);margin-top:2px;}
+.wf-node-icon{font-size:16px;margin-bottom:4px;}
+.wf-node-name{
+  font-size:11px;font-weight:600;color:var(--black);
+  line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.wf-node-name:hover{white-space:normal;overflow:visible;} /* show full on hover */
+.wf-node-type{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .wf-node.trigger{border-color:#22c55e;background:#f0fdf4;}
 .wf-node.agent{border-color:#3b82f6;background:#eff6ff;}
 .wf-node.code{border-color:#f59e0b;background:#fffbeb;}
@@ -377,7 +402,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
 .wf-node.split{border-color:#14b8a6;background:#f0fdfa;}
 .wf-node.filter{border-color:#f97316;background:#fff7ed;}
 .wf-node.switch{border-color:#ef4444;background:#fef2f2;}
-.wf-connections{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+
+/* SVG connections sit behind nodes */
+.wf-connections{position:absolute;top:0;left:0;pointer-events:none;overflow:visible;}
 
 /* Table action btn */
 .btn-preview{padding:4px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;color:var(--black);transition:all 0.12s;}
@@ -627,7 +654,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
   </div>
 </div>
 
-
 <!-- ══ WORKFLOW PREVIEW MODAL ══ -->
 <div class="modal-overlay" id="workflow-modal" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
@@ -643,9 +669,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
     </div>
     <div class="modal-body">
       <div class="node-canvas" id="node-canvas">
-        <div class="node-canvas-inner" id="node-canvas-inner">
-          <svg class="wf-connections" id="wf-connections"></svg>
-        </div>
+        <div class="node-canvas-inner" id="node-canvas-inner"></div>
       </div>
     </div>
   </div>
@@ -712,8 +736,6 @@ function initChat() {
 // ─── ADD MESSAGES ───
 function addAgentMessage(text) {
   const msgs = document.getElementById('chat-messages');
-
-  // Remove typing if present
   const typing = document.getElementById('typing-indicator');
   if (typing) typing.remove();
 
@@ -772,33 +794,23 @@ async function sendMessage() {
 
   addUserMessage(val);
   chatHistory.push({ role: 'user', content: val });
-
   showTyping();
 
   try {
     const res = await fetch(INTERVIEW_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: val,
-        history: chatHistory,
-        session_id: sessionId
-      })
+      body: JSON.stringify({ message: val, history: chatHistory, session_id: sessionId })
     });
 
     const data = await res.json();
-
-    // Remove typing
     const typing = document.getElementById('typing-indicator');
     if (typing) typing.remove();
 
-    // Handle response
-    // Support both multi-message and single-message responses
     const messages = data.messages && Array.isArray(data.messages) ? data.messages : null;
     const reply = messages ? messages.join(' ') : (data.reply || data.message || data.output || 'Got it, tell me more.');
     const signal = data.signal || 'normal';
 
-    // Display messages — if multi, show them with delays
     if (messages && messages.length >= 1) {
       messages.forEach((msg, i) => {
         setTimeout(() => {
@@ -813,13 +825,8 @@ async function sendMessage() {
       chatHistory.push({ role: 'assistant', content: reply });
     }
 
-    // Update collected data if present
     if (data.collected) {
       gatheredData = data.collected;
-    }
-
-    // Update progress based on how many fields are filled
-    if (data.collected) {
       const filled = Object.values(data.collected).filter(v => v !== null && v !== "").length;
       progressCount = filled;
       updateProgress(progressCount);
@@ -828,7 +835,6 @@ async function sendMessage() {
       updateProgress(progressCount);
     }
 
-    // Transition when signal is done
     if (signal === 'done') {
       if (data.collected) gatheredData = data.collected;
       const delay = messages ? messages.length * 700 + 800 : 1400;
@@ -839,8 +845,6 @@ async function sendMessage() {
     console.error('Interview webhook error:', err);
     const typing = document.getElementById('typing-indicator');
     if (typing) typing.remove();
-
-    // Fallback scripted interview
     handleFallbackInterview(val);
   }
 
@@ -849,30 +853,7 @@ async function sendMessage() {
   document.getElementById('chat-input').focus();
 }
 
-// ─── EXTRACT DATA FROM HISTORY (fallback parser) ───
-function extractDataFromHistory(history) {
-  // Try to get data from n8n memory by sending one last extraction call
-  // For now build a best-effort object from conversation
-  const allText = history.map(m => m.content).join(' ');
-  
-  // Simple extraction: find whatsapp number pattern
-  const waMatch = allText.match(/\+?[0-9]{8,15}/);
-  
-  return {
-    company: gatheredData.company || '',
-    industry: gatheredData.industry || '',
-    whatsapp: waMatch ? waMatch[0] : (gatheredData.whatsapp || ''),
-    offer: gatheredData.offer || '',
-    price: gatheredData.price || '',
-    lead_magnet: gatheredData.lead_magnet || '',
-    audience: gatheredData.audience || '',
-    objections: gatheredData.objections || '',
-    tone: gatheredData.tone || 'Direct closer',
-    raw_history: history
-  };
-}
-
-// ─── FALLBACK (if webhook unreachable) ───
+// ─── FALLBACK ───
 const fallbackFlow = [
   { q: "Nice! And what's your main offer — what do you sell and at what price?", field: 'company' },
   { q: "Got it. Who's your ideal client? Describe them in a few words.", field: 'offer' },
@@ -898,7 +879,6 @@ function handleFallbackInterview(userInput) {
         updateProgress(progressCount);
       }, 700);
     } else {
-      // Complete
       gatheredData = {
         company: fallbackAnswers.company || userInput,
         offer: fallbackAnswers.offer || '',
@@ -982,40 +962,25 @@ async function confirmAndBuild() {
   btn.classList.add('loading');
   btn.querySelector('span').textContent = 'Building…';
 
-  // Show overlay — steps driven by real response
   showGeneratingOverlay();
-
-  // Step 1 active immediately (receiving data)
   setGenStep(1);
 
   try {
-    // Simulate step 2 after short delay (generating prompt)
     setTimeout(() => setGenStep(2), 800);
 
     const res = await fetch(PROVISIONING_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...finalData,
-        session_id: sessionId,
-        source: 'service_ai_v2'
-      })
+      body: JSON.stringify({ ...finalData, session_id: sessionId, source: 'service_ai_v2' })
     });
 
-    // Step 3 — building workflow (response received, parsing)
     setGenStep(3);
     await sleep(600);
-
     const data = await res.json();
-
-    // Step 4 — workflow built
     setGenStep(4);
     await sleep(600);
-
-    // Step 5 — done
     setGenStep(5);
     await sleep(800);
-
     finishBuild(data, finalData);
 
   } catch (err) {
@@ -1032,8 +997,7 @@ async function confirmAndBuild() {
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 function setGenStep(n) {
-  const steps = ['gs1','gs2','gs3','gs4','gs5'];
-  steps.forEach((s, i) => {
+  ['gs1','gs2','gs3','gs4','gs5'].forEach((s, i) => {
     const el = document.getElementById(s);
     el.classList.remove('active','done');
     if (i + 1 < n) el.classList.add('done');
@@ -1042,9 +1006,7 @@ function setGenStep(n) {
 }
 
 function finishBuild(response, formData) {
-  // Handle both direct response and array response from n8n
   const r = Array.isArray(response) ? response[0] : response;
-
   const clientId = r.client_id || 'agent_' + Date.now();
   const workflowJson = r.workflow_json || null;
 
@@ -1064,7 +1026,6 @@ function finishBuild(response, formData) {
   localStorage.setItem('sai_agents', JSON.stringify(agents));
   addActivity('🤖', `Agent created: ${newAgent.name}`, 'Just now');
 
-  // Reset chat state
   chatHistory = [];
   fallbackIdx = 0;
   fallbackAnswers = {};
@@ -1081,9 +1042,7 @@ function finishBuild(response, formData) {
 function showGeneratingOverlay() {
   const overlay = document.getElementById('gen-overlay');
   overlay.classList.add('show');
-  ['gs1','gs2','gs3','gs4','gs5'].forEach(s => {
-    document.getElementById(s).classList.remove('active','done');
-  });
+  ['gs1','gs2','gs3','gs4','gs5'].forEach(s => document.getElementById(s).classList.remove('active','done'));
 }
 
 function hideGeneratingOverlay(cb) {
@@ -1123,12 +1082,10 @@ function renderActivityFeed() {
 
 // ─── DASHBOARD RENDER ───
 function renderDashboard() {
-  // Greeting
   const hour = new Date().getHours();
   const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   document.getElementById('dash-greeting').textContent = greet + ' 👋';
 
-  // Metrics from agents
   const totalLeads = agents.reduce((s, a) => s + (a.leads || 0), 0);
   document.getElementById('m1-val').textContent = totalLeads;
   document.getElementById('m2-val').textContent = agents.length ? '—' : '0%';
@@ -1139,18 +1096,14 @@ function renderDashboard() {
     document.getElementById('m1-sub').className = 'metric-sub green';
     document.getElementById('m1-badge').textContent = '+0 this week';
     document.getElementById('m1-badge').className = 'metric-badge up';
-
-    // Update status pill
     document.getElementById('global-status').className = 'pill-status live';
     document.getElementById('global-status').innerHTML = '<div class="live-dot"></div> ' + agents.length + ' agent(s) live';
   }
 
-  // Draw sparklines
   drawSparkline('spark1', [2,4,3,6,5,8,7,10,9,12], 'rgba(34,197,94,0.6)', 'rgba(34,197,94,0.08)');
   drawSparkline('spark2', [10,14,12,18,16,20,19,24,22,28], 'rgba(59,130,246,0.6)', 'rgba(59,130,246,0.08)');
   drawSparkline('spark3', [0,0,0,0,0,0,0,0,0,0], 'rgba(156,163,175,0.5)', 'rgba(0,0,0,0.03)');
 
-  // Agents table
   renderAgentsTable();
   renderActivityFeed();
 }
@@ -1169,7 +1122,6 @@ function drawSparkline(canvasId, data, lineColor, fillColor) {
     y: h - ((v - min) / range) * (h * 0.75) - h * 0.1
   }));
 
-  // Fill
   ctx.beginPath();
   ctx.moveTo(pts[0].x, h);
   pts.forEach(p => ctx.lineTo(p.x, p.y));
@@ -1178,7 +1130,6 @@ function drawSparkline(canvasId, data, lineColor, fillColor) {
   ctx.fillStyle = fillColor;
   ctx.fill();
 
-  // Line
   ctx.beginPath();
   pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
   ctx.strokeStyle = lineColor;
@@ -1186,7 +1137,6 @@ function drawSparkline(canvasId, data, lineColor, fillColor) {
   ctx.lineJoin = 'round';
   ctx.stroke();
 
-  // End dot
   const last = pts[pts.length - 1];
   ctx.beginPath();
   ctx.arc(last.x, last.y, 3.5, 0, Math.PI * 2);
@@ -1207,13 +1157,7 @@ function renderAgentsTable() {
   wrap.innerHTML = `<table class="agent-table">
     <thead>
       <tr>
-        <th>Agent</th>
-        <th>WhatsApp</th>
-        <th>Tone</th>
-        <th>Leads</th>
-        <th>Status</th>
-        <th>Created</th>
-        <th></th>
+        <th>Agent</th><th>WhatsApp</th><th>Tone</th><th>Leads</th><th>Status</th><th>Created</th><th></th>
       </tr>
     </thead>
     <tbody>
@@ -1225,9 +1169,7 @@ function renderAgentsTable() {
           <td>${a.leads || 0}</td>
           <td><span class="status-pill ${a.status}">${a.status}</span></td>
           <td>${new Date(a.created).toLocaleDateString()}</td>
-          <td>
-            ${a.workflow_json ? `<button class="btn-preview" onclick="openWorkflowModal(${idx})">⬡ Preview</button>` : '<span style="font-size:11px;color:var(--muted)">—</span>'}
-          </td>
+          <td>${a.workflow_json ? `<button class="btn-preview" onclick="openWorkflowModal(${idx})">⬡ Preview</button>` : '<span style="font-size:11px;color:var(--muted)">—</span>'}</td>
         </tr>
       `).join('')}
     </tbody>
@@ -1254,12 +1196,8 @@ function checkNotifications() {
   }
 }
 
-// Poll for n8n notifications (n8n can POST to a special URL to trigger this)
-// n8n should POST { message: "..." } to set sai_notify in localStorage
-// Since we can't receive server POSTs in a static HTML, we poll a known key
 setInterval(() => {
-  const pending = localStorage.getItem('sai_notify');
-  if (pending) {
+  if (localStorage.getItem('sai_notify')) {
     document.getElementById('notif-badge').classList.add('show');
   }
 }, 5000);
@@ -1308,121 +1246,162 @@ function downloadWorkflow() {
   showToast('⬇', 'Workflow downloaded! Import it in n8n.');
 }
 
+// ─── RENDER NODE CANVAS (fixed) ───
 function renderNodeCanvas(workflow) {
-  const inner = document.getElementById('node-canvas-inner');
-  const svg = document.getElementById('wf-connections');
+  const NODE_W = 160;
+  const NODE_H = 72;
+  const PAD   = 60; // padding around the whole graph
 
-  // Clear
-  inner.innerHTML = '<svg class="wf-connections" id="wf-connections" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;"></svg>';
+  const inner = document.getElementById('node-canvas-inner');
+  inner.innerHTML = ''; // clear
 
   const nodes = workflow.nodes || [];
   const connections = workflow.connections || {};
 
-  // Node type classifier
+  if (!nodes.length) {
+    inner.style.width = '400px';
+    inner.style.height = '200px';
+    inner.innerHTML = '<div style="padding:60px;color:#999;font-size:13px;">No nodes found in workflow.</div>';
+    return;
+  }
+
+  // ── 1. Use n8n's raw positions directly (they're already well-spaced)
+  //       Just shift so the top-left node lands at (PAD, PAD).
+  const rawPositions = nodes.map(n => ({
+    x: Array.isArray(n.position) ? n.position[0] : (n.position?.x || 0),
+    y: Array.isArray(n.position) ? n.position[1] : (n.position?.y || 0)
+  }));
+
+  const minX = Math.min(...rawPositions.map(p => p.x));
+  const minY = Math.min(...rawPositions.map(p => p.y));
+
+  // Translate so minimum coord = PAD
+  const positions = rawPositions.map(p => ({
+    x: p.x - minX + PAD,
+    y: p.y - minY + PAD
+  }));
+
+  // ── 2. Size the inner container to fit all nodes
+  const maxX = Math.max(...positions.map(p => p.x));
+  const maxY = Math.max(...positions.map(p => p.y));
+  const totalW = maxX + NODE_W + PAD;
+  const totalH = maxY + NODE_H + PAD;
+
+  inner.style.width  = totalW + 'px';
+  inner.style.height = totalH + 'px';
+
+  // ── 3. SVG for connections — same size as inner
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('width',  totalW);
+  svg.setAttribute('height', totalH);
+  svg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';
+
+  // Arrow marker
+  const defs = document.createElementNS(svgNS, 'defs');
+  defs.innerHTML = `
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(0,0,0,0.25)"/>
+    </marker>`;
+  svg.appendChild(defs);
+  inner.appendChild(svg);
+
+  // ── 4. Node type helpers
   function getNodeClass(type) {
     if (!type) return '';
-    if (type.includes('whatsAppTrigger') || type.includes('webhook')) return 'trigger';
-    if (type.includes('agent')) return 'agent';
-    if (type.includes('memory')) return 'memory';
-    if (type.includes('code') || type.includes('Code')) return 'code';
-    if (type.includes('httpRequest') || type.includes('whatsApp')) return 'http';
-    if (type.includes('wait')) return 'wait';
-    if (type.includes('splitInBatches')) return 'split';
-    if (type.includes('filter')) return 'filter';
-    if (type.includes('switch')) return 'switch';
-    if (type.includes('OpenRouter') || type.includes('lmChat')) return 'memory';
+    const t = type.toLowerCase();
+    if (t.includes('whatsapptrigger') || t.includes('webhook')) return 'trigger';
+    if (t.includes('agent'))           return 'agent';
+    if (t.includes('memory') || t.includes('lmchat') || t.includes('openrouter')) return 'memory';
+    if (t.includes('code'))            return 'code';
+    if (t.includes('httprequest') || t.includes('whatsapp')) return 'http';
+    if (t.includes('wait'))            return 'wait';
+    if (t.includes('splitinbatches'))  return 'split';
+    if (t.includes('filter'))          return 'filter';
+    if (t.includes('switch'))          return 'switch';
     return '';
   }
 
   function getNodeIcon(type) {
     if (!type) return '⬡';
-    if (type.includes('whatsAppTrigger')) return '📲';
-    if (type.includes('webhook')) return '🔗';
-    if (type.includes('agent')) return '🤖';
-    if (type.includes('memory') || type.includes('lmChat') || type.includes('OpenRouter')) return '🧠';
-    if (type.includes('code')) return '{ }';
-    if (type.includes('httpRequest')) return '🌐';
-    if (type.includes('whatsApp')) return '💬';
-    if (type.includes('wait')) return '⏱';
-    if (type.includes('splitInBatches')) return '🔄';
-    if (type.includes('filter')) return '🔽';
-    if (type.includes('switch')) return '⇄';
+    const t = type.toLowerCase();
+    if (t.includes('whatsapptrigger'))  return '📲';
+    if (t.includes('webhook'))          return '🔗';
+    if (t.includes('agent'))            return '🤖';
+    if (t.includes('memory') || t.includes('lmchat') || t.includes('openrouter')) return '🧠';
+    if (t.includes('code'))             return '{ }';
+    if (t.includes('httprequest'))      return '🌐';
+    if (t.includes('whatsapp'))         return '💬';
+    if (t.includes('wait'))             return '⏱';
+    if (t.includes('splitinbatches'))   return '🔄';
+    if (t.includes('filter'))           return '🔽';
+    if (t.includes('switch'))           return '⇄';
     return '⬡';
   }
 
-  // Layout: normalize positions from n8n coords to canvas coords
-  const positions = nodes.map(n => ({ x: n.position?.[0] || 0, y: n.position?.[1] || 0 }));
-  const minX = Math.min(...positions.map(p => p.x));
-  const minY = Math.min(...positions.map(p => p.y));
-  const maxX = Math.max(...positions.map(p => p.x));
-  const maxY = Math.max(...positions.map(p => p.y));
-  const rangeX = maxX - minX || 1;
-  const rangeY = maxY - minY || 1;
-
-  const canvasW = 1100;
-  const canvasH = 380;
-  const padX = 80, padY = 60;
-  const nodeW = 150, nodeH = 70;
-
-  // Map node name → DOM position for connections
-  const nodePositions = {};
+  // ── 5. Place node divs & record centre positions for connections
+  const nodeCentres = {}; // name → { cx, cy }
 
   nodes.forEach((node, i) => {
-    const nx = ((positions[i].x - minX) / rangeX) * (canvasW - padX * 2 - nodeW) + padX;
-    const ny = ((positions[i].y - minY) / rangeY) * (canvasH - padY * 2 - nodeH) + padY;
+    const x = positions[i].x;
+    const y = positions[i].y;
 
-    nodePositions[node.name] = { x: nx, y: ny, w: nodeW, h: nodeH };
+    nodeCentres[node.name] = {
+      // right-centre (output) and left-centre (input)
+      ox: x + NODE_W, oy: y + NODE_H / 2,
+      ix: x,          iy: y + NODE_H / 2
+    };
 
     const el = document.createElement('div');
     el.className = 'wf-node ' + getNodeClass(node.type);
-    el.style.cssText = `left:${nx}px;top:${ny}px;width:${nodeW}px;`;
+    el.style.left   = x + 'px';
+    el.style.top    = y + 'px';
+    el.style.width  = NODE_W + 'px';
+    el.title        = node.name; // full name on hover tooltip
+
+    const typeLabel = (node.type || '').split('.').pop().replace(/([A-Z])/g, ' $1').trim();
     el.innerHTML = `
       <div class="wf-node-icon">${getNodeIcon(node.type)}</div>
       <div class="wf-node-name">${node.name}</div>
-      <div class="wf-node-type">${(node.type || '').split('.').pop().replace(/([A-Z])/g,' $1').trim()}</div>
+      <div class="wf-node-type">${typeLabel}</div>
     `;
     inner.appendChild(el);
   });
 
-  // Draw SVG connections
-  const svgEl = inner.querySelector('#wf-connections') || inner.querySelector('svg');
-  if (!svgEl) return;
-
+  // ── 6. Draw curved connections
   Object.entries(connections).forEach(([fromName, outputs]) => {
-    const fromPos = nodePositions[fromName];
-    if (!fromPos) return;
+    const from = nodeCentres[fromName];
+    if (!from) return;
 
-    const allTargets = [];
-    Object.values(outputs).forEach(outputArr => {
-      outputArr.forEach(arr => {
-        if (Array.isArray(arr)) arr.forEach(conn => { if (conn?.node) allTargets.push(conn.node); });
+    // n8n connection format: { main: [ [ {node, type, index}, … ], … ] }
+    const outputGroups = Object.values(outputs);
+    outputGroups.forEach(outputArr => {
+      outputArr.forEach(connList => {
+        if (!Array.isArray(connList)) return;
+        connList.forEach(conn => {
+          const toName = conn?.node;
+          if (!toName) return;
+          const to = nodeCentres[toName];
+          if (!to) return;
+
+          const x1 = from.ox, y1 = from.oy;
+          const x2 = to.ix,   y2 = to.iy;
+          // Control points: horizontal pull = 40% of horizontal distance
+          const pull = Math.max(60, Math.abs(x2 - x1) * 0.4);
+          const cx1 = x1 + pull, cy1 = y1;
+          const cx2 = x2 - pull, cy2 = y2;
+
+          const path = document.createElementNS(svgNS, 'path');
+          path.setAttribute('d', `M${x1},${y1} C${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`);
+          path.setAttribute('stroke', 'rgba(0,0,0,0.18)');
+          path.setAttribute('stroke-width', '1.5');
+          path.setAttribute('fill', 'none');
+          path.setAttribute('marker-end', 'url(#arrow)');
+          svg.appendChild(path);
+        });
       });
     });
-
-    allTargets.forEach(toName => {
-      const toPos = nodePositions[toName];
-      if (!toPos) return;
-
-      const x1 = fromPos.x + fromPos.w;
-      const y1 = fromPos.y + fromPos.h / 2;
-      const x2 = toPos.x;
-      const y2 = toPos.y + toPos.h / 2;
-      const cx = (x1 + x2) / 2;
-
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', `M${x1},${y1} C${cx},${y1} ${cx},${y2} ${x2},${y2}`);
-      path.setAttribute('stroke', 'rgba(0,0,0,0.15)');
-      path.setAttribute('stroke-width', '1.5');
-      path.setAttribute('fill', 'none');
-      path.setAttribute('marker-end', 'url(#arrow)');
-      svgEl.appendChild(path);
-    });
   });
-
-  // Arrow marker
-  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-  defs.innerHTML = `<marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="rgba(0,0,0,0.2)"/></marker>`;
-  svgEl.insertBefore(defs, svgEl.firstChild);
 }
 
 // ─── INIT ───
@@ -1431,7 +1410,6 @@ function renderNodeCanvas(workflow) {
   activities = JSON.parse(localStorage.getItem('sai_activities') || '[]');
   initUser();
 
-  // Start on dashboard if has agents, else onboarding
   if (agents.length) {
     showScreen('dashboard', document.querySelector('.nav-item'));
   } else {

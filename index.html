@@ -596,7 +596,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
 
 <script>
 // ─── CONSTANTS ───
-const INTERVIEW_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook-test/fd0db305-73f0-452c-943e-4ef6ac5babec';
+const INTERVIEW_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/fd0db305-73f0-452c-943e-4ef6ac5babec';
 const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/da76f813-8351-4598-8d8b-486d07519adc';
 
 // ─── STATE ───
@@ -1152,7 +1152,6 @@ function initUser() {
     showScreen('dashboard', document.querySelector('.nav-item'));
   } else {
     showScreen('onboarding', document.querySelectorAll('.nav-item')[1]);
-    initChat();
   }
 })();
 </script>

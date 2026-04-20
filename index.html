@@ -347,6 +347,42 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
 .gen-step.active .gen-step-label{color:var(--black);font-weight:500;}
 .gen-step.done .gen-step-label{color:var(--black);}
 
+/* ── WORKFLOW MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+.modal-overlay.show{opacity:1;pointer-events:all;}
+.modal-box{background:var(--white);border-radius:24px;width:90%;max-width:900px;max-height:85vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);transform:translateY(20px);transition:transform 0.25s;overflow:hidden;}
+.modal-overlay.show .modal-box{transform:translateY(0);}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.modal-header h3{font-family:'Instrument Serif',serif;font-size:20px;font-weight:400;}
+.modal-header-right{display:flex;align-items:center;gap:10px;}
+.btn-download{display:flex;align-items:center;gap:6px;padding:8px 18px;background:var(--black);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:opacity 0.15s;}
+.btn-download:hover{opacity:0.85;}
+.btn-close-modal{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.modal-body{flex:1;overflow:hidden;position:relative;}
+
+/* Node canvas */
+.node-canvas{width:100%;height:460px;position:relative;overflow:auto;background:var(--bg);background-image:radial-gradient(circle,rgba(0,0,0,0.08) 1px,transparent 1px);background-size:24px 24px;}
+.node-canvas-inner{position:relative;min-width:1200px;min-height:400px;padding:40px;}
+.wf-node{position:absolute;background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;min-width:140px;max-width:180px;box-shadow:var(--shadow);cursor:default;transition:border-color 0.15s;}
+.wf-node:hover{border-color:var(--black);}
+.wf-node-icon{font-size:18px;margin-bottom:4px;}
+.wf-node-name{font-size:11px;font-weight:600;color:var(--black);line-height:1.3;word-break:break-word;}
+.wf-node-type{font-size:10px;color:var(--muted);margin-top:2px;}
+.wf-node.trigger{border-color:#22c55e;background:#f0fdf4;}
+.wf-node.agent{border-color:#3b82f6;background:#eff6ff;}
+.wf-node.code{border-color:#f59e0b;background:#fffbeb;}
+.wf-node.http{border-color:#8b5cf6;background:#f5f3ff;}
+.wf-node.memory{border-color:#ec4899;background:#fdf2f8;}
+.wf-node.wait{border-color:#6b7280;background:#f9fafb;}
+.wf-node.split{border-color:#14b8a6;background:#f0fdfa;}
+.wf-node.filter{border-color:#f97316;background:#fff7ed;}
+.wf-node.switch{border-color:#ef4444;background:#fef2f2;}
+.wf-connections{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+
+/* Table action btn */
+.btn-preview{padding:4px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;color:var(--black);transition:all 0.12s;}
+.btn-preview:hover{background:var(--black);color:#fff;border-color:var(--black);}
+
 /* Responsive tweaks */
 @media(max-width:1100px){
   .metrics-grid{grid-template-columns:1fr 1fr;}
@@ -588,6 +624,30 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
     <div class="gen-step" id="gs3"><div class="gen-step-dot">3</div><span class="gen-step-label">Building n8n workflow</span></div>
     <div class="gen-step" id="gs4"><div class="gen-step-dot">4</div><span class="gen-step-label">Activating WhatsApp agent</span></div>
     <div class="gen-step" id="gs5"><div class="gen-step-dot">✓</div><span class="gen-step-label">Agent is live</span></div>
+  </div>
+</div>
+
+
+<!-- ══ WORKFLOW PREVIEW MODAL ══ -->
+<div class="modal-overlay" id="workflow-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <h3 id="modal-title">Workflow Preview</h3>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;" id="modal-subtitle">18 nodes · Ready to import</div>
+      </div>
+      <div class="modal-header-right">
+        <button class="btn-download" onclick="downloadWorkflow()">⬇ Download JSON</button>
+        <button class="btn-close-modal" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="node-canvas" id="node-canvas">
+        <div class="node-canvas-inner" id="node-canvas-inner">
+          <svg class="wf-connections" id="wf-connections"></svg>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -922,9 +982,16 @@ async function confirmAndBuild() {
   btn.classList.add('loading');
   btn.querySelector('span').textContent = 'Building…';
 
+  // Show overlay — steps driven by real response
   showGeneratingOverlay();
 
+  // Step 1 active immediately (receiving data)
+  setGenStep(1);
+
   try {
+    // Simulate step 2 after short delay (generating prompt)
+    setTimeout(() => setGenStep(2), 800);
+
     const res = await fetch(PROVISIONING_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -935,13 +1002,26 @@ async function confirmAndBuild() {
       })
     });
 
+    // Step 3 — building workflow (response received, parsing)
+    setGenStep(3);
+    await sleep(600);
+
     const data = await res.json();
+
+    // Step 4 — workflow built
+    setGenStep(4);
+    await sleep(600);
+
+    // Step 5 — done
+    setGenStep(5);
+    await sleep(800);
 
     finishBuild(data, finalData);
 
   } catch (err) {
     console.error('Provisioning error:', err);
-    // Still finish with local data
+    setGenStep(5);
+    await sleep(600);
     finishBuild({}, finalData);
   }
 
@@ -949,28 +1029,42 @@ async function confirmAndBuild() {
   btn.querySelector('span').textContent = 'Confirm & Build Agent';
 }
 
-function finishBuild(response, formData) {
-  const clientId = response.client_id || 'agent_' + Date.now();
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-  // Save agent
+function setGenStep(n) {
+  const steps = ['gs1','gs2','gs3','gs4','gs5'];
+  steps.forEach((s, i) => {
+    const el = document.getElementById(s);
+    el.classList.remove('active','done');
+    if (i + 1 < n) el.classList.add('done');
+    else if (i + 1 === n) el.classList.add('active');
+  });
+}
+
+function finishBuild(response, formData) {
+  // Handle both direct response and array response from n8n
+  const r = Array.isArray(response) ? response[0] : response;
+
+  const clientId = r.client_id || 'agent_' + Date.now();
+  const workflowJson = r.workflow_json || null;
+
   const newAgent = {
     id: clientId,
-    name: formData.company_name || formData.company_name || formData.company || 'Unnamed Agent',
-    tone: formData.tone || 'Direct closer',
+    name: r.company || formData.company_name || formData.company || 'Unnamed Agent',
+    tone: formData.tone || '—',
     whatsapp: formData.whatsapp_number || formData.whatsapp || '—',
     status: 'live',
     leads: 0,
     created: new Date().toISOString(),
-    workflow: response.workflow_preview || response.workflow || null
+    workflow_json: workflowJson,
+    workflow_name: r.workflow_name || null
   };
 
   agents.push(newAgent);
   localStorage.setItem('sai_agents', JSON.stringify(agents));
-
-  // Add activity
   addActivity('🤖', `Agent created: ${newAgent.name}`, 'Just now');
 
-  // Reset chat for next agent
+  // Reset chat state
   chatHistory = [];
   fallbackIdx = 0;
   fallbackAnswers = {};
@@ -979,7 +1073,7 @@ function finishBuild(response, formData) {
   hideGeneratingOverlay(() => {
     showScreen('dashboard', document.querySelector('.nav-item:first-child'));
     renderDashboard();
-    showToast('✅', `Agent "${newAgent.name}" is live!`);
+    showToast('✅', `Agent "${newAgent.name}" is live! Download the workflow to activate it.`);
   });
 }
 
@@ -987,29 +1081,12 @@ function finishBuild(response, formData) {
 function showGeneratingOverlay() {
   const overlay = document.getElementById('gen-overlay');
   overlay.classList.add('show');
-  const steps = ['gs1','gs2','gs3','gs4','gs5'];
-  // Reset
-  steps.forEach(s => {
+  ['gs1','gs2','gs3','gs4','gs5'].forEach(s => {
     document.getElementById(s).classList.remove('active','done');
   });
-  document.getElementById('gs1').classList.add('active');
-
-  let i = 0;
-  window._genInterval = setInterval(() => {
-    document.getElementById(steps[i]).classList.remove('active');
-    document.getElementById(steps[i]).classList.add('done');
-    i++;
-    if (i < steps.length) {
-      document.getElementById(steps[i]).classList.add('active');
-    } else {
-      clearInterval(window._genInterval);
-    }
-  }, 1600);
 }
 
 function hideGeneratingOverlay(cb) {
-  clearInterval(window._genInterval);
-  // Mark all done
   ['gs1','gs2','gs3','gs4','gs5'].forEach(s => {
     document.getElementById(s).classList.remove('active');
     document.getElementById(s).classList.add('done');
@@ -1017,7 +1094,7 @@ function hideGeneratingOverlay(cb) {
   setTimeout(() => {
     document.getElementById('gen-overlay').classList.remove('show');
     if (cb) cb();
-  }, 600);
+  }, 500);
 }
 
 // ─── ACTIVITY FEED ───
@@ -1136,19 +1213,21 @@ function renderAgentsTable() {
         <th>Leads</th>
         <th>Status</th>
         <th>Created</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      ${agents.map(a => `
+      ${agents.map((a, idx) => `
         <tr>
-          <td>
-            <div class="agent-name">${a.name}</div>
-          </td>
+          <td><div class="agent-name">${a.name}</div></td>
           <td>${a.whatsapp || '—'}</td>
           <td>${a.tone || '—'}</td>
           <td>${a.leads || 0}</td>
           <td><span class="status-pill ${a.status}">${a.status}</span></td>
           <td>${new Date(a.created).toLocaleDateString()}</td>
+          <td>
+            ${a.workflow_json ? `<button class="btn-preview" onclick="openWorkflowModal(${idx})">⬡ Preview</button>` : '<span style="font-size:11px;color:var(--muted)">—</span>'}
+          </td>
         </tr>
       `).join('')}
     </tbody>
@@ -1192,6 +1271,158 @@ function initUser() {
   document.getElementById('sidebar-name').textContent = name;
   document.getElementById('sidebar-email').textContent = email;
   document.getElementById('sidebar-avatar').textContent = name[0].toUpperCase();
+}
+
+// ─── WORKFLOW MODAL ───
+let activeAgentIdx = null;
+
+function openWorkflowModal(idx) {
+  activeAgentIdx = idx;
+  const agent = agents[idx];
+  if (!agent || !agent.workflow_json) return;
+
+  document.getElementById('modal-title').textContent = agent.workflow_name || agent.name + ' — Workflow';
+  document.getElementById('modal-subtitle').textContent = `${agent.workflow_json.nodes?.length || 0} nodes · Ready to import`;
+
+  renderNodeCanvas(agent.workflow_json);
+  document.getElementById('workflow-modal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('workflow-modal').classList.remove('show');
+  activeAgentIdx = null;
+}
+
+function downloadWorkflow() {
+  if (activeAgentIdx === null) return;
+  const agent = agents[activeAgentIdx];
+  if (!agent?.workflow_json) return;
+
+  const blob = new Blob([JSON.stringify(agent.workflow_json, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (agent.workflow_name || agent.name).replace(/[^a-z0-9]/gi, '_') + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇', 'Workflow downloaded! Import it in n8n.');
+}
+
+function renderNodeCanvas(workflow) {
+  const inner = document.getElementById('node-canvas-inner');
+  const svg = document.getElementById('wf-connections');
+
+  // Clear
+  inner.innerHTML = '<svg class="wf-connections" id="wf-connections" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;"></svg>';
+
+  const nodes = workflow.nodes || [];
+  const connections = workflow.connections || {};
+
+  // Node type classifier
+  function getNodeClass(type) {
+    if (!type) return '';
+    if (type.includes('whatsAppTrigger') || type.includes('webhook')) return 'trigger';
+    if (type.includes('agent')) return 'agent';
+    if (type.includes('memory')) return 'memory';
+    if (type.includes('code') || type.includes('Code')) return 'code';
+    if (type.includes('httpRequest') || type.includes('whatsApp')) return 'http';
+    if (type.includes('wait')) return 'wait';
+    if (type.includes('splitInBatches')) return 'split';
+    if (type.includes('filter')) return 'filter';
+    if (type.includes('switch')) return 'switch';
+    if (type.includes('OpenRouter') || type.includes('lmChat')) return 'memory';
+    return '';
+  }
+
+  function getNodeIcon(type) {
+    if (!type) return '⬡';
+    if (type.includes('whatsAppTrigger')) return '📲';
+    if (type.includes('webhook')) return '🔗';
+    if (type.includes('agent')) return '🤖';
+    if (type.includes('memory') || type.includes('lmChat') || type.includes('OpenRouter')) return '🧠';
+    if (type.includes('code')) return '{ }';
+    if (type.includes('httpRequest')) return '🌐';
+    if (type.includes('whatsApp')) return '💬';
+    if (type.includes('wait')) return '⏱';
+    if (type.includes('splitInBatches')) return '🔄';
+    if (type.includes('filter')) return '🔽';
+    if (type.includes('switch')) return '⇄';
+    return '⬡';
+  }
+
+  // Layout: normalize positions from n8n coords to canvas coords
+  const positions = nodes.map(n => ({ x: n.position?.[0] || 0, y: n.position?.[1] || 0 }));
+  const minX = Math.min(...positions.map(p => p.x));
+  const minY = Math.min(...positions.map(p => p.y));
+  const maxX = Math.max(...positions.map(p => p.x));
+  const maxY = Math.max(...positions.map(p => p.y));
+  const rangeX = maxX - minX || 1;
+  const rangeY = maxY - minY || 1;
+
+  const canvasW = 1100;
+  const canvasH = 380;
+  const padX = 80, padY = 60;
+  const nodeW = 150, nodeH = 70;
+
+  // Map node name → DOM position for connections
+  const nodePositions = {};
+
+  nodes.forEach((node, i) => {
+    const nx = ((positions[i].x - minX) / rangeX) * (canvasW - padX * 2 - nodeW) + padX;
+    const ny = ((positions[i].y - minY) / rangeY) * (canvasH - padY * 2 - nodeH) + padY;
+
+    nodePositions[node.name] = { x: nx, y: ny, w: nodeW, h: nodeH };
+
+    const el = document.createElement('div');
+    el.className = 'wf-node ' + getNodeClass(node.type);
+    el.style.cssText = `left:${nx}px;top:${ny}px;width:${nodeW}px;`;
+    el.innerHTML = `
+      <div class="wf-node-icon">${getNodeIcon(node.type)}</div>
+      <div class="wf-node-name">${node.name}</div>
+      <div class="wf-node-type">${(node.type || '').split('.').pop().replace(/([A-Z])/g,' $1').trim()}</div>
+    `;
+    inner.appendChild(el);
+  });
+
+  // Draw SVG connections
+  const svgEl = inner.querySelector('#wf-connections') || inner.querySelector('svg');
+  if (!svgEl) return;
+
+  Object.entries(connections).forEach(([fromName, outputs]) => {
+    const fromPos = nodePositions[fromName];
+    if (!fromPos) return;
+
+    const allTargets = [];
+    Object.values(outputs).forEach(outputArr => {
+      outputArr.forEach(arr => {
+        if (Array.isArray(arr)) arr.forEach(conn => { if (conn?.node) allTargets.push(conn.node); });
+      });
+    });
+
+    allTargets.forEach(toName => {
+      const toPos = nodePositions[toName];
+      if (!toPos) return;
+
+      const x1 = fromPos.x + fromPos.w;
+      const y1 = fromPos.y + fromPos.h / 2;
+      const x2 = toPos.x;
+      const y2 = toPos.y + toPos.h / 2;
+      const cx = (x1 + x2) / 2;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M${x1},${y1} C${cx},${y1} ${cx},${y2} ${x2},${y2}`);
+      path.setAttribute('stroke', 'rgba(0,0,0,0.15)');
+      path.setAttribute('stroke-width', '1.5');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('marker-end', 'url(#arrow)');
+      svgEl.appendChild(path);
+    });
+  });
+
+  // Arrow marker
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  defs.innerHTML = `<marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="rgba(0,0,0,0.2)"/></marker>`;
+  svgEl.insertBefore(defs, svgEl.firstChild);
 }
 
 // ─── INIT ───

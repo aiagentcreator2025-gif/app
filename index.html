@@ -453,6 +453,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
               <div class="cp-dot" id="cp5"></div>
               <div class="cp-dot" id="cp6"></div>
               <div class="cp-dot" id="cp7"></div>
+              <div class="cp-dot" id="cp8"></div>
+              <div class="cp-dot" id="cp9"></div>
+              <div class="cp-dot" id="cp10"></div>
             </div>
 
             <div class="chat-messages" id="chat-messages"></div>
@@ -603,7 +606,6 @@ const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/da
 let chatHistory = [];
 let sessionId = 'session_' + Date.now();
 let gatheredData = {};
-let progressCount = 0;
 let agents = JSON.parse(localStorage.getItem('sai_agents') || '[]');
 let activities = JSON.parse(localStorage.getItem('sai_activities') || '[]');
 let isSending = false;
@@ -692,7 +694,7 @@ function showTyping() {
 
 // ─── PROGRESS ───
 function updateProgress(count) {
-  for (let i = 1; i <= 7; i++) {
+  for (let i = 1; i <= 10; i++) {
     const dot = document.getElementById('cp' + i);
     if (dot) dot.classList.toggle('filled', i <= count);
   }
@@ -731,34 +733,46 @@ async function sendMessage() {
     if (typing) typing.remove();
 
     // Handle response
-    const messages = Object.values(data).filter(v => typeof v === 'string' && v.startsWith('message_') === false);
+    // Support both multi-message and single-message responses
+    const messages = data.messages && Array.isArray(data.messages) ? data.messages : null;
+    const reply = messages ? messages.join(' ') : (data.reply || data.message || data.output || 'Got it, tell me more.');
+    const signal = data.signal || 'normal';
 
-// if n8n returns message_1, message_2 etc
-const keys = Object.keys(data).filter(k => k.startsWith('message_'));
-const status = data.status || 'gathering';
+    // Display messages — if multi, show them with delays
+    if (messages && messages.length >= 1) {
+      messages.forEach((msg, i) => {
+        setTimeout(() => {
+          addAgentMessage(msg);
+          if (i === messages.length - 1) {
+            chatHistory.push({ role: 'assistant', content: messages.join(' | ') });
+          }
+        }, i * 700);
+      });
+    } else {
+      addAgentMessage(reply);
+      chatHistory.push({ role: 'assistant', content: reply });
+    }
 
-if (keys.length) {
-  let fullReply = '';
-  for (let i = 0; i < keys.length; i++) {
-    const msg = data[keys[i]];
-    fullReply += (i === 0 ? '' : ' ') + msg;
-    await new Promise(r => setTimeout(r, i === 0 ? 0 : 900));
-    addAgentMessage(msg);
-  }
-  chatHistory.push({ role: 'assistant', content: fullReply });
-} else {
-  const reply = data.reply || data.message || data.output || 'Got it, tell me more.';
-  addAgentMessage(reply);
-  chatHistory.push({ role: 'assistant', content: reply });
-}
+    // Update collected data if present
+    if (data.collected) {
+      gatheredData = data.collected;
+    }
 
-    // Update progress
-    progressCount = Math.min(progressCount + 1, 7);
-    updateProgress(progressCount);
+    // Update progress based on how many fields are filled
+    if (data.collected) {
+      const filled = Object.values(data.collected).filter(v => v !== null && v !== "").length;
+      progressCount = filled;
+      updateProgress(progressCount);
+    } else {
+      progressCount = Math.min(progressCount + 1, 7);
+      updateProgress(progressCount);
+    }
 
-    if (status === 'complete' && data.data) {
-      gatheredData = data.data;
-      setTimeout(() => transitionToReview(), 1200);
+    // Transition when signal is done
+    if (signal === 'done') {
+      if (data.collected) gatheredData = data.collected;
+      const delay = messages ? messages.length * 700 + 800 : 1400;
+      setTimeout(() => transitionToReview(), delay);
     }
 
   } catch (err) {
@@ -773,6 +787,29 @@ if (keys.length) {
   isSending = false;
   document.getElementById('send-btn').disabled = false;
   document.getElementById('chat-input').focus();
+}
+
+// ─── EXTRACT DATA FROM HISTORY (fallback parser) ───
+function extractDataFromHistory(history) {
+  // Try to get data from n8n memory by sending one last extraction call
+  // For now build a best-effort object from conversation
+  const allText = history.map(m => m.content).join(' ');
+  
+  // Simple extraction: find whatsapp number pattern
+  const waMatch = allText.match(/\+?[0-9]{8,15}/);
+  
+  return {
+    company: gatheredData.company || '',
+    industry: gatheredData.industry || '',
+    whatsapp: waMatch ? waMatch[0] : (gatheredData.whatsapp || ''),
+    offer: gatheredData.offer || '',
+    price: gatheredData.price || '',
+    lead_magnet: gatheredData.lead_magnet || '',
+    audience: gatheredData.audience || '',
+    objections: gatheredData.objections || '',
+    tone: gatheredData.tone || 'Direct closer',
+    raw_history: history
+  };
 }
 
 // ─── FALLBACK (if webhook unreachable) ───
@@ -831,15 +868,16 @@ function transitionToReview() {
 
 // ─── RENDER REVIEW ───
 const reviewFields = [
-  { key: 'company', label: 'Company name', wide: false, type: 'input' },
+  { key: 'company_name', label: 'Company name', wide: false, type: 'input' },
   { key: 'industry', label: 'Industry', wide: false, type: 'input' },
-  { key: 'whatsapp', label: 'WhatsApp number', wide: false, type: 'input' },
+  { key: 'whatsapp_number', label: 'WhatsApp number', wide: false, type: 'input' },
   { key: 'price', label: 'Price point', wide: false, type: 'input' },
   { key: 'offer', label: 'Main offer', wide: true, type: 'textarea' },
-  { key: 'audience', label: 'Target audience', wide: true, type: 'textarea' },
-  { key: 'objections', label: 'Common objections', wide: true, type: 'textarea' },
+  { key: 'target_audience', label: 'Target audience', wide: true, type: 'textarea' },
+  { key: 'common_objections', label: 'Common objections', wide: true, type: 'textarea' },
   { key: 'tone', label: 'Agent tone', wide: false, type: 'input' },
   { key: 'lead_magnet', label: 'Lead magnet', wide: false, type: 'input' },
+  { key: 'goal', label: 'Agent goal', wide: true, type: 'textarea' },
 ];
 
 function renderReview() {
@@ -917,9 +955,9 @@ function finishBuild(response, formData) {
   // Save agent
   const newAgent = {
     id: clientId,
-    name: formData.company || 'Unnamed Agent',
+    name: formData.company_name || formData.company_name || formData.company || 'Unnamed Agent',
     tone: formData.tone || 'Direct closer',
-    whatsapp: formData.whatsapp || '—',
+    whatsapp: formData.whatsapp_number || formData.whatsapp || '—',
     status: 'live',
     leads: 0,
     created: new Date().toISOString(),

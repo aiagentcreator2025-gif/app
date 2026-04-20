@@ -731,11 +731,26 @@ async function sendMessage() {
     if (typing) typing.remove();
 
     // Handle response
-    const reply = data.reply || data.message || data.output || 'Got it, tell me more.';
-    const status = data.status || 'gathering';
+    const messages = Object.values(data).filter(v => typeof v === 'string' && v.startsWith('message_') === false);
 
-    addAgentMessage(reply);
-    chatHistory.push({ role: 'assistant', content: reply });
+// if n8n returns message_1, message_2 etc
+const keys = Object.keys(data).filter(k => k.startsWith('message_'));
+const status = data.status || 'gathering';
+
+if (keys.length) {
+  let fullReply = '';
+  for (let i = 0; i < keys.length; i++) {
+    const msg = data[keys[i]];
+    fullReply += (i === 0 ? '' : ' ') + msg;
+    await new Promise(r => setTimeout(r, i === 0 ? 0 : 900));
+    addAgentMessage(msg);
+  }
+  chatHistory.push({ role: 'assistant', content: fullReply });
+} else {
+  const reply = data.reply || data.message || data.output || 'Got it, tell me more.';
+  addAgentMessage(reply);
+  chatHistory.push({ role: 'assistant', content: reply });
+}
 
     // Update progress
     progressCount = Math.min(progressCount + 1, 7);

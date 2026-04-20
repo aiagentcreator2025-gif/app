@@ -1,1040 +1,1158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Service.AI</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Service.AI — Agent Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  :root {
-    --bg: #F2F2F0;
-    --white: #FFFFFF;
-    --black: #0A0A0A;
-    --accent: #C8F135;
-    --accent-dark: #8aaa1a;
-    --muted: #999;
-    --border: rgba(0,0,0,0.07);
-    --shadow: 0 2px 20px rgba(0,0,0,0.06);
-    --shadow-lg: 0 8px 40px rgba(0,0,0,0.10);
-    --radius: 24px;
-    --radius-sm: 14px;
-  }
+:root{
+  --bg:#F7F7F5;
+  --white:#FFFFFF;
+  --black:#0A0A0A;
+  --accent:#C8F135;
+  --accent-dim:rgba(200,241,53,0.12);
+  --accent-dark:#6a8f0f;
+  --muted:#9A9A9A;
+  --border:rgba(0,0,0,0.07);
+  --border-strong:rgba(0,0,0,0.12);
+  --shadow:0 1px 12px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg:0 12px 48px rgba(0,0,0,0.12);
+  --sidebar:220px;
+  --radius:16px;
+  --radius-sm:10px;
+}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--black);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);min-height:100vh;font-size:14px;}
 
-  /* ─── PHONE SHELL ─── */
-  .shell {
-    width: 390px;
-    min-height: 844px;
-    background: var(--bg);
-    border-radius: 48px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-  }
+/* ── LAYOUT ── */
+.app{display:flex;min-height:100vh;}
 
-  /* ─── STATUS BAR ─── */
-  .status-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 28px 0;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--black);
-    flex-shrink: 0;
-  }
-  .status-bar .time { font-size: 15px; font-weight: 700; }
-  .status-icons { display: flex; gap: 5px; align-items: center; }
-  .status-icons svg { width: 16px; height: 16px; }
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--black);
+  display:flex;flex-direction:column;
+  padding:0 0 24px;
+  position:fixed;top:0;left:0;bottom:0;
+  z-index:100;
+}
+.sidebar-logo{
+  padding:24px 20px 20px;
+  font-family:'Instrument Serif',serif;
+  font-size:20px;color:#fff;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  margin-bottom:12px;
+}
+.sidebar-logo .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.nav-section{padding:0 12px;margin-bottom:6px;}
+.nav-label{font-size:10px;font-weight:600;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.8px;padding:0 8px;margin-bottom:6px;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:10px;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,0.45);
+  cursor:pointer;transition:all 0.15s;
+  margin-bottom:2px;
+}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,0.06);}
+.nav-item.active{color:#fff;background:rgba(200,241,53,0.12);}
+.nav-item.active .nav-icon{color:var(--accent);}
+.nav-icon{width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.sidebar-bottom{margin-top:auto;padding:0 12px;}
+.user-pill{
+  display:flex;align-items:center;gap:10px;
+  padding:10px;border-radius:10px;
+  background:rgba(255,255,255,0.05);
+  cursor:pointer;
+}
+.user-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--black);flex-shrink:0;}
+.user-info .uname{font-size:12px;font-weight:600;color:#fff;}
+.user-info .uemail{font-size:11px;color:rgba(255,255,255,0.35);}
 
-  /* ─── SCREENS ─── */
-  .screen { display: none; flex-direction: column; flex: 1; padding: 0 24px 32px; overflow-y: auto; }
-  .screen.active { display: flex; }
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh;}
 
-  /* ─── TOP NAV BAR ─── */
-  .top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 0 8px;
-    flex-shrink: 0;
-  }
-  .nav-btn {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: var(--white);
-    border: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: var(--shadow);
-    font-size: 14px;
-    color: var(--black);
-    transition: transform 0.15s;
-  }
-  .nav-btn:hover { transform: scale(0.95); }
-  .nav-btn:active { transform: scale(0.92); }
-  .top-bar-title { text-align: center; flex: 1; }
-  .top-bar-title .label { font-size: 15px; font-weight: 600; }
-  .top-bar-title .sublabel { font-size: 12px; color: var(--muted); margin-top: 1px; }
+/* ── TOP BAR ── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:50;
+}
+.topbar-left h1{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;}
+.topbar-left p{font-size:13px;color:var(--muted);margin-top:2px;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.pill-status{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;}
+.pill-status.live{background:rgba(34,197,94,0.1);color:#16a34a;}
+.pill-status.idle{background:rgba(0,0,0,0.05);color:var(--muted);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.4s ease infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.notif-btn{position:relative;width:36px;height:36px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:background 0.15s;}
+.notif-btn:hover{background:#efefed;}
+.notif-badge{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:#ef4444;border:2px solid var(--white);display:none;}
+.notif-badge.show{display:block;}
 
-  /* ─── FAB ─── */
-  .fab {
-    width: 58px; height: 58px;
-    border-radius: 50%;
-    background: var(--black);
-    border: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-    color: #fff;
-    font-size: 22px;
-    transition: transform 0.15s, box-shadow 0.15s;
-    flex-shrink: 0;
-    align-self: center;
-  }
-  .fab:hover { transform: scale(1.05); box-shadow: 0 6px 28px rgba(0,0,0,0.3); }
-  .fab:active { transform: scale(0.96); }
-  .fab.accent { background: var(--accent); color: var(--black); }
+/* ── CONTENT ── */
+.content{flex:1;padding:32px;}
 
-  /* ─── LOGIN ─── */
-  #screen-login {
-    background: var(--white);
-    padding: 0 28px 40px;
-    justify-content: space-between;
-  }
-  .login-hero { padding: 32px 0 24px; }
-  .logo-mark {
-    width: 52px; height: 52px;
-    background: var(--black);
-    border-radius: 16px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 28px;
-  }
-  .logo-mark span { color: var(--accent); font-family: 'Instrument Serif', serif; font-size: 20px; font-weight: 400; }
-  .login-hero h1 {
-    font-family: 'Instrument Serif', serif;
-    font-size: 38px;
-    line-height: 1.1;
-    font-weight: 400;
-    margin-bottom: 10px;
-  }
-  .login-hero h1 em { font-style: italic; color: var(--muted); }
-  .login-hero p { font-size: 15px; color: var(--muted); line-height: 1.5; }
+/* ── SCREENS ── */
+.screen{display:none;}
+.screen.active{display:block;}
 
-  .field-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-  .field {
-    background: var(--bg);
-    border-radius: var(--radius-sm);
-    padding: 14px 18px;
-    border: 1.5px solid transparent;
-    transition: border-color 0.15s;
-  }
-  .field:focus-within { border-color: var(--black); background: var(--white); }
-  .field label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
-  .field input { width: 100%; border: none; background: transparent; font-size: 15px; font-family: 'DM Sans', sans-serif; outline: none; color: var(--black); }
-  .field input::placeholder { color: #bbb; }
+/* ══════ ONBOARDING CHAT SCREEN ══════ */
+.onboard-wrap{
+  max-width:740px;margin:0 auto;
+  display:flex;flex-direction:column;
+  height:calc(100vh - 140px);
+}
+.onboard-header{text-align:center;padding:24px 0 32px;flex-shrink:0;}
+.onboard-header .step-chips{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:24px;}
+.step-chip{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);background:transparent;}
+.step-chip.active{background:var(--black);color:#fff;}
+.step-chip.done{color:var(--accent-dark);}
+.step-connector{width:32px;height:1px;background:var(--border);}
+.onboard-header h2{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin-bottom:8px;}
+.onboard-header p{font-size:14px;color:var(--muted);line-height:1.6;}
 
-  .btn-full {
-    width: 100%; padding: 16px;
-    border-radius: var(--radius-sm);
-    border: none; cursor: pointer;
-    font-size: 15px; font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
-    transition: transform 0.12s, opacity 0.12s;
-  }
-  .btn-full:active { transform: scale(0.98); opacity: 0.9; }
-  .btn-dark { background: var(--black); color: #fff; }
-  .btn-accent { background: var(--accent); color: var(--black); }
-  .btn-ghost-full { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
+/* Chat area */
+.chat-area{
+  flex:1;
+  background:var(--white);
+  border-radius:24px;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-md);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.chat-messages{
+  flex:1;overflow-y:auto;
+  padding:28px 28px 16px;
+  display:flex;flex-direction:column;
+  gap:16px;
+  scroll-behavior:smooth;
+}
+.chat-messages::-webkit-scrollbar{width:4px;}
+.chat-messages::-webkit-scrollbar-track{background:transparent;}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.1);border-radius:2px;}
 
-  .divider-row { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
-  .divider-row span { font-size: 12px; color: var(--muted); flex-shrink: 0; }
-  .divider-line { flex: 1; height: 1px; background: var(--border); }
+/* Message bubbles */
+.msg-row{display:flex;gap:12px;align-items:flex-end;}
+.msg-row.user{flex-direction:row-reverse;}
+.msg-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;}
+.msg-avatar.agent-av{background:var(--black);color:var(--accent);}
+.msg-avatar.user-av{background:var(--accent);color:var(--black);}
+.msg-bubble{
+  max-width:72%;padding:12px 16px;
+  border-radius:18px;font-size:14px;line-height:1.55;
+  animation:msg-in 0.25s ease;
+}
+@keyframes msg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-row.agent .msg-bubble{background:var(--bg);border-bottom-left-radius:4px;}
+.msg-row.user .msg-bubble{background:var(--black);color:#fff;border-bottom-right-radius:4px;}
 
-  /* ─── WIZARD ─── */
-  .wizard-header { padding: 12px 0 24px; }
-  .wizard-header h2 {
-    font-family: 'Instrument Serif', serif;
-    font-size: 30px; font-weight: 400;
-    line-height: 1.2;
-    margin-bottom: 6px;
-  }
-  .wizard-header p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+/* Typing indicator */
+.typing-row{display:flex;gap:12px;align-items:flex-end;}
+.typing-bubble{background:var(--bg);padding:14px 18px;border-radius:18px;border-bottom-left-radius:4px;display:flex;gap:5px;align-items:center;}
+.typing-bubble span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1s ease infinite;}
+.typing-bubble span:nth-child(2){animation-delay:0.15s;}
+.typing-bubble span:nth-child(3){animation-delay:0.3s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
 
-  .progress-dots { display: flex; gap: 6px; margin-bottom: 8px; }
-  .pdot { height: 4px; border-radius: 2px; background: var(--border); transition: all 0.3s; }
-  .pdot.active { background: var(--black); }
-  .pdot.done { background: var(--accent-dark); }
+/* Chat input — Dia style */
+.chat-input-wrap{
+  padding:16px 20px 20px;
+  border-top:1px solid var(--border);
+  flex-shrink:0;
+}
+.chat-input-box{
+  display:flex;align-items:center;gap:12px;
+  background:var(--bg);
+  border-radius:14px;
+  border:1.5px solid var(--border);
+  padding:10px 10px 10px 18px;
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.chat-input-box:focus-within{border-color:var(--black);box-shadow:0 0 0 3px rgba(0,0,0,0.06);}
+.chat-input-box input{
+  flex:1;border:none;background:transparent;
+  font-size:14px;font-family:'DM Sans',sans-serif;
+  outline:none;color:var(--black);
+}
+.chat-input-box input::placeholder{color:#bbb;}
+.send-btn{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--black);border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#fff;font-size:16px;
+  transition:transform 0.12s,opacity 0.12s;
+  flex-shrink:0;
+}
+.send-btn:hover{opacity:0.85;}
+.send-btn:active{transform:scale(0.93);}
+.send-btn:disabled{opacity:0.35;cursor:not-allowed;}
 
-  .card-field {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-    border: 1.5px solid transparent;
-    transition: border-color 0.15s;
-  }
-  .card-field:focus-within { border-color: var(--black); }
-  .card-field label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
-  .card-field input, .card-field textarea, .card-field select {
-    width: 100%; border: none; background: transparent;
-    font-size: 15px; font-family: 'DM Sans', sans-serif;
-    outline: none; color: var(--black); resize: none;
-  }
-  .card-field input::placeholder, .card-field textarea::placeholder { color: #ccc; }
-  .card-field select { appearance: none; cursor: pointer; }
-  .card-field textarea { min-height: 72px; line-height: 1.5; }
+/* Progress bar inside chat */
+.chat-progress{
+  display:flex;gap:4px;padding:14px 20px 0;
+  flex-shrink:0;
+}
+.cp-dot{height:3px;flex:1;border-radius:2px;background:var(--border);transition:background 0.4s;}
+.cp-dot.filled{background:var(--accent-dark);}
 
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* ══════ REVIEW SCREEN ══════ */
+.review-wrap{max-width:860px;margin:0 auto;}
+.review-header{margin-bottom:28px;}
+.review-header h2{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin-bottom:6px;}
+.review-header p{font-size:14px;color:var(--muted);}
 
-  /* tone cards */
-  .tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-  .tone-card {
-    background: var(--white);
-    border-radius: var(--radius-sm);
-    padding: 16px 14px;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: all 0.15s;
-    box-shadow: var(--shadow);
-    display: flex; flex-direction: column; gap: 6px;
-  }
-  .tone-card:hover { border-color: rgba(0,0,0,0.1); }
-  .tone-card.selected { border-color: var(--black); background: var(--black); color: #fff; }
-  .tone-card .tone-icon { font-size: 22px; }
-  .tone-card .tone-name { font-size: 13px; font-weight: 600; }
-  .tone-card .tone-desc { font-size: 11px; color: var(--muted); line-height: 1.3; }
-  .tone-card.selected .tone-desc { color: rgba(255,255,255,0.5); }
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+.review-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);padding:20px 22px;
+  box-shadow:var(--shadow);
+}
+.review-card.wide{grid-column:1/-1;}
+.review-card-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.review-card-value{font-size:15px;font-weight:500;line-height:1.5;outline:none;width:100%;border:none;background:transparent;font-family:'DM Sans',sans-serif;color:var(--black);resize:none;}
+.review-card-value:focus{color:var(--black);}
+.review-card textarea.review-card-value{min-height:60px;}
+.edit-hint{font-size:11px;color:var(--muted);margin-top:4px;}
 
-  /* review card */
-  .review-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: var(--shadow);
-    margin-bottom: 14px;
-  }
-  .review-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
-  .review-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .review-row .rk { font-size: 12px; color: var(--muted); font-weight: 500; }
-  .review-row .rv { font-size: 14px; font-weight: 600; text-align: right; max-width: 55%; }
+.review-actions{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);}
+.review-actions p{font-size:13px;color:var(--muted);}
+.btn-confirm{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 28px;background:var(--black);color:#fff;
+  border:none;border-radius:10px;font-size:14px;font-weight:600;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+  transition:transform 0.12s,opacity 0.12s;
+}
+.btn-confirm:hover{opacity:0.88;}
+.btn-confirm:active{transform:scale(0.97);}
+.btn-confirm.loading{opacity:0.6;pointer-events:none;}
+.btn-back{padding:10px 20px;background:transparent;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;color:var(--muted);}
 
-  .accent-notice {
-    background: #f5ffe6;
-    border: 1.5px solid #c8f135;
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    font-size: 13px;
-    color: #4a7a10;
-    line-height: 1.5;
-    margin-bottom: 20px;
-  }
+/* ══════ DASHBOARD ══════ */
+.dash-welcome{margin-bottom:28px;}
+.dash-welcome h2{font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;margin-bottom:4px;}
+.dash-welcome p{font-size:14px;color:var(--muted);}
 
-  .fab-row { display: flex; justify-content: center; padding-top: 8px; }
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+.metric-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);padding:20px 22px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.metric-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+.metric-title{font-size:13px;font-weight:500;color:var(--muted);}
+.metric-badge{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:6px;}
+.metric-badge.up{background:rgba(34,197,94,0.1);color:#16a34a;}
+.metric-badge.down{background:rgba(239,68,68,0.08);color:#dc2626;}
+.metric-badge.neutral{background:rgba(0,0,0,0.05);color:var(--muted);}
+.metric-value{font-family:'Instrument Serif',serif;font-size:40px;font-weight:400;line-height:1;margin-bottom:6px;}
+.metric-sub{font-size:12px;font-weight:500;}
+.metric-sub.green{color:#16a34a;}
+.metric-sub.muted{color:var(--muted);}
+/* sparkline canvas */
+.sparkline{position:absolute;bottom:0;right:0;width:120px;height:56px;opacity:0.7;}
 
-  /* ─── GENERATING ─── */
-  #screen-generating {
-    align-items: center;
-    justify-content: center;
-    background: var(--white);
-    padding: 40px 28px;
-    gap: 0;
-    text-align: center;
-  }
-  .gen-icon {
-    width: 80px; height: 80px;
-    background: var(--black);
-    border-radius: 24px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px;
-    margin-bottom: 28px;
-    animation: breathe 2s ease-in-out infinite;
-  }
-  @keyframes breathe {
-    0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0.1); }
-    50% { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(0,0,0,0.04); }
-  }
-  #screen-generating h2 {
-    font-family: 'Instrument Serif', serif;
-    font-size: 28px; font-weight: 400;
-    margin-bottom: 6px;
-  }
-  #screen-generating p { font-size: 14px; color: var(--muted); margin-bottom: 36px; }
+.dash-body{display:grid;grid-template-columns:1fr 340px;gap:20px;}
 
-  .gen-steps-list { width: 100%; text-align: left; display: flex; flex-direction: column; gap: 0; }
-  .gen-step-row {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .gen-step-row:last-child { border-bottom: none; }
-  .gsdot {
-    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-    background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    transition: all 0.4s;
-  }
-  .gen-step-row.active .gsdot { background: var(--black); animation: pulse-dot 0.8s ease infinite alternate; }
-  .gen-step-row.done .gsdot { background: var(--accent); }
-  @keyframes pulse-dot { to { opacity: 0.5; } }
-  .gen-step-text { font-size: 14px; color: var(--muted); transition: color 0.3s; }
-  .gen-step-row.active .gen-step-text { color: var(--black); font-weight: 500; }
-  .gen-step-row.done .gen-step-text { color: var(--black); }
+/* Agent list */
+.agents-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
+.card-header h3{font-size:15px;font-weight:600;}
+.card-header-right{display:flex;align-items:center;gap:8px;}
+.btn-sm{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all 0.12s;}
+.btn-sm.dark{background:var(--black);color:#fff;}
+.btn-sm.ghost{background:var(--bg);color:var(--black);border:1px solid var(--border);}
 
-  /* ─── DASHBOARD ─── */
-  #screen-dashboard { padding: 0 0 32px; overflow-y: auto; }
-  .dash-header {
-    background: var(--black);
-    padding: 20px 24px 28px;
-    border-radius: 0 0 32px 32px;
-    margin-bottom: 20px;
-    flex-shrink: 0;
-  }
-  .dash-logo { color: #fff; font-family: 'Instrument Serif', serif; font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-  .dash-logo .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-  .dash-welcome { color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 4px; }
-  .dash-status-row { display: flex; align-items: center; justify-content: space-between; }
-  .dash-status-row h2 { color: #fff; font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; }
-  .pill-live {
-    display: flex; align-items: center; gap: 6px;
-    background: rgba(200,241,53,0.15);
-    border: 1px solid rgba(200,241,53,0.3);
-    border-radius: 20px; padding: 5px 12px;
-    font-size: 12px; font-weight: 600; color: var(--accent);
-  }
-  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 1.2s ease infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.agent-table{width:100%;border-collapse:collapse;}
+.agent-table th{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;padding:10px 20px;text-align:left;border-bottom:1px solid var(--border);}
+.agent-table td{padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;}
+.agent-table tr:last-child td{border-bottom:none;}
+.agent-table tr:hover td{background:#fafaf8;}
+.agent-name{font-weight:600;}
+.agent-company{color:var(--muted);font-size:12px;margin-top:2px;}
+.status-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;}
+.status-pill.live{background:rgba(34,197,94,0.1);color:#16a34a;}
+.status-pill.building{background:rgba(234,179,8,0.1);color:#b45309;}
+.status-pill.idle{background:rgba(0,0,0,0.05);color:var(--muted);}
 
-  .dash-body { padding: 0 20px; }
+/* Activity feed */
+.activity-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+.activity-list{padding:0 20px;}
+.activity-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);}
+.activity-item:last-child{border-bottom:none;}
+.activity-icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:var(--bg);}
+.activity-text{flex:1;}
+.activity-title{font-size:13px;font-weight:500;line-height:1.4;}
+.activity-time{font-size:11px;color:var(--muted);margin-top:2px;}
 
-  .metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-  .metric-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 18px 16px;
-    box-shadow: var(--shadow);
-  }
-  .metric-card.full { grid-column: 1 / -1; }
-  .metric-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
-  .metric-value { font-family: 'Instrument Serif', serif; font-size: 34px; font-weight: 400; line-height: 1; }
-  .metric-sub { font-size: 12px; color: #22c55e; margin-top: 5px; font-weight: 500; }
-  .metric-sub.neutral { color: var(--muted); }
+/* Toast */
+.toast{
+  position:fixed;bottom:28px;right:28px;
+  background:var(--black);color:#fff;
+  padding:14px 20px;border-radius:12px;
+  font-size:13px;font-weight:500;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:var(--shadow-lg);
+  transform:translateY(80px);opacity:0;
+  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  z-index:999;pointer-events:none;
+  max-width:320px;
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast-icon{font-size:18px;}
 
-  .section-title { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 10px; }
+/* Empty state */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-state .empty-icon{font-size:40px;margin-bottom:16px;}
+.empty-state h3{font-size:16px;font-weight:600;color:var(--black);margin-bottom:6px;}
+.empty-state p{font-size:13px;line-height:1.6;}
 
-  .chat-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 0;
-    box-shadow: var(--shadow);
-    margin-bottom: 16px;
-    overflow: hidden;
-  }
-  .chat-card-header {
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .chat-card-header h3 { font-size: 14px; font-weight: 600; }
-  .tag-live { font-size: 11px; background: #f0fdf4; color: #16a34a; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
-  .messages { padding: 14px; display: flex; flex-direction: column; gap: 8px; max-height: 160px; overflow-y: auto; }
-  .msg {
-    max-width: 78%; padding: 9px 13px;
-    border-radius: 16px; font-size: 13px; line-height: 1.45;
-  }
-  .msg.agent { background: var(--bg); align-self: flex-start; border-bottom-left-radius: 4px; }
-  .msg.user { background: var(--black); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
-  .chat-input-row { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); }
-  .chat-input-row input {
-    flex: 1; padding: 9px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 20px; font-size: 13px;
-    font-family: 'DM Sans', sans-serif; outline: none;
-    background: var(--bg); transition: border-color 0.15s;
-  }
-  .chat-input-row input:focus { border-color: var(--black); }
-  .chat-send-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: var(--black); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 14px; flex-shrink: 0;
-    transition: transform 0.12s;
-  }
-  .chat-send-btn:active { transform: scale(0.92); }
+/* Generating overlay */
+.gen-overlay{
+  position:fixed;inset:0;background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(8px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  z-index:200;gap:0;
+}
+.gen-overlay.show{display:flex;}
+.gen-spinner-ring{
+  width:64px;height:64px;border-radius:50%;
+  border:3px solid var(--border);
+  border-top-color:var(--black);
+  animation:spin 0.8s linear infinite;
+  margin-bottom:24px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-overlay h3{font-family:'Instrument Serif',serif;font-size:26px;font-weight:400;margin-bottom:8px;}
+.gen-overlay p{font-size:14px;color:var(--muted);margin-bottom:32px;}
+.gen-steps-list{display:flex;flex-direction:column;gap:0;width:280px;}
+.gen-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.gen-step:last-child{border-bottom:none;}
+.gen-step-dot{width:28px;height:28px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);flex-shrink:0;transition:all 0.3s;}
+.gen-step.active .gen-step-dot{background:var(--black);border-color:var(--black);color:var(--accent);animation:pulse-ring 1s ease infinite alternate;}
+.gen-step.done .gen-step-dot{background:var(--accent);border-color:var(--accent);color:var(--black);}
+@keyframes pulse-ring{to{box-shadow:0 0 0 6px rgba(0,0,0,0.06)}}
+.gen-step-label{font-size:13px;color:var(--muted);transition:color 0.3s;}
+.gen-step.active .gen-step-label{color:var(--black);font-weight:500;}
+.gen-step.done .gen-step-label{color:var(--black);}
 
-  .connect-card-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .connect-card {
-    background: var(--white);
-    border-radius: var(--radius-sm);
-    padding: 14px 10px;
-    text-align: center;
-    cursor: pointer;
-    border: 2px solid transparent;
-    box-shadow: var(--shadow);
-    transition: all 0.15s;
-  }
-  .connect-card:hover { border-color: rgba(0,0,0,0.08); }
-  .connect-card.connected { border-color: #bbf7d0; background: #f0fdf4; }
-  .connect-icon { font-size: 20px; margin-bottom: 5px; }
-  .connect-name { font-size: 11px; font-weight: 600; }
-  .connect-status { font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .connect-card.connected .connect-status { color: #16a34a; }
-
-  /* workflow preview */
-  .workflow-preview {
-    background: var(--black);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 16px;
-    position: relative;
-    overflow: hidden;
-  }
-  .workflow-preview::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 12px);
-  }
-  .wf-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .wf-header span { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.4px; }
-  .copy-btn {
-    font-size: 11px; color: var(--accent); background: rgba(200,241,53,0.1);
-    border: 1px solid rgba(200,241,53,0.25); border-radius: 8px;
-    padding: 4px 10px; cursor: pointer; font-family: 'DM Sans', sans-serif;
-    font-weight: 600; transition: background 0.15s;
-  }
-  .copy-btn:hover { background: rgba(200,241,53,0.2); }
-  .wf-code {
-    font-size: 10px; color: rgba(255,255,255,0.4);
-    font-family: monospace; line-height: 1.5;
-    max-height: 80px; overflow: hidden;
-    white-space: pre;
-  }
-  .wf-fade {
-    position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
-    background: linear-gradient(transparent, var(--black));
-  }
-
-  /* typing indicator */
-  .typing-indicator { display: flex; gap: 4px; padding: 10px 14px; align-self: flex-start; }
-  .typing-indicator span {
-    width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
-    animation: bounce-dot 1s ease infinite;
-  }
-  .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
-  .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
-  @keyframes bounce-dot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
-
-  /* ─── TRANSITIONS ─── */
-  .screen { animation: fade-up 0.35s ease; }
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+/* Responsive tweaks */
+@media(max-width:1100px){
+  .metrics-grid{grid-template-columns:1fr 1fr;}
+  .dash-body{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
-<div class="shell">
+<div class="app">
 
-  <!-- STATUS BAR -->
-  <div class="status-bar">
-    <span class="time">9:41</span>
-    <div class="status-icons">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5C5.5 4.5 10.5 2.5 12 2.5s6.5 2 10.5 6L21 10c-2.5-2.5-5.5-4.5-9-4.5S7.5 7.5 5 10L1.5 8.5z"/><path d="M5 12c1.9-1.9 4.3-3 7-3s5.1 1.1 7 3l-1.5 1.5C15.9 12 14 11 12 11s-3.9 1-5.5 2.5L5 12z"/><circle cx="12" cy="18" r="2"/></svg>
-      <svg viewBox="0 0 24 24" fill="currentColor"><rect x="1" y="6" width="5" height="12" rx="1"/><rect x="9" y="3" width="5" height="15" rx="1"/><rect x="17" y="1" width="5" height="17" rx="1"/></svg>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v3"/></svg>
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-dot"></div>
+      Service.AI
     </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Main</div>
+      <div class="nav-item active" onclick="showScreen('dashboard',this)">
+        <span class="nav-icon">⬛</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="showScreen('onboarding',this)">
+        <span class="nav-icon">✦</span> New Agent
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">💬</span> Conversations
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">👥</span> Leads
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Analytics</div>
+      <div class="nav-item">
+        <span class="nav-icon">📊</span> Reports
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">⚙️</span> Settings
+      </div>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="user-pill">
+        <div class="user-avatar" id="sidebar-avatar">?</div>
+        <div class="user-info">
+          <div class="uname" id="sidebar-name">Account</div>
+          <div class="uemail" id="sidebar-email">—</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1 id="topbar-title">Dashboard</h1>
+        <p id="topbar-sub">Welcome back. Here's what's happening.</p>
+      </div>
+      <div class="topbar-right">
+        <div class="pill-status idle" id="global-status">
+          <span>No active agent</span>
+        </div>
+        <div class="notif-btn" onclick="checkNotifications()">
+          🔔
+          <div class="notif-badge" id="notif-badge"></div>
+        </div>
+        <button class="btn-sm dark" onclick="showScreen('onboarding', document.querySelector('.nav-item:nth-child(2)'))">+ New Agent</button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ══ SCREEN: ONBOARDING CHAT ══ -->
+      <div class="screen active" id="screen-onboarding">
+        <div class="onboard-wrap">
+
+          <div class="onboard-header">
+            <div class="step-chips">
+              <div class="step-chip active" id="chip-1">
+                <span>①</span> AI Interview
+              </div>
+              <div class="step-connector"></div>
+              <div class="step-chip" id="chip-2">
+                <span>②</span> Review & Confirm
+              </div>
+            </div>
+            <h2>Let's build your AI agent</h2>
+            <p>Our AI will ask you a few questions to understand your business.<br/>It takes about 2 minutes.</p>
+          </div>
+
+          <div class="chat-area">
+            <div class="chat-progress" id="chat-progress">
+              <div class="cp-dot" id="cp1"></div>
+              <div class="cp-dot" id="cp2"></div>
+              <div class="cp-dot" id="cp3"></div>
+              <div class="cp-dot" id="cp4"></div>
+              <div class="cp-dot" id="cp5"></div>
+              <div class="cp-dot" id="cp6"></div>
+              <div class="cp-dot" id="cp7"></div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages"></div>
+
+            <div class="chat-input-wrap">
+              <div class="chat-input-box">
+                <input
+                  type="text"
+                  id="chat-input"
+                  placeholder="Type your answer…"
+                  onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+                />
+                <button class="send-btn" id="send-btn" onclick="sendMessage()">↑</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══ SCREEN: REVIEW ══ -->
+      <div class="screen" id="screen-review">
+        <div class="review-wrap">
+          <div class="review-header">
+            <h2>Review your agent setup</h2>
+            <p>Your AI gathered all this info. Edit anything before confirming — then we'll build your agent.</p>
+          </div>
+
+          <div class="review-grid" id="review-grid">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="review-actions">
+            <div>
+              <p>Everything look good? Hit confirm to build your agent.</p>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="btn-back" onclick="goBackToChat()">← Edit</button>
+              <button class="btn-confirm" id="confirm-btn" onclick="confirmAndBuild()">
+                <span>Confirm & Build Agent</span> <span>✦</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SCREEN: DASHBOARD ══ -->
+      <div class="screen" id="screen-dashboard">
+
+        <div class="dash-welcome">
+          <h2 id="dash-greeting">Good morning 👋</h2>
+          <p>Here are the latest insights from your agents.</p>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">Leads handled</span>
+              <span class="metric-badge neutral" id="m1-badge">—</span>
+            </div>
+            <div class="metric-value" id="m1-val">0</div>
+            <div class="metric-sub muted" id="m1-sub">No data yet</div>
+            <canvas class="sparkline" id="spark1" width="120" height="56"></canvas>
+          </div>
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">Conversion rate</span>
+              <span class="metric-badge neutral" id="m2-badge">—</span>
+            </div>
+            <div class="metric-value" id="m2-val">0%</div>
+            <div class="metric-sub muted" id="m2-sub">No data yet</div>
+            <canvas class="sparkline" id="spark2" width="120" height="56"></canvas>
+          </div>
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">Revenue closed</span>
+              <span class="metric-badge neutral" id="m3-badge">This month</span>
+            </div>
+            <div class="metric-value" id="m3-val">$0</div>
+            <div class="metric-sub muted" id="m3-sub">Just launched</div>
+            <canvas class="sparkline" id="spark3" width="120" height="56"></canvas>
+          </div>
+        </div>
+
+        <div class="dash-body">
+          <div class="agents-card">
+            <div class="card-header">
+              <h3>Your Agents</h3>
+              <div class="card-header-right">
+                <button class="btn-sm ghost">Filter</button>
+                <button class="btn-sm dark" onclick="showScreen('onboarding', null)">+ New</button>
+              </div>
+            </div>
+            <div id="agents-table-wrap">
+              <div class="empty-state">
+                <div class="empty-icon">🤖</div>
+                <h3>No agents yet</h3>
+                <p>Create your first AI agent to start<br/>handling leads automatically.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="card-header">
+              <h3>Latest Updates</h3>
+            </div>
+            <div class="activity-list" id="activity-list">
+              <div class="empty-state" style="padding:40px 0">
+                <div class="empty-icon">📭</div>
+                <p>No activity yet</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- Generating overlay -->
+<div class="gen-overlay" id="gen-overlay">
+  <div class="gen-spinner-ring"></div>
+  <h3>Building your agent…</h3>
+  <p>This takes about 30 seconds. Sit tight.</p>
+  <div class="gen-steps-list">
+    <div class="gen-step active" id="gs1"><div class="gen-step-dot">1</div><span class="gen-step-label">Analyzing your business profile</span></div>
+    <div class="gen-step" id="gs2"><div class="gen-step-dot">2</div><span class="gen-step-label">Generating custom sales script</span></div>
+    <div class="gen-step" id="gs3"><div class="gen-step-dot">3</div><span class="gen-step-label">Building n8n workflow</span></div>
+    <div class="gen-step" id="gs4"><div class="gen-step-dot">4</div><span class="gen-step-label">Activating WhatsApp agent</span></div>
+    <div class="gen-step" id="gs5"><div class="gen-step-dot">✓</div><span class="gen-step-label">Agent is live</span></div>
   </div>
+</div>
 
-  <!-- ══════════ LOGIN ══════════ -->
-  <div class="screen active" id="screen-login">
-    <div class="login-hero">
-      <div class="logo-mark"><span>S</span></div>
-      <h1>Your AI sales<br/>agent, <em>built<br/>in minutes.</em></h1>
-      <p style="margin-top:12px;">Connect your WhatsApp. Feed it your offer.<br/>Watch it sell while you sleep.</p>
-    </div>
-
-    <div>
-      <div class="field-group">
-        <div class="field">
-          <label>Email</label>
-          <input type="email" placeholder="you@company.com" id="email-in" />
-        </div>
-        <div class="field">
-          <label>Password</label>
-          <input type="password" placeholder="••••••••" />
-        </div>
-      </div>
-      <button class="btn-full btn-dark" onclick="startWizard()" style="margin-bottom:10px;">Sign in →</button>
-      <div class="divider-row"><div class="divider-line"></div><span>or</span><div class="divider-line"></div></div>
-      <button class="btn-full btn-accent" onclick="startWizard()">Create free account</button>
-    </div>
-  </div>
-
-  <!-- ══════════ WIZARD ══════════ -->
-  <div class="screen" id="screen-wizard">
-    <div class="top-bar">
-      <button class="nav-btn" onclick="wizardBack()" id="wizard-back-btn">←</button>
-      <div class="top-bar-title">
-        <div class="label" id="wizard-title">Your business</div>
-        <div class="sublabel" id="wizard-sub">Step <span id="step-num">1</span> of 5</div>
-      </div>
-      <button class="nav-btn" onclick="goLogin()">✕</button>
-    </div>
-
-    <div class="progress-dots" id="pdots">
-      <div class="pdot active" style="flex:1" id="pd1"></div>
-      <div class="pdot" style="flex:1" id="pd2"></div>
-      <div class="pdot" style="flex:1" id="pd3"></div>
-      <div class="pdot" style="flex:1" id="pd4"></div>
-      <div class="pdot" style="flex:1" id="pd5"></div>
-    </div>
-
-    <!-- Step 1 -->
-    <div id="wstep-1">
-      <div class="wizard-header">
-        <h2>Tell us about<br/>your business</h2>
-        <p>This shapes how your agent talks to leads.</p>
-      </div>
-      <div class="two-col">
-        <div class="card-field" style="grid-column:1/-1">
-          <label>Company name</label>
-          <input id="f-company" placeholder="Acme Coaching" />
-        </div>
-        <div class="card-field">
-          <label>Industry</label>
-          <select id="f-industry">
-            <option value="">Select…</option>
-            <option>Business coaching</option>
-            <option>Fitness & wellness</option>
-            <option>Real estate</option>
-            <option>E-commerce</option>
-            <option>Digital marketing</option>
-            <option>Financial advice</option>
-            <option>Online education</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="card-field">
-          <label>WhatsApp number</label>
-          <input id="f-whatsapp" placeholder="+1 234 567 8900" />
-        </div>
-      </div>
-      <div class="fab-row"><button class="fab" onclick="wizardNext(2)">→</button></div>
-    </div>
-
-    <!-- Step 2 -->
-    <div id="wstep-2" style="display:none">
-      <div class="wizard-header">
-        <h2>What are you<br/>selling?</h2>
-        <p>Your agent will pitch this to every lead it talks to.</p>
-      </div>
-      <div class="card-field">
-        <label>Your main offer</label>
-        <textarea id="f-offer" placeholder="e.g. A 12-week 1:1 coaching program to help entrepreneurs build their first $10k/month online business…"></textarea>
-      </div>
-      <div class="two-col">
-        <div class="card-field">
-          <label>Price</label>
-          <input id="f-price" placeholder="$997 or $297/mo" />
-        </div>
-        <div class="card-field">
-          <label>Lead magnet</label>
-          <input id="f-magnet" placeholder="Free ebook…" />
-        </div>
-      </div>
-      <div class="fab-row"><button class="fab" onclick="wizardNext(3)">→</button></div>
-    </div>
-
-    <!-- Step 3 -->
-    <div id="wstep-3" style="display:none">
-      <div class="wizard-header">
-        <h2>Who are<br/>your leads?</h2>
-        <p>Your agent needs to know exactly who it's talking to.</p>
-      </div>
-      <div class="card-field">
-        <label>Target audience</label>
-        <textarea id="f-audience" placeholder="e.g. Entrepreneurs aged 25-40 who want to make money online but have no idea where to start…"></textarea>
-      </div>
-      <div class="card-field">
-        <label>Common objections</label>
-        <textarea id="f-objections" placeholder="e.g. 'Too expensive', 'I don't have time', 'I've tried before and it didn't work'…"></textarea>
-      </div>
-      <div class="fab-row"><button class="fab" onclick="wizardNext(4)">→</button></div>
-    </div>
-
-    <!-- Step 4 -->
-    <div id="wstep-4" style="display:none">
-      <div class="wizard-header">
-        <h2>Choose your<br/>agent's tone</h2>
-        <p>How should your agent communicate with leads?</p>
-      </div>
-      <div class="tone-grid">
-        <div class="tone-card selected" onclick="pickTone(this,'Direct closer')">
-          <div class="tone-icon">⚡</div>
-          <div class="tone-name">Direct closer</div>
-          <div class="tone-desc">Bold, confident, cuts to the offer fast</div>
-        </div>
-        <div class="tone-card" onclick="pickTone(this,'Friendly advisor')">
-          <div class="tone-icon">😊</div>
-          <div class="tone-name">Friendly advisor</div>
-          <div class="tone-desc">Warm, helpful, relationship-first</div>
-        </div>
-        <div class="tone-card" onclick="pickTone(this,'Premium consultant')">
-          <div class="tone-icon">💎</div>
-          <div class="tone-name">Premium consultant</div>
-          <div class="tone-desc">Refined, high-ticket, exclusive feel</div>
-        </div>
-        <div class="tone-card" onclick="pickTone(this,'Empathetic coach')">
-          <div class="tone-icon">🫂</div>
-          <div class="tone-name">Empathetic coach</div>
-          <div class="tone-desc">Listens first, earns trust slowly</div>
-        </div>
-        <div class="tone-card" onclick="pickTone(this,'Bold & energetic')">
-          <div class="tone-icon">🔥</div>
-          <div class="tone-name">Bold & energetic</div>
-          <div class="tone-desc">Hype, excitement, high energy</div>
-        </div>
-        <div class="tone-card" onclick="pickTone(this,'Professional & calm')">
-          <div class="tone-icon">🎯</div>
-          <div class="tone-name">Professional</div>
-          <div class="tone-desc">Measured, credible, no fluff</div>
-        </div>
-      </div>
-      <div class="fab-row"><button class="fab" onclick="wizardNext(5)">→</button></div>
-    </div>
-
-    <!-- Step 5 — Review -->
-    <div id="wstep-5" style="display:none">
-      <div class="wizard-header">
-        <h2>Ready to build<br/>your agent</h2>
-        <p>Review your info then hit build.</p>
-      </div>
-      <div class="review-card">
-        <div class="review-row"><span class="rk">Company</span><span class="rv" id="rv-company">—</span></div>
-        <div class="review-row"><span class="rk">Industry</span><span class="rv" id="rv-industry">—</span></div>
-        <div class="review-row"><span class="rk">WhatsApp</span><span class="rv" id="rv-whatsapp">—</span></div>
-        <div class="review-row"><span class="rk">Price</span><span class="rv" id="rv-price">—</span></div>
-        <div class="review-row"><span class="rk">Tone</span><span class="rv" id="rv-tone">Direct closer</span></div>
-      </div>
-      <div class="accent-notice">✦ Our AI will generate your custom sales script, set up your WhatsApp agent, and return a ready-to-import n8n workflow.</div>
-      <div class="fab-row"><button class="fab accent" onclick="buildAgent()" style="width:auto;border-radius:28px;padding:0 28px;gap:8px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;">Build my agent ✦</button></div>
-    </div>
-  </div>
-
-  <!-- ══════════ GENERATING ══════════ -->
-  <div class="screen" id="screen-generating">
-    <div class="gen-icon">✦</div>
-    <h2>Building your<br/>agent…</h2>
-    <p>This takes about 30 seconds. Sit tight.</p>
-    <div class="gen-steps-list">
-      <div class="gen-step-row active" id="gs-1"><div class="gsdot">1</div><span class="gen-step-text">Analyzing your business profile</span></div>
-      <div class="gen-step-row" id="gs-2"><div class="gsdot">2</div><span class="gen-step-text">Generating your custom sales script</span></div>
-      <div class="gen-step-row" id="gs-3"><div class="gsdot">3</div><span class="gen-step-text">Building n8n workflow template</span></div>
-      <div class="gen-step-row" id="gs-4"><div class="gsdot">4</div><span class="gen-step-text">Activating your WhatsApp agent</span></div>
-      <div class="gen-step-row" id="gs-5"><div class="gsdot">✓</div><span class="gen-step-text">Agent is live</span></div>
-    </div>
-  </div>
-
-  <!-- ══════════ DASHBOARD ══════════ -->
-  <div class="screen" id="screen-dashboard">
-    <div class="dash-header">
-      <div class="dash-logo"><span>Service</span><span style="color:var(--accent)">.AI</span><div class="dot"></div></div>
-      <div class="dash-welcome">Good morning 👋</div>
-      <div class="dash-status-row">
-        <h2 id="dash-company-name">Your Agent</h2>
-        <div class="pill-live"><div class="live-dot"></div>Live</div>
-      </div>
-    </div>
-
-    <div class="dash-body">
-      <div class="metrics-row">
-        <div class="metric-card">
-          <div class="metric-label">Leads handled</div>
-          <div class="metric-value" id="m-leads">—</div>
-          <div class="metric-sub" id="m-leads-sub">+0 this week</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Conversion</div>
-          <div class="metric-value" id="m-conv">—</div>
-          <div class="metric-sub" id="m-conv-sub">vs last week</div>
-        </div>
-        <div class="metric-card full">
-          <div class="metric-label">Revenue closed</div>
-          <div class="metric-value" id="m-rev">—</div>
-          <div class="metric-sub neutral" id="m-rev-sub">This month</div>
-        </div>
-      </div>
-
-      <div class="section-title">Test your agent</div>
-      <div class="chat-card" style="margin-bottom:16px">
-        <div class="chat-card-header">
-          <h3>Live sandbox</h3>
-          <span class="tag-live">● Connected</span>
-        </div>
-        <div class="messages" id="dash-messages">
-          <div class="msg agent">Hey! 👋 I saw you're interested in learning more. What's your main goal right now?</div>
-        </div>
-        <div class="chat-input-row">
-          <input id="dash-chat-in" placeholder="Type as a lead…" onkeydown="if(event.key==='Enter')dashSend()" />
-          <button class="chat-send-btn" onclick="dashSend()">↑</button>
-        </div>
-      </div>
-
-      <div class="section-title">Workflow preview</div>
-      <div class="workflow-preview" id="workflow-preview-card">
-        <div class="wf-header">
-          <span>n8n workflow JSON</span>
-          <button class="copy-btn" onclick="copyWorkflow()">Copy JSON</button>
-        </div>
-        <div class="wf-code" id="wf-code-preview">Loading…</div>
-        <div class="wf-fade"></div>
-      </div>
-
-      <div class="section-title">Connected platforms</div>
-      <div class="connect-card-row">
-        <div class="connect-card connected">
-          <div class="connect-icon">💬</div>
-          <div class="connect-name">WhatsApp</div>
-          <div class="connect-status">Connected</div>
-        </div>
-        <div class="connect-card" onclick="toggleConnect(this)">
-          <div class="connect-icon">📸</div>
-          <div class="connect-name">Instagram</div>
-          <div class="connect-status">Connect →</div>
-        </div>
-        <div class="connect-card" onclick="toggleConnect(this)">
-          <div class="connect-icon">🎵</div>
-          <div class="connect-name">TikTok</div>
-          <div class="connect-status">Connect →</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- end shell -->
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toast-text">Agent built successfully!</span>
+</div>
 
 <script>
-// ─── STATE ───
+// ─── CONSTANTS ───
+const INTERVIEW_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook-test/fd0db305-73f0-452c-943e-4ef6ac5babec';
 const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/da76f813-8351-4598-8d8b-486d07519adc';
-const YASSINE_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/da76f813-8351-4598-8d8b-486d07519adc'; // reuse or swap for chat
 
-let currentStep = 1;
-let selectedTone = 'Direct closer';
-let clientData = {};
-let workflowJSON = null;
+// ─── STATE ───
 let chatHistory = [];
-let clientId = null;
+let sessionId = 'session_' + Date.now();
+let gatheredData = {};
+let progressCount = 0;
+let agents = JSON.parse(localStorage.getItem('sai_agents') || '[]');
+let activities = JSON.parse(localStorage.getItem('sai_activities') || '[]');
+let isSending = false;
 
-// Load from localStorage
-function loadState() {
-  const saved = localStorage.getItem('serviceai_client');
-  if (saved) {
-    clientData = JSON.parse(saved);
-    clientId = clientData.client_id || null;
-    workflowJSON = clientData.workflow || null;
-  }
-  const metrics = localStorage.getItem('serviceai_metrics');
-  if (metrics) return JSON.parse(metrics);
-  return { leads: 0, conv: '0%', rev: '$0', leads_sub: '+0 this week', conv_sub: '—', rev_sub: 'This month' };
-}
-
-function saveState() {
-  localStorage.setItem('serviceai_client', JSON.stringify(clientData));
-}
-
-// ─── NAVIGATION ───
-function show(id) {
+// ─── SCREEN ROUTER ───
+function showScreen(name, navEl) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-function goLogin() { show('screen-login'); }
-
-function startWizard() {
-  show('screen-wizard');
-  renderStep(1);
-}
-
-// ─── WIZARD ───
-const stepTitles = ['Your business','Your offer','Your audience','Agent tone','Review & build'];
-
-function renderStep(n) {
-  // hide all steps
-  for (let i=1;i<=5;i++) {
-    const el = document.getElementById('wstep-'+i);
-    if (el) el.style.display = i===n ? 'block' : 'none';
+  if (name === 'onboarding') {
+    document.getElementById('screen-onboarding').classList.add('active');
+    document.getElementById('topbar-title').textContent = 'New Agent';
+    document.getElementById('topbar-sub').textContent = 'Our AI will interview you to build your perfect agent.';
+    if (!chatHistory.length) initChat();
+  } else if (name === 'review') {
+    document.getElementById('screen-review').classList.add('active');
+    document.getElementById('topbar-title').textContent = 'Review Setup';
+    document.getElementById('topbar-sub').textContent = 'Check your agent configuration before building.';
+    renderReview();
+  } else if (name === 'dashboard') {
+    document.getElementById('screen-dashboard').classList.add('active');
+    document.getElementById('topbar-title').textContent = 'Dashboard';
+    document.getElementById('topbar-sub').textContent = 'Welcome back. Here\'s what\'s happening.';
+    renderDashboard();
   }
-  // update dots
-  for (let i=1;i<=5;i++) {
-    const d = document.getElementById('pd'+i);
-    d.classList.remove('active','done');
-    if (i < n) d.classList.add('done');
-    else if (i === n) d.classList.add('active');
+
+  if (navEl) navEl.classList.add('active');
+}
+
+// ─── CHAT INIT ───
+function initChat() {
+  chatHistory = [];
+  sessionId = 'session_' + Date.now();
+  gatheredData = {};
+  progressCount = 0;
+  document.getElementById('chat-messages').innerHTML = '';
+  updateProgress(0);
+
+  setTimeout(() => {
+    addAgentMessage("Hey! 👋 I'm here to set up your AI sales agent. Let's start simple — what's your company name and what do you do?");
+  }, 600);
+}
+
+// ─── ADD MESSAGES ───
+function addAgentMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+
+  // Remove typing if present
+  const typing = document.getElementById('typing-indicator');
+  if (typing) typing.remove();
+
+  const row = document.createElement('div');
+  row.className = 'msg-row agent';
+  row.innerHTML = `
+    <div class="msg-avatar agent-av">S</div>
+    <div class="msg-bubble">${text}</div>
+  `;
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+  const row = document.createElement('div');
+  row.className = 'msg-row user';
+  row.innerHTML = `
+    <div class="msg-bubble">${text}</div>
+    <div class="msg-avatar user-av">U</div>
+  `;
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const el = document.createElement('div');
+  el.className = 'typing-row';
+  el.id = 'typing-indicator';
+  el.innerHTML = `
+    <div class="msg-avatar agent-av">S</div>
+    <div class="typing-bubble"><span></span><span></span><span></span></div>
+  `;
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ─── PROGRESS ───
+function updateProgress(count) {
+  for (let i = 1; i <= 7; i++) {
+    const dot = document.getElementById('cp' + i);
+    if (dot) dot.classList.toggle('filled', i <= count);
   }
-  document.getElementById('wizard-title').textContent = stepTitles[n-1];
-  document.getElementById('step-num').textContent = n;
-  document.getElementById('wizard-back-btn').style.opacity = n===1 ? '0.3' : '1';
-  currentStep = n;
 }
 
-function wizardNext(n) {
-  if (n === 5) populateReview();
-  renderStep(n);
-}
+// ─── SEND MESSAGE ───
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const val = input.value.trim();
+  if (!val || isSending) return;
 
-function wizardBack() {
-  if (currentStep > 1) renderStep(currentStep - 1);
-  else goLogin();
-}
+  isSending = true;
+  document.getElementById('send-btn').disabled = true;
+  input.value = '';
 
-function pickTone(el, tone) {
-  document.querySelectorAll('.tone-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedTone = tone;
-}
+  addUserMessage(val);
+  chatHistory.push({ role: 'user', content: val });
 
-function populateReview() {
-  document.getElementById('rv-company').textContent = document.getElementById('f-company').value || '—';
-  document.getElementById('rv-industry').textContent = document.getElementById('f-industry').value || '—';
-  document.getElementById('rv-whatsapp').textContent = document.getElementById('f-whatsapp').value || '—';
-  document.getElementById('rv-price').textContent = document.getElementById('f-price').value || '—';
-  document.getElementById('rv-tone').textContent = selectedTone;
-}
+  showTyping();
 
-// ─── BUILD AGENT ───
-async function buildAgent() {
-  show('screen-generating');
+  try {
+    const res = await fetch(INTERVIEW_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: val,
+        history: chatHistory,
+        session_id: sessionId
+      })
+    });
 
-  // Collect form data
-  const payload = {
-    company: document.getElementById('f-company').value,
-    industry: document.getElementById('f-industry').value,
-    whatsapp: document.getElementById('f-whatsapp').value,
-    offer: document.getElementById('f-offer').value,
-    price: document.getElementById('f-price').value,
-    lead_magnet: document.getElementById('f-magnet').value,
-    audience: document.getElementById('f-audience').value,
-    objections: document.getElementById('f-objections').value,
-    tone: selectedTone,
-    email: document.getElementById('email-in').value || 'user@serviceai.app'
-  };
+    const data = await res.json();
 
-  // Animate steps while calling webhook
-  const steps = ['gs-1','gs-2','gs-3','gs-4','gs-5'];
-  let stepIdx = 0;
+    // Remove typing
+    const typing = document.getElementById('typing-indicator');
+    if (typing) typing.remove();
 
-  const stepInterval = setInterval(() => {
-    if (stepIdx > 0) {
-      document.getElementById(steps[stepIdx-1]).classList.remove('active');
-      document.getElementById(steps[stepIdx-1]).classList.add('done');
+    // Handle response
+    const reply = data.reply || data.message || data.output || 'Got it, tell me more.';
+    const status = data.status || 'gathering';
+
+    addAgentMessage(reply);
+    chatHistory.push({ role: 'assistant', content: reply });
+
+    // Update progress
+    progressCount = Math.min(progressCount + 1, 7);
+    updateProgress(progressCount);
+
+    if (status === 'complete' && data.data) {
+      gatheredData = data.data;
+      setTimeout(() => transitionToReview(), 1200);
     }
-    if (stepIdx < steps.length) {
-      document.getElementById(steps[stepIdx]).classList.add('active');
-      stepIdx++;
+
+  } catch (err) {
+    console.error('Interview webhook error:', err);
+    const typing = document.getElementById('typing-indicator');
+    if (typing) typing.remove();
+
+    // Fallback scripted interview
+    handleFallbackInterview(val);
+  }
+
+  isSending = false;
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('chat-input').focus();
+}
+
+// ─── FALLBACK (if webhook unreachable) ───
+const fallbackFlow = [
+  { q: "Nice! And what's your main offer — what do you sell and at what price?", field: 'company' },
+  { q: "Got it. Who's your ideal client? Describe them in a few words.", field: 'offer' },
+  { q: "And what objections do leads usually give you? (e.g. 'too expensive', 'need to think about it')", field: 'audience' },
+  { q: "What's your WhatsApp business number?", field: 'objections' },
+  { q: "Last one — how should your agent sound? (e.g. Direct closer, Friendly advisor, Premium consultant)", field: 'whatsapp' },
+  { q: "Perfect, I have everything I need. Let me put it all together for you!", field: 'tone', complete: true }
+];
+let fallbackIdx = 0;
+let fallbackAnswers = {};
+
+function handleFallbackInterview(userInput) {
+  const current = fallbackFlow[fallbackIdx];
+  if (current) {
+    fallbackAnswers[current.field] = userInput;
+    fallbackIdx++;
+    const next = fallbackFlow[fallbackIdx];
+    if (next) {
+      setTimeout(() => {
+        addAgentMessage(next.q);
+        chatHistory.push({ role: 'assistant', content: next.q });
+        progressCount = Math.min(fallbackIdx + 1, 7);
+        updateProgress(progressCount);
+      }, 700);
     } else {
-      clearInterval(stepInterval);
+      // Complete
+      gatheredData = {
+        company: fallbackAnswers.company || userInput,
+        offer: fallbackAnswers.offer || '',
+        price: '',
+        audience: fallbackAnswers.audience || '',
+        objections: fallbackAnswers.objections || '',
+        whatsapp: fallbackAnswers.whatsapp || '',
+        tone: fallbackAnswers.tone || userInput,
+        lead_magnet: '',
+        industry: ''
+      };
+      setTimeout(() => transitionToReview(), 1400);
     }
-  }, 1800);
+  }
+}
+
+// ─── TRANSITION TO REVIEW ───
+function transitionToReview() {
+  addAgentMessage("✅ I've got everything I need. Let me show you what I gathered — review it and confirm when ready.");
+  setTimeout(() => {
+    document.getElementById('chip-1').classList.remove('active');
+    document.getElementById('chip-1').classList.add('done');
+    document.getElementById('chip-2').classList.add('active');
+    showScreen('review', null);
+  }, 1200);
+}
+
+// ─── RENDER REVIEW ───
+const reviewFields = [
+  { key: 'company', label: 'Company name', wide: false, type: 'input' },
+  { key: 'industry', label: 'Industry', wide: false, type: 'input' },
+  { key: 'whatsapp', label: 'WhatsApp number', wide: false, type: 'input' },
+  { key: 'price', label: 'Price point', wide: false, type: 'input' },
+  { key: 'offer', label: 'Main offer', wide: true, type: 'textarea' },
+  { key: 'audience', label: 'Target audience', wide: true, type: 'textarea' },
+  { key: 'objections', label: 'Common objections', wide: true, type: 'textarea' },
+  { key: 'tone', label: 'Agent tone', wide: false, type: 'input' },
+  { key: 'lead_magnet', label: 'Lead magnet', wide: false, type: 'input' },
+];
+
+function renderReview() {
+  const grid = document.getElementById('review-grid');
+  grid.innerHTML = '';
+  reviewFields.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'review-card' + (f.wide ? ' wide' : '');
+    const val = gatheredData[f.key] || '';
+    card.innerHTML = `
+      <div class="review-card-label">${f.label}</div>
+      ${f.type === 'textarea'
+        ? `<textarea class="review-card-value" id="rf-${f.key}" rows="3">${val}</textarea>`
+        : `<input class="review-card-value" id="rf-${f.key}" value="${val}" />`
+      }
+      <div class="edit-hint">Click to edit</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function getReviewData() {
+  const data = {};
+  reviewFields.forEach(f => {
+    const el = document.getElementById('rf-' + f.key);
+    if (el) data[f.key] = el.value;
+  });
+  return data;
+}
+
+function goBackToChat() {
+  document.getElementById('chip-1').classList.add('active');
+  document.getElementById('chip-1').classList.remove('done');
+  document.getElementById('chip-2').classList.remove('active');
+  showScreen('onboarding', document.querySelector('.nav-item:nth-child(2)'));
+}
+
+// ─── CONFIRM & BUILD ───
+async function confirmAndBuild() {
+  const finalData = getReviewData();
+  const btn = document.getElementById('confirm-btn');
+  btn.classList.add('loading');
+  btn.querySelector('span').textContent = 'Building…';
+
+  showGeneratingOverlay();
 
   try {
     const res = await fetch(PROVISIONING_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await res.json();
-
-    // Mark all steps done
-    clearInterval(stepInterval);
-    steps.forEach(s => {
-      document.getElementById(s).classList.remove('active');
-      document.getElementById(s).classList.add('done');
-    });
-
-    // Store client data
-    clientId = data.client_id || 'client_' + Date.now();
-    clientData = {
-      ...payload,
-      client_id: clientId,
-      system_prompt: data.system_prompt || '',
-      workflow: data.workflow_preview || data.workflow || null
-    };
-    workflowJSON = clientData.workflow;
-    saveState();
-
-    // Set mock metrics
-    localStorage.setItem('serviceai_metrics', JSON.stringify({
-      leads: 0, conv: '0%', rev: '$0',
-      leads_sub: 'Just launched 🚀',
-      conv_sub: 'No data yet',
-      rev_sub: 'This month'
-    }));
-
-    setTimeout(() => goToDashboard(), 800);
-
-  } catch (err) {
-    console.error('Webhook error:', err);
-
-    // Fallback: still go to dashboard with local data
-    clearInterval(stepInterval);
-    steps.forEach(s => {
-      document.getElementById(s).classList.remove('active');
-      document.getElementById(s).classList.add('done');
-    });
-
-    clientId = 'client_' + Date.now();
-    clientData = { ...payload, client_id: clientId, workflow: null };
-    workflowJSON = null;
-    saveState();
-
-    setTimeout(() => goToDashboard(), 800);
-  }
-}
-
-// ─── DASHBOARD ───
-function goToDashboard() {
-  show('screen-dashboard');
-  const metrics = loadState();
-
-  document.getElementById('dash-company-name').textContent = clientData.company || 'Your Agent';
-  document.getElementById('m-leads').textContent = metrics.leads ?? '0';
-  document.getElementById('m-conv').textContent = metrics.conv ?? '0%';
-  document.getElementById('m-rev').textContent = metrics.rev ?? '$0';
-  document.getElementById('m-leads-sub').textContent = metrics.leads_sub ?? '+0 this week';
-  document.getElementById('m-conv-sub').textContent = metrics.conv_sub ?? '—';
-  document.getElementById('m-rev-sub').textContent = metrics.rev_sub ?? 'This month';
-
-  // Show workflow preview
-  const preview = workflowJSON
-    ? JSON.stringify(workflowJSON, null, 2).substring(0, 400) + '\n…'
-    : '// No workflow returned yet.\n// Check your provisioning webhook\n// and ensure it returns workflow_preview.';
-  document.getElementById('wf-code-preview').textContent = preview;
-}
-
-function copyWorkflow() {
-  const text = workflowJSON ? JSON.stringify(workflowJSON, null, 2) : '// No workflow available';
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = 'Copied ✓';
-    setTimeout(() => btn.textContent = 'Copy JSON', 1800);
-  });
-}
-
-function toggleConnect(el) {
-  el.classList.add('connected');
-  el.querySelector('.connect-status').textContent = 'Connected';
-}
-
-// ─── CHAT SANDBOX ───
-async function dashSend() {
-  const input = document.getElementById('dash-chat-in');
-  const val = input.value.trim();
-  if (!val) return;
-
-  const msgs = document.getElementById('dash-messages');
-  input.value = '';
-
-  // Add user bubble
-  const userBubble = document.createElement('div');
-  userBubble.className = 'msg user';
-  userBubble.textContent = val;
-  msgs.appendChild(userBubble);
-  msgs.scrollTop = msgs.scrollHeight;
-
-  // Add typing indicator
-  const typing = document.createElement('div');
-  typing.className = 'typing-indicator';
-  typing.innerHTML = '<span></span><span></span><span></span>';
-  msgs.appendChild(typing);
-  msgs.scrollTop = msgs.scrollHeight;
-
-  // Push to history
-  chatHistory.push({ role: 'user', content: val });
-
-  try {
-    const res = await fetch(YASSINE_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        message: val,
-        client_id: clientId,
-        history: chatHistory,
-        sandbox: true
+        ...finalData,
+        session_id: sessionId,
+        source: 'service_ai_v2'
       })
     });
 
     const data = await res.json();
-    typing.remove();
 
-    // Parse response — handle both string and JSON
-    let replyMessages = [];
-    if (data.messages && Array.isArray(data.messages)) {
-      replyMessages = data.messages;
-    } else if (data.message) {
-      replyMessages = [data.message];
-    } else if (typeof data === 'string') {
-      replyMessages = [data];
-    } else {
-      replyMessages = ['got it'];
-    }
-
-    // Display replies with delay
-    replyMessages.forEach((msg, i) => {
-      setTimeout(() => {
-        chatHistory.push({ role: 'assistant', content: msg });
-        const agentBubble = document.createElement('div');
-        agentBubble.className = 'msg agent';
-        agentBubble.textContent = msg;
-        msgs.appendChild(agentBubble);
-        msgs.scrollTop = msgs.scrollHeight;
-      }, i * 700);
-    });
+    finishBuild(data, finalData);
 
   } catch (err) {
-    typing.remove();
-    // Fallback scripted replies for demo
-    const fallbacks = [
-      "That's great to hear! Have you tried anything before to reach that goal?",
-      "I get that. What's holding you back the most right now?",
-      "Makes sense. If you had a clear step-by-step system, would you be ready to move forward?",
-      "Perfect. Let me send you our free guide first — it breaks everything down. Sound good?",
-      "Great. I'll send it over now. We also have a limited offer this week only. Want to hear about it?"
-    ];
-    chatHistory.push({ role: 'assistant', content: fallbacks[chatHistory.length % fallbacks.length] });
-    const agentBubble = document.createElement('div');
-    agentBubble.className = 'msg agent';
-    agentBubble.textContent = fallbacks[Math.floor(chatHistory.length / 2) % fallbacks.length];
-    msgs.appendChild(agentBubble);
-    msgs.scrollTop = msgs.scrollHeight;
+    console.error('Provisioning error:', err);
+    // Still finish with local data
+    finishBuild({}, finalData);
   }
+
+  btn.classList.remove('loading');
+  btn.querySelector('span').textContent = 'Confirm & Build Agent';
+}
+
+function finishBuild(response, formData) {
+  const clientId = response.client_id || 'agent_' + Date.now();
+
+  // Save agent
+  const newAgent = {
+    id: clientId,
+    name: formData.company || 'Unnamed Agent',
+    tone: formData.tone || 'Direct closer',
+    whatsapp: formData.whatsapp || '—',
+    status: 'live',
+    leads: 0,
+    created: new Date().toISOString(),
+    workflow: response.workflow_preview || response.workflow || null
+  };
+
+  agents.push(newAgent);
+  localStorage.setItem('sai_agents', JSON.stringify(agents));
+
+  // Add activity
+  addActivity('🤖', `Agent created: ${newAgent.name}`, 'Just now');
+
+  // Reset chat for next agent
+  chatHistory = [];
+  fallbackIdx = 0;
+  fallbackAnswers = {};
+  gatheredData = {};
+
+  hideGeneratingOverlay(() => {
+    showScreen('dashboard', document.querySelector('.nav-item:first-child'));
+    renderDashboard();
+    showToast('✅', `Agent "${newAgent.name}" is live!`);
+  });
+}
+
+// ─── GENERATING OVERLAY ───
+function showGeneratingOverlay() {
+  const overlay = document.getElementById('gen-overlay');
+  overlay.classList.add('show');
+  const steps = ['gs1','gs2','gs3','gs4','gs5'];
+  // Reset
+  steps.forEach(s => {
+    document.getElementById(s).classList.remove('active','done');
+  });
+  document.getElementById('gs1').classList.add('active');
+
+  let i = 0;
+  window._genInterval = setInterval(() => {
+    document.getElementById(steps[i]).classList.remove('active');
+    document.getElementById(steps[i]).classList.add('done');
+    i++;
+    if (i < steps.length) {
+      document.getElementById(steps[i]).classList.add('active');
+    } else {
+      clearInterval(window._genInterval);
+    }
+  }, 1600);
+}
+
+function hideGeneratingOverlay(cb) {
+  clearInterval(window._genInterval);
+  // Mark all done
+  ['gs1','gs2','gs3','gs4','gs5'].forEach(s => {
+    document.getElementById(s).classList.remove('active');
+    document.getElementById(s).classList.add('done');
+  });
+  setTimeout(() => {
+    document.getElementById('gen-overlay').classList.remove('show');
+    if (cb) cb();
+  }, 600);
+}
+
+// ─── ACTIVITY FEED ───
+function addActivity(icon, title, time) {
+  activities.unshift({ icon, title, time });
+  if (activities.length > 20) activities = activities.slice(0, 20);
+  localStorage.setItem('sai_activities', JSON.stringify(activities));
+}
+
+function renderActivityFeed() {
+  const list = document.getElementById('activity-list');
+  if (!activities.length) {
+    list.innerHTML = '<div class="empty-state" style="padding:40px 0"><div class="empty-icon">📭</div><p>No activity yet</p></div>';
+    return;
+  }
+  list.innerHTML = activities.slice(0, 8).map(a => `
+    <div class="activity-item">
+      <div class="activity-icon">${a.icon}</div>
+      <div class="activity-text">
+        <div class="activity-title">${a.title}</div>
+        <div class="activity-time">${a.time}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── DASHBOARD RENDER ───
+function renderDashboard() {
+  // Greeting
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('dash-greeting').textContent = greet + ' 👋';
+
+  // Metrics from agents
+  const totalLeads = agents.reduce((s, a) => s + (a.leads || 0), 0);
+  document.getElementById('m1-val').textContent = totalLeads;
+  document.getElementById('m2-val').textContent = agents.length ? '—' : '0%';
+  document.getElementById('m3-val').textContent = '$0';
+
+  if (agents.length) {
+    document.getElementById('m1-sub').textContent = agents.length + ' agent(s) active';
+    document.getElementById('m1-sub').className = 'metric-sub green';
+    document.getElementById('m1-badge').textContent = '+0 this week';
+    document.getElementById('m1-badge').className = 'metric-badge up';
+
+    // Update status pill
+    document.getElementById('global-status').className = 'pill-status live';
+    document.getElementById('global-status').innerHTML = '<div class="live-dot"></div> ' + agents.length + ' agent(s) live';
+  }
+
+  // Draw sparklines
+  drawSparkline('spark1', [2,4,3,6,5,8,7,10,9,12], 'rgba(34,197,94,0.6)', 'rgba(34,197,94,0.08)');
+  drawSparkline('spark2', [10,14,12,18,16,20,19,24,22,28], 'rgba(59,130,246,0.6)', 'rgba(59,130,246,0.08)');
+  drawSparkline('spark3', [0,0,0,0,0,0,0,0,0,0], 'rgba(156,163,175,0.5)', 'rgba(0,0,0,0.03)');
+
+  // Agents table
+  renderAgentsTable();
+  renderActivityFeed();
+}
+
+function drawSparkline(canvasId, data, lineColor, fillColor) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const min = Math.min(...data), max = Math.max(...data);
+  const range = max - min || 1;
+  const pts = data.map((v, i) => ({
+    x: (i / (data.length - 1)) * w,
+    y: h - ((v - min) / range) * (h * 0.75) - h * 0.1
+  }));
+
+  // Fill
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, h);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length-1].x, h);
+  ctx.closePath();
+  ctx.fillStyle = fillColor;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+  ctx.strokeStyle = lineColor;
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // End dot
+  const last = pts[pts.length - 1];
+  ctx.beginPath();
+  ctx.arc(last.x, last.y, 3.5, 0, Math.PI * 2);
+  ctx.fillStyle = lineColor;
+  ctx.fill();
+}
+
+function renderAgentsTable() {
+  const wrap = document.getElementById('agents-table-wrap');
+  if (!agents.length) {
+    wrap.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">🤖</div>
+      <h3>No agents yet</h3>
+      <p>Create your first AI agent to start<br/>handling leads automatically.</p>
+    </div>`;
+    return;
+  }
+  wrap.innerHTML = `<table class="agent-table">
+    <thead>
+      <tr>
+        <th>Agent</th>
+        <th>WhatsApp</th>
+        <th>Tone</th>
+        <th>Leads</th>
+        <th>Status</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${agents.map(a => `
+        <tr>
+          <td>
+            <div class="agent-name">${a.name}</div>
+          </td>
+          <td>${a.whatsapp || '—'}</td>
+          <td>${a.tone || '—'}</td>
+          <td>${a.leads || 0}</td>
+          <td><span class="status-pill ${a.status}">${a.status}</span></td>
+          <td>${new Date(a.created).toLocaleDateString()}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>`;
+}
+
+// ─── TOAST ───
+function showToast(icon, text) {
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-text').textContent = text;
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ─── NOTIFICATIONS ───
+function checkNotifications() {
+  const pending = localStorage.getItem('sai_notify');
+  if (pending) {
+    const n = JSON.parse(pending);
+    showToast('🔔', n.message || 'Agent update received');
+    localStorage.removeItem('sai_notify');
+    document.getElementById('notif-badge').classList.remove('show');
+  }
+}
+
+// Poll for n8n notifications (n8n can POST to a special URL to trigger this)
+// n8n should POST { message: "..." } to set sai_notify in localStorage
+// Since we can't receive server POSTs in a static HTML, we poll a known key
+setInterval(() => {
+  const pending = localStorage.getItem('sai_notify');
+  if (pending) {
+    document.getElementById('notif-badge').classList.add('show');
+  }
+}, 5000);
+
+// ─── SIDEBAR USER ───
+function initUser() {
+  const email = localStorage.getItem('sai_email') || 'user@service.ai';
+  const name = email.split('@')[0];
+  document.getElementById('sidebar-name').textContent = name;
+  document.getElementById('sidebar-email').textContent = email;
+  document.getElementById('sidebar-avatar').textContent = name[0].toUpperCase();
 }
 
 // ─── INIT ───
 (function init() {
-  const saved = localStorage.getItem('serviceai_client');
-  if (saved) {
-    clientData = JSON.parse(saved);
-    clientId = clientData.client_id;
-    workflowJSON = clientData.workflow;
+  agents = JSON.parse(localStorage.getItem('sai_agents') || '[]');
+  activities = JSON.parse(localStorage.getItem('sai_activities') || '[]');
+  initUser();
+
+  // Start on dashboard if has agents, else onboarding
+  if (agents.length) {
+    showScreen('dashboard', document.querySelector('.nav-item'));
+  } else {
+    showScreen('onboarding', document.querySelectorAll('.nav-item')[1]);
+    initChat();
   }
 })();
 </script>

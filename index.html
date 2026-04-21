@@ -17,102 +17,44 @@
   --sidebar:220px;--r:16px;--r-sm:10px;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);min-height:100vh;font-size:14px;}
-
-/* ── GLOBAL ── */
 .hide{display:none!important;}
 button{cursor:pointer;font-family:'DM Sans',sans-serif;}
 input,textarea,select{font-family:'DM Sans',sans-serif;}
 
-/* ══════════════════════════════
-   AUTH SCREEN
-══════════════════════════════ */
-#auth-screen{
-  min-height:100vh;display:flex;
-  background:var(--black);
-  position:relative;overflow:hidden;
-}
-.auth-left{
-  flex:1;display:flex;flex-direction:column;
-  justify-content:center;padding:60px;
-  position:relative;z-index:2;
-}
-.auth-logo{
-  font-family:'Instrument Serif',serif;font-size:22px;color:#fff;
-  display:flex;align-items:center;gap:8px;margin-bottom:64px;
-}
+/* ══ AUTH ══ */
+#auth-screen{min-height:100vh;display:flex;background:var(--black);position:relative;overflow:hidden;}
+.auth-left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px;position:relative;z-index:2;}
+.auth-logo{font-family:'Instrument Serif',serif;font-size:22px;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:64px;}
 .auth-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
-.auth-hero h1{
-  font-family:'Instrument Serif',serif;font-size:52px;font-weight:400;
-  color:#fff;line-height:1.1;margin-bottom:16px;
-}
+.auth-hero h1{font-family:'Instrument Serif',serif;font-size:52px;font-weight:400;color:#fff;line-height:1.1;margin-bottom:16px;}
 .auth-hero h1 em{color:var(--accent);font-style:italic;}
 .auth-hero p{font-size:16px;color:rgba(255,255,255,0.45);line-height:1.6;max-width:380px;}
 .auth-features{margin-top:48px;display:flex;flex-direction:column;gap:14px;}
 .auth-feat{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(255,255,255,0.5);}
 .auth-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
-
-.auth-right{
-  width:480px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  padding:40px;background:rgba(255,255,255,0.03);
-  border-left:1px solid rgba(255,255,255,0.06);
-}
+.auth-right{width:480px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:40px;background:rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.06);}
 .auth-card{width:100%;max-width:380px;}
 .auth-tabs{display:flex;gap:4px;background:rgba(255,255,255,0.05);border-radius:10px;padding:4px;margin-bottom:32px;}
-.auth-tab{
-  flex:1;padding:9px;border-radius:8px;border:none;background:transparent;
-  font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);transition:all 0.2s;
-}
+.auth-tab{flex:1;padding:9px;border-radius:8px;border:none;background:transparent;font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);transition:all 0.2s;}
 .auth-tab.active{background:rgba(255,255,255,0.1);color:#fff;}
 .auth-field{margin-bottom:16px;}
 .auth-field label{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:7px;}
-.auth-field input{
-  width:100%;padding:12px 16px;
-  background:rgba(255,255,255,0.06);
-  border:1.5px solid rgba(255,255,255,0.1);
-  border-radius:10px;font-size:14px;color:#fff;outline:none;
-  transition:border-color 0.15s;
-}
+.auth-field input{width:100%;padding:12px 16px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;font-size:14px;color:#fff;outline:none;transition:border-color 0.15s;}
 .auth-field input::placeholder{color:rgba(255,255,255,0.25);}
 .auth-field input:focus{border-color:var(--accent);}
-.auth-btn{
-  width:100%;padding:13px;margin-top:8px;
-  background:var(--accent);color:var(--black);
-  border:none;border-radius:10px;
-  font-size:14px;font-weight:700;letter-spacing:0.2px;
-  transition:opacity 0.15s,transform 0.1s;
-}
+.auth-btn{width:100%;padding:13px;margin-top:8px;background:var(--accent);color:var(--black);border:none;border-radius:10px;font-size:14px;font-weight:700;letter-spacing:0.2px;transition:opacity 0.15s,transform 0.1s;}
 .auth-btn:hover{opacity:0.9;}
 .auth-btn:active{transform:scale(0.98);}
 .auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
 .auth-divider span{font-size:12px;color:rgba(255,255,255,0.2);}
 .auth-divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08);}
-.auth-demo{
-  width:100%;padding:12px;
-  background:transparent;border:1.5px solid rgba(255,255,255,0.1);
-  border-radius:10px;font-size:13px;color:rgba(255,255,255,0.5);
-  transition:border-color 0.15s,color 0.15s;
-}
+.auth-demo{width:100%;padding:12px;background:transparent;border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;font-size:13px;color:rgba(255,255,255,0.5);transition:border-color 0.15s,color 0.15s;}
 .auth-demo:hover{border-color:rgba(255,255,255,0.25);color:#fff;}
+.auth-bg-circle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.08) 0%,transparent 70%);pointer-events:none;}
 
-/* bg decoration */
-.auth-bg-circle{
-  position:absolute;border-radius:50%;
-  background:radial-gradient(circle,rgba(200,241,53,0.08) 0%,transparent 70%);
-  pointer-events:none;
-}
-
-/* ══════════════════════════════
-   ONBOARDING (Typeform style)
-══════════════════════════════ */
-#onboarding-screen{
-  min-height:100vh;display:flex;flex-direction:column;
-  background:var(--white);
-}
-.ob-topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:20px 40px;border-bottom:1px solid var(--border);flex-shrink:0;
-}
+/* ══ ONBOARDING ══ */
+#onboarding-screen{min-height:100vh;display:flex;flex-direction:column;background:var(--white);}
+.ob-topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--border);flex-shrink:0;}
 .ob-logo{font-family:'Instrument Serif',serif;font-size:18px;display:flex;align-items:center;gap:6px;}
 .ob-logo-dot{width:7px;height:7px;border-radius:50%;background:var(--black);}
 .ob-progress-wrap{display:flex;align-items:center;gap:10px;}
@@ -120,143 +62,59 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .ob-progress-fill{height:100%;background:var(--black);border-radius:2px;transition:width 0.5s ease;}
 .ob-progress-label{font-size:12px;color:var(--muted);}
 .ob-skip{font-size:12px;color:var(--muted);background:none;border:none;text-decoration:underline;}
-
 .ob-body{flex:1;display:flex;align-items:center;justify-content:center;padding:40px;}
 .ob-question{max-width:680px;width:100%;animation:ob-in 0.4s ease;}
 @keyframes ob-in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
 .ob-q-num{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;}
 .ob-q-title{font-family:'Instrument Serif',serif;font-size:36px;font-weight:400;line-height:1.2;margin-bottom:8px;}
 .ob-q-sub{font-size:15px;color:var(--muted);margin-bottom:36px;line-height:1.5;}
-
-/* Multiple choice */
 .ob-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
-.ob-choice{
-  display:flex;align-items:center;gap:14px;
-  padding:14px 18px;border-radius:12px;
-  border:1.5px solid var(--border);background:var(--bg);
-  font-size:14px;font-weight:500;
-  transition:all 0.15s;text-align:left;
-}
+.ob-choice{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg);font-size:14px;font-weight:500;transition:all 0.15s;text-align:left;}
 .ob-choice:hover{border-color:var(--black);background:var(--white);}
 .ob-choice.selected{border-color:var(--black);background:var(--black);color:#fff;}
-.ob-choice-key{
-  width:26px;height:26px;border-radius:6px;
-  background:rgba(0,0,0,0.08);color:var(--black);
-  font-size:11px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
+.ob-choice-key{width:26px;height:26px;border-radius:6px;background:rgba(0,0,0,0.08);color:var(--black);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ob-choice.selected .ob-choice-key{background:rgba(255,255,255,0.15);color:#fff;}
-
-/* Multi-select variant */
 .ob-choices.multi .ob-choice.selected{border-color:var(--accent-dark);background:rgba(200,241,53,0.08);color:var(--black);}
 .ob-choices.multi .ob-choice.selected .ob-choice-key{background:var(--accent);color:var(--black);}
-
-/* Text input */
-.ob-input{
-  width:100%;padding:16px 0;
-  border:none;border-bottom:2px solid var(--border);
-  font-size:22px;font-family:'DM Sans',sans-serif;color:var(--black);
-  background:transparent;outline:none;margin-bottom:32px;
-  transition:border-color 0.2s;
-}
+.ob-input{width:100%;padding:16px 0;border:none;border-bottom:2px solid var(--border);font-size:22px;font-family:'DM Sans',sans-serif;color:var(--black);background:transparent;outline:none;margin-bottom:32px;transition:border-color 0.2s;}
 .ob-input:focus{border-color:var(--black);}
 .ob-input::placeholder{color:#ccc;}
-
-/* Textarea */
-.ob-textarea{
-  width:100%;padding:16px;min-height:120px;
-  border:1.5px solid var(--border);border-radius:12px;
-  font-size:15px;font-family:'DM Sans',sans-serif;color:var(--black);
-  background:var(--bg);outline:none;resize:vertical;margin-bottom:32px;
-  transition:border-color 0.2s;line-height:1.6;
-}
+.ob-textarea{width:100%;padding:16px;min-height:120px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--black);background:var(--bg);outline:none;resize:vertical;margin-bottom:32px;transition:border-color 0.2s;line-height:1.6;}
 .ob-textarea:focus{border-color:var(--black);}
 .ob-textarea::placeholder{color:#ccc;}
-
-/* Nav */
 .ob-nav{display:flex;align-items:center;gap:12px;}
-.ob-btn-next{
-  display:flex;align-items:center;gap:8px;
-  padding:13px 28px;background:var(--black);color:#fff;
-  border:none;border-radius:10px;font-size:14px;font-weight:600;
-  transition:opacity 0.15s;
-}
+.ob-btn-next{display:flex;align-items:center;gap:8px;padding:13px 28px;background:var(--black);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;transition:opacity 0.15s;}
 .ob-btn-next:hover{opacity:0.85;}
-.ob-btn-back{
-  padding:12px 20px;background:transparent;
-  border:1.5px solid var(--border);border-radius:10px;
-  font-size:14px;color:var(--muted);
-}
+.ob-btn-back{padding:12px 20px;background:transparent;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--muted);}
 .ob-btn-back:hover{border-color:var(--black);color:var(--black);}
 .ob-enter-hint{font-size:12px;color:var(--muted);}
-.ob-enter-hint kbd{
-  display:inline-block;padding:2px 6px;border-radius:4px;
-  background:var(--bg);border:1px solid var(--border);font-size:11px;
-}
-
-/* Completion screen */
+.ob-enter-hint kbd{display:inline-block;padding:2px 6px;border-radius:4px;background:var(--bg);border:1px solid var(--border);font-size:11px;}
 .ob-complete{text-align:center;max-width:520px;width:100%;animation:ob-in 0.4s ease;}
 .ob-complete-icon{font-size:56px;margin-bottom:24px;}
 .ob-complete h2{font-family:'Instrument Serif',serif;font-size:40px;font-weight:400;margin-bottom:12px;}
 .ob-complete p{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:36px;}
-.ob-complete-btn{
-  padding:15px 40px;background:var(--black);color:#fff;
-  border:none;border-radius:12px;font-size:15px;font-weight:600;
-  transition:opacity 0.15s;
-}
+.ob-complete-btn{padding:15px 40px;background:var(--black);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;transition:opacity 0.15s;}
 .ob-complete-btn:hover{opacity:0.85;}
 
-/* ══════════════════════════════
-   MAIN APP (sidebar layout)
-══════════════════════════════ */
+/* ══ APP LAYOUT ══ */
 #app-screen{display:flex;min-height:100vh;}
-
-.sidebar{
-  width:var(--sidebar);flex-shrink:0;
-  background:var(--black);
-  display:flex;flex-direction:column;padding:0 0 24px;
-  position:fixed;top:0;left:0;bottom:0;z-index:100;
-}
-.sidebar-logo{
-  padding:24px 20px 20px;font-family:'Instrument Serif',serif;
-  font-size:20px;color:#fff;
-  display:flex;align-items:center;gap:8px;
-  border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:12px;
-}
+.sidebar{width:var(--sidebar);flex-shrink:0;background:var(--black);display:flex;flex-direction:column;padding:0 0 24px;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:24px 20px 20px;font-family:'Instrument Serif',serif;font-size:20px;color:#fff;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:12px;}
 .sidebar-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
 .nav-section{padding:0 12px;margin-bottom:6px;}
 .nav-label{font-size:10px;font-weight:600;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.8px;padding:0 8px;margin-bottom:6px;}
-.nav-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 10px;border-radius:10px;
-  font-size:13px;font-weight:500;color:rgba(255,255,255,0.45);
-  cursor:pointer;transition:all 0.15s;margin-bottom:2px;
-}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.45);cursor:pointer;transition:all 0.15s;margin-bottom:2px;}
 .nav-item:hover{color:#fff;background:rgba(255,255,255,0.06);}
 .nav-item.active{color:#fff;background:rgba(200,241,53,0.12);}
 .nav-item.active .nav-icon{color:var(--accent);}
 .nav-icon{font-size:14px;width:16px;text-align:center;}
 .sidebar-bottom{margin-top:auto;padding:0 12px;}
-.user-pill{
-  display:flex;align-items:center;gap:10px;padding:10px;
-  border-radius:10px;background:rgba(255,255,255,0.05);cursor:pointer;
-}
-.user-avatar{
-  width:30px;height:30px;border-radius:50%;
-  background:var(--accent);display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;color:var(--black);flex-shrink:0;
-}
+.user-pill{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.05);cursor:pointer;}
+.user-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--black);flex-shrink:0;}
 .user-info .uname{font-size:12px;font-weight:600;color:#fff;}
 .user-info .uemail{font-size:11px;color:rgba(255,255,255,0.35);}
-
 .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh;}
-
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 32px;background:var(--white);
-  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;
-}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
 .topbar-left h1{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;}
 .topbar-left p{font-size:13px;color:var(--muted);margin-top:2px;}
 .topbar-right{display:flex;align-items:center;gap:12px;}
@@ -271,18 +129,14 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .btn-sm{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;border:none;transition:all 0.12s;}
 .btn-sm.dark{background:var(--black);color:#fff;}
 .btn-sm.ghost{background:var(--bg);color:var(--black);border:1px solid var(--border);}
-
 .content{flex:1;padding:32px;}
 .screen{display:none;}
 .screen.active{display:block;}
 
-/* ══════════════════════════════
-   DASHBOARD
-══════════════════════════════ */
+/* ══ DASHBOARD ══ */
 .dash-welcome{margin-bottom:28px;}
 .dash-welcome h2{font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;margin-bottom:4px;}
 .dash-welcome p{font-size:14px;color:var(--muted);}
-
 .metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
 .metric-card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:20px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
 .metric-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
@@ -292,33 +146,15 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .metric-badge.neutral{background:rgba(0,0,0,0.05);color:var(--muted);}
 .metric-value{font-family:'Instrument Serif',serif;font-size:40px;font-weight:400;line-height:1;margin-bottom:6px;}
 .metric-sub{font-size:12px;font-weight:500;color:var(--muted);}
-.metric-sub.green{color:#16a34a;}
 .sparkline{position:absolute;bottom:0;right:0;width:120px;height:56px;opacity:0.7;}
-
-/* 3 Agent slots */
 .agents-section{margin-bottom:28px;}
 .agents-section-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px;}
 .agents-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-.agent-slot{
-  background:var(--white);border-radius:var(--r);
-  border:1.5px solid var(--border);padding:22px;
-  box-shadow:var(--shadow);transition:all 0.2s;
-  position:relative;overflow:hidden;
-}
+.agent-slot{background:var(--white);border-radius:var(--r);border:1.5px solid var(--border);padding:22px;box-shadow:var(--shadow);transition:all 0.2s;position:relative;overflow:hidden;}
 .agent-slot.active-slot{border-color:var(--accent-dark);}
-.agent-slot.empty-slot{
-  border-style:dashed;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;min-height:180px;cursor:pointer;
-}
+.agent-slot.empty-slot{border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:180px;cursor:pointer;}
 .agent-slot.empty-slot:hover{border-color:var(--black);background:#fafaf8;}
-.slot-number{
-  width:32px;height:32px;border-radius:50%;
-  background:var(--bg);border:1.5px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;color:var(--muted);
-  margin-bottom:12px;
-}
+.slot-number{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px;}
 .agent-slot.active-slot .slot-number{background:var(--black);border-color:var(--black);color:var(--accent);}
 .slot-type{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
 .slot-name{font-size:16px;font-weight:600;margin-bottom:8px;}
@@ -332,16 +168,8 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .slot-btn.primary:hover{opacity:0.85;}
 .slot-btn.secondary{background:var(--bg);color:var(--black);border:1px solid var(--border);}
 .slot-btn.secondary:hover{border-color:var(--black);}
-.slot-status{
-  position:absolute;top:16px;right:16px;
-  display:flex;align-items:center;gap:5px;
-  padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;
-}
+.slot-status{position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;}
 .slot-status.live{background:rgba(34,197,94,0.1);color:#16a34a;}
-.slot-status.building{background:rgba(234,179,8,0.1);color:#b45309;}
-.slot-status.idle{background:rgba(0,0,0,0.05);color:var(--muted);}
-
-/* Activity */
 .dash-body{display:grid;grid-template-columns:1fr 320px;gap:20px;}
 .activity-card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
 .card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
@@ -355,135 +183,63 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .activity-time{font-size:11px;color:var(--muted);margin-top:2px;}
 .empty-state{text-align:center;padding:48px 20px;color:var(--muted);}
 .empty-state .ei{font-size:36px;margin-bottom:12px;}
-.empty-state h3{font-size:15px;font-weight:600;color:var(--black);margin-bottom:6px;}
 .empty-state p{font-size:13px;line-height:1.5;}
 
-/* ══════════════════════════════
-   NEW AGENT FORM (interactive)
-══════════════════════════════ */
+/* ══ NEW AGENT FORM ══ */
 .agent-form-wrap{max-width:700px;margin:0 auto;}
 .af-header{margin-bottom:32px;}
 .af-header h2{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin-bottom:6px;}
 .af-header p{font-size:14px;color:var(--muted);}
-
-/* Agent type selector */
 .af-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;}
-.af-type-card{
-  padding:20px;border-radius:var(--r);border:2px solid var(--border);
-  background:var(--white);cursor:pointer;transition:all 0.15s;text-align:left;
-}
+.af-type-card{padding:20px;border-radius:var(--r);border:2px solid var(--border);background:var(--white);cursor:pointer;transition:all 0.15s;text-align:left;}
 .af-type-card:hover{border-color:var(--black);}
 .af-type-card.selected{border-color:var(--black);background:var(--black);color:#fff;}
 .af-type-icon{font-size:24px;margin-bottom:10px;}
 .af-type-name{font-size:14px;font-weight:700;margin-bottom:4px;}
 .af-type-desc{font-size:12px;color:var(--muted);line-height:1.4;}
 .af-type-card.selected .af-type-desc{color:rgba(255,255,255,0.5);}
-
-/* Form steps */
 .af-steps{display:flex;gap:0;margin-bottom:32px;overflow-x:auto;}
-.af-step-item{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 16px;font-size:12px;font-weight:600;
-  color:var(--muted);white-space:nowrap;
-}
+.af-step-item{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;}
 .af-step-item.active{color:var(--black);}
 .af-step-item.done{color:var(--accent-dark);}
-.af-step-num{
-  width:22px;height:22px;border-radius:50%;
-  background:var(--border);color:var(--muted);
-  font-size:11px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
+.af-step-num{width:22px;height:22px;border-radius:50%;background:var(--border);color:var(--muted);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .af-step-item.active .af-step-num{background:var(--black);color:#fff;}
 .af-step-item.done .af-step-num{background:var(--accent);color:var(--black);}
 .af-step-connector{width:24px;height:1px;background:var(--border);flex-shrink:0;}
-
-/* Question card */
-.af-question{
-  background:var(--white);border-radius:var(--r);
-  border:1px solid var(--border);padding:28px;
-  box-shadow:var(--shadow);margin-bottom:20px;
-  animation:ob-in 0.3s ease;
-}
+.af-question{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;animation:ob-in 0.3s ease;}
 .af-q-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;}
 .af-q-text{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;margin-bottom:6px;line-height:1.3;}
 .af-q-hint{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;}
-
-/* Choices inside form */
 .af-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-.af-choice{
-  padding:11px 14px;border-radius:10px;border:1.5px solid var(--border);
-  background:var(--bg);font-size:13px;font-weight:500;
-  text-align:left;transition:all 0.15s;
-}
+.af-choice{padding:11px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;font-weight:500;text-align:left;transition:all 0.15s;}
 .af-choice:hover{border-color:var(--black);}
 .af-choice.sel{border-color:var(--black);background:var(--black);color:#fff;}
 .af-choices.one-col{grid-template-columns:1fr;}
-
-/* Input fields */
-.af-input{
-  width:100%;padding:12px 16px;
-  border:1.5px solid var(--border);border-radius:10px;
-  font-size:14px;color:var(--black);background:var(--bg);
-  outline:none;transition:border-color 0.15s;
-}
+.af-input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--black);background:var(--bg);outline:none;transition:border-color 0.15s;}
 .af-input:focus{border-color:var(--black);}
 .af-input::placeholder{color:#bbb;}
-.af-textarea{
-  width:100%;padding:12px 16px;min-height:90px;
-  border:1.5px solid var(--border);border-radius:10px;
-  font-size:14px;color:var(--black);background:var(--bg);
-  outline:none;resize:vertical;line-height:1.6;
-  transition:border-color 0.15s;
-}
+.af-textarea{width:100%;padding:12px 16px;min-height:90px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--black);background:var(--bg);outline:none;resize:vertical;line-height:1.6;transition:border-color 0.15s;}
 .af-textarea:focus{border-color:var(--black);}
 .af-textarea::placeholder{color:#bbb;}
-
-/* Form footer */
 .af-footer{display:flex;align-items:center;justify-content:space-between;}
 .af-nav{display:flex;gap:10px;}
-.btn-af-next{
-  display:flex;align-items:center;gap:8px;
-  padding:12px 24px;background:var(--black);color:#fff;
-  border:none;border-radius:10px;font-size:14px;font-weight:600;
-  transition:opacity 0.15s;
-}
+.btn-af-next{display:flex;align-items:center;gap:8px;padding:12px 24px;background:var(--black);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;transition:opacity 0.15s;}
 .btn-af-next:hover{opacity:0.85;}
-.btn-af-back{
-  padding:11px 18px;background:transparent;
-  border:1.5px solid var(--border);border-radius:10px;
-  font-size:13px;color:var(--muted);
-}
+.btn-af-back{padding:11px 18px;background:transparent;border:1.5px solid var(--border);border-radius:10px;font-size:13px;color:var(--muted);}
 .btn-af-back:hover{border-color:var(--black);color:var(--black);}
 .af-tip{font-size:12px;color:var(--muted);max-width:300px;line-height:1.4;}
 
-/* ══════════════════════════════
-   GENERATING OVERLAY
-══════════════════════════════ */
-.gen-overlay{
-  position:fixed;inset:0;background:rgba(255,255,255,0.94);
-  backdrop-filter:blur(10px);
-  display:none;flex-direction:column;align-items:center;justify-content:center;
-  z-index:500;
-}
+/* ══ GENERATING OVERLAY ══ */
+.gen-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.94);backdrop-filter:blur(10px);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:500;}
 .gen-overlay.show{display:flex;}
-.gen-ring{
-  width:64px;height:64px;border-radius:50%;
-  border:3px solid var(--border);border-top-color:var(--black);
-  animation:spin 0.8s linear infinite;margin-bottom:24px;
-}
+.gen-ring{width:64px;height:64px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--black);animation:spin 0.8s linear infinite;margin-bottom:24px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .gen-overlay h3{font-family:'Instrument Serif',serif;font-size:26px;font-weight:400;margin-bottom:6px;}
 .gen-overlay p{font-size:14px;color:var(--muted);margin-bottom:36px;}
 .gen-steps{display:flex;flex-direction:column;width:300px;}
 .gen-step{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);}
 .gen-step:last-child{border-bottom:none;}
-.gen-dot{
-  width:28px;height:28px;border-radius:50%;
-  background:var(--bg);border:1.5px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;color:var(--muted);flex-shrink:0;transition:all 0.3s;
-}
+.gen-dot{width:28px;height:28px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);flex-shrink:0;transition:all 0.3s;}
 .gen-step.active .gen-dot{background:var(--black);border-color:var(--black);color:var(--accent);animation:pulse-ring 1s ease infinite alternate;}
 .gen-step.done .gen-dot{background:var(--accent);border-color:var(--accent);color:var(--black);}
 @keyframes pulse-ring{to{box-shadow:0 0 0 6px rgba(0,0,0,0.05)}}
@@ -491,9 +247,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .gen-step.active .gen-label{color:var(--black);font-weight:500;}
 .gen-step.done .gen-label{color:var(--black);}
 
-/* ══════════════════════════════
-   WORKFLOW MODAL
-══════════════════════════════ */
+/* ══ WORKFLOW MODAL ══ */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
 .modal-overlay.show{opacity:1;pointer-events:all;}
 .modal-box{background:var(--white);border-radius:24px;width:90%;max-width:960px;max-height:88vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);transform:translateY(16px);transition:transform 0.25s;overflow:hidden;}
@@ -524,9 +278,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .wf-node.filter{border-color:#f97316;background:#fff7ed;}
 .wf-node.switch-node{border-color:#ef4444;background:#fef2f2;}
 
-/* ══════════════════════════════
-   CONNECT MODAL
-══════════════════════════════ */
+/* ══ CONNECT MODAL ══ */
 .connect-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:400;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
 .connect-modal-overlay.show{opacity:1;pointer-events:all;}
 .connect-modal-box{background:var(--white);border-radius:24px;width:90%;max-width:460px;box-shadow:var(--shadow-lg);transform:translateY(16px);transition:transform 0.25s;overflow:hidden;}
@@ -548,27 +300,163 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .btn-do-connect{display:flex;align-items:center;gap:8px;padding:12px 24px;background:var(--black);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;transition:opacity 0.15s;}
 .btn-do-connect:hover{opacity:0.85;}
 
-/* Toast */
+/* ══ TOAST ══ */
 .toast{position:fixed;bottom:28px;right:28px;background:var(--black);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;max-width:320px;}
 .toast.show{transform:translateY(0);opacity:1;}
+
+/* ══════════════════════════════
+   BUSINESS PROFILE PAGE
+══════════════════════════════ */
+.profile-wrap{max-width:780px;margin:0 auto;}
+
+.profile-hero{
+  background:var(--black);border-radius:var(--r);
+  padding:32px;margin-bottom:24px;
+  display:flex;align-items:center;gap:24px;
+  position:relative;overflow:hidden;
+}
+.profile-hero::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,241,53,0.15) 0%,transparent 70%);
+}
+.profile-avatar-wrap{position:relative;flex-shrink:0;}
+.profile-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--accent);display:flex;align-items:center;justify-content:center;
+  font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;color:var(--black);
+}
+.profile-hero-info{flex:1;}
+.profile-biz-name{
+  font-family:'Instrument Serif',serif;font-size:26px;font-weight:400;
+  color:#fff;margin-bottom:4px;
+}
+.profile-industry-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:20px;
+  background:rgba(200,241,53,0.12);
+  font-size:12px;font-weight:600;color:var(--accent);
+}
+.profile-hero-actions{display:flex;gap:10px;flex-shrink:0;}
+.btn-redo-onboarding{
+  padding:9px 18px;border-radius:9px;border:1.5px solid rgba(255,255,255,0.15);
+  background:transparent;color:rgba(255,255,255,0.6);font-size:12px;font-weight:600;
+  transition:all 0.15s;
+}
+.btn-redo-onboarding:hover{border-color:rgba(255,255,255,0.4);color:#fff;}
+
+/* Section cards */
+.profile-section{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);box-shadow:var(--shadow);
+  margin-bottom:16px;overflow:hidden;
+}
+.profile-section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 24px;border-bottom:1px solid var(--border);
+}
+.profile-section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;font-weight:700;color:var(--black);
+}
+.profile-section-icon{
+  width:28px;height:28px;border-radius:8px;
+  background:var(--bg);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+}
+.btn-edit-section{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:8px;
+  border:1px solid var(--border);background:var(--bg);
+  font-size:12px;font-weight:600;color:var(--muted);
+  transition:all 0.15s;
+}
+.btn-edit-section:hover{border-color:var(--black);color:var(--black);}
+.btn-edit-section.editing{
+  background:var(--black);color:#fff;border-color:var(--black);
+}
+.btn-save-section{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:8px;
+  border:none;background:var(--accent);
+  font-size:12px;font-weight:700;color:var(--black);
+  transition:all 0.15s;margin-left:8px;
+}
+.btn-save-section:hover{opacity:0.85;}
+
+/* Fields grid */
+.profile-fields{padding:20px 24px;display:flex;flex-direction:column;gap:0;}
+.profile-field{
+  display:flex;align-items:flex-start;
+  padding:14px 0;border-bottom:1px solid var(--border);
+  gap:16px;
+}
+.profile-field:last-child{border-bottom:none;}
+.pf-label{
+  font-size:11px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.5px;
+  width:160px;flex-shrink:0;padding-top:2px;
+  line-height:1.4;
+}
+.pf-value-wrap{flex:1;}
+.pf-value{
+  font-size:14px;font-weight:500;color:var(--black);
+  line-height:1.6;word-break:break-word;
+}
+.pf-value.empty{color:var(--muted);font-style:italic;font-weight:400;}
+
+/* Inline edit inputs */
+.pf-input{
+  width:100%;padding:9px 12px;
+  border:1.5px solid var(--black);border-radius:8px;
+  font-size:14px;color:var(--black);background:#fff;
+  outline:none;font-family:'DM Sans',sans-serif;
+  transition:border-color 0.15s;
+}
+.pf-input:focus{border-color:var(--accent-dark);box-shadow:0 0 0 3px rgba(200,241,53,0.15);}
+.pf-textarea{
+  width:100%;padding:9px 12px;min-height:72px;
+  border:1.5px solid var(--black);border-radius:8px;
+  font-size:14px;color:var(--black);background:#fff;
+  outline:none;resize:vertical;line-height:1.6;
+  font-family:'DM Sans',sans-serif;
+  transition:border-color 0.15s;
+}
+.pf-textarea:focus{border-color:var(--accent-dark);box-shadow:0 0 0 3px rgba(200,241,53,0.15);}
+
+/* Choice pills edit */
+.pf-choices{display:flex;flex-direction:column;gap:6px;}
+.pf-choice-pill{
+  padding:8px 14px;border-radius:8px;border:1.5px solid var(--border);
+  background:var(--bg);font-size:13px;font-weight:500;
+  text-align:left;transition:all 0.15s;cursor:pointer;
+}
+.pf-choice-pill:hover{border-color:var(--black);}
+.pf-choice-pill.selected{border-color:var(--black);background:var(--black);color:#fff;}
+
+/* Completeness bar */
+.profile-completeness{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);box-shadow:var(--shadow);
+  padding:20px 24px;margin-bottom:16px;
+  display:flex;align-items:center;gap:16px;
+}
+.completeness-label{font-size:13px;font-weight:600;white-space:nowrap;}
+.completeness-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.completeness-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.6s ease;}
+.completeness-pct{font-size:13px;font-weight:700;color:var(--accent-dark);white-space:nowrap;}
 
 @media(max-width:1100px){.metrics-grid{grid-template-columns:1fr 1fr;}.agents-slots{grid-template-columns:1fr;}.dash-body{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════
-     AUTH SCREEN
-══════════════════════════════ -->
+<!-- AUTH SCREEN -->
 <div id="auth-screen">
   <div class="auth-bg-circle" style="width:600px;height:600px;top:-200px;left:-100px;"></div>
   <div class="auth-bg-circle" style="width:400px;height:400px;bottom:-100px;left:200px;"></div>
-
   <div class="auth-left">
-    <div class="auth-logo">
-      <div class="auth-logo-dot"></div>
-      Service.AI
-    </div>
+    <div class="auth-logo"><div class="auth-logo-dot"></div>Service.AI</div>
     <div class="auth-hero">
       <h1>Your leads.<br/>Booked.<br/><em>Automatically.</em></h1>
       <p>Build an AI sales agent on WhatsApp in under 10 minutes. It handles every lead from cold DM to confirmed call — 24/7, without you lifting a finger.</p>
@@ -579,7 +467,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
       <div class="auth-feat"><div class="auth-feat-dot"></div>Follows up until they show up</div>
     </div>
   </div>
-
   <div class="auth-right">
     <div class="auth-card">
       <div class="auth-tabs">
@@ -603,9 +490,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     ONBOARDING SCREEN
-══════════════════════════════ -->
+<!-- ONBOARDING SCREEN -->
 <div id="onboarding-screen" class="hide">
   <div class="ob-topbar">
     <div class="ob-logo"><div class="ob-logo-dot"></div> Service.AI</div>
@@ -615,14 +500,10 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
     </div>
     <button class="ob-skip" onclick="skipOnboarding()">Skip for now</button>
   </div>
-  <div class="ob-body">
-    <div id="ob-question-wrap"></div>
-  </div>
+  <div class="ob-body"><div id="ob-question-wrap"></div></div>
 </div>
 
-<!-- ══════════════════════════════
-     MAIN APP
-══════════════════════════════ -->
+<!-- MAIN APP -->
 <div id="app-screen" class="hide">
   <aside class="sidebar">
     <div class="sidebar-logo"><div class="sidebar-logo-dot"></div> Service.AI</div>
@@ -636,10 +517,10 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
     <div class="nav-section">
       <div class="nav-label">Analytics</div>
       <div class="nav-item"><span class="nav-icon">📊</span> Reports</div>
-      <div class="nav-item"><span class="nav-icon">⚙️</span> Settings</div>
+      <div class="nav-item" onclick="showScreen('settings',this)"><span class="nav-icon">⚙️</span> Settings</div>
     </div>
     <div class="sidebar-bottom">
-      <div class="user-pill">
+      <div class="user-pill" onclick="showScreen('settings',null)">
         <div class="user-avatar" id="sidebar-avatar">?</div>
         <div class="user-info">
           <div class="uname" id="sidebar-name">Account</div>
@@ -690,12 +571,10 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
             <canvas class="sparkline" id="spark3" width="120" height="56"></canvas>
           </div>
         </div>
-
         <div class="agents-section">
           <div class="agents-section-title">Your 3 Agents</div>
           <div class="agents-slots" id="agents-slots"></div>
         </div>
-
         <div class="dash-body">
           <div style="display:none"></div>
           <div class="activity-card">
@@ -718,6 +597,91 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
         </div>
       </div>
 
+      <!-- SETTINGS / BUSINESS PROFILE -->
+      <div class="screen" id="screen-settings">
+        <div class="profile-wrap">
+          <div class="profile-hero">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" id="profile-avatar-letter">I</div>
+            </div>
+            <div class="profile-hero-info">
+              <div class="profile-biz-name" id="profile-biz-name-display">My Business</div>
+              <div class="profile-industry-badge" id="profile-industry-display">Industry</div>
+            </div>
+            <div class="profile-hero-actions">
+              <button class="btn-redo-onboarding" onclick="redoOnboarding()">↺ Redo onboarding</button>
+            </div>
+          </div>
+
+          <div class="profile-completeness">
+            <span class="completeness-label">Profile completeness</span>
+            <div class="completeness-bar-wrap"><div class="completeness-bar-fill" id="completeness-fill" style="width:0%"></div></div>
+            <span class="completeness-pct" id="completeness-pct">0%</span>
+          </div>
+
+          <!-- SECTION: Business -->
+          <div class="profile-section" id="section-business">
+            <div class="profile-section-header">
+              <div class="profile-section-title">
+                <div class="profile-section-icon">🏢</div>
+                Business
+              </div>
+              <div style="display:flex;align-items:center;">
+                <button class="btn-edit-section" id="btn-edit-business" onclick="toggleEdit('business')">✎ Edit</button>
+                <button class="btn-save-section hide" id="btn-save-business" onclick="saveSection('business')">✓ Save</button>
+              </div>
+            </div>
+            <div class="profile-fields" id="fields-business"></div>
+          </div>
+
+          <!-- SECTION: Offer -->
+          <div class="profile-section" id="section-offer">
+            <div class="profile-section-header">
+              <div class="profile-section-title">
+                <div class="profile-section-icon">💎</div>
+                Offer & Audience
+              </div>
+              <div style="display:flex;align-items:center;">
+                <button class="btn-edit-section" id="btn-edit-offer" onclick="toggleEdit('offer')">✎ Edit</button>
+                <button class="btn-save-section hide" id="btn-save-offer" onclick="saveSection('offer')">✓ Save</button>
+              </div>
+            </div>
+            <div class="profile-fields" id="fields-offer"></div>
+          </div>
+
+          <!-- SECTION: Sales -->
+          <div class="profile-section" id="section-sales">
+            <div class="profile-section-header">
+              <div class="profile-section-title">
+                <div class="profile-section-icon">📣</div>
+                Sales & Follow-up
+              </div>
+              <div style="display:flex;align-items:center;">
+                <button class="btn-edit-section" id="btn-edit-sales" onclick="toggleEdit('sales')">✎ Edit</button>
+                <button class="btn-save-section hide" id="btn-save-sales" onclick="saveSection('sales')">✓ Save</button>
+              </div>
+            </div>
+            <div class="profile-fields" id="fields-sales"></div>
+          </div>
+
+          <!-- SECTION: Voice -->
+          <div class="profile-section" id="section-voice">
+            <div class="profile-section-header">
+              <div class="profile-section-title">
+                <div class="profile-section-icon">🎙️</div>
+                Agent Voice & Style
+              </div>
+              <div style="display:flex;align-items:center;">
+                <button class="btn-edit-section" id="btn-edit-voice" onclick="toggleEdit('voice')">✎ Edit</button>
+                <button class="btn-save-section hide" id="btn-save-voice" onclick="saveSection('voice')">✓ Save</button>
+              </div>
+            </div>
+            <div class="profile-fields" id="fields-voice"></div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -725,14 +689,14 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 <!-- GENERATING OVERLAY -->
 <div class="gen-overlay" id="gen-overlay">
   <div class="gen-ring"></div>
-  <h3>Building your agents…</h3>
+  <h3>Building your agent…</h3>
   <p>This takes about 60 seconds. Sit tight.</p>
   <div class="gen-steps">
     <div class="gen-step active" id="gs1"><div class="gen-dot">1</div><span class="gen-label">Analyzing your business profile</span></div>
     <div class="gen-step" id="gs2"><div class="gen-dot">2</div><span class="gen-label">Generating custom sales scripts</span></div>
     <div class="gen-step" id="gs3"><div class="gen-dot">3</div><span class="gen-label">Building n8n workflows</span></div>
     <div class="gen-step" id="gs4"><div class="gen-dot">4</div><span class="gen-label">Injecting business context</span></div>
-    <div class="gen-step" id="gs5"><div class="gen-dot">✓</div><span class="gen-label">Agents ready</span></div>
+    <div class="gen-step" id="gs5"><div class="gen-dot">✓</div><span class="gen-label">Agent ready</span></div>
   </div>
 </div>
 
@@ -787,7 +751,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"><span id="toast-icon">✅</span><span id="toast-text">Done!</span></div>
 
 <script>
@@ -795,6 +758,35 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 // CONSTANTS
 // ══════════════════════════════
 const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai2.app.n8n.cloud/webhook/e6682268-42b6-4a4d-9394-8b4b90cdc1b5';
+
+// ══════════════════════════════
+// PROFILE SCHEMA — maps fields to sections
+// ══════════════════════════════
+const PROFILE_SECTIONS = {
+  business: [
+    { id: 'business_name', label: 'Business name', type: 'text' },
+    { id: 'industry', label: 'Industry', type: 'choice', choices: ["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"] },
+  ],
+  offer: [
+    { id: 'offer', label: 'Main offer', type: 'textarea' },
+    { id: 'price', label: 'Price', type: 'text' },
+    { id: 'client_avatar', label: 'Ideal client', type: 'textarea' },
+    { id: 'result', label: '#1 result', type: 'textarea' },
+    { id: 'lead_magnet', label: 'Lead magnet', type: 'text' },
+    { id: 'objections', label: 'Common objections', type: 'textarea' },
+  ],
+  sales: [
+    { id: 'call_type', label: 'Call type', type: 'choice', choices: ["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"] },
+    { id: 'follow_up_style', label: 'Follow-up style', type: 'choice', choices: ["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"] },
+  ],
+  voice: [
+    { id: 'tone', label: 'Tone', type: 'choice', choices: ["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"] },
+    { id: 'brand_voice', label: 'Brand voice notes', type: 'textarea' },
+  ]
+};
+
+// tracks which sections are in edit mode
+const editState = { business: false, offer: false, sales: false, voice: false };
 
 // ══════════════════════════════
 // STATE
@@ -810,20 +802,17 @@ let connectAgentIdx = null;
 // AUTH
 // ══════════════════════════════
 function switchAuthTab(tab) {
-  document.getElementById('tab-signin').classList.toggle('active', tab === 'signin');
-  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
-  document.getElementById('auth-signin').style.display = tab === 'signin' ? 'block' : 'none';
-  document.getElementById('auth-signup').style.display = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('tab-signin').classList.toggle('active', tab==='signin');
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+  document.getElementById('auth-signin').style.display = tab==='signin'?'block':'none';
+  document.getElementById('auth-signup').style.display = tab==='signup'?'block':'none';
 }
-
 function doSignIn() {
   const email = document.getElementById('signin-email').value.trim() || 'user@service.ai';
-  const name = email.split('@')[0];
-  user = { email, name };
+  user = { email, name: email.split('@')[0] };
   localStorage.setItem('sai_user', JSON.stringify(user));
   afterAuth();
 }
-
 function doSignUp() {
   const name = document.getElementById('signup-name').value.trim() || 'User';
   const email = document.getElementById('signup-email').value.trim() || 'user@service.ai';
@@ -831,38 +820,33 @@ function doSignUp() {
   localStorage.setItem('sai_user', JSON.stringify(user));
   afterAuth();
 }
-
 function doDemo() {
   user = { email: 'demo@service.ai', name: 'Demo User' };
   localStorage.setItem('sai_user', JSON.stringify(user));
   afterAuth();
 }
-
 function afterAuth() {
   document.getElementById('auth-screen').classList.add('hide');
-  if (!businessProfile) {
-    startOnboarding();
-  } else {
-    startApp();
-  }
+  if (!businessProfile) startOnboarding();
+  else startApp();
 }
 
 // ══════════════════════════════
-// ONBOARDING (Typeform style)
+// ONBOARDING
 // ══════════════════════════════
 const OB_QUESTIONS = [
-  { id: 'business_name', type: 'text', title: "What's your business called?", sub: "This is how your agent will introduce your brand.", placeholder: "e.g. Alex Coaching" },
-  { id: 'industry', type: 'choice', title: "What industry are you in?", sub: "Pick the one that fits best.", choices: ["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"] },
-  { id: 'offer', type: 'textarea', title: "Describe your main offer in one sentence.", sub: "What do you sell, who is it for, and what result does it deliver?", placeholder: "e.g. A 12-week 1-on-1 program that helps early-stage entrepreneurs sign their first 5 clients in 90 days." },
-  { id: 'price', type: 'text', title: "What does it cost?", sub: "Give the full price or payment plan.", placeholder: "e.g. $3,000 or $997/month for 3 months" },
-  { id: 'client_avatar', type: 'textarea', title: "Describe your ideal client.", sub: "Who is the perfect person for your offer? What's their situation right now?", placeholder: "e.g. Coaches and consultants who already have some experience but are struggling to get consistent clients online." },
-  { id: 'result', type: 'textarea', title: "What's the #1 result your clients get?", sub: "The most tangible, specific outcome from working with you.", placeholder: "e.g. They go from 0 to $10k/month in 90 days, with a repeatable system to keep growing." },
-  { id: 'lead_magnet', type: 'text', title: "Do you have a free lead magnet?", sub: "A PDF, mini-course, video, free call — anything you offer to attract leads. Type 'none' if you don't.", placeholder: "e.g. Free PDF: '5 Steps to Your First $10k Month'" },
-  { id: 'objections', type: 'textarea', title: "What objections do your leads usually raise?", sub: "List the most common hesitations before they buy.", placeholder: "e.g. 'Too expensive', 'I need to think about it', 'I've tried coaching before and it didn't work'" },
-  { id: 'tone', type: 'choice', title: "How should your agent communicate?", sub: "This shapes every message it sends.", choices: ["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"] },
-  { id: 'call_type', type: 'choice', title: "What kind of call are you booking?", sub: "This determines how the agent presents the next step.", choices: ["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"] },
-  { id: 'follow_up_style', type: 'choice', title: "How persistent should the follow-up agent be?", sub: "When a lead goes cold, how should the agent re-engage?", choices: ["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"] },
-  { id: 'brand_voice', type: 'textarea', title: "Any specific phrases, words, or style notes?", sub: "Things the agent should always say — or never say. Leave blank if not applicable.", placeholder: "e.g. Always say 'Let's get you results' not 'I hope this helps'. Never use the word 'unfortunately'." },
+  { id:'business_name', type:'text', title:"What's your business called?", sub:"This is how your agent will introduce your brand.", placeholder:"e.g. Alex Coaching" },
+  { id:'industry', type:'choice', title:"What industry are you in?", sub:"Pick the one that fits best.", choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"] },
+  { id:'offer', type:'textarea', title:"Describe your main offer in one sentence.", sub:"What do you sell, who is it for, and what result does it deliver?", placeholder:"e.g. A 12-week 1-on-1 program that helps early-stage entrepreneurs sign their first 5 clients in 90 days." },
+  { id:'price', type:'text', title:"What does it cost?", sub:"Give the full price or payment plan.", placeholder:"e.g. $3,000 or $997/month for 3 months" },
+  { id:'client_avatar', type:'textarea', title:"Describe your ideal client.", sub:"Who is the perfect person for your offer? What's their situation right now?", placeholder:"e.g. Coaches and consultants who already have some experience but are struggling to get consistent clients online." },
+  { id:'result', type:'textarea', title:"What's the #1 result your clients get?", sub:"The most tangible, specific outcome from working with you.", placeholder:"e.g. They go from 0 to $10k/month in 90 days, with a repeatable system to keep growing." },
+  { id:'lead_magnet', type:'text', title:"Do you have a free lead magnet?", sub:"A PDF, mini-course, video, free call — anything you offer to attract leads. Type 'none' if you don't.", placeholder:"e.g. Free PDF: '5 Steps to Your First $10k Month'" },
+  { id:'objections', type:'textarea', title:"What objections do your leads usually raise?", sub:"List the most common hesitations before they buy.", placeholder:"e.g. 'Too expensive', 'I need to think about it', 'I've tried coaching before'" },
+  { id:'tone', type:'choice', title:"How should your agent communicate?", sub:"This shapes every message it sends.", choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"] },
+  { id:'call_type', type:'choice', title:"What kind of call are you booking?", sub:"This determines how the agent presents the next step.", choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"] },
+  { id:'follow_up_style', type:'choice', title:"How persistent should the follow-up agent be?", sub:"When a lead goes cold, how should the agent re-engage?", choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"] },
+  { id:'brand_voice', type:'textarea', title:"Any specific phrases, words, or style notes?", sub:"Things the agent should always say — or never say. Leave blank if not applicable.", placeholder:"e.g. Always say 'Let's get you results' not 'I hope this helps'." },
 ];
 
 let obIndex = 0;
@@ -870,112 +854,61 @@ let obAnswers = {};
 
 function startOnboarding() {
   document.getElementById('onboarding-screen').classList.remove('hide');
-  obIndex = 0;
-  obAnswers = {};
+  obIndex = 0; obAnswers = {};
   renderObQuestion();
 }
-
 function renderObQuestion() {
   const wrap = document.getElementById('ob-question-wrap');
   const total = OB_QUESTIONS.length;
-  const pct = Math.round((obIndex / total) * 100);
-  document.getElementById('ob-fill').style.width = pct + '%';
-  document.getElementById('ob-label').textContent = `${obIndex + 1} of ${total}`;
-
+  document.getElementById('ob-fill').style.width = Math.round((obIndex/total)*100)+'%';
+  document.getElementById('ob-label').textContent = `${obIndex+1} of ${total}`;
   if (obIndex >= total) {
-    // Complete
-    wrap.innerHTML = `
-      <div class="ob-complete">
-        <div class="ob-complete-icon">✦</div>
-        <h2>You're all set.</h2>
-        <p>We've got everything we need to build your three AI agents. Time to enter your dashboard and create them.</p>
-        <button class="ob-complete-btn" onclick="finishOnboarding()">Enter dashboard →</button>
-      </div>`;
+    wrap.innerHTML = `<div class="ob-complete"><div class="ob-complete-icon">✦</div><h2>You're all set.</h2><p>We've got everything we need to build your three AI agents. Time to enter your dashboard and create them.</p><button class="ob-complete-btn" onclick="finishOnboarding()">Enter dashboard →</button></div>`;
     return;
   }
-
   const q = OB_QUESTIONS[obIndex];
   let inputHtml = '';
-
-  if (q.type === 'choice') {
-    const alpha = 'ABCDEFGHIJ';
-    inputHtml = `<div class="ob-choices ${q.multi ? 'multi' : ''}" id="ob-choices">
-      ${q.choices.map((c, i) => `
-        <button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}',${!!q.multi})">
-          <span class="ob-choice-key">${alpha[i]}</span> ${c}
-        </button>`).join('')}
-    </div>`;
-  } else if (q.type === 'textarea') {
-    inputHtml = `<textarea class="ob-textarea" id="ob-input" placeholder="${q.placeholder || ''}">${obAnswers[q.id] || ''}</textarea>`;
+  if (q.type==='choice') {
+    const alpha='ABCDEFGHIJ';
+    inputHtml = `<div class="ob-choices" id="ob-choices">${q.choices.map((c,i)=>`<button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}',false)"><span class="ob-choice-key">${alpha[i]}</span> ${c}</button>`).join('')}</div>`;
+  } else if (q.type==='textarea') {
+    inputHtml = `<textarea class="ob-textarea" id="ob-input" placeholder="${q.placeholder||''}">${obAnswers[q.id]||''}</textarea>`;
   } else {
-    inputHtml = `<input class="ob-input" id="ob-input" type="text" placeholder="${q.placeholder || ''}" value="${obAnswers[q.id] || ''}"/>`;
+    inputHtml = `<input class="ob-input" id="ob-input" type="text" placeholder="${q.placeholder||''}" value="${obAnswers[q.id]||''}"/>`;
   }
-
-  wrap.innerHTML = `
-    <div class="ob-question">
-      <div class="ob-q-num">Question ${obIndex + 1}</div>
-      <div class="ob-q-title">${q.title}</div>
-      <div class="ob-q-sub">${q.sub}</div>
-      ${inputHtml}
-      <div class="ob-nav">
-        ${obIndex > 0 ? '<button class="ob-btn-back" onclick="obBack()">← Back</button>' : ''}
-        ${q.type !== 'choice' ? `<button class="ob-btn-next" onclick="obNext()">Continue →</button>` : ''}
-        <span class="ob-enter-hint">Press <kbd>Enter</kbd> to continue</span>
-      </div>
-    </div>`;
-
-  // Enter key
+  wrap.innerHTML = `<div class="ob-question"><div class="ob-q-num">Question ${obIndex+1}</div><div class="ob-q-title">${q.title}</div><div class="ob-q-sub">${q.sub}</div>${inputHtml}<div class="ob-nav">${obIndex>0?'<button class="ob-btn-back" onclick="obBack()">← Back</button>':''}${q.type!=='choice'?`<button class="ob-btn-next" onclick="obNext()">Continue →</button>`:''}<span class="ob-enter-hint">Press <kbd>Enter</kbd> to continue</span></div></div>`;
   const inp = document.getElementById('ob-input');
-  if (inp) {
-    inp.focus();
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); obNext(); } });
-  }
-
-  // Restore choice selection
-  if (q.type === 'choice' && obAnswers[q.id]) {
-    document.querySelectorAll('.ob-choice').forEach(el => {
-      if (el.dataset.val === obAnswers[q.id]) el.classList.add('selected');
-    });
+  if (inp) { inp.focus(); inp.addEventListener('keydown', e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();obNext();} }); }
+  if (q.type==='choice'&&obAnswers[q.id]) {
+    document.querySelectorAll('.ob-choice').forEach(el=>{ if(el.dataset.val===obAnswers[q.id]) el.classList.add('selected'); });
   }
 }
-
 function obSelectChoice(el, qId, val, multi) {
-  if (!multi) {
-    document.querySelectorAll('.ob-choice').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    obAnswers[qId] = val;
-    setTimeout(() => obNext(), 350);
-  } else {
-    el.classList.toggle('selected');
-    const sel = [...document.querySelectorAll('.ob-choice.selected')].map(c => c.dataset.val);
-    obAnswers[qId] = sel.join(', ');
-  }
+  document.querySelectorAll('.ob-choice').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  obAnswers[qId] = val;
+  setTimeout(()=>obNext(), 350);
 }
-
 function obNext() {
   const q = OB_QUESTIONS[obIndex];
-  if (q.type !== 'choice') {
-    const inp = document.getElementById('ob-input');
-    if (inp) obAnswers[q.id] = inp.value.trim();
-  }
+  if (q.type!=='choice') { const inp=document.getElementById('ob-input'); if(inp) obAnswers[q.id]=inp.value.trim(); }
   obIndex++;
   renderObQuestion();
 }
-
-function obBack() {
-  if (obIndex > 0) { obIndex--; renderObQuestion(); }
-}
-
+function obBack() { if(obIndex>0){obIndex--;renderObQuestion();} }
 function skipOnboarding() {
-  obAnswers = { business_name: 'My Business', industry: 'Coaching', offer: '', price: '', client_avatar: '', result: '', lead_magnet: 'none', objections: '', tone: 'Warm & friendly', call_type: 'Discovery call', follow_up_style: 'Medium', brand_voice: '' };
+  obAnswers={business_name:'My Business',industry:'Coaching',offer:'',price:'',client_avatar:'',result:'',lead_magnet:'none',objections:'',tone:'Warm & friendly — like a trusted advisor',call_type:'Discovery call (free, to qualify)',follow_up_style:'Medium — 2-3 messages over a few days',brand_voice:''};
   finishOnboarding();
 }
-
 function finishOnboarding() {
   businessProfile = obAnswers;
   localStorage.setItem('sai_profile', JSON.stringify(businessProfile));
   document.getElementById('onboarding-screen').classList.add('hide');
   startApp();
+}
+function redoOnboarding() {
+  document.getElementById('app-screen').classList.add('hide');
+  startOnboarding();
 }
 
 // ══════════════════════════════
@@ -985,92 +918,225 @@ function startApp() {
   document.getElementById('app-screen').classList.remove('hide');
   document.getElementById('sidebar-name').textContent = user?.name || 'User';
   document.getElementById('sidebar-email').textContent = user?.email || '—';
-  document.getElementById('sidebar-avatar').textContent = (user?.name || 'U')[0].toUpperCase();
+  document.getElementById('sidebar-avatar').textContent = (user?.name||'U')[0].toUpperCase();
   showScreen('dashboard', document.querySelector('.nav-item'));
 }
-
 function showScreen(name, navEl) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
-  if (name === 'dashboard') {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if (name==='dashboard') {
     document.getElementById('screen-dashboard').classList.add('active');
-    document.getElementById('topbar-title').textContent = 'Dashboard';
-    document.getElementById('topbar-sub').textContent = 'Welcome back. Here\'s what\'s happening.';
+    document.getElementById('topbar-title').textContent='Dashboard';
+    document.getElementById('topbar-sub').textContent="Welcome back. Here's what's happening.";
     renderDashboard();
-  } else if (name === 'new-agent') {
+  } else if (name==='new-agent') {
     document.getElementById('screen-new-agent').classList.add('active');
-    document.getElementById('topbar-title').textContent = 'New Agent';
-    document.getElementById('topbar-sub').textContent = 'Build a new AI sales agent from your business profile.';
+    document.getElementById('topbar-title').textContent='New Agent';
+    document.getElementById('topbar-sub').textContent='Build a new AI sales agent from your business profile.';
     renderAgentForm();
+  } else if (name==='settings') {
+    document.getElementById('screen-settings').classList.add('active');
+    document.getElementById('topbar-title').textContent='Business Profile';
+    document.getElementById('topbar-sub').textContent='Your business info — this powers every agent you build.';
+    renderProfilePage();
   }
-
   if (navEl) navEl.classList.add('active');
 }
+
+// ══════════════════════════════
+// PROFILE PAGE
+// ══════════════════════════════
+function renderProfilePage() {
+  const p = businessProfile || {};
+
+  // Hero
+  const name = p.business_name || 'My Business';
+  document.getElementById('profile-avatar-letter').textContent = name[0].toUpperCase();
+  document.getElementById('profile-biz-name-display').textContent = name;
+  document.getElementById('profile-industry-display').textContent = p.industry || 'No industry set';
+
+  // Completeness
+  const allFields = ['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];
+  const filled = allFields.filter(f => p[f] && p[f].trim() && p[f] !== 'none').length;
+  const pct = Math.round((filled / allFields.length) * 100);
+  document.getElementById('completeness-fill').style.width = pct + '%';
+  document.getElementById('completeness-pct').textContent = pct + '%';
+
+  // Render all sections in view mode
+  ['business','offer','sales','voice'].forEach(sec => {
+    editState[sec] = false;
+    renderSectionFields(sec, false);
+    document.getElementById('btn-edit-'+sec).classList.remove('editing');
+    document.getElementById('btn-save-'+sec).classList.add('hide');
+    document.getElementById('btn-edit-'+sec).classList.remove('hide');
+  });
+}
+
+function renderSectionFields(section, isEditing) {
+  const fields = PROFILE_SECTIONS[section];
+  const p = businessProfile || {};
+  const container = document.getElementById('fields-'+section);
+
+  container.innerHTML = fields.map(f => {
+    const val = p[f.id] || '';
+    const isEmpty = !val || val.trim() === '';
+
+    if (!isEditing) {
+      // VIEW mode
+      return `<div class="profile-field">
+        <div class="pf-label">${f.label}</div>
+        <div class="pf-value-wrap">
+          <div class="pf-value ${isEmpty ? 'empty' : ''}">${isEmpty ? 'Not set' : escHtml(val)}</div>
+        </div>
+      </div>`;
+    }
+
+    // EDIT mode
+    if (f.type === 'choice') {
+      const pillsHtml = f.choices.map(c => `<button class="pf-choice-pill ${val===c?'selected':''}" onclick="pfSelectChoice('${f.id}','${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');
+      return `<div class="profile-field">
+        <div class="pf-label">${f.label}</div>
+        <div class="pf-value-wrap">
+          <div class="pf-choices" id="pf-choices-${f.id}">${pillsHtml}</div>
+          <input type="hidden" id="pf-val-${f.id}" value="${escAttr(val)}"/>
+        </div>
+      </div>`;
+    } else if (f.type === 'textarea') {
+      return `<div class="profile-field">
+        <div class="pf-label">${f.label}</div>
+        <div class="pf-value-wrap">
+          <textarea class="pf-textarea" id="pf-val-${f.id}">${escHtml(val)}</textarea>
+        </div>
+      </div>`;
+    } else {
+      return `<div class="profile-field">
+        <div class="pf-label">${f.label}</div>
+        <div class="pf-value-wrap">
+          <input class="pf-input" type="text" id="pf-val-${f.id}" value="${escAttr(val)}"/>
+        </div>
+      </div>`;
+    }
+  }).join('');
+}
+
+function pfSelectChoice(fieldId, val) {
+  document.getElementById('pf-val-'+fieldId).value = val;
+  document.querySelectorAll(`#pf-choices-${fieldId} .pf-choice-pill`).forEach(p => {
+    p.classList.toggle('selected', p.textContent === val);
+  });
+}
+
+function toggleEdit(section) {
+  const isNowEditing = !editState[section];
+  editState[section] = isNowEditing;
+  renderSectionFields(section, isNowEditing);
+  const editBtn = document.getElementById('btn-edit-'+section);
+  const saveBtn = document.getElementById('btn-save-'+section);
+  if (isNowEditing) {
+    editBtn.classList.add('editing');
+    editBtn.textContent = '✕ Cancel';
+    saveBtn.classList.remove('hide');
+  } else {
+    editBtn.classList.remove('editing');
+    editBtn.textContent = '✎ Edit';
+    saveBtn.classList.add('hide');
+  }
+}
+
+function saveSection(section) {
+  const fields = PROFILE_SECTIONS[section];
+  if (!businessProfile) businessProfile = {};
+
+  fields.forEach(f => {
+    const el = document.getElementById('pf-val-'+f.id);
+    if (el) businessProfile[f.id] = el.value.trim();
+  });
+
+  localStorage.setItem('sai_profile', JSON.stringify(businessProfile));
+
+  // Exit edit mode
+  editState[section] = false;
+  renderSectionFields(section, false);
+  const editBtn = document.getElementById('btn-edit-'+section);
+  const saveBtn = document.getElementById('btn-save-'+section);
+  editBtn.classList.remove('editing');
+  editBtn.textContent = '✎ Edit';
+  saveBtn.classList.add('hide');
+
+  // Refresh hero + completeness
+  const name = businessProfile.business_name || 'My Business';
+  document.getElementById('profile-avatar-letter').textContent = name[0].toUpperCase();
+  document.getElementById('profile-biz-name-display').textContent = name;
+  document.getElementById('profile-industry-display').textContent = businessProfile.industry || 'No industry set';
+
+  const allFields = ['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];
+  const filled = allFields.filter(f => businessProfile[f] && businessProfile[f].trim() && businessProfile[f] !== 'none').length;
+  const pct = Math.round((filled / allFields.length) * 100);
+  document.getElementById('completeness-fill').style.width = pct + '%';
+  document.getElementById('completeness-pct').textContent = pct + '%';
+
+  showToast('✅', 'Profile updated and saved.');
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escAttr(s){ return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 // ══════════════════════════════
 // DASHBOARD
 // ══════════════════════════════
 function renderDashboard() {
   const h = new Date().getHours();
-  document.getElementById('dash-greeting').textContent = (h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening') + ' 👋';
-
-  const totalLeads = agents.reduce((s, a) => s + (a.leads || 0), 0);
-  document.getElementById('m1-val').textContent = totalLeads;
-  document.getElementById('m2-val').textContent = agents.reduce((s, a) => s + (a.booked || 0), 0);
-  document.getElementById('m3-val').textContent = agents.length ? '—' : '—';
-
+  document.getElementById('dash-greeting').textContent = (h<12?'Good morning':h<18?'Good afternoon':'Good evening')+' 👋';
+  document.getElementById('m1-val').textContent = agents.reduce((s,a)=>s+(a.leads||0),0);
+  document.getElementById('m2-val').textContent = agents.reduce((s,a)=>s+(a.booked||0),0);
+  document.getElementById('m3-val').textContent = '—';
   if (agents.length) {
-    document.getElementById('global-status').className = 'pill-live';
-    document.getElementById('global-status').innerHTML = '<div class="live-dot"></div> ' + agents.length + ' agent(s) live';
+    document.getElementById('global-status').className='pill-live';
+    document.getElementById('global-status').innerHTML='<div class="live-dot"></div> '+agents.length+' agent(s) live';
   }
-
   drawSparkline('spark1',[2,4,3,6,5,8,7,10,9,12],'rgba(34,197,94,0.6)','rgba(34,197,94,0.08)');
   drawSparkline('spark2',[1,2,2,3,4,5,5,7,6,9],'rgba(59,130,246,0.6)','rgba(59,130,246,0.08)');
   drawSparkline('spark3',[0,0,0,0,0,0,0,0,0,0],'rgba(156,163,175,0.5)','rgba(0,0,0,0.03)');
-
   renderAgentSlots();
   renderActivityFeed();
 }
 
 const AGENT_TYPES = [
-  { key: 'lead-handler', icon: '📲', name: 'New Lead Handler', desc: 'Welcomes cold leads, delivers lead magnet, sells the discovery call.' },
-  { key: 'follow-up', icon: '🔁', name: 'Follow-Up Agent', desc: 'Re-engages leads who went cold. Brings them back into the pipeline.' },
-  { key: 'booked-handler', icon: '📅', name: 'Booked Lead Handler', desc: 'Confirms booked calls and follows up to ensure show-up.' },
+  { key:'lead-handler', icon:'📲', name:'New Lead Handler', desc:'Welcomes cold leads, delivers lead magnet, sells the discovery call.' },
+  { key:'follow-up', icon:'🔁', name:'Follow-Up Agent', desc:'Re-engages leads who went cold. Brings them back into the pipeline.' },
+  { key:'booked-handler', icon:'📅', name:'Booked Lead Handler', desc:'Confirms booked calls and follows up to ensure show-up.' },
 ];
 
 function renderAgentSlots() {
   const wrap = document.getElementById('agents-slots');
-  wrap.innerHTML = AGENT_TYPES.map((type, i) => {
-    const agent = agents.find(a => a.type === type.key);
+  wrap.innerHTML = AGENT_TYPES.map((type,i) => {
+    const agent = agents.find(a=>a.type===type.key);
     if (agent) {
       const idx = agents.indexOf(agent);
-      return `
-        <div class="agent-slot active-slot">
-          <div class="slot-status live">● Live</div>
-          <div class="slot-number">${i + 1}</div>
-          <div class="slot-type">${type.name}</div>
-          <div class="slot-name">${agent.name}</div>
-          <div class="slot-desc">${type.desc}</div>
-          <div class="slot-actions">
-            ${agent.workflow_json ? `<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>` : ''}
-            <button class="slot-btn secondary ${agent.connected ? 'connected' : ''}" onclick="openConnectModal(${idx})">${agent.connected ? '✓ Connected' : '🔌 Connect'}</button>
-          </div>
-        </div>`;
+      return `<div class="agent-slot active-slot">
+        <div class="slot-status live">● Live</div>
+        <div class="slot-number">${i+1}</div>
+        <div class="slot-type">${type.name}</div>
+        <div class="slot-name">${agent.name}</div>
+        <div class="slot-desc">${type.desc}</div>
+        <div class="slot-actions">
+          ${agent.workflow_json?`<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>`:''}
+          <button class="slot-btn secondary" onclick="openConnectModal(${idx})">${agent.connected?'✓ Connected':'🔌 Connect'}</button>
+        </div>
+      </div>`;
     } else {
-      return `
-        <div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')">
-          <div class="slot-empty-icon">${type.icon}</div>
-          <div class="slot-empty-label">${type.name}</div>
-          <div class="slot-empty-sub">Click to build this agent</div>
-        </div>`;
+      return `<div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')">
+        <div class="slot-empty-icon">${type.icon}</div>
+        <div class="slot-empty-label">${type.name}</div>
+        <div class="slot-empty-sub">Click to build this agent</div>
+      </div>`;
     }
   }).join('');
 }
 
 function startNewAgentOfType(typeKey) {
   showScreen('new-agent', document.querySelectorAll('.nav-item')[1]);
-  setTimeout(() => selectAgentType(typeKey), 100);
+  setTimeout(()=>selectAgentType(typeKey), 100);
 }
 
 // ══════════════════════════════
@@ -1078,480 +1144,178 @@ function startNewAgentOfType(typeKey) {
 // ══════════════════════════════
 const AGENT_FORM_QUESTIONS = {
   'lead-handler': [
-    { id: 'whatsapp_number', type: 'text', label: 'WhatsApp number', title: 'What WhatsApp number will this agent run on?', hint: 'Include country code. e.g. +1 514 000 0000', placeholder: '+1 514 000 0000' },
-    { id: 'opener', type: 'choice', label: 'Opening message style', title: 'How should the agent open the conversation?', hint: 'This is the first thing leads see.', choices: ['Casual & warm — like a friend', 'Curious — ask a question right away', 'Value-first — lead with a benefit', 'Direct — get to the point instantly'] },
-    { id: 'lead_magnet_delivery', type: 'choice', label: 'Lead magnet delivery', title: 'How do you want the lead magnet delivered?', hint: '', choices: ['Send it immediately after first message', 'Qualify first then send', 'Ask for name before sending', 'Skip lead magnet — go straight to call pitch'] },
-    { id: 'call_cta', type: 'text', label: 'Call CTA', title: 'What do you call your discovery call?', hint: 'This exact phrase will appear in the agent\'s messages.', placeholder: 'e.g. free strategy session, clarity call, discovery call' },
-    { id: 'urgency', type: 'choice', label: 'Urgency approach', title: 'Should the agent create urgency to book?', hint: '', choices: ['Yes — limited spots available', 'Yes — time-sensitive offer', 'Soft — just mention availability', 'No urgency — keep it pressure-free'] },
+    { id:'whatsapp_number', type:'text', label:'WhatsApp number', title:'What WhatsApp number will this agent run on?', hint:'Include country code. e.g. +1 514 000 0000', placeholder:'+1 514 000 0000' },
+    { id:'opener', type:'choice', label:'Opening message style', title:'How should the agent open the conversation?', hint:'This is the first thing leads see.', choices:['Casual & warm — like a friend','Curious — ask a question right away','Value-first — lead with a benefit','Direct — get to the point instantly'] },
+    { id:'lead_magnet_delivery', type:'choice', label:'Lead magnet delivery', title:'How do you want the lead magnet delivered?', hint:'', choices:['Send it immediately after first message','Qualify first then send','Ask for name before sending','Skip lead magnet — go straight to call pitch'] },
+    { id:'call_cta', type:'text', label:'Call CTA', title:'What do you call your discovery call?', hint:"This exact phrase will appear in the agent's messages.", placeholder:'e.g. free strategy session, clarity call, discovery call' },
+    { id:'urgency', type:'choice', label:'Urgency approach', title:'Should the agent create urgency to book?', hint:'', choices:['Yes — limited spots available','Yes — time-sensitive offer','Soft — just mention availability','No urgency — keep it pressure-free'] },
   ],
   'follow-up': [
-    { id: 'whatsapp_number', type: 'text', label: 'WhatsApp number', title: 'What WhatsApp number will this agent run on?', hint: 'Include country code.', placeholder: '+1 514 000 0000' },
-    { id: 'delay', type: 'choice', label: 'First follow-up delay', title: 'When should the first follow-up message be sent?', hint: 'After the lead goes silent.', choices: ['24 hours after last message', '48 hours after last message', '3 days after last message', '1 week after last message'] },
-    { id: 'reengagement_hook', type: 'choice', label: 'Re-engagement hook', title: 'What angle should the agent use to re-engage?', hint: '', choices: ['New value — share something useful', 'Direct check-in — just ask if still interested', 'FOMO — limited spots / expiring offer', 'Personal — reference their specific situation'] },
-    { id: 'max_follow_ups', type: 'choice', label: 'Max follow-ups', title: 'How many times should the agent follow up before stopping?', hint: '', choices: ['1 time then stop', '2 times then stop', '3 times then stop', 'Keep going until they respond'] },
+    { id:'whatsapp_number', type:'text', label:'WhatsApp number', title:'What WhatsApp number will this agent run on?', hint:'Include country code.', placeholder:'+1 514 000 0000' },
+    { id:'delay', type:'choice', label:'First follow-up delay', title:'When should the first follow-up message be sent?', hint:'After the lead goes silent.', choices:['24 hours after last message','48 hours after last message','3 days after last message','1 week after last message'] },
+    { id:'reengagement_hook', type:'choice', label:'Re-engagement hook', title:'What angle should the agent use to re-engage?', hint:'', choices:['New value — share something useful','Direct check-in — just ask if still interested','FOMO — limited spots / expiring offer','Personal — reference their specific situation'] },
+    { id:'max_follow_ups', type:'choice', label:'Max follow-ups', title:'How many times should the agent follow up before stopping?', hint:'', choices:['1 time then stop','2 times then stop','3 times then stop','Keep going until they respond'] },
   ],
   'booked-handler': [
-    { id: 'whatsapp_number', type: 'text', label: 'WhatsApp number', title: 'What WhatsApp number will this agent run on?', hint: 'Include country code.', placeholder: '+1 514 000 0000' },
-    { id: 'confirmation_style', type: 'choice', label: 'Confirmation style', title: 'How should the agent confirm the booking?', hint: '', choices: ['Enthusiastic — celebrate the booking', 'Professional — confirm details clearly', 'Warm — make them feel excited', 'Minimal — just the essentials'] },
-    { id: 'reminder_timing', type: 'choice', label: 'Reminder timing', title: 'When should reminders be sent before the call?', hint: '', choices: ['24 hours before only', '24h and 1h before', '24h, 3h, and 30min before', 'Just 1 hour before'] },
-    { id: 'pre_call_value', type: 'choice', label: 'Pre-call prep', title: 'Should the agent send anything before the call?', hint: 'To increase show-up rate and call quality.', choices: ['Yes — send a prep question to answer before', 'Yes — send a short video or resource', 'Yes — send what to prepare / expect', 'No — just the reminders'] },
-    { id: 'no_show_recovery', type: 'choice', label: 'No-show recovery', title: 'If they don\'t show up, what should the agent do?', hint: '', choices: ['Send one reschedule message', 'Send 2 follow-ups to reschedule', 'Add them back to follow-up sequence', 'Do nothing — mark as lost'] },
+    { id:'whatsapp_number', type:'text', label:'WhatsApp number', title:'What WhatsApp number will this agent run on?', hint:'Include country code.', placeholder:'+1 514 000 0000' },
+    { id:'confirmation_style', type:'choice', label:'Confirmation style', title:'How should the agent confirm the booking?', hint:'', choices:['Enthusiastic — celebrate the booking','Professional — confirm details clearly','Warm — make them feel excited','Minimal — just the essentials'] },
+    { id:'reminder_timing', type:'choice', label:'Reminder timing', title:'When should reminders be sent before the call?', hint:'', choices:['24 hours before only','24h and 1h before','24h, 3h, and 30min before','Just 1 hour before'] },
+    { id:'pre_call_value', type:'choice', label:'Pre-call prep', title:'Should the agent send anything before the call?', hint:'To increase show-up rate and call quality.', choices:['Yes — send a prep question to answer before','Yes — send a short video or resource','Yes — send what to prepare / expect','No — just the reminders'] },
+    { id:'no_show_recovery', type:'choice', label:'No-show recovery', title:"If they don't show up, what should the agent do?", hint:'', choices:['Send one reschedule message','Send 2 follow-ups to reschedule','Add them back to follow-up sequence','Do nothing — mark as lost'] },
   ]
 };
 
-let afType = null;
-let afStep = 0;
-let afAnswers = {};
+let afType = null, afStep = 0, afAnswers = {};
 
 function renderAgentForm() {
   const body = document.getElementById('af-body');
-  body.innerHTML = `
-    <div class="af-type-grid">
-      ${AGENT_TYPES.map(t => `
-        <button class="af-type-card ${afType === t.key ? 'selected' : ''}" onclick="selectAgentType('${t.key}')">
-          <div class="af-type-icon">${t.icon}</div>
-          <div class="af-type-name">${t.name}</div>
-          <div class="af-type-desc">${t.desc}</div>
-        </button>`).join('')}
-    </div>
-    <div id="af-form-steps"></div>`;
-
+  body.innerHTML = `<div class="af-type-grid">${AGENT_TYPES.map(t=>`<button class="af-type-card ${afType===t.key?'selected':''}" onclick="selectAgentType('${t.key}')"><div class="af-type-icon">${t.icon}</div><div class="af-type-name">${t.name}</div><div class="af-type-desc">${t.desc}</div></button>`).join('')}</div><div id="af-form-steps"></div>`;
   if (afType) renderAfStep();
 }
-
-function selectAgentType(key) {
-  afType = key;
-  afStep = 0;
-  afAnswers = {};
-  renderAgentForm();
-}
-
+function selectAgentType(key) { afType=key; afStep=0; afAnswers={}; renderAgentForm(); }
 function renderAfStep() {
-  const questions = AGENT_FORM_QUESTIONS[afType] || [];
-  if (afStep >= questions.length) {
-    // Summary / confirm
-    renderAfSummary();
-    return;
-  }
-
+  const questions = AGENT_FORM_QUESTIONS[afType]||[];
+  if (afStep>=questions.length) { renderAfSummary(); return; }
   const q = questions[afStep];
-  const totalSteps = questions.length + 1;
-
-  // Steps nav
-  const stepsHtml = questions.map((sq, i) => `
-    <div class="af-step-item ${i < afStep ? 'done' : i === afStep ? 'active' : ''}">
-      <div class="af-step-num">${i < afStep ? '✓' : i + 1}</div>
-      ${sq.label}
-    </div>
-    ${i < questions.length - 1 ? '<div class="af-step-connector"></div>' : ''}
-  `).join('') + `
-    <div class="af-step-connector"></div>
-    <div class="af-step-item ${afStep >= questions.length ? 'active' : ''}">
-      <div class="af-step-num">${questions.length + 1}</div>Confirm
-    </div>`;
-
-  let inputHtml = '';
-  if (q.type === 'choice') {
-    inputHtml = `<div class="af-choices one-col" id="af-choices">
-      ${q.choices.map(c => `
-        <button class="af-choice ${afAnswers[q.id] === c ? 'sel' : ''}" onclick="afSelectChoice('${q.id}','${c.replace(/'/g,"\\'")}',this)">
-          ${c}
-        </button>`).join('')}
-    </div>`;
-  } else if (q.type === 'textarea') {
-    inputHtml = `<textarea class="af-textarea" id="af-input" placeholder="${q.placeholder || ''}">${afAnswers[q.id] || ''}</textarea>`;
+  const stepsHtml = questions.map((sq,i)=>`<div class="af-step-item ${i<afStep?'done':i===afStep?'active':''}"><div class="af-step-num">${i<afStep?'✓':i+1}</div>${sq.label}</div>${i<questions.length-1?'<div class="af-step-connector"></div>':''}`).join('')+`<div class="af-step-connector"></div><div class="af-step-item ${afStep>=questions.length?'active':''}"><div class="af-step-num">${questions.length+1}</div>Confirm</div>`;
+  let inputHtml='';
+  if (q.type==='choice') {
+    inputHtml=`<div class="af-choices one-col" id="af-choices">${q.choices.map(c=>`<button class="af-choice ${afAnswers[q.id]===c?'sel':''}" onclick="afSelectChoice('${q.id}','${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('')}</div>`;
+  } else if (q.type==='textarea') {
+    inputHtml=`<textarea class="af-textarea" id="af-input" placeholder="${q.placeholder||''}">${afAnswers[q.id]||''}</textarea>`;
   } else {
-    inputHtml = `<input class="af-input" id="af-input" type="text" placeholder="${q.placeholder || ''}" value="${afAnswers[q.id] || ''}"/>`;
+    inputHtml=`<input class="af-input" id="af-input" type="text" placeholder="${q.placeholder||''}" value="${afAnswers[q.id]||''}"/>`;
   }
-
-  document.getElementById('af-form-steps').innerHTML = `
-    <div class="af-steps">${stepsHtml}</div>
-    <div class="af-question">
-      <div class="af-q-label">${q.label}</div>
-      <div class="af-q-text">${q.title}</div>
-      ${q.hint ? `<div class="af-q-hint">${q.hint}</div>` : ''}
-      ${inputHtml}
-    </div>
-    <div class="af-footer">
-      <div class="af-nav">
-        ${afStep > 0 ? '<button class="btn-af-back" onclick="afBack()">← Back</button>' : ''}
-        ${q.type !== 'choice' ? `<button class="btn-af-next" onclick="afNext()">Continue →</button>` : ''}
-      </div>
-      <div class="af-tip">Answer and press Continue, or click an option to auto-advance.</div>
-    </div>`;
-
-  const inp = document.getElementById('af-input');
-  if (inp) { inp.focus(); inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); afNext(); } }); }
+  document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">${q.label}</div><div class="af-q-text">${q.title}</div>${q.hint?`<div class="af-q-hint">${q.hint}</div>`:''} ${inputHtml}</div><div class="af-footer"><div class="af-nav">${afStep>0?'<button class="btn-af-back" onclick="afBack()">← Back</button>':''}${q.type!=='choice'?`<button class="btn-af-next" onclick="afNext()">Continue →</button>`:''}</div><div class="af-tip">Answer and press Continue, or click an option to auto-advance.</div></div>`;
+  const inp=document.getElementById('af-input');
+  if (inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();afNext();}});}
 }
-
-function afSelectChoice(qId, val, el) {
-  document.querySelectorAll('.af-choice').forEach(c => c.classList.remove('sel'));
-  el.classList.add('sel');
-  afAnswers[qId] = val;
-  setTimeout(() => afNext(), 320);
-}
-
-function afNext() {
-  const inp = document.getElementById('af-input');
-  const questions = AGENT_FORM_QUESTIONS[afType] || [];
-  if (inp && afStep < questions.length) afAnswers[questions[afStep].id] = inp.value.trim();
-  afStep++;
-  renderAfStep();
-}
-
-function afBack() {
-  if (afStep > 0) { afStep--; renderAfStep(); }
-}
-
-function renderAfSummary() {
-  const questions = AGENT_FORM_QUESTIONS[afType] || [];
-  const type = AGENT_TYPES.find(t => t.key === afType);
-
-  const stepsHtml = questions.map((sq, i) => `
-    <div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div>
-    <div class="af-step-connector"></div>
-  `).join('') + `<div class="af-step-item active"><div class="af-step-num">${questions.length + 1}</div>Confirm</div>`;
-
-  const summaryRows = questions.map(q => `
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);">
-      <span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;width:160px;flex-shrink:0;">${q.label}</span>
-      <span style="font-size:14px;font-weight:500;text-align:right;">${afAnswers[q.id] || '—'}</span>
-    </div>`).join('');
-
-  document.getElementById('af-form-steps').innerHTML = `
-    <div class="af-steps">${stepsHtml}</div>
-    <div class="af-question">
-      <div class="af-q-label">Summary</div>
-      <div class="af-q-text">Ready to build your ${type?.name}?</div>
-      <div class="af-q-hint" style="margin-bottom:20px;">Review your answers before we build. The AI will use your full business profile + these settings to generate the agent.</div>
-      <div>${summaryRows}</div>
-    </div>
-    <div class="af-footer">
-      <div class="af-nav">
-        <button class="btn-af-back" onclick="afBack()">← Edit</button>
-        <button class="btn-af-next" onclick="buildAgent()" style="background:var(--accent);color:var(--black);">Build Agent ✦</button>
-      </div>
-    </div>`;
+function afSelectChoice(qId,val,el){document.querySelectorAll('.af-choice').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');afAnswers[qId]=val;setTimeout(()=>afNext(),320);}
+function afNext(){const inp=document.getElementById('af-input');const questions=AGENT_FORM_QUESTIONS[afType]||[];if(inp&&afStep<questions.length)afAnswers[questions[afStep].id]=inp.value.trim();afStep++;renderAfStep();}
+function afBack(){if(afStep>0){afStep--;renderAfStep();}}
+function renderAfSummary(){
+  const questions=AGENT_FORM_QUESTIONS[afType]||[];
+  const type=AGENT_TYPES.find(t=>t.key===afType);
+  const stepsHtml=questions.map((sq,i)=>`<div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div><div class="af-step-connector"></div>`).join('')+`<div class="af-step-item active"><div class="af-step-num">${questions.length+1}</div>Confirm</div>`;
+  const summaryRows=questions.map(q=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;width:160px;flex-shrink:0;">${q.label}</span><span style="font-size:14px;font-weight:500;text-align:right;">${afAnswers[q.id]||'—'}</span></div>`).join('');
+  document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">Summary</div><div class="af-q-text">Ready to build your ${type?.name}?</div><div class="af-q-hint" style="margin-bottom:20px;">Review your answers before we build. The AI will use your full business profile + these settings.</div><div>${summaryRows}</div></div><div class="af-footer"><div class="af-nav"><button class="btn-af-back" onclick="afBack()">← Edit</button><button class="btn-af-next" onclick="buildAgent()" style="background:var(--accent);color:var(--black);">Build Agent ✦</button></div></div>`;
 }
 
 // ══════════════════════════════
 // BUILD AGENT
 // ══════════════════════════════
 async function buildAgent() {
-  showGeneratingOverlay();
-  setGenStep(1);
-
-  const type = AGENT_TYPES.find(t => t.key === afType);
-  const payload = {
-    agent_type: afType,
-    agent_type_name: type?.name,
-    business_profile: businessProfile,
-    agent_config: afAnswers,
-    session_id: 'session_' + Date.now(),
-    source: 'service_ai_v3'
-  };
-
+  showGeneratingOverlay(); setGenStep(1);
+  const type=AGENT_TYPES.find(t=>t.key===afType);
+  const payload={agent_type:afType,agent_type_name:type?.name,business_profile:businessProfile,agent_config:afAnswers,session_id:'session_'+Date.now(),source:'service_ai_v3'};
   try {
-    setTimeout(() => setGenStep(2), 900);
-
-    const res = await fetch(PROVISIONING_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    setGenStep(3);
-    await sleep(600);
-    const data = await res.json();
-    setGenStep(4);
-    await sleep(600);
-    setGenStep(5);
-    await sleep(800);
+    setTimeout(()=>setGenStep(2),900);
+    const res=await fetch(PROVISIONING_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    setGenStep(3); await sleep(600);
+    const data=await res.json();
+    setGenStep(4); await sleep(600);
+    setGenStep(5); await sleep(800);
     finishBuild(data);
-
   } catch(err) {
-    console.error(err);
-    setGenStep(5);
-    await sleep(600);
-    finishBuild({});
+    console.error(err); setGenStep(5); await sleep(600); finishBuild({});
   }
 }
-
-function finishBuild(response) {
-  const r = Array.isArray(response) ? response[0] : response;
-  const clientId = r.client_id || 'agent_' + Date.now();
-  const type = AGENT_TYPES.find(t => t.key === afType);
-
-  const newAgent = {
-    id: clientId,
-    type: afType,
-    name: businessProfile?.business_name || r.company || 'My Business',
-    agent_type_name: type?.name,
-    whatsapp: afAnswers.whatsapp_number || '—',
-    tone: businessProfile?.tone || '—',
-    status: 'live',
-    leads: 0,
-    booked: 0,
-    created: new Date().toISOString(),
-    workflow_json: r.workflow_json || null,
-    workflow_name: r.workflow_name || null,
-    connected: false,
-    credentials: {}
-  };
-
-  // Replace or add
-  const existing = agents.findIndex(a => a.type === afType);
-  if (existing >= 0) agents[existing] = newAgent;
-  else agents.push(newAgent);
-
-  localStorage.setItem('sai_agents', JSON.stringify(agents));
-  addActivity('🤖', `${type?.name} built for ${newAgent.name}`, 'Just now');
-
-  afType = null; afStep = 0; afAnswers = {};
-
-  hideGeneratingOverlay(() => {
-    showScreen('dashboard', document.querySelector('.nav-item'));
-    showToast('✅', `${type?.name} is live! Download the workflow to activate it.`);
-  });
+function finishBuild(response){
+  const r=Array.isArray(response)?response[0]:response;
+  const clientId=r.client_id||'agent_'+Date.now();
+  const type=AGENT_TYPES.find(t=>t.key===afType);
+  const newAgent={id:clientId,type:afType,name:businessProfile?.business_name||r.company||'My Business',agent_type_name:type?.name,whatsapp:afAnswers.whatsapp_number||'—',status:'live',leads:0,booked:0,created:new Date().toISOString(),workflow_json:r.workflow_json||null,workflow_name:r.workflow_name||null,connected:false,credentials:{}};
+  const existing=agents.findIndex(a=>a.type===afType);
+  if(existing>=0)agents[existing]=newAgent; else agents.push(newAgent);
+  localStorage.setItem('sai_agents',JSON.stringify(agents));
+  addActivity('🤖',`${type?.name} built for ${newAgent.name}`,'Just now');
+  afType=null;afStep=0;afAnswers={};
+  hideGeneratingOverlay(()=>{showScreen('dashboard',document.querySelector('.nav-item'));showToast('✅',`${type?.name} is live! Download the workflow to activate it.`);});
 }
 
 // ══════════════════════════════
 // GENERATING OVERLAY
 // ══════════════════════════════
-function showGeneratingOverlay() {
-  document.getElementById('gen-overlay').classList.add('show');
-  ['gs1','gs2','gs3','gs4','gs5'].forEach(s => document.getElementById(s).classList.remove('active','done'));
-}
-function hideGeneratingOverlay(cb) {
-  ['gs1','gs2','gs3','gs4','gs5'].forEach(s => { document.getElementById(s).classList.remove('active'); document.getElementById(s).classList.add('done'); });
-  setTimeout(() => { document.getElementById('gen-overlay').classList.remove('show'); if(cb) cb(); }, 500);
-}
-function setGenStep(n) {
-  ['gs1','gs2','gs3','gs4','gs5'].forEach((s,i) => {
-    const el = document.getElementById(s);
-    el.classList.remove('active','done');
-    if (i+1 < n) el.classList.add('done');
-    else if (i+1 === n) el.classList.add('active');
-  });
-}
-function sleep(ms){ return new Promise(r => setTimeout(r,ms)); }
+function showGeneratingOverlay(){document.getElementById('gen-overlay').classList.add('show');['gs1','gs2','gs3','gs4','gs5'].forEach(s=>document.getElementById(s).classList.remove('active','done'));}
+function hideGeneratingOverlay(cb){['gs1','gs2','gs3','gs4','gs5'].forEach(s=>{document.getElementById(s).classList.remove('active');document.getElementById(s).classList.add('done');});setTimeout(()=>{document.getElementById('gen-overlay').classList.remove('show');if(cb)cb();},500);}
+function setGenStep(n){['gs1','gs2','gs3','gs4','gs5'].forEach((s,i)=>{const el=document.getElementById(s);el.classList.remove('active','done');if(i+1<n)el.classList.add('done');else if(i+1===n)el.classList.add('active');});}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
 // ══════════════════════════════
 // WORKFLOW MODAL
 // ══════════════════════════════
-function openWorkflowModal(idx) {
-  activeAgentIdx = idx;
-  const agent = agents[idx];
-  if (!agent?.workflow_json) return;
-  document.getElementById('modal-title').textContent = agent.workflow_name || agent.agent_type_name + ' — Workflow';
-  document.getElementById('modal-subtitle').textContent = `${agent.workflow_json.nodes?.length || 0} nodes · Ready to import`;
-  renderNodeCanvas(agent.workflow_json);
-  document.getElementById('workflow-modal').classList.add('show');
-}
-function closeModal() { document.getElementById('workflow-modal').classList.remove('show'); activeAgentIdx = null; }
-
-function downloadWorkflow() {
-  if (activeAgentIdx === null) return;
-  const agent = agents[activeAgentIdx];
-  if (!agent?.workflow_json) return;
-  const blob = new Blob([JSON.stringify(agent.workflow_json, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = (agent.workflow_name || agent.name).replace(/[^a-z0-9]/gi,'_') + '.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('⬇', 'Workflow downloaded! Import it in n8n.');
-}
-
-function openConnectFromModal() {
-  if (activeAgentIdx !== null) openConnectModal(activeAgentIdx);
-}
+function openWorkflowModal(idx){activeAgentIdx=idx;const agent=agents[idx];if(!agent?.workflow_json)return;document.getElementById('modal-title').textContent=agent.workflow_name||agent.agent_type_name+' — Workflow';document.getElementById('modal-subtitle').textContent=`${agent.workflow_json.nodes?.length||0} nodes · Ready to import`;renderNodeCanvas(agent.workflow_json);document.getElementById('workflow-modal').classList.add('show');}
+function closeModal(){document.getElementById('workflow-modal').classList.remove('show');activeAgentIdx=null;}
+function downloadWorkflow(){if(activeAgentIdx===null)return;const agent=agents[activeAgentIdx];if(!agent?.workflow_json)return;const blob=new Blob([JSON.stringify(agent.workflow_json,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(agent.workflow_name||agent.name).replace(/[^a-z0-9]/gi,'_')+'.json';a.click();URL.revokeObjectURL(url);showToast('⬇','Workflow downloaded! Import it in n8n.');}
+function openConnectFromModal(){if(activeAgentIdx!==null)openConnectModal(activeAgentIdx);}
 
 // ══════════════════════════════
 // CONNECT MODAL
 // ══════════════════════════════
-function openConnectModal(idx) {
-  connectAgentIdx = idx;
-  const agent = agents[idx];
-  const creds = agent?.credentials || {};
-  document.getElementById('cred-wa-token').value = creds.wa_token || '';
-  document.getElementById('cred-phone-id').value = creds.phone_id || '';
-  document.getElementById('connect-modal').classList.add('show');
-}
-function closeConnectModal() { document.getElementById('connect-modal').classList.remove('show'); connectAgentIdx = null; }
-
-function injectAndDownload() {
-  if (connectAgentIdx === null) return;
-  const agent = agents[connectAgentIdx];
-  if (!agent?.workflow_json) { showToast('⚠️','No workflow found.'); return; }
-  const waToken = document.getElementById('cred-wa-token').value.trim();
-  const phoneId = document.getElementById('cred-phone-id').value.trim();
-  if (!waToken || !phoneId) { showToast('⚠️','Fill in both fields.'); return; }
-
-  const patched = JSON.parse(JSON.stringify(agent.workflow_json));
-  patched.nodes.forEach(node => {
-    if (node.parameters?.headerParameters?.parameters) {
-      node.parameters.headerParameters.parameters.forEach(h => {
-        if (typeof h.value === 'string' && h.value.includes('YOUR_WHATSAPP_TOKEN')) h.value = h.value.replace(/YOUR_WHATSAPP_TOKEN/g, waToken);
-      });
-    }
-    if (node.parameters?.phoneNumberId === 'YOUR_PHONE_NUMBER_ID') node.parameters.phoneNumberId = phoneId;
+function openConnectModal(idx){connectAgentIdx=idx;const agent=agents[idx];const creds=agent?.credentials||{};document.getElementById('cred-wa-token').value=creds.wa_token||'';document.getElementById('cred-phone-id').value=creds.phone_id||'';document.getElementById('connect-modal').classList.add('show');}
+function closeConnectModal(){document.getElementById('connect-modal').classList.remove('show');connectAgentIdx=null;}
+function injectAndDownload(){
+  if(connectAgentIdx===null)return;
+  const agent=agents[connectAgentIdx];
+  if(!agent?.workflow_json){showToast('⚠️','No workflow found.');return;}
+  const waToken=document.getElementById('cred-wa-token').value.trim();
+  const phoneId=document.getElementById('cred-phone-id').value.trim();
+  if(!waToken||!phoneId){showToast('⚠️','Fill in both fields.');return;}
+  const patched=JSON.parse(JSON.stringify(agent.workflow_json));
+  patched.nodes.forEach(node=>{
+    if(node.parameters?.headerParameters?.parameters){node.parameters.headerParameters.parameters.forEach(h=>{if(typeof h.value==='string'&&h.value.includes('YOUR_WHATSAPP_TOKEN'))h.value=h.value.replace(/YOUR_WHATSAPP_TOKEN/g,waToken);});}
+    if(node.parameters?.phoneNumberId==='YOUR_PHONE_NUMBER_ID')node.parameters.phoneNumberId=phoneId;
   });
-
-  const final = JSON.stringify(patched);
-  if (final.includes('YOUR_WHATSAPP_TOKEN') || final.includes('YOUR_PHONE_NUMBER_ID')) { showToast('⚠️','Injection failed — placeholder not found.'); return; }
-
-  agents[connectAgentIdx].workflow_json = patched;
-  agents[connectAgentIdx].connected = true;
-  agents[connectAgentIdx].credentials = { wa_token: waToken, phone_id: phoneId };
-  localStorage.setItem('sai_agents', JSON.stringify(agents));
-
-  const blob = new Blob([JSON.stringify(patched, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = (agent.workflow_name || agent.name).replace(/[^a-z0-9]/gi,'_') + '_connected.json';
-  a.click();
-  URL.revokeObjectURL(url);
-
-  closeConnectModal();
-  renderDashboard();
-  addActivity('🔌', `Agent connected: ${agent.name}`, 'Just now');
-  showToast('✅', 'Connected JSON downloaded! Import in n8n and you\'re live.');
+  const final=JSON.stringify(patched);
+  if(final.includes('YOUR_WHATSAPP_TOKEN')||final.includes('YOUR_PHONE_NUMBER_ID')){showToast('⚠️','Injection failed — placeholder not found.');return;}
+  agents[connectAgentIdx].workflow_json=patched;agents[connectAgentIdx].connected=true;agents[connectAgentIdx].credentials={wa_token:waToken,phone_id:phoneId};
+  localStorage.setItem('sai_agents',JSON.stringify(agents));
+  const blob=new Blob([JSON.stringify(patched,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(agent.workflow_name||agent.name).replace(/[^a-z0-9]/gi,'_')+'_connected.json';a.click();URL.revokeObjectURL(url);
+  closeConnectModal();renderDashboard();addActivity('🔌',`Agent connected: ${agent.name}`,'Just now');showToast('✅','Connected JSON downloaded! Import in n8n and you\'re live.');
 }
 
 // ══════════════════════════════
 // NODE CANVAS
 // ══════════════════════════════
-function renderNodeCanvas(workflow) {
-  const NODE_W = 160, NODE_H = 72, PAD = 60;
-  const inner = document.getElementById('node-canvas-inner');
-  inner.innerHTML = '';
-  const nodes = workflow.nodes || [];
-  const connections = workflow.connections || {};
-  if (!nodes.length) { inner.style.width='400px';inner.style.height='200px';inner.innerHTML='<div style="padding:60px;color:#999;font-size:13px;">No nodes found.</div>';return; }
-
-  const raw = nodes.map(n => ({ x: Array.isArray(n.position)?n.position[0]:(n.position?.x||0), y: Array.isArray(n.position)?n.position[1]:(n.position?.y||0) }));
-  const minX = Math.min(...raw.map(p=>p.x)), minY = Math.min(...raw.map(p=>p.y));
-  const pos = raw.map(p => ({ x:p.x-minX+PAD, y:p.y-minY+PAD }));
-  const maxX = Math.max(...pos.map(p=>p.x)), maxY = Math.max(...pos.map(p=>p.y));
-  const W = maxX+NODE_W+PAD, H = maxY+NODE_H+PAD;
-  inner.style.width=W+'px'; inner.style.height=H+'px';
-
-  const svgNS='http://www.w3.org/2000/svg';
-  const svg=document.createElementNS(svgNS,'svg');
-  svg.setAttribute('width',W);svg.setAttribute('height',H);
-  svg.style.cssText='position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';
-  const defs=document.createElementNS(svgNS,'defs');
-  defs.innerHTML='<marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(0,0,0,0.2)"/></marker>';
-  svg.appendChild(defs); inner.appendChild(svg);
-
-  function cls(t){ if(!t)return''; const l=t.toLowerCase();
-    if(l.includes('whatsapptrigger')||l.includes('webhook'))return'trigger';
-    if(l.includes('agent'))return'agent';
-    if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'memory';
-    if(l.includes('code'))return'code';
-    if(l.includes('httprequest')||l.includes('whatsapp'))return'http';
-    if(l.includes('wait'))return'wait';
-    if(l.includes('splitinbatches'))return'split';
-    if(l.includes('filter'))return'filter';
-    if(l.includes('switch'))return'switch-node';
-    return''; }
-  function ico(t){ if(!t)return'⬡'; const l=t.toLowerCase();
-    if(l.includes('whatsapptrigger'))return'📲';
-    if(l.includes('webhook'))return'🔗';
-    if(l.includes('agent'))return'🤖';
-    if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'🧠';
-    if(l.includes('code'))return'{ }';
-    if(l.includes('httprequest'))return'🌐';
-    if(l.includes('whatsapp'))return'💬';
-    if(l.includes('wait'))return'⏱';
-    if(l.includes('splitinbatches'))return'🔄';
-    if(l.includes('filter'))return'🔽';
-    if(l.includes('switch'))return'⇄';
-    return'⬡'; }
-
+function renderNodeCanvas(workflow){
+  const NODE_W=160,NODE_H=72,PAD=60;
+  const inner=document.getElementById('node-canvas-inner');inner.innerHTML='';
+  const nodes=workflow.nodes||[];const connections=workflow.connections||{};
+  if(!nodes.length){inner.style.width='400px';inner.style.height='200px';inner.innerHTML='<div style="padding:60px;color:#999;font-size:13px;">No nodes found.</div>';return;}
+  const raw=nodes.map(n=>({x:Array.isArray(n.position)?n.position[0]:(n.position?.x||0),y:Array.isArray(n.position)?n.position[1]:(n.position?.y||0)}));
+  const minX=Math.min(...raw.map(p=>p.x)),minY=Math.min(...raw.map(p=>p.y));
+  const pos=raw.map(p=>({x:p.x-minX+PAD,y:p.y-minY+PAD}));
+  const maxX=Math.max(...pos.map(p=>p.x)),maxY=Math.max(...pos.map(p=>p.y));
+  const W=maxX+NODE_W+PAD,H=maxY+NODE_H+PAD;
+  inner.style.width=W+'px';inner.style.height=H+'px';
+  const svgNS='http://www.w3.org/2000/svg';const svg=document.createElementNS(svgNS,'svg');svg.setAttribute('width',W);svg.setAttribute('height',H);svg.style.cssText='position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';
+  const defs=document.createElementNS(svgNS,'defs');defs.innerHTML='<marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(0,0,0,0.2)"/></marker>';svg.appendChild(defs);inner.appendChild(svg);
+  function cls(t){if(!t)return'';const l=t.toLowerCase();if(l.includes('whatsapptrigger')||l.includes('webhook'))return'trigger';if(l.includes('agent'))return'agent';if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'memory';if(l.includes('code'))return'code';if(l.includes('httprequest')||l.includes('whatsapp'))return'http';if(l.includes('wait'))return'wait';if(l.includes('splitinbatches'))return'split';if(l.includes('filter'))return'filter';if(l.includes('switch'))return'switch-node';return'';}
+  function ico(t){if(!t)return'⬡';const l=t.toLowerCase();if(l.includes('whatsapptrigger'))return'📲';if(l.includes('webhook'))return'🔗';if(l.includes('agent'))return'🤖';if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'🧠';if(l.includes('code'))return'{ }';if(l.includes('httprequest'))return'🌐';if(l.includes('whatsapp'))return'💬';if(l.includes('wait'))return'⏱';if(l.includes('splitinbatches'))return'🔄';if(l.includes('filter'))return'🔽';if(l.includes('switch'))return'⇄';return'⬡';}
   const centres={};
-  nodes.forEach((node,i) => {
-    const x=pos[i].x, y=pos[i].y;
-    centres[node.name]={ox:x+NODE_W,oy:y+NODE_H/2,ix:x,iy:y+NODE_H/2};
-    const el=document.createElement('div');
-    el.className='wf-node '+cls(node.type);
-    el.style.left=x+'px'; el.style.top=y+'px'; el.style.width=NODE_W+'px'; el.title=node.name;
-    el.innerHTML=`<div class="wf-node-icon">${ico(node.type)}</div><div class="wf-node-name">${node.name}</div><div class="wf-node-type">${(node.type||'').split('.').pop().replace(/([A-Z])/g,' $1').trim()}</div>`;
-    inner.appendChild(el);
-  });
-
-  Object.entries(connections).forEach(([from,outputs]) => {
-    const f=centres[from]; if(!f)return;
-    Object.values(outputs).forEach(arr => arr.forEach(list => {
-      if(!Array.isArray(list))return;
-      list.forEach(conn => {
-        const t=centres[conn?.node]; if(!t)return;
-        const x1=f.ox,y1=f.oy,x2=t.ix,y2=t.iy;
-        const pull=Math.max(60,Math.abs(x2-x1)*0.4);
-        const path=document.createElementNS(svgNS,'path');
-        path.setAttribute('d',`M${x1},${y1} C${x1+pull},${y1} ${x2-pull},${y2} ${x2},${y2}`);
-        path.setAttribute('stroke','rgba(0,0,0,0.15)');
-        path.setAttribute('stroke-width','1.5');
-        path.setAttribute('fill','none');
-        path.setAttribute('marker-end','url(#arrow)');
-        svg.appendChild(path);
-      });
-    }));
-  });
+  nodes.forEach((node,i)=>{const x=pos[i].x,y=pos[i].y;centres[node.name]={ox:x+NODE_W,oy:y+NODE_H/2,ix:x,iy:y+NODE_H/2};const el=document.createElement('div');el.className='wf-node '+cls(node.type);el.style.left=x+'px';el.style.top=y+'px';el.style.width=NODE_W+'px';el.title=node.name;el.innerHTML=`<div class="wf-node-icon">${ico(node.type)}</div><div class="wf-node-name">${node.name}</div><div class="wf-node-type">${(node.type||'').split('.').pop().replace(/([A-Z])/g,' $1').trim()}</div>`;inner.appendChild(el);});
+  Object.entries(connections).forEach(([from,outputs])=>{const f=centres[from];if(!f)return;Object.values(outputs).forEach(arr=>arr.forEach(list=>{if(!Array.isArray(list))return;list.forEach(conn=>{const t=centres[conn?.node];if(!t)return;const x1=f.ox,y1=f.oy,x2=t.ix,y2=t.iy;const pull=Math.max(60,Math.abs(x2-x1)*0.4);const path=document.createElementNS(svgNS,'path');path.setAttribute('d',`M${x1},${y1} C${x1+pull},${y1} ${x2-pull},${y2} ${x2},${y2}`);path.setAttribute('stroke','rgba(0,0,0,0.15)');path.setAttribute('stroke-width','1.5');path.setAttribute('fill','none');path.setAttribute('marker-end','url(#arrow)');svg.appendChild(path);});}));});
 }
 
 // ══════════════════════════════
 // ACTIVITY + UTILS
 // ══════════════════════════════
-function addActivity(icon,title,time) {
-  activities.unshift({icon,title,time});
-  if(activities.length>20) activities=activities.slice(0,20);
-  localStorage.setItem('sai_activities',JSON.stringify(activities));
-}
-function renderActivityFeed() {
-  const list=document.getElementById('activity-list');
-  if(!activities.length){list.innerHTML='<div class="empty-state"><div class="ei">📭</div><p>No activity yet</p></div>';return;}
-  list.innerHTML=activities.slice(0,8).map(a=>`<div class="activity-item"><div class="activity-icon">${a.icon}</div><div class="activity-text"><div class="activity-title">${a.title}</div><div class="activity-time">${a.time}</div></div></div>`).join('');
-}
-function drawSparkline(id,data,line,fill) {
-  const c=document.getElementById(id); if(!c)return;
-  const ctx=c.getContext('2d'),w=c.width,h=c.height;
-  ctx.clearRect(0,0,w,h);
-  const min=Math.min(...data),max=Math.max(...data),rng=max-min||1;
-  const pts=data.map((v,i)=>({x:(i/(data.length-1))*w,y:h-((v-min)/rng)*(h*0.75)-h*0.1}));
-  ctx.beginPath();ctx.moveTo(pts[0].x,h);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,h);ctx.closePath();ctx.fillStyle=fill;ctx.fill();
-  ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle=line;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();
-  const l=pts[pts.length-1];ctx.beginPath();ctx.arc(l.x,l.y,3.5,0,Math.PI*2);ctx.fillStyle=line;ctx.fill();
-}
-function showToast(icon,text) {
-  document.getElementById('toast-icon').textContent=icon;
-  document.getElementById('toast-text').textContent=text;
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),4200);
-}
-function checkNotifs() {
-  const p=localStorage.getItem('sai_notify');
-  if(p){const n=JSON.parse(p);showToast('🔔',n.message||'Update received');localStorage.removeItem('sai_notify');document.getElementById('notif-badge').classList.remove('show');}
-}
-setInterval(()=>{ if(localStorage.getItem('sai_notify')) document.getElementById('notif-badge').classList.add('show'); },5000);
+function addActivity(icon,title,time){activities.unshift({icon,title,time});if(activities.length>20)activities=activities.slice(0,20);localStorage.setItem('sai_activities',JSON.stringify(activities));}
+function renderActivityFeed(){const list=document.getElementById('activity-list');if(!activities.length){list.innerHTML='<div class="empty-state"><div class="ei">📭</div><p>No activity yet</p></div>';return;}list.innerHTML=activities.slice(0,8).map(a=>`<div class="activity-item"><div class="activity-icon">${a.icon}</div><div class="activity-text"><div class="activity-title">${a.title}</div><div class="activity-time">${a.time}</div></div></div>`).join('');}
+function drawSparkline(id,data,line,fill){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);const min=Math.min(...data),max=Math.max(...data),rng=max-min||1;const pts=data.map((v,i)=>({x:(i/(data.length-1))*w,y:h-((v-min)/rng)*(h*0.75)-h*0.1}));ctx.beginPath();ctx.moveTo(pts[0].x,h);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,h);ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle=line;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();const l=pts[pts.length-1];ctx.beginPath();ctx.arc(l.x,l.y,3.5,0,Math.PI*2);ctx.fillStyle=line;ctx.fill();}
+function showToast(icon,text){document.getElementById('toast-icon').textContent=icon;document.getElementById('toast-text').textContent=text;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4200);}
+function checkNotifs(){const p=localStorage.getItem('sai_notify');if(p){const n=JSON.parse(p);showToast('🔔',n.message||'Update received');localStorage.removeItem('sai_notify');document.getElementById('notif-badge').classList.remove('show');}}
+setInterval(()=>{if(localStorage.getItem('sai_notify'))document.getElementById('notif-badge').classList.add('show');},5000);
 
 // ══════════════════════════════
 // INIT
 // ══════════════════════════════
-(function init() {
-  user = JSON.parse(localStorage.getItem('sai_user')||'null');
-  businessProfile = JSON.parse(localStorage.getItem('sai_profile')||'null');
-  agents = JSON.parse(localStorage.getItem('sai_agents')||'[]');
-  activities = JSON.parse(localStorage.getItem('sai_activities')||'[]');
-
-  if (user) {
-    afterAuth();
-  }
-  // else: auth screen is already visible by default
+(function init(){
+  user=JSON.parse(localStorage.getItem('sai_user')||'null');
+  businessProfile=JSON.parse(localStorage.getItem('sai_profile')||'null');
+  agents=JSON.parse(localStorage.getItem('sai_agents')||'[]');
+  activities=JSON.parse(localStorage.getItem('sai_activities')||'[]');
+  if(user)afterAuth();
 })();
 </script>
 </body>

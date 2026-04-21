@@ -3,290 +3,349 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Service.AI — Agent Builder</title>
+<title>Service.AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --bg:#F7F7F5;
-  --white:#FFFFFF;
-  --black:#0A0A0A;
-  --accent:#C8F135;
-  --accent-dim:rgba(200,241,53,0.12);
-  --accent-dark:#6a8f0f;
-  --muted:#9A9A9A;
-  --border:rgba(0,0,0,0.07);
-  --border-strong:rgba(0,0,0,0.12);
-  --shadow:0 1px 12px rgba(0,0,0,0.06);
-  --shadow-md:0 4px 24px rgba(0,0,0,0.08);
-  --shadow-lg:0 12px 48px rgba(0,0,0,0.12);
-  --sidebar:220px;
-  --radius:16px;
-  --radius-sm:10px;
+  --bg:#F7F7F5;--white:#fff;--black:#0A0A0A;
+  --accent:#C8F135;--accent-dark:#6a8f0f;--accent-dim:rgba(200,241,53,0.12);
+  --muted:#9A9A9A;--border:rgba(0,0,0,0.07);--border-md:rgba(0,0,0,0.12);
+  --shadow:0 1px 12px rgba(0,0,0,0.06);--shadow-md:0 4px 24px rgba(0,0,0,0.08);--shadow-lg:0 12px 48px rgba(0,0,0,0.14);
+  --sidebar:220px;--r:16px;--r-sm:10px;
 }
-
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);min-height:100vh;font-size:14px;}
 
-/* ── LAYOUT ── */
-.app{display:flex;min-height:100vh;}
+/* ── GLOBAL ── */
+.hide{display:none!important;}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;}
+input,textarea,select{font-family:'DM Sans',sans-serif;}
 
-/* ── SIDEBAR ── */
+/* ══════════════════════════════
+   AUTH SCREEN
+══════════════════════════════ */
+#auth-screen{
+  min-height:100vh;display:flex;
+  background:var(--black);
+  position:relative;overflow:hidden;
+}
+.auth-left{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;padding:60px;
+  position:relative;z-index:2;
+}
+.auth-logo{
+  font-family:'Instrument Serif',serif;font-size:22px;color:#fff;
+  display:flex;align-items:center;gap:8px;margin-bottom:64px;
+}
+.auth-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.auth-hero h1{
+  font-family:'Instrument Serif',serif;font-size:52px;font-weight:400;
+  color:#fff;line-height:1.1;margin-bottom:16px;
+}
+.auth-hero h1 em{color:var(--accent);font-style:italic;}
+.auth-hero p{font-size:16px;color:rgba(255,255,255,0.45);line-height:1.6;max-width:380px;}
+.auth-features{margin-top:48px;display:flex;flex-direction:column;gap:14px;}
+.auth-feat{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(255,255,255,0.5);}
+.auth-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+.auth-right{
+  width:480px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px;background:rgba(255,255,255,0.03);
+  border-left:1px solid rgba(255,255,255,0.06);
+}
+.auth-card{width:100%;max-width:380px;}
+.auth-tabs{display:flex;gap:4px;background:rgba(255,255,255,0.05);border-radius:10px;padding:4px;margin-bottom:32px;}
+.auth-tab{
+  flex:1;padding:9px;border-radius:8px;border:none;background:transparent;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);transition:all 0.2s;
+}
+.auth-tab.active{background:rgba(255,255,255,0.1);color:#fff;}
+.auth-field{margin-bottom:16px;}
+.auth-field label{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:7px;}
+.auth-field input{
+  width:100%;padding:12px 16px;
+  background:rgba(255,255,255,0.06);
+  border:1.5px solid rgba(255,255,255,0.1);
+  border-radius:10px;font-size:14px;color:#fff;outline:none;
+  transition:border-color 0.15s;
+}
+.auth-field input::placeholder{color:rgba(255,255,255,0.25);}
+.auth-field input:focus{border-color:var(--accent);}
+.auth-btn{
+  width:100%;padding:13px;margin-top:8px;
+  background:var(--accent);color:var(--black);
+  border:none;border-radius:10px;
+  font-size:14px;font-weight:700;letter-spacing:0.2px;
+  transition:opacity 0.15s,transform 0.1s;
+}
+.auth-btn:hover{opacity:0.9;}
+.auth-btn:active{transform:scale(0.98);}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.auth-divider span{font-size:12px;color:rgba(255,255,255,0.2);}
+.auth-divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08);}
+.auth-demo{
+  width:100%;padding:12px;
+  background:transparent;border:1.5px solid rgba(255,255,255,0.1);
+  border-radius:10px;font-size:13px;color:rgba(255,255,255,0.5);
+  transition:border-color 0.15s,color 0.15s;
+}
+.auth-demo:hover{border-color:rgba(255,255,255,0.25);color:#fff;}
+
+/* bg decoration */
+.auth-bg-circle{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,241,53,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* ══════════════════════════════
+   ONBOARDING (Typeform style)
+══════════════════════════════ */
+#onboarding-screen{
+  min-height:100vh;display:flex;flex-direction:column;
+  background:var(--white);
+}
+.ob-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 40px;border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.ob-logo{font-family:'Instrument Serif',serif;font-size:18px;display:flex;align-items:center;gap:6px;}
+.ob-logo-dot{width:7px;height:7px;border-radius:50%;background:var(--black);}
+.ob-progress-wrap{display:flex;align-items:center;gap:10px;}
+.ob-progress-bar{width:200px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.ob-progress-fill{height:100%;background:var(--black);border-radius:2px;transition:width 0.5s ease;}
+.ob-progress-label{font-size:12px;color:var(--muted);}
+.ob-skip{font-size:12px;color:var(--muted);background:none;border:none;text-decoration:underline;}
+
+.ob-body{flex:1;display:flex;align-items:center;justify-content:center;padding:40px;}
+.ob-question{max-width:680px;width:100%;animation:ob-in 0.4s ease;}
+@keyframes ob-in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.ob-q-num{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;}
+.ob-q-title{font-family:'Instrument Serif',serif;font-size:36px;font-weight:400;line-height:1.2;margin-bottom:8px;}
+.ob-q-sub{font-size:15px;color:var(--muted);margin-bottom:36px;line-height:1.5;}
+
+/* Multiple choice */
+.ob-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.ob-choice{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;border-radius:12px;
+  border:1.5px solid var(--border);background:var(--bg);
+  font-size:14px;font-weight:500;
+  transition:all 0.15s;text-align:left;
+}
+.ob-choice:hover{border-color:var(--black);background:var(--white);}
+.ob-choice.selected{border-color:var(--black);background:var(--black);color:#fff;}
+.ob-choice-key{
+  width:26px;height:26px;border-radius:6px;
+  background:rgba(0,0,0,0.08);color:var(--black);
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ob-choice.selected .ob-choice-key{background:rgba(255,255,255,0.15);color:#fff;}
+
+/* Multi-select variant */
+.ob-choices.multi .ob-choice.selected{border-color:var(--accent-dark);background:rgba(200,241,53,0.08);color:var(--black);}
+.ob-choices.multi .ob-choice.selected .ob-choice-key{background:var(--accent);color:var(--black);}
+
+/* Text input */
+.ob-input{
+  width:100%;padding:16px 0;
+  border:none;border-bottom:2px solid var(--border);
+  font-size:22px;font-family:'DM Sans',sans-serif;color:var(--black);
+  background:transparent;outline:none;margin-bottom:32px;
+  transition:border-color 0.2s;
+}
+.ob-input:focus{border-color:var(--black);}
+.ob-input::placeholder{color:#ccc;}
+
+/* Textarea */
+.ob-textarea{
+  width:100%;padding:16px;min-height:120px;
+  border:1.5px solid var(--border);border-radius:12px;
+  font-size:15px;font-family:'DM Sans',sans-serif;color:var(--black);
+  background:var(--bg);outline:none;resize:vertical;margin-bottom:32px;
+  transition:border-color 0.2s;line-height:1.6;
+}
+.ob-textarea:focus{border-color:var(--black);}
+.ob-textarea::placeholder{color:#ccc;}
+
+/* Nav */
+.ob-nav{display:flex;align-items:center;gap:12px;}
+.ob-btn-next{
+  display:flex;align-items:center;gap:8px;
+  padding:13px 28px;background:var(--black);color:#fff;
+  border:none;border-radius:10px;font-size:14px;font-weight:600;
+  transition:opacity 0.15s;
+}
+.ob-btn-next:hover{opacity:0.85;}
+.ob-btn-back{
+  padding:12px 20px;background:transparent;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:14px;color:var(--muted);
+}
+.ob-btn-back:hover{border-color:var(--black);color:var(--black);}
+.ob-enter-hint{font-size:12px;color:var(--muted);}
+.ob-enter-hint kbd{
+  display:inline-block;padding:2px 6px;border-radius:4px;
+  background:var(--bg);border:1px solid var(--border);font-size:11px;
+}
+
+/* Completion screen */
+.ob-complete{text-align:center;max-width:520px;width:100%;animation:ob-in 0.4s ease;}
+.ob-complete-icon{font-size:56px;margin-bottom:24px;}
+.ob-complete h2{font-family:'Instrument Serif',serif;font-size:40px;font-weight:400;margin-bottom:12px;}
+.ob-complete p{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:36px;}
+.ob-complete-btn{
+  padding:15px 40px;background:var(--black);color:#fff;
+  border:none;border-radius:12px;font-size:15px;font-weight:600;
+  transition:opacity 0.15s;
+}
+.ob-complete-btn:hover{opacity:0.85;}
+
+/* ══════════════════════════════
+   MAIN APP (sidebar layout)
+══════════════════════════════ */
+#app-screen{display:flex;min-height:100vh;}
+
 .sidebar{
   width:var(--sidebar);flex-shrink:0;
   background:var(--black);
-  display:flex;flex-direction:column;
-  padding:0 0 24px;
-  position:fixed;top:0;left:0;bottom:0;
-  z-index:100;
+  display:flex;flex-direction:column;padding:0 0 24px;
+  position:fixed;top:0;left:0;bottom:0;z-index:100;
 }
 .sidebar-logo{
-  padding:24px 20px 20px;
-  font-family:'Instrument Serif',serif;
+  padding:24px 20px 20px;font-family:'Instrument Serif',serif;
   font-size:20px;color:#fff;
   display:flex;align-items:center;gap:8px;
-  border-bottom:1px solid rgba(255,255,255,0.06);
-  margin-bottom:12px;
+  border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:12px;
 }
-.sidebar-logo .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.sidebar-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
 .nav-section{padding:0 12px;margin-bottom:6px;}
 .nav-label{font-size:10px;font-weight:600;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.8px;padding:0 8px;margin-bottom:6px;}
 .nav-item{
   display:flex;align-items:center;gap:10px;
   padding:9px 10px;border-radius:10px;
   font-size:13px;font-weight:500;color:rgba(255,255,255,0.45);
-  cursor:pointer;transition:all 0.15s;
-  margin-bottom:2px;
+  cursor:pointer;transition:all 0.15s;margin-bottom:2px;
 }
 .nav-item:hover{color:#fff;background:rgba(255,255,255,0.06);}
 .nav-item.active{color:#fff;background:rgba(200,241,53,0.12);}
 .nav-item.active .nav-icon{color:var(--accent);}
-.nav-icon{width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.nav-icon{font-size:14px;width:16px;text-align:center;}
 .sidebar-bottom{margin-top:auto;padding:0 12px;}
 .user-pill{
-  display:flex;align-items:center;gap:10px;
-  padding:10px;border-radius:10px;
-  background:rgba(255,255,255,0.05);
-  cursor:pointer;
+  display:flex;align-items:center;gap:10px;padding:10px;
+  border-radius:10px;background:rgba(255,255,255,0.05);cursor:pointer;
 }
-.user-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--black);flex-shrink:0;}
+.user-avatar{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--accent);display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:var(--black);flex-shrink:0;
+}
 .user-info .uname{font-size:12px;font-weight:600;color:#fff;}
 .user-info .uemail{font-size:11px;color:rgba(255,255,255,0.35);}
 
-/* ── MAIN ── */
 .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh;}
 
-/* ── TOP BAR ── */
 .topbar{
   display:flex;align-items:center;justify-content:space-between;
-  padding:16px 32px;
-  background:var(--white);
-  border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:50;
+  padding:16px 32px;background:var(--white);
+  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;
 }
 .topbar-left h1{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;}
 .topbar-left p{font-size:13px;color:var(--muted);margin-top:2px;}
 .topbar-right{display:flex;align-items:center;gap:12px;}
-.pill-status{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;}
-.pill-status.live{background:rgba(34,197,94,0.1);color:#16a34a;}
-.pill-status.idle{background:rgba(0,0,0,0.05);color:var(--muted);}
+.pill-live{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(34,197,94,0.1);color:#16a34a;}
+.pill-idle{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(0,0,0,0.05);color:var(--muted);}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.4s ease infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-.notif-btn{position:relative;width:36px;height:36px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:background 0.15s;}
+.notif-btn{position:relative;width:36px;height:36px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;transition:background 0.15s;}
 .notif-btn:hover{background:#efefed;}
 .notif-badge{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:#ef4444;border:2px solid var(--white);display:none;}
 .notif-badge.show{display:block;}
+.btn-sm{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;border:none;transition:all 0.12s;}
+.btn-sm.dark{background:var(--black);color:#fff;}
+.btn-sm.ghost{background:var(--bg);color:var(--black);border:1px solid var(--border);}
 
-/* ── CONTENT ── */
 .content{flex:1;padding:32px;}
-
-/* ── SCREENS ── */
 .screen{display:none;}
 .screen.active{display:block;}
 
-/* ══════ ONBOARDING CHAT SCREEN ══════ */
-.onboard-wrap{
-  max-width:740px;margin:0 auto;
-  display:flex;flex-direction:column;
-  height:calc(100vh - 140px);
-}
-.onboard-header{text-align:center;padding:24px 0 32px;flex-shrink:0;}
-.onboard-header .step-chips{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:24px;}
-.step-chip{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);background:transparent;}
-.step-chip.active{background:var(--black);color:#fff;}
-.step-chip.done{color:var(--accent-dark);}
-.step-connector{width:32px;height:1px;background:var(--border);}
-.onboard-header h2{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin-bottom:8px;}
-.onboard-header p{font-size:14px;color:var(--muted);line-height:1.6;}
-
-/* Chat area */
-.chat-area{
-  flex:1;
-  background:var(--white);
-  border-radius:24px;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow-md);
-  display:flex;flex-direction:column;
-  overflow:hidden;
-}
-.chat-messages{
-  flex:1;overflow-y:auto;
-  padding:28px 28px 16px;
-  display:flex;flex-direction:column;
-  gap:16px;
-  scroll-behavior:smooth;
-}
-.chat-messages::-webkit-scrollbar{width:4px;}
-.chat-messages::-webkit-scrollbar-track{background:transparent;}
-.chat-messages::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.1);border-radius:2px;}
-
-/* Message bubbles */
-.msg-row{display:flex;gap:12px;align-items:flex-end;}
-.msg-row.user{flex-direction:row-reverse;}
-.msg-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;}
-.msg-avatar.agent-av{background:var(--black);color:var(--accent);}
-.msg-avatar.user-av{background:var(--accent);color:var(--black);}
-.msg-bubble{
-  max-width:72%;padding:12px 16px;
-  border-radius:18px;font-size:14px;line-height:1.55;
-  animation:msg-in 0.25s ease;
-}
-@keyframes msg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.msg-row.agent .msg-bubble{background:var(--bg);border-bottom-left-radius:4px;}
-.msg-row.user .msg-bubble{background:var(--black);color:#fff;border-bottom-right-radius:4px;}
-
-/* Typing indicator */
-.typing-row{display:flex;gap:12px;align-items:flex-end;}
-.typing-bubble{background:var(--bg);padding:14px 18px;border-radius:18px;border-bottom-left-radius:4px;display:flex;gap:5px;align-items:center;}
-.typing-bubble span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1s ease infinite;}
-.typing-bubble span:nth-child(2){animation-delay:0.15s;}
-.typing-bubble span:nth-child(3){animation-delay:0.3s;}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-
-/* Chat input */
-.chat-input-wrap{
-  padding:16px 20px 20px;
-  border-top:1px solid var(--border);
-  flex-shrink:0;
-}
-.chat-input-box{
-  display:flex;align-items:center;gap:12px;
-  background:var(--bg);
-  border-radius:14px;
-  border:1.5px solid var(--border);
-  padding:10px 10px 10px 18px;
-  transition:border-color 0.15s, box-shadow 0.15s;
-}
-.chat-input-box:focus-within{border-color:var(--black);box-shadow:0 0 0 3px rgba(0,0,0,0.06);}
-.chat-input-box input{
-  flex:1;border:none;background:transparent;
-  font-size:14px;font-family:'DM Sans',sans-serif;
-  outline:none;color:var(--black);
-}
-.chat-input-box input::placeholder{color:#bbb;}
-.send-btn{
-  width:36px;height:36px;border-radius:10px;
-  background:var(--black);border:none;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:#fff;font-size:16px;
-  transition:transform 0.12s,opacity 0.12s;
-  flex-shrink:0;
-}
-.send-btn:hover{opacity:0.85;}
-.send-btn:active{transform:scale(0.93);}
-.send-btn:disabled{opacity:0.35;cursor:not-allowed;}
-
-/* Progress bar inside chat */
-.chat-progress{
-  display:flex;gap:4px;padding:14px 20px 0;
-  flex-shrink:0;
-}
-.cp-dot{height:3px;flex:1;border-radius:2px;background:var(--border);transition:background 0.4s;}
-.cp-dot.filled{background:var(--accent-dark);}
-
-/* ══════ REVIEW SCREEN ══════ */
-.review-wrap{max-width:860px;margin:0 auto;}
-.review-header{margin-bottom:28px;}
-.review-header h2{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin-bottom:6px;}
-.review-header p{font-size:14px;color:var(--muted);}
-
-.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
-.review-card{
-  background:var(--white);border-radius:var(--radius);
-  border:1px solid var(--border);padding:20px 22px;
-  box-shadow:var(--shadow);
-}
-.review-card.wide{grid-column:1/-1;}
-.review-card-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
-.review-card-value{font-size:15px;font-weight:500;line-height:1.5;outline:none;width:100%;border:none;background:transparent;font-family:'DM Sans',sans-serif;color:var(--black);resize:none;}
-.review-card-value:focus{color:var(--black);}
-.review-card textarea.review-card-value{min-height:60px;}
-.edit-hint{font-size:11px;color:var(--muted);margin-top:4px;}
-
-.review-actions{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);}
-.review-actions p{font-size:13px;color:var(--muted);}
-.btn-confirm{
-  display:flex;align-items:center;gap:8px;
-  padding:12px 28px;background:var(--black);color:#fff;
-  border:none;border-radius:10px;font-size:14px;font-weight:600;
-  font-family:'DM Sans',sans-serif;cursor:pointer;
-  transition:transform 0.12s,opacity 0.12s;
-}
-.btn-confirm:hover{opacity:0.88;}
-.btn-confirm:active{transform:scale(0.97);}
-.btn-confirm.loading{opacity:0.6;pointer-events:none;}
-.btn-back{padding:10px 20px;background:transparent;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;color:var(--muted);}
-
-/* ══════ DASHBOARD ══════ */
+/* ══════════════════════════════
+   DASHBOARD
+══════════════════════════════ */
 .dash-welcome{margin-bottom:28px;}
 .dash-welcome h2{font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;margin-bottom:4px;}
 .dash-welcome p{font-size:14px;color:var(--muted);}
 
-.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
-.metric-card{
-  background:var(--white);border-radius:var(--radius);
-  border:1px solid var(--border);padding:20px 22px;
-  box-shadow:var(--shadow);position:relative;overflow:hidden;
-}
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
+.metric-card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:20px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
 .metric-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
 .metric-title{font-size:13px;font-weight:500;color:var(--muted);}
 .metric-badge{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:6px;}
 .metric-badge.up{background:rgba(34,197,94,0.1);color:#16a34a;}
-.metric-badge.down{background:rgba(239,68,68,0.08);color:#dc2626;}
 .metric-badge.neutral{background:rgba(0,0,0,0.05);color:var(--muted);}
 .metric-value{font-family:'Instrument Serif',serif;font-size:40px;font-weight:400;line-height:1;margin-bottom:6px;}
-.metric-sub{font-size:12px;font-weight:500;}
+.metric-sub{font-size:12px;font-weight:500;color:var(--muted);}
 .metric-sub.green{color:#16a34a;}
-.metric-sub.muted{color:var(--muted);}
 .sparkline{position:absolute;bottom:0;right:0;width:120px;height:56px;opacity:0.7;}
 
-.dash-body{display:grid;grid-template-columns:1fr 340px;gap:20px;}
+/* 3 Agent slots */
+.agents-section{margin-bottom:28px;}
+.agents-section-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px;}
+.agents-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.agent-slot{
+  background:var(--white);border-radius:var(--r);
+  border:1.5px solid var(--border);padding:22px;
+  box-shadow:var(--shadow);transition:all 0.2s;
+  position:relative;overflow:hidden;
+}
+.agent-slot.active-slot{border-color:var(--accent-dark);}
+.agent-slot.empty-slot{
+  border-style:dashed;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;min-height:180px;cursor:pointer;
+}
+.agent-slot.empty-slot:hover{border-color:var(--black);background:#fafaf8;}
+.slot-number{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--bg);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:var(--muted);
+  margin-bottom:12px;
+}
+.agent-slot.active-slot .slot-number{background:var(--black);border-color:var(--black);color:var(--accent);}
+.slot-type{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+.slot-name{font-size:16px;font-weight:600;margin-bottom:8px;}
+.slot-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:16px;}
+.slot-empty-icon{font-size:28px;margin-bottom:10px;opacity:0.3;}
+.slot-empty-label{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:4px;}
+.slot-empty-sub{font-size:12px;color:var(--muted);}
+.slot-actions{display:flex;gap:8px;}
+.slot-btn{padding:6px 14px;border-radius:7px;font-size:11px;font-weight:600;border:none;transition:all 0.12s;}
+.slot-btn.primary{background:var(--black);color:#fff;}
+.slot-btn.primary:hover{opacity:0.85;}
+.slot-btn.secondary{background:var(--bg);color:var(--black);border:1px solid var(--border);}
+.slot-btn.secondary:hover{border-color:var(--black);}
+.slot-status{
+  position:absolute;top:16px;right:16px;
+  display:flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;
+}
+.slot-status.live{background:rgba(34,197,94,0.1);color:#16a34a;}
+.slot-status.building{background:rgba(234,179,8,0.1);color:#b45309;}
+.slot-status.idle{background:rgba(0,0,0,0.05);color:var(--muted);}
 
-/* Agent list */
-.agents-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+/* Activity */
+.dash-body{display:grid;grid-template-columns:1fr 320px;gap:20px;}
+.activity-card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
 .card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
 .card-header h3{font-size:15px;font-weight:600;}
-.card-header-right{display:flex;align-items:center;gap:8px;}
-.btn-sm{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all 0.12s;}
-.btn-sm.dark{background:var(--black);color:#fff;}
-.btn-sm.ghost{background:var(--bg);color:var(--black);border:1px solid var(--border);}
-
-.agent-table{width:100%;border-collapse:collapse;}
-.agent-table th{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;padding:10px 20px;text-align:left;border-bottom:1px solid var(--border);}
-.agent-table td{padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;}
-.agent-table tr:last-child td{border-bottom:none;}
-.agent-table tr:hover td{background:#fafaf8;}
-.agent-name{font-weight:600;}
-.agent-company{color:var(--muted);font-size:12px;margin-top:2px;}
-.status-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;}
-.status-pill.live{background:rgba(34,197,94,0.1);color:#16a34a;}
-.status-pill.building{background:rgba(234,179,8,0.1);color:#b45309;}
-.status-pill.idle{background:rgba(0,0,0,0.05);color:var(--muted);}
-
-/* Activity feed */
-.activity-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
 .activity-list{padding:0 20px;}
 .activity-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);}
 .activity-item:last-child{border-bottom:none;}
@@ -294,98 +353,166 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
 .activity-text{flex:1;}
 .activity-title{font-size:13px;font-weight:500;line-height:1.4;}
 .activity-time{font-size:11px;color:var(--muted);margin-top:2px;}
+.empty-state{text-align:center;padding:48px 20px;color:var(--muted);}
+.empty-state .ei{font-size:36px;margin-bottom:12px;}
+.empty-state h3{font-size:15px;font-weight:600;color:var(--black);margin-bottom:6px;}
+.empty-state p{font-size:13px;line-height:1.5;}
 
-/* Toast */
-.toast{
-  position:fixed;bottom:28px;right:28px;
-  background:var(--black);color:#fff;
-  padding:14px 20px;border-radius:12px;
-  font-size:13px;font-weight:500;
-  display:flex;align-items:center;gap:10px;
-  box-shadow:var(--shadow-lg);
-  transform:translateY(80px);opacity:0;
-  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
-  z-index:999;pointer-events:none;
-  max-width:320px;
+/* ══════════════════════════════
+   NEW AGENT FORM (interactive)
+══════════════════════════════ */
+.agent-form-wrap{max-width:700px;margin:0 auto;}
+.af-header{margin-bottom:32px;}
+.af-header h2{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin-bottom:6px;}
+.af-header p{font-size:14px;color:var(--muted);}
+
+/* Agent type selector */
+.af-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;}
+.af-type-card{
+  padding:20px;border-radius:var(--r);border:2px solid var(--border);
+  background:var(--white);cursor:pointer;transition:all 0.15s;text-align:left;
 }
-.toast.show{transform:translateY(0);opacity:1;}
-.toast-icon{font-size:18px;}
+.af-type-card:hover{border-color:var(--black);}
+.af-type-card.selected{border-color:var(--black);background:var(--black);color:#fff;}
+.af-type-icon{font-size:24px;margin-bottom:10px;}
+.af-type-name{font-size:14px;font-weight:700;margin-bottom:4px;}
+.af-type-desc{font-size:12px;color:var(--muted);line-height:1.4;}
+.af-type-card.selected .af-type-desc{color:rgba(255,255,255,0.5);}
 
-/* Empty state */
-.empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
-.empty-state .empty-icon{font-size:40px;margin-bottom:16px;}
-.empty-state h3{font-size:16px;font-weight:600;color:var(--black);margin-bottom:6px;}
-.empty-state p{font-size:13px;line-height:1.6;}
+/* Form steps */
+.af-steps{display:flex;gap:0;margin-bottom:32px;overflow-x:auto;}
+.af-step-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 16px;font-size:12px;font-weight:600;
+  color:var(--muted);white-space:nowrap;
+}
+.af-step-item.active{color:var(--black);}
+.af-step-item.done{color:var(--accent-dark);}
+.af-step-num{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--border);color:var(--muted);
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.af-step-item.active .af-step-num{background:var(--black);color:#fff;}
+.af-step-item.done .af-step-num{background:var(--accent);color:var(--black);}
+.af-step-connector{width:24px;height:1px;background:var(--border);flex-shrink:0;}
 
-/* Generating overlay */
+/* Question card */
+.af-question{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);padding:28px;
+  box-shadow:var(--shadow);margin-bottom:20px;
+  animation:ob-in 0.3s ease;
+}
+.af-q-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;}
+.af-q-text{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;margin-bottom:6px;line-height:1.3;}
+.af-q-hint{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;}
+
+/* Choices inside form */
+.af-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.af-choice{
+  padding:11px 14px;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--bg);font-size:13px;font-weight:500;
+  text-align:left;transition:all 0.15s;
+}
+.af-choice:hover{border-color:var(--black);}
+.af-choice.sel{border-color:var(--black);background:var(--black);color:#fff;}
+.af-choices.one-col{grid-template-columns:1fr;}
+
+/* Input fields */
+.af-input{
+  width:100%;padding:12px 16px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:14px;color:var(--black);background:var(--bg);
+  outline:none;transition:border-color 0.15s;
+}
+.af-input:focus{border-color:var(--black);}
+.af-input::placeholder{color:#bbb;}
+.af-textarea{
+  width:100%;padding:12px 16px;min-height:90px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:14px;color:var(--black);background:var(--bg);
+  outline:none;resize:vertical;line-height:1.6;
+  transition:border-color 0.15s;
+}
+.af-textarea:focus{border-color:var(--black);}
+.af-textarea::placeholder{color:#bbb;}
+
+/* Form footer */
+.af-footer{display:flex;align-items:center;justify-content:space-between;}
+.af-nav{display:flex;gap:10px;}
+.btn-af-next{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 24px;background:var(--black);color:#fff;
+  border:none;border-radius:10px;font-size:14px;font-weight:600;
+  transition:opacity 0.15s;
+}
+.btn-af-next:hover{opacity:0.85;}
+.btn-af-back{
+  padding:11px 18px;background:transparent;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:13px;color:var(--muted);
+}
+.btn-af-back:hover{border-color:var(--black);color:var(--black);}
+.af-tip{font-size:12px;color:var(--muted);max-width:300px;line-height:1.4;}
+
+/* ══════════════════════════════
+   GENERATING OVERLAY
+══════════════════════════════ */
 .gen-overlay{
-  position:fixed;inset:0;background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(8px);
+  position:fixed;inset:0;background:rgba(255,255,255,0.94);
+  backdrop-filter:blur(10px);
   display:none;flex-direction:column;align-items:center;justify-content:center;
-  z-index:200;gap:0;
+  z-index:500;
 }
 .gen-overlay.show{display:flex;}
-.gen-spinner-ring{
+.gen-ring{
   width:64px;height:64px;border-radius:50%;
-  border:3px solid var(--border);
-  border-top-color:var(--black);
-  animation:spin 0.8s linear infinite;
-  margin-bottom:24px;
+  border:3px solid var(--border);border-top-color:var(--black);
+  animation:spin 0.8s linear infinite;margin-bottom:24px;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-.gen-overlay h3{font-family:'Instrument Serif',serif;font-size:26px;font-weight:400;margin-bottom:8px;}
-.gen-overlay p{font-size:14px;color:var(--muted);margin-bottom:32px;}
-.gen-steps-list{display:flex;flex-direction:column;gap:0;width:280px;}
-.gen-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.gen-overlay h3{font-family:'Instrument Serif',serif;font-size:26px;font-weight:400;margin-bottom:6px;}
+.gen-overlay p{font-size:14px;color:var(--muted);margin-bottom:36px;}
+.gen-steps{display:flex;flex-direction:column;width:300px;}
+.gen-step{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);}
 .gen-step:last-child{border-bottom:none;}
-.gen-step-dot{width:28px;height:28px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);flex-shrink:0;transition:all 0.3s;}
-.gen-step.active .gen-step-dot{background:var(--black);border-color:var(--black);color:var(--accent);animation:pulse-ring 1s ease infinite alternate;}
-.gen-step.done .gen-step-dot{background:var(--accent);border-color:var(--accent);color:var(--black);}
-@keyframes pulse-ring{to{box-shadow:0 0 0 6px rgba(0,0,0,0.06)}}
-.gen-step-label{font-size:13px;color:var(--muted);transition:color 0.3s;}
-.gen-step.active .gen-step-label{color:var(--black);font-weight:500;}
-.gen-step.done .gen-step-label{color:var(--black);}
+.gen-dot{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--bg);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--muted);flex-shrink:0;transition:all 0.3s;
+}
+.gen-step.active .gen-dot{background:var(--black);border-color:var(--black);color:var(--accent);animation:pulse-ring 1s ease infinite alternate;}
+.gen-step.done .gen-dot{background:var(--accent);border-color:var(--accent);color:var(--black);}
+@keyframes pulse-ring{to{box-shadow:0 0 0 6px rgba(0,0,0,0.05)}}
+.gen-label{font-size:13px;color:var(--muted);transition:color 0.3s;}
+.gen-step.active .gen-label{color:var(--black);font-weight:500;}
+.gen-step.done .gen-label{color:var(--black);}
 
-/* ── WORKFLOW MODAL ── */
+/* ══════════════════════════════
+   WORKFLOW MODAL
+══════════════════════════════ */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
 .modal-overlay.show{opacity:1;pointer-events:all;}
-.modal-box{background:var(--white);border-radius:24px;width:90%;max-width:900px;max-height:85vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);transform:translateY(20px);transition:transform 0.25s;overflow:hidden;}
+.modal-box{background:var(--white);border-radius:24px;width:90%;max-width:960px;max-height:88vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);transform:translateY(16px);transition:transform 0.25s;overflow:hidden;}
 .modal-overlay.show .modal-box{transform:translateY(0);}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);flex-shrink:0;}
 .modal-header h3{font-family:'Instrument Serif',serif;font-size:20px;font-weight:400;}
-.modal-header-right{display:flex;align-items:center;gap:10px;}
-.btn-download{display:flex;align-items:center;gap:6px;padding:8px 18px;background:var(--black);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:opacity 0.15s;}
+.modal-actions{display:flex;gap:8px;}
+.btn-download{display:flex;align-items:center;gap:6px;padding:8px 18px;background:var(--black);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;transition:opacity 0.15s;}
 .btn-download:hover{opacity:0.85;}
-.btn-close-modal{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
-.modal-body{flex:1;overflow:hidden;position:relative;}
-
-/* Node canvas */
-.node-canvas{
-  width:100%;height:460px;
-  overflow:auto;
-  background:var(--bg);
-  background-image:radial-gradient(circle,rgba(0,0,0,0.08) 1px,transparent 1px);
-  background-size:24px 24px;
-  position:relative;
-}
+.btn-connect-modal{display:flex;align-items:center;gap:6px;padding:8px 18px;background:rgba(200,241,53,0.15);color:var(--accent-dark);border:1px solid var(--accent-dark);border-radius:8px;font-size:12px;font-weight:600;transition:all 0.15s;}
+.btn-connect-modal:hover{background:var(--accent);color:var(--black);}
+.btn-close-modal{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1px solid var(--border);font-size:16px;display:flex;align-items:center;justify-content:center;}
+.modal-body{flex:1;overflow:hidden;}
+.node-canvas{width:100%;height:460px;overflow:auto;background:var(--bg);background-image:radial-gradient(circle,rgba(0,0,0,0.07) 1px,transparent 1px);background-size:24px 24px;position:relative;}
 .node-canvas-inner{position:relative;}
-
-.wf-node{
-  position:absolute;
-  background:var(--white);
-  border:1.5px solid var(--border);
-  border-radius:12px;
-  padding:10px 14px;
-  width:160px;
-  box-shadow:var(--shadow);
-  cursor:default;
-  transition:border-color 0.15s;
-  z-index:1;
-}
+.wf-node{position:absolute;background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px;width:160px;box-shadow:var(--shadow);z-index:1;transition:border-color 0.15s;}
 .wf-node:hover{border-color:var(--black);}
 .wf-node-icon{font-size:16px;margin-bottom:4px;}
-.wf-node-name{font-size:11px;font-weight:600;color:var(--black);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.wf-node-name:hover{white-space:normal;overflow:visible;}
+.wf-node-name{font-size:11px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .wf-node-type{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .wf-node.trigger{border-color:#22c55e;background:#f0fdf4;}
 .wf-node.agent{border-color:#3b82f6;background:#eff6ff;}
@@ -395,143 +522,122 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
 .wf-node.wait{border-color:#6b7280;background:#f9fafb;}
 .wf-node.split{border-color:#14b8a6;background:#f0fdfa;}
 .wf-node.filter{border-color:#f97316;background:#fff7ed;}
-.wf-node.switch{border-color:#ef4444;background:#fef2f2;}
-.wf-connections{position:absolute;top:0;left:0;pointer-events:none;overflow:visible;}
+.wf-node.switch-node{border-color:#ef4444;background:#fef2f2;}
 
-/* ── TABLE ACTION BUTTONS ── */
-.btn-preview{padding:4px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;color:var(--black);transition:all 0.12s;}
-.btn-preview:hover{background:var(--black);color:#fff;border-color:var(--black);}
-
-/* ── CHANGE 1: Connect button styles ── */
-.btn-connect{
-  padding:4px 12px;
-  background:rgba(200,241,53,0.1);
-  border:1px solid var(--accent-dark);
-  border-radius:6px;font-size:11px;font-weight:600;
-  font-family:'DM Sans',sans-serif;cursor:pointer;
-  color:var(--accent-dark);transition:all 0.12s;
-  margin-left:6px;
-}
-.btn-connect:hover{background:var(--accent);color:var(--black);border-color:var(--accent);}
-.btn-connect.connected{background:rgba(34,197,94,0.1);border-color:#16a34a;color:#16a34a;}
-.btn-connect.connected:hover{background:rgba(34,197,94,0.2);}
-
-/* ── CHANGE 2: Connect modal styles ── */
-.connect-modal-overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);
-  z-index:400;display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity 0.2s;
-}
+/* ══════════════════════════════
+   CONNECT MODAL
+══════════════════════════════ */
+.connect-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:400;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
 .connect-modal-overlay.show{opacity:1;pointer-events:all;}
-.connect-modal-box{
-  background:var(--white);border-radius:24px;
-  width:90%;max-width:480px;
-  box-shadow:var(--shadow-lg);
-  transform:translateY(20px);transition:transform 0.25s;
-  overflow:hidden;
-}
+.connect-modal-box{background:var(--white);border-radius:24px;width:90%;max-width:460px;box-shadow:var(--shadow-lg);transform:translateY(16px);transition:transform 0.25s;overflow:hidden;}
 .connect-modal-overlay.show .connect-modal-box{transform:translateY(0);}
-
 .connect-modal-header{padding:28px 28px 0;}
-.connect-modal-header h3{
-  font-family:'Instrument Serif',serif;
-  font-size:22px;font-weight:400;margin-bottom:6px;
-}
+.connect-modal-header h3{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;margin-bottom:6px;}
 .connect-modal-header p{font-size:13px;color:var(--muted);line-height:1.55;}
-
 .connect-modal-body{padding:24px 28px 0;}
-
-.connect-field{margin-bottom:20px;}
-.connect-field label{
-  display:block;font-size:11px;font-weight:700;
-  color:var(--muted);text-transform:uppercase;
-  letter-spacing:0.6px;margin-bottom:7px;
-}
-.connect-field input{
-  width:100%;padding:11px 14px;
-  border:1.5px solid var(--border);border-radius:10px;
-  font-size:13px;font-family:'DM Sans',sans-serif;
-  background:var(--bg);color:var(--black);
-  outline:none;transition:border-color 0.15s,box-shadow 0.15s;
-}
-.connect-field input:focus{border-color:var(--black);box-shadow:0 0 0 3px rgba(0,0,0,0.06);}
+.connect-field{margin-bottom:18px;}
+.connect-field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:7px;}
+.connect-field input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--black);outline:none;transition:border-color 0.15s;}
+.connect-field input:focus{border-color:var(--black);}
 .connect-field input::placeholder{color:#bbb;}
-.connect-field-hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4;}
-
-.connect-notice{
-  margin:0 28px 20px;
-  padding:12px 14px;
-  background:rgba(0,0,0,0.03);
-  border:1px solid var(--border);
-  border-radius:10px;
-  font-size:12px;color:var(--muted);line-height:1.55;
-}
+.connect-field-hint{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;}
+.connect-notice{margin:0 28px 20px;padding:12px 14px;background:rgba(0,0,0,0.03);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--muted);line-height:1.55;}
 .connect-notice strong{color:var(--black);font-weight:600;}
-
-.connect-modal-footer{
-  padding:16px 28px 24px;
-  display:flex;gap:10px;justify-content:flex-end;align-items:center;
-  border-top:1px solid var(--border);
-}
-.btn-cancel-connect{
-  padding:10px 18px;background:transparent;
-  border:1px solid var(--border);border-radius:10px;
-  font-size:13px;font-family:'DM Sans',sans-serif;
-  cursor:pointer;color:var(--muted);
-}
-.btn-do-connect{
-  display:flex;align-items:center;gap:8px;
-  padding:12px 24px;background:var(--black);color:#fff;
-  border:none;border-radius:10px;font-size:14px;font-weight:600;
-  font-family:'DM Sans',sans-serif;cursor:pointer;transition:opacity 0.15s;
-}
+.connect-modal-footer{padding:16px 28px 24px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border);}
+.btn-cancel-connect{padding:10px 18px;background:transparent;border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--muted);}
+.btn-do-connect{display:flex;align-items:center;gap:8px;padding:12px 24px;background:var(--black);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;transition:opacity 0.15s;}
 .btn-do-connect:hover{opacity:0.85;}
 
-/* Responsive tweaks */
-@media(max-width:1100px){
-  .metrics-grid{grid-template-columns:1fr 1fr;}
-  .dash-body{grid-template-columns:1fr;}
-}
+/* Toast */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--black);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;max-width:320px;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+@media(max-width:1100px){.metrics-grid{grid-template-columns:1fr 1fr;}.agents-slots{grid-template-columns:1fr;}.dash-body{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<div class="app">
+<!-- ══════════════════════════════
+     AUTH SCREEN
+══════════════════════════════ -->
+<div id="auth-screen">
+  <div class="auth-bg-circle" style="width:600px;height:600px;top:-200px;left:-100px;"></div>
+  <div class="auth-bg-circle" style="width:400px;height:400px;bottom:-100px;left:200px;"></div>
 
-  <!-- ══ SIDEBAR ══ -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-dot"></div>
+  <div class="auth-left">
+    <div class="auth-logo">
+      <div class="auth-logo-dot"></div>
       Service.AI
     </div>
+    <div class="auth-hero">
+      <h1>Your leads.<br/>Booked.<br/><em>Automatically.</em></h1>
+      <p>Build an AI sales agent on WhatsApp in under 10 minutes. It handles every lead from cold DM to confirmed call — 24/7, without you lifting a finger.</p>
+    </div>
+    <div class="auth-features">
+      <div class="auth-feat"><div class="auth-feat-dot"></div>Welcomes every lead instantly with your lead magnet</div>
+      <div class="auth-feat"><div class="auth-feat-dot"></div>Sells the call without being salesy</div>
+      <div class="auth-feat"><div class="auth-feat-dot"></div>Follows up until they show up</div>
+    </div>
+  </div>
 
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-signin" onclick="switchAuthTab('signin')">Sign in</button>
+        <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Create account</button>
+      </div>
+      <div id="auth-signin">
+        <div class="auth-field"><label>Email</label><input type="email" id="signin-email" placeholder="you@company.com"/></div>
+        <div class="auth-field"><label>Password</label><input type="password" id="signin-pw" placeholder="••••••••"/></div>
+        <button class="auth-btn" onclick="doSignIn()">Sign in →</button>
+        <div class="auth-divider"><div class="auth-divider-line"></div><span>or</span><div class="auth-divider-line"></div></div>
+        <button class="auth-demo" onclick="doDemo()">Try the demo</button>
+      </div>
+      <div id="auth-signup" style="display:none">
+        <div class="auth-field"><label>Full name</label><input type="text" id="signup-name" placeholder="Your name"/></div>
+        <div class="auth-field"><label>Email</label><input type="email" id="signup-email" placeholder="you@company.com"/></div>
+        <div class="auth-field"><label>Password</label><input type="password" id="signup-pw" placeholder="Create a password"/></div>
+        <button class="auth-btn" onclick="doSignUp()">Create account →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     ONBOARDING SCREEN
+══════════════════════════════ -->
+<div id="onboarding-screen" class="hide">
+  <div class="ob-topbar">
+    <div class="ob-logo"><div class="ob-logo-dot"></div> Service.AI</div>
+    <div class="ob-progress-wrap">
+      <div class="ob-progress-bar"><div class="ob-progress-fill" id="ob-fill" style="width:0%"></div></div>
+      <span class="ob-progress-label" id="ob-label">1 of 12</span>
+    </div>
+    <button class="ob-skip" onclick="skipOnboarding()">Skip for now</button>
+  </div>
+  <div class="ob-body">
+    <div id="ob-question-wrap"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     MAIN APP
+══════════════════════════════ -->
+<div id="app-screen" class="hide">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-dot"></div> Service.AI</div>
     <div class="nav-section">
       <div class="nav-label">Main</div>
-      <div class="nav-item active" onclick="showScreen('dashboard',this)">
-        <span class="nav-icon">⬛</span> Dashboard
-      </div>
-      <div class="nav-item" onclick="showScreen('onboarding',this)">
-        <span class="nav-icon">✦</span> New Agent
-      </div>
-      <div class="nav-item">
-        <span class="nav-icon">💬</span> Conversations
-      </div>
-      <div class="nav-item">
-        <span class="nav-icon">👥</span> Leads
-      </div>
+      <div class="nav-item active" onclick="showScreen('dashboard',this)"><span class="nav-icon">⬛</span> Dashboard</div>
+      <div class="nav-item" onclick="showScreen('new-agent',this)"><span class="nav-icon">✦</span> New Agent</div>
+      <div class="nav-item"><span class="nav-icon">💬</span> Conversations</div>
+      <div class="nav-item"><span class="nav-icon">👥</span> Leads</div>
     </div>
-
     <div class="nav-section">
       <div class="nav-label">Analytics</div>
-      <div class="nav-item">
-        <span class="nav-icon">📊</span> Reports
-      </div>
-      <div class="nav-item">
-        <span class="nav-icon">⚙️</span> Settings
-      </div>
+      <div class="nav-item"><span class="nav-icon">📊</span> Reports</div>
+      <div class="nav-item"><span class="nav-icon">⚙️</span> Settings</div>
     </div>
-
     <div class="sidebar-bottom">
       <div class="user-pill">
         <div class="user-avatar" id="sidebar-avatar">?</div>
@@ -543,202 +649,103 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
     </div>
   </aside>
 
-  <!-- ══ MAIN ══ -->
   <div class="main">
-
-    <!-- TOP BAR -->
     <div class="topbar">
       <div class="topbar-left">
         <h1 id="topbar-title">Dashboard</h1>
         <p id="topbar-sub">Welcome back. Here's what's happening.</p>
       </div>
       <div class="topbar-right">
-        <div class="pill-status idle" id="global-status">
-          <span>No active agent</span>
-        </div>
-        <div class="notif-btn" onclick="checkNotifications()">
-          🔔
-          <div class="notif-badge" id="notif-badge"></div>
-        </div>
-        <button class="btn-sm dark" onclick="showScreen('onboarding', document.querySelector('.nav-item:nth-child(2)'))">+ New Agent</button>
+        <div id="global-status" class="pill-idle"><span>No active agents</span></div>
+        <div class="notif-btn" onclick="checkNotifs()">🔔<div class="notif-badge" id="notif-badge"></div></div>
+        <button class="btn-sm dark" onclick="showScreen('new-agent',null)">+ New Agent</button>
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="content">
 
-      <!-- ══ SCREEN: ONBOARDING CHAT ══ -->
-      <div class="screen active" id="screen-onboarding">
-        <div class="onboard-wrap">
-
-          <div class="onboard-header">
-            <div class="step-chips">
-              <div class="step-chip active" id="chip-1">
-                <span>①</span> AI Interview
-              </div>
-              <div class="step-connector"></div>
-              <div class="step-chip" id="chip-2">
-                <span>②</span> Review & Confirm
-              </div>
-            </div>
-            <h2>Let's build your AI agent</h2>
-            <p>Our AI will ask you a few questions to understand your business.<br/>It takes about 2 minutes.</p>
-          </div>
-
-          <div class="chat-area">
-            <div class="chat-progress" id="chat-progress">
-              <div class="cp-dot" id="cp1"></div>
-              <div class="cp-dot" id="cp2"></div>
-              <div class="cp-dot" id="cp3"></div>
-              <div class="cp-dot" id="cp4"></div>
-              <div class="cp-dot" id="cp5"></div>
-              <div class="cp-dot" id="cp6"></div>
-              <div class="cp-dot" id="cp7"></div>
-              <div class="cp-dot" id="cp8"></div>
-              <div class="cp-dot" id="cp9"></div>
-              <div class="cp-dot" id="cp10"></div>
-            </div>
-
-            <div class="chat-messages" id="chat-messages"></div>
-
-            <div class="chat-input-wrap">
-              <div class="chat-input-box">
-                <input
-                  type="text"
-                  id="chat-input"
-                  placeholder="Type your answer…"
-                  onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
-                />
-                <button class="send-btn" id="send-btn" onclick="sendMessage()">↑</button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ══ SCREEN: REVIEW ══ -->
-      <div class="screen" id="screen-review">
-        <div class="review-wrap">
-          <div class="review-header">
-            <h2>Review your agent setup</h2>
-            <p>Your AI gathered all this info. Edit anything before confirming — then we'll build your agent.</p>
-          </div>
-
-          <div class="review-grid" id="review-grid"></div>
-
-          <div class="review-actions">
-            <div>
-              <p>Everything look good? Hit confirm to build your agent.</p>
-            </div>
-            <div style="display:flex;gap:10px">
-              <button class="btn-back" onclick="goBackToChat()">← Edit</button>
-              <button class="btn-confirm" id="confirm-btn" onclick="confirmAndBuild()">
-                <span>Confirm & Build Agent</span> <span>✦</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══ SCREEN: DASHBOARD ══ -->
-      <div class="screen" id="screen-dashboard">
-
+      <!-- DASHBOARD -->
+      <div class="screen active" id="screen-dashboard">
         <div class="dash-welcome">
           <h2 id="dash-greeting">Good morning 👋</h2>
           <p>Here are the latest insights from your agents.</p>
         </div>
-
         <div class="metrics-grid">
           <div class="metric-card">
-            <div class="metric-card-top">
-              <span class="metric-title">Leads handled</span>
-              <span class="metric-badge neutral" id="m1-badge">—</span>
-            </div>
+            <div class="metric-card-top"><span class="metric-title">Leads handled</span><span class="metric-badge neutral" id="m1-badge">—</span></div>
             <div class="metric-value" id="m1-val">0</div>
-            <div class="metric-sub muted" id="m1-sub">No data yet</div>
+            <div class="metric-sub" id="m1-sub">No data yet</div>
             <canvas class="sparkline" id="spark1" width="120" height="56"></canvas>
           </div>
           <div class="metric-card">
-            <div class="metric-card-top">
-              <span class="metric-title">Conversion rate</span>
-              <span class="metric-badge neutral" id="m2-badge">—</span>
-            </div>
-            <div class="metric-value" id="m2-val">0%</div>
-            <div class="metric-sub muted" id="m2-sub">No data yet</div>
+            <div class="metric-card-top"><span class="metric-title">Calls booked</span><span class="metric-badge neutral" id="m2-badge">—</span></div>
+            <div class="metric-value" id="m2-val">0</div>
+            <div class="metric-sub" id="m2-sub">No data yet</div>
             <canvas class="sparkline" id="spark2" width="120" height="56"></canvas>
           </div>
           <div class="metric-card">
-            <div class="metric-card-top">
-              <span class="metric-title">Revenue closed</span>
-              <span class="metric-badge neutral" id="m3-badge">This month</span>
-            </div>
-            <div class="metric-value" id="m3-val">$0</div>
-            <div class="metric-sub muted" id="m3-sub">Just launched</div>
+            <div class="metric-card-top"><span class="metric-title">Show-up rate</span><span class="metric-badge neutral" id="m3-badge">This month</span></div>
+            <div class="metric-value" id="m3-val">—</div>
+            <div class="metric-sub" id="m3-sub">No data yet</div>
             <canvas class="sparkline" id="spark3" width="120" height="56"></canvas>
           </div>
         </div>
 
-        <div class="dash-body">
-          <div class="agents-card">
-            <div class="card-header">
-              <h3>Your Agents</h3>
-              <div class="card-header-right">
-                <button class="btn-sm ghost">Filter</button>
-                <button class="btn-sm dark" onclick="showScreen('onboarding', null)">+ New</button>
-              </div>
-            </div>
-            <div id="agents-table-wrap">
-              <div class="empty-state">
-                <div class="empty-icon">🤖</div>
-                <h3>No agents yet</h3>
-                <p>Create your first AI agent to start<br/>handling leads automatically.</p>
-              </div>
-            </div>
-          </div>
+        <div class="agents-section">
+          <div class="agents-section-title">Your 3 Agents</div>
+          <div class="agents-slots" id="agents-slots"></div>
+        </div>
 
+        <div class="dash-body">
+          <div style="display:none"></div>
           <div class="activity-card">
-            <div class="card-header">
-              <h3>Latest Updates</h3>
-            </div>
+            <div class="card-header"><h3>Latest Updates</h3></div>
             <div class="activity-list" id="activity-list">
-              <div class="empty-state" style="padding:40px 0">
-                <div class="empty-icon">📭</div>
-                <p>No activity yet</p>
-              </div>
+              <div class="empty-state"><div class="ei">📭</div><p>No activity yet</p></div>
             </div>
           </div>
         </div>
+      </div>
 
+      <!-- NEW AGENT -->
+      <div class="screen" id="screen-new-agent">
+        <div class="agent-form-wrap">
+          <div class="af-header">
+            <h2>Create a new agent</h2>
+            <p>Pick the type, answer a few questions, and we'll build it in 60 seconds.</p>
+          </div>
+          <div id="af-body"></div>
+        </div>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- Generating overlay -->
+<!-- GENERATING OVERLAY -->
 <div class="gen-overlay" id="gen-overlay">
-  <div class="gen-spinner-ring"></div>
-  <h3>Building your agent…</h3>
-  <p>This takes about 30 seconds. Sit tight.</p>
-  <div class="gen-steps-list">
-    <div class="gen-step active" id="gs1"><div class="gen-step-dot">1</div><span class="gen-step-label">Analyzing your business profile</span></div>
-    <div class="gen-step" id="gs2"><div class="gen-step-dot">2</div><span class="gen-step-label">Generating custom sales script</span></div>
-    <div class="gen-step" id="gs3"><div class="gen-step-dot">3</div><span class="gen-step-label">Building n8n workflow</span></div>
-    <div class="gen-step" id="gs4"><div class="gen-step-dot">4</div><span class="gen-step-label">Activating WhatsApp agent</span></div>
-    <div class="gen-step" id="gs5"><div class="gen-step-dot">✓</div><span class="gen-step-label">Agent is live</span></div>
+  <div class="gen-ring"></div>
+  <h3>Building your agents…</h3>
+  <p>This takes about 60 seconds. Sit tight.</p>
+  <div class="gen-steps">
+    <div class="gen-step active" id="gs1"><div class="gen-dot">1</div><span class="gen-label">Analyzing your business profile</span></div>
+    <div class="gen-step" id="gs2"><div class="gen-dot">2</div><span class="gen-label">Generating custom sales scripts</span></div>
+    <div class="gen-step" id="gs3"><div class="gen-dot">3</div><span class="gen-label">Building n8n workflows</span></div>
+    <div class="gen-step" id="gs4"><div class="gen-dot">4</div><span class="gen-label">Injecting business context</span></div>
+    <div class="gen-step" id="gs5"><div class="gen-dot">✓</div><span class="gen-label">Agents ready</span></div>
   </div>
 </div>
 
-<!-- ══ WORKFLOW PREVIEW MODAL ══ -->
+<!-- WORKFLOW MODAL -->
 <div class="modal-overlay" id="workflow-modal" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
     <div class="modal-header">
       <div>
         <h3 id="modal-title">Workflow Preview</h3>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px;" id="modal-subtitle">18 nodes · Ready to import</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;" id="modal-subtitle"></div>
       </div>
-      <div class="modal-header-right">
+      <div class="modal-actions">
+        <button class="btn-connect-modal" onclick="openConnectFromModal()">🔌 Connect</button>
         <button class="btn-download" onclick="downloadWorkflow()">⬇ Download JSON</button>
         <button class="btn-close-modal" onclick="closeModal()">✕</button>
       </div>
@@ -751,27 +758,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
   </div>
 </div>
 
-<!-- ══ CHANGE 2: CONNECT MODAL HTML ══ -->
+<!-- CONNECT MODAL -->
 <div class="connect-modal-overlay" id="connect-modal" onclick="if(event.target===this)closeConnectModal()">
   <div class="connect-modal-box">
     <div class="connect-modal-header">
       <h3>🔌 Connect your agent</h3>
-      <p>Enter your credentials — they'll be injected directly into your workflow JSON.</p>
+      <p>Enter your WhatsApp credentials. They'll be injected into the workflow JSON.</p>
     </div>
     <div class="connect-modal-body">
       <div class="connect-field">
         <label>WhatsApp Token</label>
-        <input type="password" id="cred-wa-token" placeholder="EAAxxxxxxxxx…" autocomplete="off" />
-        <div class="connect-field-hint">Meta Business Suite → WhatsApp → API Setup → Temporary or Permanent token</div>
+        <input type="password" id="cred-wa-token" placeholder="EAAxxxxxxxxx…" autocomplete="off"/>
+        <div class="connect-field-hint">Meta Business Suite → WhatsApp → API Setup → Token</div>
       </div>
       <div class="connect-field">
         <label>Phone Number ID</label>
-        <input type="text" id="cred-phone-id" placeholder="1234567890" autocomplete="off" />
-        <div class="connect-field-hint">Meta Business Suite → WhatsApp → API Setup → Phone Number ID (numeric)</div>
+        <input type="text" id="cred-phone-id" placeholder="1234567890" autocomplete="off"/>
+        <div class="connect-field-hint">Meta Business Suite → WhatsApp → API Setup → Phone Number ID</div>
       </div>
     </div>
     <div class="connect-notice">
-      <strong>Also required in n8n:</strong> Create a credential named <strong>OpenRouter account</strong> (type: OpenRouter API) and one named <strong>WhatsApp account</strong> (type: WhatsApp Business Cloud API) — these can't be injected from here yet.
+      <strong>Also required in n8n:</strong> Create credentials named <strong>OpenRouter account</strong> and <strong>WhatsApp account</strong> — these can't be injected from here yet.
     </div>
     <div class="connect-modal-footer">
       <button class="btn-cancel-connect" onclick="closeConnectModal()">Cancel</button>
@@ -780,303 +787,477 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);mi
   </div>
 </div>
 
-<!-- Toast -->
-<div class="toast" id="toast">
-  <span class="toast-icon">✅</span>
-  <span id="toast-text">Agent built successfully!</span>
-</div>
+<!-- TOAST -->
+<div class="toast" id="toast"><span id="toast-icon">✅</span><span id="toast-text">Done!</span></div>
 
 <script>
-// ─── CONSTANTS ───
-const INTERVIEW_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/fd0db305-73f0-452c-943e-4ef6ac5babec';
+// ══════════════════════════════
+// CONSTANTS
+// ══════════════════════════════
 const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai.app.n8n.cloud/webhook/da76f813-8351-4598-8d8b-486d07519adc';
 
-// ─── STATE ───
-let chatHistory = [];
-let sessionId = 'session_' + Date.now();
-let gatheredData = {};
+// ══════════════════════════════
+// STATE
+// ══════════════════════════════
+let user = JSON.parse(localStorage.getItem('sai_user') || 'null');
+let businessProfile = JSON.parse(localStorage.getItem('sai_profile') || 'null');
 let agents = JSON.parse(localStorage.getItem('sai_agents') || '[]');
 let activities = JSON.parse(localStorage.getItem('sai_activities') || '[]');
-let isSending = false;
+let activeAgentIdx = null;
+let connectAgentIdx = null;
 
-// ─── SCREEN ROUTER ───
+// ══════════════════════════════
+// AUTH
+// ══════════════════════════════
+function switchAuthTab(tab) {
+  document.getElementById('tab-signin').classList.toggle('active', tab === 'signin');
+  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('auth-signin').style.display = tab === 'signin' ? 'block' : 'none';
+  document.getElementById('auth-signup').style.display = tab === 'signup' ? 'block' : 'none';
+}
+
+function doSignIn() {
+  const email = document.getElementById('signin-email').value.trim() || 'user@service.ai';
+  const name = email.split('@')[0];
+  user = { email, name };
+  localStorage.setItem('sai_user', JSON.stringify(user));
+  afterAuth();
+}
+
+function doSignUp() {
+  const name = document.getElementById('signup-name').value.trim() || 'User';
+  const email = document.getElementById('signup-email').value.trim() || 'user@service.ai';
+  user = { email, name };
+  localStorage.setItem('sai_user', JSON.stringify(user));
+  afterAuth();
+}
+
+function doDemo() {
+  user = { email: 'demo@service.ai', name: 'Demo User' };
+  localStorage.setItem('sai_user', JSON.stringify(user));
+  afterAuth();
+}
+
+function afterAuth() {
+  document.getElementById('auth-screen').classList.add('hide');
+  if (!businessProfile) {
+    startOnboarding();
+  } else {
+    startApp();
+  }
+}
+
+// ══════════════════════════════
+// ONBOARDING (Typeform style)
+// ══════════════════════════════
+const OB_QUESTIONS = [
+  { id: 'business_name', type: 'text', title: "What's your business called?", sub: "This is how your agent will introduce your brand.", placeholder: "e.g. Alex Coaching" },
+  { id: 'industry', type: 'choice', title: "What industry are you in?", sub: "Pick the one that fits best.", choices: ["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"] },
+  { id: 'offer', type: 'textarea', title: "Describe your main offer in one sentence.", sub: "What do you sell, who is it for, and what result does it deliver?", placeholder: "e.g. A 12-week 1-on-1 program that helps early-stage entrepreneurs sign their first 5 clients in 90 days." },
+  { id: 'price', type: 'text', title: "What does it cost?", sub: "Give the full price or payment plan.", placeholder: "e.g. $3,000 or $997/month for 3 months" },
+  { id: 'client_avatar', type: 'textarea', title: "Describe your ideal client.", sub: "Who is the perfect person for your offer? What's their situation right now?", placeholder: "e.g. Coaches and consultants who already have some experience but are struggling to get consistent clients online." },
+  { id: 'result', type: 'textarea', title: "What's the #1 result your clients get?", sub: "The most tangible, specific outcome from working with you.", placeholder: "e.g. They go from 0 to $10k/month in 90 days, with a repeatable system to keep growing." },
+  { id: 'lead_magnet', type: 'text', title: "Do you have a free lead magnet?", sub: "A PDF, mini-course, video, free call — anything you offer to attract leads. Type 'none' if you don't.", placeholder: "e.g. Free PDF: '5 Steps to Your First $10k Month'" },
+  { id: 'objections', type: 'textarea', title: "What objections do your leads usually raise?", sub: "List the most common hesitations before they buy.", placeholder: "e.g. 'Too expensive', 'I need to think about it', 'I've tried coaching before and it didn't work'" },
+  { id: 'tone', type: 'choice', title: "How should your agent communicate?", sub: "This shapes every message it sends.", choices: ["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"] },
+  { id: 'call_type', type: 'choice', title: "What kind of call are you booking?", sub: "This determines how the agent presents the next step.", choices: ["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"] },
+  { id: 'follow_up_style', type: 'choice', title: "How persistent should the follow-up agent be?", sub: "When a lead goes cold, how should the agent re-engage?", choices: ["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"] },
+  { id: 'brand_voice', type: 'textarea', title: "Any specific phrases, words, or style notes?", sub: "Things the agent should always say — or never say. Leave blank if not applicable.", placeholder: "e.g. Always say 'Let's get you results' not 'I hope this helps'. Never use the word 'unfortunately'." },
+];
+
+let obIndex = 0;
+let obAnswers = {};
+
+function startOnboarding() {
+  document.getElementById('onboarding-screen').classList.remove('hide');
+  obIndex = 0;
+  obAnswers = {};
+  renderObQuestion();
+}
+
+function renderObQuestion() {
+  const wrap = document.getElementById('ob-question-wrap');
+  const total = OB_QUESTIONS.length;
+  const pct = Math.round((obIndex / total) * 100);
+  document.getElementById('ob-fill').style.width = pct + '%';
+  document.getElementById('ob-label').textContent = `${obIndex + 1} of ${total}`;
+
+  if (obIndex >= total) {
+    // Complete
+    wrap.innerHTML = `
+      <div class="ob-complete">
+        <div class="ob-complete-icon">✦</div>
+        <h2>You're all set.</h2>
+        <p>We've got everything we need to build your three AI agents. Time to enter your dashboard and create them.</p>
+        <button class="ob-complete-btn" onclick="finishOnboarding()">Enter dashboard →</button>
+      </div>`;
+    return;
+  }
+
+  const q = OB_QUESTIONS[obIndex];
+  let inputHtml = '';
+
+  if (q.type === 'choice') {
+    const alpha = 'ABCDEFGHIJ';
+    inputHtml = `<div class="ob-choices ${q.multi ? 'multi' : ''}" id="ob-choices">
+      ${q.choices.map((c, i) => `
+        <button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}',${!!q.multi})">
+          <span class="ob-choice-key">${alpha[i]}</span> ${c}
+        </button>`).join('')}
+    </div>`;
+  } else if (q.type === 'textarea') {
+    inputHtml = `<textarea class="ob-textarea" id="ob-input" placeholder="${q.placeholder || ''}">${obAnswers[q.id] || ''}</textarea>`;
+  } else {
+    inputHtml = `<input class="ob-input" id="ob-input" type="text" placeholder="${q.placeholder || ''}" value="${obAnswers[q.id] || ''}"/>`;
+  }
+
+  wrap.innerHTML = `
+    <div class="ob-question">
+      <div class="ob-q-num">Question ${obIndex + 1}</div>
+      <div class="ob-q-title">${q.title}</div>
+      <div class="ob-q-sub">${q.sub}</div>
+      ${inputHtml}
+      <div class="ob-nav">
+        ${obIndex > 0 ? '<button class="ob-btn-back" onclick="obBack()">← Back</button>' : ''}
+        ${q.type !== 'choice' ? `<button class="ob-btn-next" onclick="obNext()">Continue →</button>` : ''}
+        <span class="ob-enter-hint">Press <kbd>Enter</kbd> to continue</span>
+      </div>
+    </div>`;
+
+  // Enter key
+  const inp = document.getElementById('ob-input');
+  if (inp) {
+    inp.focus();
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); obNext(); } });
+  }
+
+  // Restore choice selection
+  if (q.type === 'choice' && obAnswers[q.id]) {
+    document.querySelectorAll('.ob-choice').forEach(el => {
+      if (el.dataset.val === obAnswers[q.id]) el.classList.add('selected');
+    });
+  }
+}
+
+function obSelectChoice(el, qId, val, multi) {
+  if (!multi) {
+    document.querySelectorAll('.ob-choice').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    obAnswers[qId] = val;
+    setTimeout(() => obNext(), 350);
+  } else {
+    el.classList.toggle('selected');
+    const sel = [...document.querySelectorAll('.ob-choice.selected')].map(c => c.dataset.val);
+    obAnswers[qId] = sel.join(', ');
+  }
+}
+
+function obNext() {
+  const q = OB_QUESTIONS[obIndex];
+  if (q.type !== 'choice') {
+    const inp = document.getElementById('ob-input');
+    if (inp) obAnswers[q.id] = inp.value.trim();
+  }
+  obIndex++;
+  renderObQuestion();
+}
+
+function obBack() {
+  if (obIndex > 0) { obIndex--; renderObQuestion(); }
+}
+
+function skipOnboarding() {
+  obAnswers = { business_name: 'My Business', industry: 'Coaching', offer: '', price: '', client_avatar: '', result: '', lead_magnet: 'none', objections: '', tone: 'Warm & friendly', call_type: 'Discovery call', follow_up_style: 'Medium', brand_voice: '' };
+  finishOnboarding();
+}
+
+function finishOnboarding() {
+  businessProfile = obAnswers;
+  localStorage.setItem('sai_profile', JSON.stringify(businessProfile));
+  document.getElementById('onboarding-screen').classList.add('hide');
+  startApp();
+}
+
+// ══════════════════════════════
+// APP
+// ══════════════════════════════
+function startApp() {
+  document.getElementById('app-screen').classList.remove('hide');
+  document.getElementById('sidebar-name').textContent = user?.name || 'User';
+  document.getElementById('sidebar-email').textContent = user?.email || '—';
+  document.getElementById('sidebar-avatar').textContent = (user?.name || 'U')[0].toUpperCase();
+  showScreen('dashboard', document.querySelector('.nav-item'));
+}
+
 function showScreen(name, navEl) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-  if (name === 'onboarding') {
-    document.getElementById('screen-onboarding').classList.add('active');
-    document.getElementById('topbar-title').textContent = 'New Agent';
-    document.getElementById('topbar-sub').textContent = 'Our AI will interview you to build your perfect agent.';
-    if (!chatHistory.length) initChat();
-  } else if (name === 'review') {
-    document.getElementById('screen-review').classList.add('active');
-    document.getElementById('topbar-title').textContent = 'Review Setup';
-    document.getElementById('topbar-sub').textContent = 'Check your agent configuration before building.';
-    renderReview();
-  } else if (name === 'dashboard') {
+  if (name === 'dashboard') {
     document.getElementById('screen-dashboard').classList.add('active');
     document.getElementById('topbar-title').textContent = 'Dashboard';
     document.getElementById('topbar-sub').textContent = 'Welcome back. Here\'s what\'s happening.';
     renderDashboard();
+  } else if (name === 'new-agent') {
+    document.getElementById('screen-new-agent').classList.add('active');
+    document.getElementById('topbar-title').textContent = 'New Agent';
+    document.getElementById('topbar-sub').textContent = 'Build a new AI sales agent from your business profile.';
+    renderAgentForm();
   }
 
   if (navEl) navEl.classList.add('active');
 }
 
-// ─── CHAT INIT ───
-function initChat() {
-  chatHistory = [];
-  sessionId = 'session_' + Date.now();
-  gatheredData = {};
-  progressCount = 0;
-  document.getElementById('chat-messages').innerHTML = '';
-  updateProgress(0);
+// ══════════════════════════════
+// DASHBOARD
+// ══════════════════════════════
+function renderDashboard() {
+  const h = new Date().getHours();
+  document.getElementById('dash-greeting').textContent = (h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening') + ' 👋';
 
-  setTimeout(() => {
-    addAgentMessage("Hey! 👋 I'm here to set up your AI sales agent. Let's start simple — what's your company name and what do you do?");
-  }, 600);
-}
+  const totalLeads = agents.reduce((s, a) => s + (a.leads || 0), 0);
+  document.getElementById('m1-val').textContent = totalLeads;
+  document.getElementById('m2-val').textContent = agents.reduce((s, a) => s + (a.booked || 0), 0);
+  document.getElementById('m3-val').textContent = agents.length ? '—' : '—';
 
-// ─── ADD MESSAGES ───
-function addAgentMessage(text) {
-  const msgs = document.getElementById('chat-messages');
-  const typing = document.getElementById('typing-indicator');
-  if (typing) typing.remove();
-
-  const row = document.createElement('div');
-  row.className = 'msg-row agent';
-  row.innerHTML = `
-    <div class="msg-avatar agent-av">S</div>
-    <div class="msg-bubble">${text}</div>
-  `;
-  msgs.appendChild(row);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function addUserMessage(text) {
-  const msgs = document.getElementById('chat-messages');
-  const row = document.createElement('div');
-  row.className = 'msg-row user';
-  row.innerHTML = `
-    <div class="msg-bubble">${text}</div>
-    <div class="msg-avatar user-av">U</div>
-  `;
-  msgs.appendChild(row);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function showTyping() {
-  const msgs = document.getElementById('chat-messages');
-  const el = document.createElement('div');
-  el.className = 'typing-row';
-  el.id = 'typing-indicator';
-  el.innerHTML = `
-    <div class="msg-avatar agent-av">S</div>
-    <div class="typing-bubble"><span></span><span></span><span></span></div>
-  `;
-  msgs.appendChild(el);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-// ─── PROGRESS ───
-function updateProgress(count) {
-  for (let i = 1; i <= 10; i++) {
-    const dot = document.getElementById('cp' + i);
-    if (dot) dot.classList.toggle('filled', i <= count);
-  }
-}
-
-// ─── SEND MESSAGE ───
-async function sendMessage() {
-  const input = document.getElementById('chat-input');
-  const val = input.value.trim();
-  if (!val || isSending) return;
-
-  isSending = true;
-  document.getElementById('send-btn').disabled = true;
-  input.value = '';
-
-  addUserMessage(val);
-  chatHistory.push({ role: 'user', content: val });
-  showTyping();
-
-  try {
-    const res = await fetch(INTERVIEW_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: val, history: chatHistory, session_id: sessionId })
-    });
-
-    const data = await res.json();
-    const typing = document.getElementById('typing-indicator');
-    if (typing) typing.remove();
-
-    const messages = data.messages && Array.isArray(data.messages) ? data.messages : null;
-    const reply = messages ? messages.join(' ') : (data.reply || data.message || data.output || 'Got it, tell me more.');
-    const signal = data.signal || 'normal';
-
-    if (messages && messages.length >= 1) {
-      messages.forEach((msg, i) => {
-        setTimeout(() => {
-          addAgentMessage(msg);
-          if (i === messages.length - 1) {
-            chatHistory.push({ role: 'assistant', content: messages.join(' | ') });
-          }
-        }, i * 700);
-      });
-    } else {
-      addAgentMessage(reply);
-      chatHistory.push({ role: 'assistant', content: reply });
-    }
-
-    if (data.collected) {
-      gatheredData = data.collected;
-      const filled = Object.values(data.collected).filter(v => v !== null && v !== "").length;
-      progressCount = filled;
-      updateProgress(progressCount);
-    } else {
-      progressCount = Math.min(progressCount + 1, 7);
-      updateProgress(progressCount);
-    }
-
-    if (signal === 'done') {
-      if (data.collected) gatheredData = data.collected;
-      const delay = messages ? messages.length * 700 + 800 : 1400;
-      setTimeout(() => transitionToReview(), delay);
-    }
-
-  } catch (err) {
-    console.error('Interview webhook error:', err);
-    const typing = document.getElementById('typing-indicator');
-    if (typing) typing.remove();
-    handleFallbackInterview(val);
+  if (agents.length) {
+    document.getElementById('global-status').className = 'pill-live';
+    document.getElementById('global-status').innerHTML = '<div class="live-dot"></div> ' + agents.length + ' agent(s) live';
   }
 
-  isSending = false;
-  document.getElementById('send-btn').disabled = false;
-  document.getElementById('chat-input').focus();
+  drawSparkline('spark1',[2,4,3,6,5,8,7,10,9,12],'rgba(34,197,94,0.6)','rgba(34,197,94,0.08)');
+  drawSparkline('spark2',[1,2,2,3,4,5,5,7,6,9],'rgba(59,130,246,0.6)','rgba(59,130,246,0.08)');
+  drawSparkline('spark3',[0,0,0,0,0,0,0,0,0,0],'rgba(156,163,175,0.5)','rgba(0,0,0,0.03)');
+
+  renderAgentSlots();
+  renderActivityFeed();
 }
 
-// ─── FALLBACK ───
-const fallbackFlow = [
-  { q: "Nice! And what's your main offer — what do you sell and at what price?", field: 'company' },
-  { q: "Got it. Who's your ideal client? Describe them in a few words.", field: 'offer' },
-  { q: "And what objections do leads usually give you? (e.g. 'too expensive', 'need to think about it')", field: 'audience' },
-  { q: "What's your WhatsApp business number?", field: 'objections' },
-  { q: "Last one — how should your agent sound? (e.g. Direct closer, Friendly advisor, Premium consultant)", field: 'whatsapp' },
-  { q: "Perfect, I have everything I need. Let me put it all together for you!", field: 'tone', complete: true }
-];
-let fallbackIdx = 0;
-let fallbackAnswers = {};
-
-function handleFallbackInterview(userInput) {
-  const current = fallbackFlow[fallbackIdx];
-  if (current) {
-    fallbackAnswers[current.field] = userInput;
-    fallbackIdx++;
-    const next = fallbackFlow[fallbackIdx];
-    if (next) {
-      setTimeout(() => {
-        addAgentMessage(next.q);
-        chatHistory.push({ role: 'assistant', content: next.q });
-        progressCount = Math.min(fallbackIdx + 1, 7);
-        updateProgress(progressCount);
-      }, 700);
-    } else {
-      gatheredData = {
-        company: fallbackAnswers.company || userInput,
-        offer: fallbackAnswers.offer || '',
-        price: '',
-        audience: fallbackAnswers.audience || '',
-        objections: fallbackAnswers.objections || '',
-        whatsapp: fallbackAnswers.whatsapp || '',
-        tone: fallbackAnswers.tone || userInput,
-        lead_magnet: '',
-        industry: ''
-      };
-      setTimeout(() => transitionToReview(), 1400);
-    }
-  }
-}
-
-// ─── TRANSITION TO REVIEW ───
-function transitionToReview() {
-  addAgentMessage("✅ I've got everything I need. Let me show you what I gathered — review it and confirm when ready.");
-  setTimeout(() => {
-    document.getElementById('chip-1').classList.remove('active');
-    document.getElementById('chip-1').classList.add('done');
-    document.getElementById('chip-2').classList.add('active');
-    showScreen('review', null);
-  }, 1200);
-}
-
-// ─── RENDER REVIEW ───
-const reviewFields = [
-  { key: 'company_name', label: 'Company name', wide: false, type: 'input' },
-  { key: 'industry', label: 'Industry', wide: false, type: 'input' },
-  { key: 'whatsapp_number', label: 'WhatsApp number', wide: false, type: 'input' },
-  { key: 'price', label: 'Price point', wide: false, type: 'input' },
-  { key: 'offer', label: 'Main offer', wide: true, type: 'textarea' },
-  { key: 'target_audience', label: 'Target audience', wide: true, type: 'textarea' },
-  { key: 'common_objections', label: 'Common objections', wide: true, type: 'textarea' },
-  { key: 'tone', label: 'Agent tone', wide: false, type: 'input' },
-  { key: 'lead_magnet', label: 'Lead magnet', wide: false, type: 'input' },
-  { key: 'goal', label: 'Agent goal', wide: true, type: 'textarea' },
+const AGENT_TYPES = [
+  { key: 'lead-handler', icon: '📲', name: 'New Lead Handler', desc: 'Welcomes cold leads, delivers lead magnet, sells the discovery call.' },
+  { key: 'follow-up', icon: '🔁', name: 'Follow-Up Agent', desc: 'Re-engages leads who went cold. Brings them back into the pipeline.' },
+  { key: 'booked-handler', icon: '📅', name: 'Booked Lead Handler', desc: 'Confirms booked calls and follows up to ensure show-up.' },
 ];
 
-function renderReview() {
-  const grid = document.getElementById('review-grid');
-  grid.innerHTML = '';
-  reviewFields.forEach(f => {
-    const card = document.createElement('div');
-    card.className = 'review-card' + (f.wide ? ' wide' : '');
-    const val = gatheredData[f.key] || '';
-    card.innerHTML = `
-      <div class="review-card-label">${f.label}</div>
-      ${f.type === 'textarea'
-        ? `<textarea class="review-card-value" id="rf-${f.key}" rows="3">${val}</textarea>`
-        : `<input class="review-card-value" id="rf-${f.key}" value="${val}" />`
-      }
-      <div class="edit-hint">Click to edit</div>
-    `;
-    grid.appendChild(card);
-  });
+function renderAgentSlots() {
+  const wrap = document.getElementById('agents-slots');
+  wrap.innerHTML = AGENT_TYPES.map((type, i) => {
+    const agent = agents.find(a => a.type === type.key);
+    if (agent) {
+      const idx = agents.indexOf(agent);
+      return `
+        <div class="agent-slot active-slot">
+          <div class="slot-status live">● Live</div>
+          <div class="slot-number">${i + 1}</div>
+          <div class="slot-type">${type.name}</div>
+          <div class="slot-name">${agent.name}</div>
+          <div class="slot-desc">${type.desc}</div>
+          <div class="slot-actions">
+            ${agent.workflow_json ? `<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>` : ''}
+            <button class="slot-btn secondary ${agent.connected ? 'connected' : ''}" onclick="openConnectModal(${idx})">${agent.connected ? '✓ Connected' : '🔌 Connect'}</button>
+          </div>
+        </div>`;
+    } else {
+      return `
+        <div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')">
+          <div class="slot-empty-icon">${type.icon}</div>
+          <div class="slot-empty-label">${type.name}</div>
+          <div class="slot-empty-sub">Click to build this agent</div>
+        </div>`;
+    }
+  }).join('');
 }
 
-function getReviewData() {
-  const data = {};
-  reviewFields.forEach(f => {
-    const el = document.getElementById('rf-' + f.key);
-    if (el) data[f.key] = el.value;
-  });
-  return data;
+function startNewAgentOfType(typeKey) {
+  showScreen('new-agent', document.querySelectorAll('.nav-item')[1]);
+  setTimeout(() => selectAgentType(typeKey), 100);
 }
 
-function goBackToChat() {
-  document.getElementById('chip-1').classList.add('active');
-  document.getElementById('chip-1').classList.remove('done');
-  document.getElementById('chip-2').classList.remove('active');
-  showScreen('onboarding', document.querySelector('.nav-item:nth-child(2)'));
+// ══════════════════════════════
+// NEW AGENT FORM
+// ══════════════════════════════
+const AGENT_FORM_QUESTIONS = {
+  'lead-handler': [
+    { id: 'whatsapp_number', type: 'text', label: 'WhatsApp number', title: 'What WhatsApp number will this agent run on?', hint: 'Include country code. e.g. +1 514 000 0000', placeholder: '+1 514 000 0000' },
+    { id: 'opener', type: 'choice', label: 'Opening message style', title: 'How should the agent open the conversation?', hint: 'This is the first thing leads see.', choices: ['Casual & warm — like a friend', 'Curious — ask a question right away', 'Value-first — lead with a benefit', 'Direct — get to the point instantly'] },
+    { id: 'lead_magnet_delivery', type: 'choice', label: 'Lead magnet delivery', title: 'How do you want the lead magnet delivered?', hint: '', choices: ['Send it immediately after first message', 'Qualify first then send', 'Ask for name before sending', 'Skip lead magnet — go straight to call pitch'] },
+    { id: 'call_cta', type: 'text', label: 'Call CTA', title: 'What do you call your discovery call?', hint: 'This exact phrase will appear in the agent\'s messages.', placeholder: 'e.g. free strategy session, clarity call, discovery call' },
+    { id: 'urgency', type: 'choice', label: 'Urgency approach', title: 'Should the agent create urgency to book?', hint: '', choices: ['Yes — limited spots available', 'Yes — time-sensitive offer', 'Soft — just mention availability', 'No urgency — keep it pressure-free'] },
+  ],
+  'follow-up': [
+    { id: 'whatsapp_number', type: 'text', label: 'WhatsApp number', title: 'What WhatsApp number will this agent run on?', hint: 'Include country code.', placeholder: '+1 514 000 0000' },
+    { id: 'delay', type: 'choice', label: 'First follow-up delay', title: 'When should the first follow-up message be sent?', hint: 'After the lead goes silent.', choices: ['24 hours after last message', '48 hours after last message', '3 days after last message', '1 week after last message'] },
+    { id: 'reengagement_hook', type: 'choice', label: 'Re-engagement hook', title: 'What angle should the agent use to re-engage?', hint: '', choices: ['New value — share something useful', 'Direct check-in — just ask if still interested', 'FOMO — limited spots / expiring offer', 'Personal — reference their specific situation'] },
+    { id: 'max_follow_ups', type: 'choice', label: 'Max follow-ups', title: 'How many times should the agent follow up before stopping?', hint: '', choices: ['1 time then stop', '2 times then stop', '3 times then stop', 'Keep going until they respond'] },
+  ],
+  'booked-handler': [
+    { id: 'whatsapp_number', type: 'text', label: 'WhatsApp number', title: 'What WhatsApp number will this agent run on?', hint: 'Include country code.', placeholder: '+1 514 000 0000' },
+    { id: 'confirmation_style', type: 'choice', label: 'Confirmation style', title: 'How should the agent confirm the booking?', hint: '', choices: ['Enthusiastic — celebrate the booking', 'Professional — confirm details clearly', 'Warm — make them feel excited', 'Minimal — just the essentials'] },
+    { id: 'reminder_timing', type: 'choice', label: 'Reminder timing', title: 'When should reminders be sent before the call?', hint: '', choices: ['24 hours before only', '24h and 1h before', '24h, 3h, and 30min before', 'Just 1 hour before'] },
+    { id: 'pre_call_value', type: 'choice', label: 'Pre-call prep', title: 'Should the agent send anything before the call?', hint: 'To increase show-up rate and call quality.', choices: ['Yes — send a prep question to answer before', 'Yes — send a short video or resource', 'Yes — send what to prepare / expect', 'No — just the reminders'] },
+    { id: 'no_show_recovery', type: 'choice', label: 'No-show recovery', title: 'If they don\'t show up, what should the agent do?', hint: '', choices: ['Send one reschedule message', 'Send 2 follow-ups to reschedule', 'Add them back to follow-up sequence', 'Do nothing — mark as lost'] },
+  ]
+};
+
+let afType = null;
+let afStep = 0;
+let afAnswers = {};
+
+function renderAgentForm() {
+  const body = document.getElementById('af-body');
+  body.innerHTML = `
+    <div class="af-type-grid">
+      ${AGENT_TYPES.map(t => `
+        <button class="af-type-card ${afType === t.key ? 'selected' : ''}" onclick="selectAgentType('${t.key}')">
+          <div class="af-type-icon">${t.icon}</div>
+          <div class="af-type-name">${t.name}</div>
+          <div class="af-type-desc">${t.desc}</div>
+        </button>`).join('')}
+    </div>
+    <div id="af-form-steps"></div>`;
+
+  if (afType) renderAfStep();
 }
 
-// ─── CONFIRM & BUILD ───
-async function confirmAndBuild() {
-  const finalData = getReviewData();
-  const btn = document.getElementById('confirm-btn');
-  btn.classList.add('loading');
-  btn.querySelector('span').textContent = 'Building…';
+function selectAgentType(key) {
+  afType = key;
+  afStep = 0;
+  afAnswers = {};
+  renderAgentForm();
+}
 
+function renderAfStep() {
+  const questions = AGENT_FORM_QUESTIONS[afType] || [];
+  if (afStep >= questions.length) {
+    // Summary / confirm
+    renderAfSummary();
+    return;
+  }
+
+  const q = questions[afStep];
+  const totalSteps = questions.length + 1;
+
+  // Steps nav
+  const stepsHtml = questions.map((sq, i) => `
+    <div class="af-step-item ${i < afStep ? 'done' : i === afStep ? 'active' : ''}">
+      <div class="af-step-num">${i < afStep ? '✓' : i + 1}</div>
+      ${sq.label}
+    </div>
+    ${i < questions.length - 1 ? '<div class="af-step-connector"></div>' : ''}
+  `).join('') + `
+    <div class="af-step-connector"></div>
+    <div class="af-step-item ${afStep >= questions.length ? 'active' : ''}">
+      <div class="af-step-num">${questions.length + 1}</div>Confirm
+    </div>`;
+
+  let inputHtml = '';
+  if (q.type === 'choice') {
+    inputHtml = `<div class="af-choices one-col" id="af-choices">
+      ${q.choices.map(c => `
+        <button class="af-choice ${afAnswers[q.id] === c ? 'sel' : ''}" onclick="afSelectChoice('${q.id}','${c.replace(/'/g,"\\'")}',this)">
+          ${c}
+        </button>`).join('')}
+    </div>`;
+  } else if (q.type === 'textarea') {
+    inputHtml = `<textarea class="af-textarea" id="af-input" placeholder="${q.placeholder || ''}">${afAnswers[q.id] || ''}</textarea>`;
+  } else {
+    inputHtml = `<input class="af-input" id="af-input" type="text" placeholder="${q.placeholder || ''}" value="${afAnswers[q.id] || ''}"/>`;
+  }
+
+  document.getElementById('af-form-steps').innerHTML = `
+    <div class="af-steps">${stepsHtml}</div>
+    <div class="af-question">
+      <div class="af-q-label">${q.label}</div>
+      <div class="af-q-text">${q.title}</div>
+      ${q.hint ? `<div class="af-q-hint">${q.hint}</div>` : ''}
+      ${inputHtml}
+    </div>
+    <div class="af-footer">
+      <div class="af-nav">
+        ${afStep > 0 ? '<button class="btn-af-back" onclick="afBack()">← Back</button>' : ''}
+        ${q.type !== 'choice' ? `<button class="btn-af-next" onclick="afNext()">Continue →</button>` : ''}
+      </div>
+      <div class="af-tip">Answer and press Continue, or click an option to auto-advance.</div>
+    </div>`;
+
+  const inp = document.getElementById('af-input');
+  if (inp) { inp.focus(); inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); afNext(); } }); }
+}
+
+function afSelectChoice(qId, val, el) {
+  document.querySelectorAll('.af-choice').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  afAnswers[qId] = val;
+  setTimeout(() => afNext(), 320);
+}
+
+function afNext() {
+  const inp = document.getElementById('af-input');
+  const questions = AGENT_FORM_QUESTIONS[afType] || [];
+  if (inp && afStep < questions.length) afAnswers[questions[afStep].id] = inp.value.trim();
+  afStep++;
+  renderAfStep();
+}
+
+function afBack() {
+  if (afStep > 0) { afStep--; renderAfStep(); }
+}
+
+function renderAfSummary() {
+  const questions = AGENT_FORM_QUESTIONS[afType] || [];
+  const type = AGENT_TYPES.find(t => t.key === afType);
+
+  const stepsHtml = questions.map((sq, i) => `
+    <div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div>
+    <div class="af-step-connector"></div>
+  `).join('') + `<div class="af-step-item active"><div class="af-step-num">${questions.length + 1}</div>Confirm</div>`;
+
+  const summaryRows = questions.map(q => `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;width:160px;flex-shrink:0;">${q.label}</span>
+      <span style="font-size:14px;font-weight:500;text-align:right;">${afAnswers[q.id] || '—'}</span>
+    </div>`).join('');
+
+  document.getElementById('af-form-steps').innerHTML = `
+    <div class="af-steps">${stepsHtml}</div>
+    <div class="af-question">
+      <div class="af-q-label">Summary</div>
+      <div class="af-q-text">Ready to build your ${type?.name}?</div>
+      <div class="af-q-hint" style="margin-bottom:20px;">Review your answers before we build. The AI will use your full business profile + these settings to generate the agent.</div>
+      <div>${summaryRows}</div>
+    </div>
+    <div class="af-footer">
+      <div class="af-nav">
+        <button class="btn-af-back" onclick="afBack()">← Edit</button>
+        <button class="btn-af-next" onclick="buildAgent()" style="background:var(--accent);color:var(--black);">Build Agent ✦</button>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════
+// BUILD AGENT
+// ══════════════════════════════
+async function buildAgent() {
   showGeneratingOverlay();
   setGenStep(1);
 
+  const type = AGENT_TYPES.find(t => t.key === afType);
+  const payload = {
+    agent_type: afType,
+    agent_type_name: type?.name,
+    business_profile: businessProfile,
+    agent_config: afAnswers,
+    session_id: 'session_' + Date.now(),
+    source: 'service_ai_v3'
+  };
+
   try {
-    setTimeout(() => setGenStep(2), 800);
+    setTimeout(() => setGenStep(2), 900);
 
     const res = await fetch(PROVISIONING_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...finalData, session_id: sessionId, source: 'service_ai_v2' })
+      body: JSON.stringify(payload)
     });
 
     setGenStep(3);
@@ -1086,534 +1267,291 @@ async function confirmAndBuild() {
     await sleep(600);
     setGenStep(5);
     await sleep(800);
-    finishBuild(data, finalData);
+    finishBuild(data);
 
-  } catch (err) {
-    console.error('Provisioning error:', err);
+  } catch(err) {
+    console.error(err);
     setGenStep(5);
     await sleep(600);
-    finishBuild({}, finalData);
+    finishBuild({});
   }
-
-  btn.classList.remove('loading');
-  btn.querySelector('span').textContent = 'Confirm & Build Agent';
 }
 
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-function setGenStep(n) {
-  ['gs1','gs2','gs3','gs4','gs5'].forEach((s, i) => {
-    const el = document.getElementById(s);
-    el.classList.remove('active','done');
-    if (i + 1 < n) el.classList.add('done');
-    else if (i + 1 === n) el.classList.add('active');
-  });
-}
-
-function finishBuild(response, formData) {
+function finishBuild(response) {
   const r = Array.isArray(response) ? response[0] : response;
   const clientId = r.client_id || 'agent_' + Date.now();
-  const workflowJson = r.workflow_json || null;
+  const type = AGENT_TYPES.find(t => t.key === afType);
 
   const newAgent = {
     id: clientId,
-    name: r.company || formData.company_name || formData.company || 'Unnamed Agent',
-    tone: formData.tone || '—',
-    whatsapp: formData.whatsapp_number || formData.whatsapp || '—',
+    type: afType,
+    name: businessProfile?.business_name || r.company || 'My Business',
+    agent_type_name: type?.name,
+    whatsapp: afAnswers.whatsapp_number || '—',
+    tone: businessProfile?.tone || '—',
     status: 'live',
     leads: 0,
+    booked: 0,
     created: new Date().toISOString(),
-    workflow_json: workflowJson,
+    workflow_json: r.workflow_json || null,
     workflow_name: r.workflow_name || null,
     connected: false,
     credentials: {}
   };
 
-  agents.push(newAgent);
-  localStorage.setItem('sai_agents', JSON.stringify(agents));
-  addActivity('🤖', `Agent created: ${newAgent.name}`, 'Just now');
+  // Replace or add
+  const existing = agents.findIndex(a => a.type === afType);
+  if (existing >= 0) agents[existing] = newAgent;
+  else agents.push(newAgent);
 
-  chatHistory = [];
-  fallbackIdx = 0;
-  fallbackAnswers = {};
-  gatheredData = {};
+  localStorage.setItem('sai_agents', JSON.stringify(agents));
+  addActivity('🤖', `${type?.name} built for ${newAgent.name}`, 'Just now');
+
+  afType = null; afStep = 0; afAnswers = {};
 
   hideGeneratingOverlay(() => {
-    showScreen('dashboard', document.querySelector('.nav-item:first-child'));
-    renderDashboard();
-    showToast('✅', `Agent "${newAgent.name}" is live! Download the workflow to activate it.`);
+    showScreen('dashboard', document.querySelector('.nav-item'));
+    showToast('✅', `${type?.name} is live! Download the workflow to activate it.`);
   });
 }
 
-// ─── GENERATING OVERLAY ───
+// ══════════════════════════════
+// GENERATING OVERLAY
+// ══════════════════════════════
 function showGeneratingOverlay() {
-  const overlay = document.getElementById('gen-overlay');
-  overlay.classList.add('show');
+  document.getElementById('gen-overlay').classList.add('show');
   ['gs1','gs2','gs3','gs4','gs5'].forEach(s => document.getElementById(s).classList.remove('active','done'));
 }
-
 function hideGeneratingOverlay(cb) {
-  ['gs1','gs2','gs3','gs4','gs5'].forEach(s => {
-    document.getElementById(s).classList.remove('active');
-    document.getElementById(s).classList.add('done');
+  ['gs1','gs2','gs3','gs4','gs5'].forEach(s => { document.getElementById(s).classList.remove('active'); document.getElementById(s).classList.add('done'); });
+  setTimeout(() => { document.getElementById('gen-overlay').classList.remove('show'); if(cb) cb(); }, 500);
+}
+function setGenStep(n) {
+  ['gs1','gs2','gs3','gs4','gs5'].forEach((s,i) => {
+    const el = document.getElementById(s);
+    el.classList.remove('active','done');
+    if (i+1 < n) el.classList.add('done');
+    else if (i+1 === n) el.classList.add('active');
   });
-  setTimeout(() => {
-    document.getElementById('gen-overlay').classList.remove('show');
-    if (cb) cb();
-  }, 500);
 }
+function sleep(ms){ return new Promise(r => setTimeout(r,ms)); }
 
-// ─── ACTIVITY FEED ───
-function addActivity(icon, title, time) {
-  activities.unshift({ icon, title, time });
-  if (activities.length > 20) activities = activities.slice(0, 20);
-  localStorage.setItem('sai_activities', JSON.stringify(activities));
-}
-
-function renderActivityFeed() {
-  const list = document.getElementById('activity-list');
-  if (!activities.length) {
-    list.innerHTML = '<div class="empty-state" style="padding:40px 0"><div class="empty-icon">📭</div><p>No activity yet</p></div>';
-    return;
-  }
-  list.innerHTML = activities.slice(0, 8).map(a => `
-    <div class="activity-item">
-      <div class="activity-icon">${a.icon}</div>
-      <div class="activity-text">
-        <div class="activity-title">${a.title}</div>
-        <div class="activity-time">${a.time}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ─── DASHBOARD RENDER ───
-function renderDashboard() {
-  const hour = new Date().getHours();
-  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  document.getElementById('dash-greeting').textContent = greet + ' 👋';
-
-  const totalLeads = agents.reduce((s, a) => s + (a.leads || 0), 0);
-  document.getElementById('m1-val').textContent = totalLeads;
-  document.getElementById('m2-val').textContent = agents.length ? '—' : '0%';
-  document.getElementById('m3-val').textContent = '$0';
-
-  if (agents.length) {
-    document.getElementById('m1-sub').textContent = agents.length + ' agent(s) active';
-    document.getElementById('m1-sub').className = 'metric-sub green';
-    document.getElementById('m1-badge').textContent = '+0 this week';
-    document.getElementById('m1-badge').className = 'metric-badge up';
-    document.getElementById('global-status').className = 'pill-status live';
-    document.getElementById('global-status').innerHTML = '<div class="live-dot"></div> ' + agents.length + ' agent(s) live';
-  }
-
-  drawSparkline('spark1', [2,4,3,6,5,8,7,10,9,12], 'rgba(34,197,94,0.6)', 'rgba(34,197,94,0.08)');
-  drawSparkline('spark2', [10,14,12,18,16,20,19,24,22,28], 'rgba(59,130,246,0.6)', 'rgba(59,130,246,0.08)');
-  drawSparkline('spark3', [0,0,0,0,0,0,0,0,0,0], 'rgba(156,163,175,0.5)', 'rgba(0,0,0,0.03)');
-
-  renderAgentsTable();
-  renderActivityFeed();
-}
-
-function drawSparkline(canvasId, data, lineColor, fillColor) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const w = canvas.width, h = canvas.height;
-  ctx.clearRect(0, 0, w, h);
-
-  const min = Math.min(...data), max = Math.max(...data);
-  const range = max - min || 1;
-  const pts = data.map((v, i) => ({
-    x: (i / (data.length - 1)) * w,
-    y: h - ((v - min) / range) * (h * 0.75) - h * 0.1
-  }));
-
-  ctx.beginPath();
-  ctx.moveTo(pts[0].x, h);
-  pts.forEach(p => ctx.lineTo(p.x, p.y));
-  ctx.lineTo(pts[pts.length-1].x, h);
-  ctx.closePath();
-  ctx.fillStyle = fillColor;
-  ctx.fill();
-
-  ctx.beginPath();
-  pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
-  ctx.strokeStyle = lineColor;
-  ctx.lineWidth = 2;
-  ctx.lineJoin = 'round';
-  ctx.stroke();
-
-  const last = pts[pts.length - 1];
-  ctx.beginPath();
-  ctx.arc(last.x, last.y, 3.5, 0, Math.PI * 2);
-  ctx.fillStyle = lineColor;
-  ctx.fill();
-}
-
-// ─── CHANGE 3: renderAgentsTable — add Connect button next to Preview ───
-function renderAgentsTable() {
-  const wrap = document.getElementById('agents-table-wrap');
-  if (!agents.length) {
-    wrap.innerHTML = `<div class="empty-state">
-      <div class="empty-icon">🤖</div>
-      <h3>No agents yet</h3>
-      <p>Create your first AI agent to start<br/>handling leads automatically.</p>
-    </div>`;
-    return;
-  }
-  wrap.innerHTML = `<table class="agent-table">
-    <thead>
-      <tr>
-        <th>Agent</th><th>WhatsApp</th><th>Tone</th><th>Leads</th><th>Status</th><th>Created</th><th></th>
-      </tr>
-    </thead>
-    <tbody>
-      ${agents.map((a, idx) => `
-        <tr>
-          <td><div class="agent-name">${a.name}</div></td>
-          <td>${a.whatsapp || '—'}</td>
-          <td>${a.tone || '—'}</td>
-          <td>${a.leads || 0}</td>
-          <td><span class="status-pill ${a.status}">${a.status}</span></td>
-          <td>${new Date(a.created).toLocaleDateString()}</td>
-          <td>
-            ${a.workflow_json
-              ? `<button class="btn-preview" onclick="openWorkflowModal(${idx})">⬡ Preview</button>
-                 <button class="btn-connect ${a.connected ? 'connected' : ''}" onclick="openConnectModal(${idx})">
-                   ${a.connected ? '✓ Connected' : '🔌 Connect'}
-                 </button>`
-              : '<span style="font-size:11px;color:var(--muted)">—</span>'
-            }
-          </td>
-        </tr>
-      `).join('')}
-    </tbody>
-  </table>`;
-}
-
-// ─── TOAST ───
-function showToast(icon, text) {
-  document.getElementById('toast-icon').textContent = icon;
-  document.getElementById('toast-text').textContent = text;
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
-}
-
-// ─── NOTIFICATIONS ───
-function checkNotifications() {
-  const pending = localStorage.getItem('sai_notify');
-  if (pending) {
-    const n = JSON.parse(pending);
-    showToast('🔔', n.message || 'Agent update received');
-    localStorage.removeItem('sai_notify');
-    document.getElementById('notif-badge').classList.remove('show');
-  }
-}
-
-setInterval(() => {
-  if (localStorage.getItem('sai_notify')) {
-    document.getElementById('notif-badge').classList.add('show');
-  }
-}, 5000);
-
-// ─── SIDEBAR USER ───
-function initUser() {
-  const email = localStorage.getItem('sai_email') || 'user@service.ai';
-  const name = email.split('@')[0];
-  document.getElementById('sidebar-name').textContent = name;
-  document.getElementById('sidebar-email').textContent = email;
-  document.getElementById('sidebar-avatar').textContent = name[0].toUpperCase();
-}
-
-// ─── WORKFLOW MODAL ───
-let activeAgentIdx = null;
-
+// ══════════════════════════════
+// WORKFLOW MODAL
+// ══════════════════════════════
 function openWorkflowModal(idx) {
   activeAgentIdx = idx;
   const agent = agents[idx];
-  if (!agent || !agent.workflow_json) return;
-
-  document.getElementById('modal-title').textContent = agent.workflow_name || agent.name + ' — Workflow';
+  if (!agent?.workflow_json) return;
+  document.getElementById('modal-title').textContent = agent.workflow_name || agent.agent_type_name + ' — Workflow';
   document.getElementById('modal-subtitle').textContent = `${agent.workflow_json.nodes?.length || 0} nodes · Ready to import`;
-
   renderNodeCanvas(agent.workflow_json);
   document.getElementById('workflow-modal').classList.add('show');
 }
+function closeModal() { document.getElementById('workflow-modal').classList.remove('show'); activeAgentIdx = null; }
 
-function closeModal() {
-  document.getElementById('workflow-modal').classList.remove('show');
-  activeAgentIdx = null;
-}
-
-// downloadWorkflow now always downloads whatever is in agent.workflow_json
-// — if already connected, that's the patched version
 function downloadWorkflow() {
   if (activeAgentIdx === null) return;
   const agent = agents[activeAgentIdx];
   if (!agent?.workflow_json) return;
-
-  const blob = new Blob([JSON.stringify(agent.workflow_json, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(agent.workflow_json, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = (agent.workflow_name || agent.name).replace(/[^a-z0-9]/gi, '_') + '.json';
+  a.download = (agent.workflow_name || agent.name).replace(/[^a-z0-9]/gi,'_') + '.json';
   a.click();
   URL.revokeObjectURL(url);
-
-  const label = agent.connected ? 'Connected workflow downloaded!' : 'Workflow downloaded! Import it in n8n.';
-  showToast('⬇', label);
+  showToast('⬇', 'Workflow downloaded! Import it in n8n.');
 }
 
-// ─── RENDER NODE CANVAS ───
-function renderNodeCanvas(workflow) {
-  const NODE_W = 160;
-  const NODE_H = 72;
-  const PAD   = 60;
-
-  const inner = document.getElementById('node-canvas-inner');
-  inner.innerHTML = '';
-
-  const nodes = workflow.nodes || [];
-  const connections = workflow.connections || {};
-
-  if (!nodes.length) {
-    inner.style.width = '400px';
-    inner.style.height = '200px';
-    inner.innerHTML = '<div style="padding:60px;color:#999;font-size:13px;">No nodes found in workflow.</div>';
-    return;
-  }
-
-  const rawPositions = nodes.map(n => ({
-    x: Array.isArray(n.position) ? n.position[0] : (n.position?.x || 0),
-    y: Array.isArray(n.position) ? n.position[1] : (n.position?.y || 0)
-  }));
-
-  const minX = Math.min(...rawPositions.map(p => p.x));
-  const minY = Math.min(...rawPositions.map(p => p.y));
-
-  const positions = rawPositions.map(p => ({
-    x: p.x - minX + PAD,
-    y: p.y - minY + PAD
-  }));
-
-  const maxX = Math.max(...positions.map(p => p.x));
-  const maxY = Math.max(...positions.map(p => p.y));
-  const totalW = maxX + NODE_W + PAD;
-  const totalH = maxY + NODE_H + PAD;
-
-  inner.style.width  = totalW + 'px';
-  inner.style.height = totalH + 'px';
-
-  const svgNS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(svgNS, 'svg');
-  svg.setAttribute('width',  totalW);
-  svg.setAttribute('height', totalH);
-  svg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';
-
-  const defs = document.createElementNS(svgNS, 'defs');
-  defs.innerHTML = `
-    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="rgba(0,0,0,0.25)"/>
-    </marker>`;
-  svg.appendChild(defs);
-  inner.appendChild(svg);
-
-  function getNodeClass(type) {
-    if (!type) return '';
-    const t = type.toLowerCase();
-    if (t.includes('whatsapptrigger') || t.includes('webhook')) return 'trigger';
-    if (t.includes('agent'))           return 'agent';
-    if (t.includes('memory') || t.includes('lmchat') || t.includes('openrouter')) return 'memory';
-    if (t.includes('code'))            return 'code';
-    if (t.includes('httprequest') || t.includes('whatsapp')) return 'http';
-    if (t.includes('wait'))            return 'wait';
-    if (t.includes('splitinbatches'))  return 'split';
-    if (t.includes('filter'))          return 'filter';
-    if (t.includes('switch'))          return 'switch';
-    return '';
-  }
-
-  function getNodeIcon(type) {
-    if (!type) return '⬡';
-    const t = type.toLowerCase();
-    if (t.includes('whatsapptrigger'))  return '📲';
-    if (t.includes('webhook'))          return '🔗';
-    if (t.includes('agent'))            return '🤖';
-    if (t.includes('memory') || t.includes('lmchat') || t.includes('openrouter')) return '🧠';
-    if (t.includes('code'))             return '{ }';
-    if (t.includes('httprequest'))      return '🌐';
-    if (t.includes('whatsapp'))         return '💬';
-    if (t.includes('wait'))             return '⏱';
-    if (t.includes('splitinbatches'))   return '🔄';
-    if (t.includes('filter'))           return '🔽';
-    if (t.includes('switch'))           return '⇄';
-    return '⬡';
-  }
-
-  const nodeCentres = {};
-
-  nodes.forEach((node, i) => {
-    const x = positions[i].x;
-    const y = positions[i].y;
-
-    nodeCentres[node.name] = {
-      ox: x + NODE_W, oy: y + NODE_H / 2,
-      ix: x,          iy: y + NODE_H / 2
-    };
-
-    const el = document.createElement('div');
-    el.className = 'wf-node ' + getNodeClass(node.type);
-    el.style.left   = x + 'px';
-    el.style.top    = y + 'px';
-    el.style.width  = NODE_W + 'px';
-    el.title        = node.name;
-
-    const typeLabel = (node.type || '').split('.').pop().replace(/([A-Z])/g, ' $1').trim();
-    el.innerHTML = `
-      <div class="wf-node-icon">${getNodeIcon(node.type)}</div>
-      <div class="wf-node-name">${node.name}</div>
-      <div class="wf-node-type">${typeLabel}</div>
-    `;
-    inner.appendChild(el);
-  });
-
-  Object.entries(connections).forEach(([fromName, outputs]) => {
-    const from = nodeCentres[fromName];
-    if (!from) return;
-
-    const outputGroups = Object.values(outputs);
-    outputGroups.forEach(outputArr => {
-      outputArr.forEach(connList => {
-        if (!Array.isArray(connList)) return;
-        connList.forEach(conn => {
-          const toName = conn?.node;
-          if (!toName) return;
-          const to = nodeCentres[toName];
-          if (!to) return;
-
-          const x1 = from.ox, y1 = from.oy;
-          const x2 = to.ix,   y2 = to.iy;
-          const pull = Math.max(60, Math.abs(x2 - x1) * 0.4);
-          const cx1 = x1 + pull, cy1 = y1;
-          const cx2 = x2 - pull, cy2 = y2;
-
-          const path = document.createElementNS(svgNS, 'path');
-          path.setAttribute('d', `M${x1},${y1} C${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`);
-          path.setAttribute('stroke', 'rgba(0,0,0,0.18)');
-          path.setAttribute('stroke-width', '1.5');
-          path.setAttribute('fill', 'none');
-          path.setAttribute('marker-end', 'url(#arrow)');
-          svg.appendChild(path);
-        });
-      });
-    });
-  });
+function openConnectFromModal() {
+  if (activeAgentIdx !== null) openConnectModal(activeAgentIdx);
 }
 
-// ─── CHANGE 4: CONNECT MODAL — targeted injection logic ───
-let connectAgentIdx = null;
-
+// ══════════════════════════════
+// CONNECT MODAL
+// ══════════════════════════════
 function openConnectModal(idx) {
   connectAgentIdx = idx;
   const agent = agents[idx];
-  if (!agent) return;
-
-  // Pre-fill if already connected before
-  const creds = agent.credentials || {};
+  const creds = agent?.credentials || {};
   document.getElementById('cred-wa-token').value = creds.wa_token || '';
   document.getElementById('cred-phone-id').value = creds.phone_id || '';
-
   document.getElementById('connect-modal').classList.add('show');
 }
-
-function closeConnectModal() {
-  document.getElementById('connect-modal').classList.remove('show');
-  connectAgentIdx = null;
-}
+function closeConnectModal() { document.getElementById('connect-modal').classList.remove('show'); connectAgentIdx = null; }
 
 function injectAndDownload() {
   if (connectAgentIdx === null) return;
-
   const agent = agents[connectAgentIdx];
-  if (!agent?.workflow_json) {
-    showToast('⚠️', 'No workflow JSON found for this agent.');
-    return;
-  }
-
+  if (!agent?.workflow_json) { showToast('⚠️','No workflow found.'); return; }
   const waToken = document.getElementById('cred-wa-token').value.trim();
   const phoneId = document.getElementById('cred-phone-id').value.trim();
+  if (!waToken || !phoneId) { showToast('⚠️','Fill in both fields.'); return; }
 
-  if (!waToken || !phoneId) {
-    showToast('⚠️', 'Please fill in both fields.');
-    return;
-  }
-
-  // Deep clone — never mutate original until validated
   const patched = JSON.parse(JSON.stringify(agent.workflow_json));
-
-  // ── Targeted injection: walk every node ──
   patched.nodes.forEach(node => {
-
-    // 1. HTTP Request nodes — replace token in Authorization header
     if (node.parameters?.headerParameters?.parameters) {
-      node.parameters.headerParameters.parameters.forEach(header => {
-        if (typeof header.value === 'string' && header.value.includes('YOUR_WHATSAPP_TOKEN')) {
-          header.value = header.value.replace('YOUR_WHATSAPP_TOKEN', waToken);
-        }
+      node.parameters.headerParameters.parameters.forEach(h => {
+        if (typeof h.value === 'string' && h.value.includes('YOUR_WHATSAPP_TOKEN')) h.value = h.value.replace(/YOUR_WHATSAPP_TOKEN/g, waToken);
       });
     }
-
-    // 2. WhatsApp nodes — replace phoneNumberId parameter
-    if (node.parameters?.phoneNumberId === 'YOUR_PHONE_NUMBER_ID') {
-      node.parameters.phoneNumberId = phoneId;
-    }
+    if (node.parameters?.phoneNumberId === 'YOUR_PHONE_NUMBER_ID') node.parameters.phoneNumberId = phoneId;
   });
 
-  // ── Post-injection validation — block download if any placeholder survived ──
-  const finalStr = JSON.stringify(patched);
-  if (finalStr.includes('YOUR_WHATSAPP_TOKEN')) {
-    showToast('⚠️', 'Token injection failed — placeholder not found in workflow. Check your JSON.');
-    return;
-  }
-  if (finalStr.includes('YOUR_PHONE_NUMBER_ID')) {
-    showToast('⚠️', 'Phone ID injection failed — placeholder not found in workflow. Check your JSON.');
-    return;
-  }
+  const final = JSON.stringify(patched);
+  if (final.includes('YOUR_WHATSAPP_TOKEN') || final.includes('YOUR_PHONE_NUMBER_ID')) { showToast('⚠️','Injection failed — placeholder not found.'); return; }
 
-  // ── Update agent in memory + localStorage so both download paths are patched ──
   agents[connectAgentIdx].workflow_json = patched;
   agents[connectAgentIdx].connected = true;
   agents[connectAgentIdx].credentials = { wa_token: waToken, phone_id: phoneId };
   localStorage.setItem('sai_agents', JSON.stringify(agents));
 
-  // ── Trigger download ──
-  const blob = new Blob([JSON.stringify(patched, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(patched, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = (agent.workflow_name || agent.name).replace(/[^a-z0-9]/gi, '_') + '_connected.json';
+  a.download = (agent.workflow_name || agent.name).replace(/[^a-z0-9]/gi,'_') + '_connected.json';
   a.click();
   URL.revokeObjectURL(url);
 
   closeConnectModal();
-  renderAgentsTable(); // refresh button to green "✓ Connected"
+  renderDashboard();
   addActivity('🔌', `Agent connected: ${agent.name}`, 'Just now');
-  showToast('✅', 'Connected JSON downloaded! Import it in n8n and you\'re live.');
+  showToast('✅', 'Connected JSON downloaded! Import in n8n and you\'re live.');
 }
 
-// ─── INIT ───
-(function init() {
-  agents = JSON.parse(localStorage.getItem('sai_agents') || '[]');
-  activities = JSON.parse(localStorage.getItem('sai_activities') || '[]');
-  initUser();
+// ══════════════════════════════
+// NODE CANVAS
+// ══════════════════════════════
+function renderNodeCanvas(workflow) {
+  const NODE_W = 160, NODE_H = 72, PAD = 60;
+  const inner = document.getElementById('node-canvas-inner');
+  inner.innerHTML = '';
+  const nodes = workflow.nodes || [];
+  const connections = workflow.connections || {};
+  if (!nodes.length) { inner.style.width='400px';inner.style.height='200px';inner.innerHTML='<div style="padding:60px;color:#999;font-size:13px;">No nodes found.</div>';return; }
 
-  if (agents.length) {
-    showScreen('dashboard', document.querySelector('.nav-item'));
-  } else {
-    showScreen('onboarding', document.querySelectorAll('.nav-item')[1]);
+  const raw = nodes.map(n => ({ x: Array.isArray(n.position)?n.position[0]:(n.position?.x||0), y: Array.isArray(n.position)?n.position[1]:(n.position?.y||0) }));
+  const minX = Math.min(...raw.map(p=>p.x)), minY = Math.min(...raw.map(p=>p.y));
+  const pos = raw.map(p => ({ x:p.x-minX+PAD, y:p.y-minY+PAD }));
+  const maxX = Math.max(...pos.map(p=>p.x)), maxY = Math.max(...pos.map(p=>p.y));
+  const W = maxX+NODE_W+PAD, H = maxY+NODE_H+PAD;
+  inner.style.width=W+'px'; inner.style.height=H+'px';
+
+  const svgNS='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(svgNS,'svg');
+  svg.setAttribute('width',W);svg.setAttribute('height',H);
+  svg.style.cssText='position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';
+  const defs=document.createElementNS(svgNS,'defs');
+  defs.innerHTML='<marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(0,0,0,0.2)"/></marker>';
+  svg.appendChild(defs); inner.appendChild(svg);
+
+  function cls(t){ if(!t)return''; const l=t.toLowerCase();
+    if(l.includes('whatsapptrigger')||l.includes('webhook'))return'trigger';
+    if(l.includes('agent'))return'agent';
+    if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'memory';
+    if(l.includes('code'))return'code';
+    if(l.includes('httprequest')||l.includes('whatsapp'))return'http';
+    if(l.includes('wait'))return'wait';
+    if(l.includes('splitinbatches'))return'split';
+    if(l.includes('filter'))return'filter';
+    if(l.includes('switch'))return'switch-node';
+    return''; }
+  function ico(t){ if(!t)return'⬡'; const l=t.toLowerCase();
+    if(l.includes('whatsapptrigger'))return'📲';
+    if(l.includes('webhook'))return'🔗';
+    if(l.includes('agent'))return'🤖';
+    if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'🧠';
+    if(l.includes('code'))return'{ }';
+    if(l.includes('httprequest'))return'🌐';
+    if(l.includes('whatsapp'))return'💬';
+    if(l.includes('wait'))return'⏱';
+    if(l.includes('splitinbatches'))return'🔄';
+    if(l.includes('filter'))return'🔽';
+    if(l.includes('switch'))return'⇄';
+    return'⬡'; }
+
+  const centres={};
+  nodes.forEach((node,i) => {
+    const x=pos[i].x, y=pos[i].y;
+    centres[node.name]={ox:x+NODE_W,oy:y+NODE_H/2,ix:x,iy:y+NODE_H/2};
+    const el=document.createElement('div');
+    el.className='wf-node '+cls(node.type);
+    el.style.left=x+'px'; el.style.top=y+'px'; el.style.width=NODE_W+'px'; el.title=node.name;
+    el.innerHTML=`<div class="wf-node-icon">${ico(node.type)}</div><div class="wf-node-name">${node.name}</div><div class="wf-node-type">${(node.type||'').split('.').pop().replace(/([A-Z])/g,' $1').trim()}</div>`;
+    inner.appendChild(el);
+  });
+
+  Object.entries(connections).forEach(([from,outputs]) => {
+    const f=centres[from]; if(!f)return;
+    Object.values(outputs).forEach(arr => arr.forEach(list => {
+      if(!Array.isArray(list))return;
+      list.forEach(conn => {
+        const t=centres[conn?.node]; if(!t)return;
+        const x1=f.ox,y1=f.oy,x2=t.ix,y2=t.iy;
+        const pull=Math.max(60,Math.abs(x2-x1)*0.4);
+        const path=document.createElementNS(svgNS,'path');
+        path.setAttribute('d',`M${x1},${y1} C${x1+pull},${y1} ${x2-pull},${y2} ${x2},${y2}`);
+        path.setAttribute('stroke','rgba(0,0,0,0.15)');
+        path.setAttribute('stroke-width','1.5');
+        path.setAttribute('fill','none');
+        path.setAttribute('marker-end','url(#arrow)');
+        svg.appendChild(path);
+      });
+    }));
+  });
+}
+
+// ══════════════════════════════
+// ACTIVITY + UTILS
+// ══════════════════════════════
+function addActivity(icon,title,time) {
+  activities.unshift({icon,title,time});
+  if(activities.length>20) activities=activities.slice(0,20);
+  localStorage.setItem('sai_activities',JSON.stringify(activities));
+}
+function renderActivityFeed() {
+  const list=document.getElementById('activity-list');
+  if(!activities.length){list.innerHTML='<div class="empty-state"><div class="ei">📭</div><p>No activity yet</p></div>';return;}
+  list.innerHTML=activities.slice(0,8).map(a=>`<div class="activity-item"><div class="activity-icon">${a.icon}</div><div class="activity-text"><div class="activity-title">${a.title}</div><div class="activity-time">${a.time}</div></div></div>`).join('');
+}
+function drawSparkline(id,data,line,fill) {
+  const c=document.getElementById(id); if(!c)return;
+  const ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+  const min=Math.min(...data),max=Math.max(...data),rng=max-min||1;
+  const pts=data.map((v,i)=>({x:(i/(data.length-1))*w,y:h-((v-min)/rng)*(h*0.75)-h*0.1}));
+  ctx.beginPath();ctx.moveTo(pts[0].x,h);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,h);ctx.closePath();ctx.fillStyle=fill;ctx.fill();
+  ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle=line;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();
+  const l=pts[pts.length-1];ctx.beginPath();ctx.arc(l.x,l.y,3.5,0,Math.PI*2);ctx.fillStyle=line;ctx.fill();
+}
+function showToast(icon,text) {
+  document.getElementById('toast-icon').textContent=icon;
+  document.getElementById('toast-text').textContent=text;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),4200);
+}
+function checkNotifs() {
+  const p=localStorage.getItem('sai_notify');
+  if(p){const n=JSON.parse(p);showToast('🔔',n.message||'Update received');localStorage.removeItem('sai_notify');document.getElementById('notif-badge').classList.remove('show');}
+}
+setInterval(()=>{ if(localStorage.getItem('sai_notify')) document.getElementById('notif-badge').classList.add('show'); },5000);
+
+// ══════════════════════════════
+// INIT
+// ══════════════════════════════
+(function init() {
+  user = JSON.parse(localStorage.getItem('sai_user')||'null');
+  businessProfile = JSON.parse(localStorage.getItem('sai_profile')||'null');
+  agents = JSON.parse(localStorage.getItem('sai_agents')||'[]');
+  activities = JSON.parse(localStorage.getItem('sai_activities')||'[]');
+
+  if (user) {
+    afterAuth();
   }
+  // else: auth screen is already visible by default
 })();
 </script>
 </body>

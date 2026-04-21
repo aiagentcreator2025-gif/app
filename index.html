@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -45,6 +46,9 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .auth-btn{width:100%;padding:13px;margin-top:8px;background:var(--accent);color:var(--black);border:none;border-radius:10px;font-size:14px;font-weight:700;letter-spacing:0.2px;transition:opacity 0.15s,transform 0.1s;}
 .auth-btn:hover{opacity:0.9;}
 .auth-btn:active{transform:scale(0.98);}
+.auth-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.auth-error{margin-top:12px;padding:10px 14px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:8px;font-size:12px;color:#fca5a5;display:none;}
+.auth-error.show{display:block;}
 .auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
 .auth-divider span{font-size:12px;color:rgba(255,255,255,0.2);}
 .auth-divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08);}
@@ -74,8 +78,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .ob-choice.selected{border-color:var(--black);background:var(--black);color:#fff;}
 .ob-choice-key{width:26px;height:26px;border-radius:6px;background:rgba(0,0,0,0.08);color:var(--black);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ob-choice.selected .ob-choice-key{background:rgba(255,255,255,0.15);color:#fff;}
-.ob-choices.multi .ob-choice.selected{border-color:var(--accent-dark);background:rgba(200,241,53,0.08);color:var(--black);}
-.ob-choices.multi .ob-choice.selected .ob-choice-key{background:var(--accent);color:var(--black);}
 .ob-input{width:100%;padding:16px 0;border:none;border-bottom:2px solid var(--border);font-size:22px;font-family:'DM Sans',sans-serif;color:var(--black);background:transparent;outline:none;margin-bottom:32px;transition:border-color 0.2s;}
 .ob-input:focus{border-color:var(--black);}
 .ob-input::placeholder{color:#ccc;}
@@ -113,6 +115,8 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .user-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--black);flex-shrink:0;}
 .user-info .uname{font-size:12px;font-weight:600;color:#fff;}
 .user-info .uemail{font-size:11px;color:rgba(255,255,255,0.35);}
+.signout-btn{width:100%;margin-top:8px;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.08);font-size:11px;color:rgba(255,255,255,0.3);transition:all 0.15s;}
+.signout-btn:hover{border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);}
 .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh;}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
 .topbar-left h1{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;}
@@ -300,151 +304,50 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .btn-do-connect{display:flex;align-items:center;gap:8px;padding:12px 24px;background:var(--black);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;transition:opacity 0.15s;}
 .btn-do-connect:hover{opacity:0.85;}
 
-/* ══ TOAST ══ */
-.toast{position:fixed;bottom:28px;right:28px;background:var(--black);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;max-width:320px;}
-.toast.show{transform:translateY(0);opacity:1;}
-
-/* ══════════════════════════════
-   BUSINESS PROFILE PAGE
-══════════════════════════════ */
+/* ══ PROFILE PAGE ══ */
 .profile-wrap{max-width:780px;margin:0 auto;}
-
-.profile-hero{
-  background:var(--black);border-radius:var(--r);
-  padding:32px;margin-bottom:24px;
-  display:flex;align-items:center;gap:24px;
-  position:relative;overflow:hidden;
-}
-.profile-hero::before{
-  content:'';position:absolute;top:-40px;right:-40px;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle,rgba(200,241,53,0.15) 0%,transparent 70%);
-}
+.profile-hero{background:var(--black);border-radius:var(--r);padding:32px;margin-bottom:24px;display:flex;align-items:center;gap:24px;position:relative;overflow:hidden;}
+.profile-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.15) 0%,transparent 70%);}
 .profile-avatar-wrap{position:relative;flex-shrink:0;}
-.profile-avatar{
-  width:72px;height:72px;border-radius:50%;
-  background:var(--accent);display:flex;align-items:center;justify-content:center;
-  font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;color:var(--black);
-}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;color:var(--black);}
 .profile-hero-info{flex:1;}
-.profile-biz-name{
-  font-family:'Instrument Serif',serif;font-size:26px;font-weight:400;
-  color:#fff;margin-bottom:4px;
-}
-.profile-industry-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:4px 12px;border-radius:20px;
-  background:rgba(200,241,53,0.12);
-  font-size:12px;font-weight:600;color:var(--accent);
-}
+.profile-biz-name{font-family:'Instrument Serif',serif;font-size:26px;font-weight:400;color:#fff;margin-bottom:4px;}
+.profile-industry-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(200,241,53,0.12);font-size:12px;font-weight:600;color:var(--accent);}
 .profile-hero-actions{display:flex;gap:10px;flex-shrink:0;}
-.btn-redo-onboarding{
-  padding:9px 18px;border-radius:9px;border:1.5px solid rgba(255,255,255,0.15);
-  background:transparent;color:rgba(255,255,255,0.6);font-size:12px;font-weight:600;
-  transition:all 0.15s;
-}
+.btn-redo-onboarding{padding:9px 18px;border-radius:9px;border:1.5px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.6);font-size:12px;font-weight:600;transition:all 0.15s;}
 .btn-redo-onboarding:hover{border-color:rgba(255,255,255,0.4);color:#fff;}
-
-/* Section cards */
-.profile-section{
-  background:var(--white);border-radius:var(--r);
-  border:1px solid var(--border);box-shadow:var(--shadow);
-  margin-bottom:16px;overflow:hidden;
-}
-.profile-section-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 24px;border-bottom:1px solid var(--border);
-}
-.profile-section-title{
-  display:flex;align-items:center;gap:10px;
-  font-size:13px;font-weight:700;color:var(--black);
-}
-.profile-section-icon{
-  width:28px;height:28px;border-radius:8px;
-  background:var(--bg);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:13px;
-}
-.btn-edit-section{
-  display:flex;align-items:center;gap:6px;
-  padding:6px 14px;border-radius:8px;
-  border:1px solid var(--border);background:var(--bg);
-  font-size:12px;font-weight:600;color:var(--muted);
-  transition:all 0.15s;
-}
+.profile-section{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;}
+.profile-section-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border);}
+.profile-section-title{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--black);}
+.profile-section-icon{width:28px;height:28px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.btn-edit-section{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:12px;font-weight:600;color:var(--muted);transition:all 0.15s;}
 .btn-edit-section:hover{border-color:var(--black);color:var(--black);}
-.btn-edit-section.editing{
-  background:var(--black);color:#fff;border-color:var(--black);
-}
-.btn-save-section{
-  display:flex;align-items:center;gap:6px;
-  padding:6px 14px;border-radius:8px;
-  border:none;background:var(--accent);
-  font-size:12px;font-weight:700;color:var(--black);
-  transition:all 0.15s;margin-left:8px;
-}
+.btn-save-section{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:none;background:var(--accent);font-size:12px;font-weight:700;color:var(--black);transition:all 0.15s;margin-left:8px;}
 .btn-save-section:hover{opacity:0.85;}
-
-/* Fields grid */
 .profile-fields{padding:20px 24px;display:flex;flex-direction:column;gap:0;}
-.profile-field{
-  display:flex;align-items:flex-start;
-  padding:14px 0;border-bottom:1px solid var(--border);
-  gap:16px;
-}
+.profile-field{display:flex;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);gap:16px;}
 .profile-field:last-child{border-bottom:none;}
-.pf-label{
-  font-size:11px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:0.5px;
-  width:160px;flex-shrink:0;padding-top:2px;
-  line-height:1.4;
-}
+.pf-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;width:160px;flex-shrink:0;padding-top:2px;line-height:1.4;}
 .pf-value-wrap{flex:1;}
-.pf-value{
-  font-size:14px;font-weight:500;color:var(--black);
-  line-height:1.6;word-break:break-word;
-}
+.pf-value{font-size:14px;font-weight:500;color:var(--black);line-height:1.6;word-break:break-word;}
 .pf-value.empty{color:var(--muted);font-style:italic;font-weight:400;}
-
-/* Inline edit inputs */
-.pf-input{
-  width:100%;padding:9px 12px;
-  border:1.5px solid var(--black);border-radius:8px;
-  font-size:14px;color:var(--black);background:#fff;
-  outline:none;font-family:'DM Sans',sans-serif;
-  transition:border-color 0.15s;
-}
+.pf-input{width:100%;padding:9px 12px;border:1.5px solid var(--black);border-radius:8px;font-size:14px;color:var(--black);background:#fff;outline:none;font-family:'DM Sans',sans-serif;transition:border-color 0.15s;}
 .pf-input:focus{border-color:var(--accent-dark);box-shadow:0 0 0 3px rgba(200,241,53,0.15);}
-.pf-textarea{
-  width:100%;padding:9px 12px;min-height:72px;
-  border:1.5px solid var(--black);border-radius:8px;
-  font-size:14px;color:var(--black);background:#fff;
-  outline:none;resize:vertical;line-height:1.6;
-  font-family:'DM Sans',sans-serif;
-  transition:border-color 0.15s;
-}
+.pf-textarea{width:100%;padding:9px 12px;min-height:72px;border:1.5px solid var(--black);border-radius:8px;font-size:14px;color:var(--black);background:#fff;outline:none;resize:vertical;line-height:1.6;font-family:'DM Sans',sans-serif;transition:border-color 0.15s;}
 .pf-textarea:focus{border-color:var(--accent-dark);box-shadow:0 0 0 3px rgba(200,241,53,0.15);}
-
-/* Choice pills edit */
 .pf-choices{display:flex;flex-direction:column;gap:6px;}
-.pf-choice-pill{
-  padding:8px 14px;border-radius:8px;border:1.5px solid var(--border);
-  background:var(--bg);font-size:13px;font-weight:500;
-  text-align:left;transition:all 0.15s;cursor:pointer;
-}
+.pf-choice-pill{padding:8px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;font-weight:500;text-align:left;transition:all 0.15s;cursor:pointer;}
 .pf-choice-pill:hover{border-color:var(--black);}
 .pf-choice-pill.selected{border-color:var(--black);background:var(--black);color:#fff;}
-
-/* Completeness bar */
-.profile-completeness{
-  background:var(--white);border-radius:var(--r);
-  border:1px solid var(--border);box-shadow:var(--shadow);
-  padding:20px 24px;margin-bottom:16px;
-  display:flex;align-items:center;gap:16px;
-}
+.profile-completeness{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:16px;display:flex;align-items:center;gap:16px;}
 .completeness-label{font-size:13px;font-weight:600;white-space:nowrap;}
 .completeness-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
 .completeness-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.6s ease;}
 .completeness-pct{font-size:13px;font-weight:700;color:var(--accent-dark);white-space:nowrap;}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--black);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;max-width:320px;}
+.toast.show{transform:translateY(0);opacity:1;}
 
 @media(max-width:1100px){.metrics-grid{grid-template-columns:1fr 1fr;}.agents-slots{grid-template-columns:1fr;}.dash-body{grid-template-columns:1fr;}}
 </style>
@@ -473,18 +376,22 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
         <button class="auth-tab active" id="tab-signin" onclick="switchAuthTab('signin')">Sign in</button>
         <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Create account</button>
       </div>
+
+      <!-- SIGN IN -->
       <div id="auth-signin">
         <div class="auth-field"><label>Email</label><input type="email" id="signin-email" placeholder="you@company.com"/></div>
         <div class="auth-field"><label>Password</label><input type="password" id="signin-pw" placeholder="••••••••"/></div>
-        <button class="auth-btn" onclick="doSignIn()">Sign in →</button>
-        <div class="auth-divider"><div class="auth-divider-line"></div><span>or</span><div class="auth-divider-line"></div></div>
-        <button class="auth-demo" onclick="doDemo()">Try the demo</button>
+        <div class="auth-error" id="signin-error"></div>
+        <button class="auth-btn" id="signin-btn" onclick="doSignIn()">Sign in →</button>
       </div>
+
+      <!-- SIGN UP -->
       <div id="auth-signup" style="display:none">
         <div class="auth-field"><label>Full name</label><input type="text" id="signup-name" placeholder="Your name"/></div>
         <div class="auth-field"><label>Email</label><input type="email" id="signup-email" placeholder="you@company.com"/></div>
-        <div class="auth-field"><label>Password</label><input type="password" id="signup-pw" placeholder="Create a password"/></div>
-        <button class="auth-btn" onclick="doSignUp()">Create account →</button>
+        <div class="auth-field"><label>Password</label><input type="password" id="signup-pw" placeholder="At least 6 characters"/></div>
+        <div class="auth-error" id="signup-error"></div>
+        <button class="auth-btn" id="signup-btn" onclick="doSignUp()">Create account →</button>
       </div>
     </div>
   </div>
@@ -527,6 +434,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
           <div class="uemail" id="sidebar-email">—</div>
         </div>
       </div>
+      <button class="signout-btn" onclick="doSignOut()">Sign out</button>
     </div>
   </aside>
 
@@ -612,20 +520,14 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
               <button class="btn-redo-onboarding" onclick="redoOnboarding()">↺ Redo onboarding</button>
             </div>
           </div>
-
           <div class="profile-completeness">
             <span class="completeness-label">Profile completeness</span>
             <div class="completeness-bar-wrap"><div class="completeness-bar-fill" id="completeness-fill" style="width:0%"></div></div>
             <span class="completeness-pct" id="completeness-pct">0%</span>
           </div>
-
-          <!-- SECTION: Business -->
           <div class="profile-section" id="section-business">
             <div class="profile-section-header">
-              <div class="profile-section-title">
-                <div class="profile-section-icon">🏢</div>
-                Business
-              </div>
+              <div class="profile-section-title"><div class="profile-section-icon">🏢</div>Business</div>
               <div style="display:flex;align-items:center;">
                 <button class="btn-edit-section" id="btn-edit-business" onclick="toggleEdit('business')">✎ Edit</button>
                 <button class="btn-save-section hide" id="btn-save-business" onclick="saveSection('business')">✓ Save</button>
@@ -633,14 +535,9 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
             </div>
             <div class="profile-fields" id="fields-business"></div>
           </div>
-
-          <!-- SECTION: Offer -->
           <div class="profile-section" id="section-offer">
             <div class="profile-section-header">
-              <div class="profile-section-title">
-                <div class="profile-section-icon">💎</div>
-                Offer & Audience
-              </div>
+              <div class="profile-section-title"><div class="profile-section-icon">💎</div>Offer & Audience</div>
               <div style="display:flex;align-items:center;">
                 <button class="btn-edit-section" id="btn-edit-offer" onclick="toggleEdit('offer')">✎ Edit</button>
                 <button class="btn-save-section hide" id="btn-save-offer" onclick="saveSection('offer')">✓ Save</button>
@@ -648,14 +545,9 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
             </div>
             <div class="profile-fields" id="fields-offer"></div>
           </div>
-
-          <!-- SECTION: Sales -->
           <div class="profile-section" id="section-sales">
             <div class="profile-section-header">
-              <div class="profile-section-title">
-                <div class="profile-section-icon">📣</div>
-                Sales & Follow-up
-              </div>
+              <div class="profile-section-title"><div class="profile-section-icon">📣</div>Sales & Follow-up</div>
               <div style="display:flex;align-items:center;">
                 <button class="btn-edit-section" id="btn-edit-sales" onclick="toggleEdit('sales')">✎ Edit</button>
                 <button class="btn-save-section hide" id="btn-save-sales" onclick="saveSection('sales')">✓ Save</button>
@@ -663,14 +555,9 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
             </div>
             <div class="profile-fields" id="fields-sales"></div>
           </div>
-
-          <!-- SECTION: Voice -->
           <div class="profile-section" id="section-voice">
             <div class="profile-section-header">
-              <div class="profile-section-title">
-                <div class="profile-section-icon">🎙️</div>
-                Agent Voice & Style
-              </div>
+              <div class="profile-section-title"><div class="profile-section-icon">🎙️</div>Agent Voice & Style</div>
               <div style="display:flex;align-items:center;">
                 <button class="btn-edit-section" id="btn-edit-voice" onclick="toggleEdit('voice')">✎ Edit</button>
                 <button class="btn-save-section hide" id="btn-save-voice" onclick="saveSection('voice')">✓ Save</button>
@@ -678,7 +565,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
             </div>
             <div class="profile-fields" id="fields-voice"></div>
           </div>
-
         </div>
       </div>
 
@@ -755,13 +641,17 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 
 <script>
 // ══════════════════════════════
+// SUPABASE INIT
+// ══════════════════════════════
+const SUPABASE_URL = 'https://dvhnqeojwxrmqgtqmyyh.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2aG5xZW9qd3hybXFndHFteXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MjEzMTYsImV4cCI6MjA4NDA5NzMxNn0.DIdPYes2Ee2_02bzGWDxWDwJhNdbdifX6IujT3E91U8';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ══════════════════════════════
 // CONSTANTS
 // ══════════════════════════════
 const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai2.app.n8n.cloud/webhook/e6682268-42b6-4a4d-9394-8b4b90cdc1b5';
 
-// ══════════════════════════════
-// PROFILE SCHEMA — maps fields to sections
-// ══════════════════════════════
 const PROFILE_SECTIONS = {
   business: [
     { id: 'business_name', label: 'Business name', type: 'text' },
@@ -785,21 +675,20 @@ const PROFILE_SECTIONS = {
   ]
 };
 
-// tracks which sections are in edit mode
 const editState = { business: false, offer: false, sales: false, voice: false };
 
 // ══════════════════════════════
-// STATE
+// STATE — now comes from Supabase, not localStorage
 // ══════════════════════════════
-let user = JSON.parse(localStorage.getItem('sai_user') || 'null');
-let businessProfile = JSON.parse(localStorage.getItem('sai_profile') || 'null');
-let agents = JSON.parse(localStorage.getItem('sai_agents') || '[]');
-let activities = JSON.parse(localStorage.getItem('sai_activities') || '[]');
+let currentUser = null;
+let businessProfile = null;
+let agents = [];
+let activities = [];
 let activeAgentIdx = null;
 let connectAgentIdx = null;
 
 // ══════════════════════════════
-// AUTH
+// AUTH — Supabase
 // ══════════════════════════════
 function switchAuthTab(tab) {
   document.getElementById('tab-signin').classList.toggle('active', tab==='signin');
@@ -807,26 +696,92 @@ function switchAuthTab(tab) {
   document.getElementById('auth-signin').style.display = tab==='signin'?'block':'none';
   document.getElementById('auth-signup').style.display = tab==='signup'?'block':'none';
 }
-function doSignIn() {
-  const email = document.getElementById('signin-email').value.trim() || 'user@service.ai';
-  user = { email, name: email.split('@')[0] };
-  localStorage.setItem('sai_user', JSON.stringify(user));
-  afterAuth();
+
+function showAuthError(formId, msg) {
+  const el = document.getElementById(formId+'-error');
+  el.textContent = msg;
+  el.classList.add('show');
 }
-function doSignUp() {
-  const name = document.getElementById('signup-name').value.trim() || 'User';
-  const email = document.getElementById('signup-email').value.trim() || 'user@service.ai';
-  user = { email, name };
-  localStorage.setItem('sai_user', JSON.stringify(user));
-  afterAuth();
+function clearAuthError(formId) {
+  document.getElementById(formId+'-error').classList.remove('show');
 }
-function doDemo() {
-  user = { email: 'demo@service.ai', name: 'Demo User' };
-  localStorage.setItem('sai_user', JSON.stringify(user));
-  afterAuth();
+
+async function doSignIn() {
+  clearAuthError('signin');
+  const email = document.getElementById('signin-email').value.trim();
+  const pw = document.getElementById('signin-pw').value;
+  if (!email || !pw) { showAuthError('signin','Please fill in all fields.'); return; }
+
+  const btn = document.getElementById('signin-btn');
+  btn.disabled = true; btn.textContent = 'Signing in…';
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+
+  btn.disabled = false; btn.textContent = 'Sign in →';
+
+  if (error) { showAuthError('signin', error.message); return; }
+  currentUser = data.user;
+  await afterAuth();
 }
-function afterAuth() {
+
+async function doSignUp() {
+  clearAuthError('signup');
+  const name = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const pw = document.getElementById('signup-pw').value;
+
+  if (!name || !email || !pw) { showAuthError('signup','Please fill in all fields.'); return; }
+  if (pw.length < 6) { showAuthError('signup','Password must be at least 6 characters.'); return; }
+
+  const btn = document.getElementById('signup-btn');
+  btn.disabled = true; btn.textContent = 'Creating account…';
+
+  const { data, error } = await sb.auth.signUp({ email, password: pw });
+
+  btn.disabled = false; btn.textContent = 'Create account →';
+
+  if (error) { showAuthError('signup', error.message); return; }
+
+  currentUser = data.user;
+
+  // Insert profile row
+  await sb.from('profiles').insert({
+    id: currentUser.id,
+    full_name: name,
+    email: email
+  });
+
+  await afterAuth();
+}
+
+async function doSignOut() {
+  await sb.auth.signOut();
+  currentUser = null;
+  businessProfile = null;
+  agents = [];
+  activities = [];
+  document.getElementById('app-screen').classList.add('hide');
+  document.getElementById('auth-screen').classList.remove('hide');
+  switchAuthTab('signin');
+}
+
+async function afterAuth() {
   document.getElementById('auth-screen').classList.add('hide');
+
+  // Load profile from Supabase
+  const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+
+  // Load business profile from localStorage for now (will migrate later)
+  businessProfile = JSON.parse(localStorage.getItem('sai_profile_' + currentUser.id) || 'null');
+  agents = JSON.parse(localStorage.getItem('sai_agents_' + currentUser.id) || '[]');
+  activities = JSON.parse(localStorage.getItem('sai_activities_' + currentUser.id) || '[]');
+
+  // Set sidebar user info from Supabase profile
+  const displayName = profile?.full_name || currentUser.email.split('@')[0];
+  document.getElementById('sidebar-name').textContent = displayName;
+  document.getElementById('sidebar-email').textContent = currentUser.email;
+  document.getElementById('sidebar-avatar').textContent = displayName[0].toUpperCase();
+
   if (!businessProfile) startOnboarding();
   else startApp();
 }
@@ -902,7 +857,8 @@ function skipOnboarding() {
 }
 function finishOnboarding() {
   businessProfile = obAnswers;
-  localStorage.setItem('sai_profile', JSON.stringify(businessProfile));
+  // Save per-user in localStorage (will move to Supabase in next step)
+  localStorage.setItem('sai_profile_' + currentUser.id, JSON.stringify(businessProfile));
   document.getElementById('onboarding-screen').classList.add('hide');
   startApp();
 }
@@ -916,9 +872,6 @@ function redoOnboarding() {
 // ══════════════════════════════
 function startApp() {
   document.getElementById('app-screen').classList.remove('hide');
-  document.getElementById('sidebar-name').textContent = user?.name || 'User';
-  document.getElementById('sidebar-email').textContent = user?.email || '—';
-  document.getElementById('sidebar-avatar').textContent = (user?.name||'U')[0].toUpperCase();
   showScreen('dashboard', document.querySelector('.nav-item'));
 }
 function showScreen(name, navEl) {
@@ -948,21 +901,15 @@ function showScreen(name, navEl) {
 // ══════════════════════════════
 function renderProfilePage() {
   const p = businessProfile || {};
-
-  // Hero
   const name = p.business_name || 'My Business';
   document.getElementById('profile-avatar-letter').textContent = name[0].toUpperCase();
   document.getElementById('profile-biz-name-display').textContent = name;
   document.getElementById('profile-industry-display').textContent = p.industry || 'No industry set';
-
-  // Completeness
   const allFields = ['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];
   const filled = allFields.filter(f => p[f] && p[f].trim() && p[f] !== 'none').length;
   const pct = Math.round((filled / allFields.length) * 100);
   document.getElementById('completeness-fill').style.width = pct + '%';
   document.getElementById('completeness-pct').textContent = pct + '%';
-
-  // Render all sections in view mode
   ['business','offer','sales','voice'].forEach(sec => {
     editState[sec] = false;
     renderSectionFields(sec, false);
@@ -971,110 +918,61 @@ function renderProfilePage() {
     document.getElementById('btn-edit-'+sec).classList.remove('hide');
   });
 }
-
 function renderSectionFields(section, isEditing) {
   const fields = PROFILE_SECTIONS[section];
   const p = businessProfile || {};
   const container = document.getElementById('fields-'+section);
-
   container.innerHTML = fields.map(f => {
     const val = p[f.id] || '';
     const isEmpty = !val || val.trim() === '';
-
     if (!isEditing) {
-      // VIEW mode
-      return `<div class="profile-field">
-        <div class="pf-label">${f.label}</div>
-        <div class="pf-value-wrap">
-          <div class="pf-value ${isEmpty ? 'empty' : ''}">${isEmpty ? 'Not set' : escHtml(val)}</div>
-        </div>
-      </div>`;
+      return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-value ${isEmpty?'empty':''}">${isEmpty?'Not set':escHtml(val)}</div></div></div>`;
     }
-
-    // EDIT mode
     if (f.type === 'choice') {
       const pillsHtml = f.choices.map(c => `<button class="pf-choice-pill ${val===c?'selected':''}" onclick="pfSelectChoice('${f.id}','${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');
-      return `<div class="profile-field">
-        <div class="pf-label">${f.label}</div>
-        <div class="pf-value-wrap">
-          <div class="pf-choices" id="pf-choices-${f.id}">${pillsHtml}</div>
-          <input type="hidden" id="pf-val-${f.id}" value="${escAttr(val)}"/>
-        </div>
-      </div>`;
+      return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-choices" id="pf-choices-${f.id}">${pillsHtml}</div><input type="hidden" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;
     } else if (f.type === 'textarea') {
-      return `<div class="profile-field">
-        <div class="pf-label">${f.label}</div>
-        <div class="pf-value-wrap">
-          <textarea class="pf-textarea" id="pf-val-${f.id}">${escHtml(val)}</textarea>
-        </div>
-      </div>`;
+      return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><textarea class="pf-textarea" id="pf-val-${f.id}">${escHtml(val)}</textarea></div></div>`;
     } else {
-      return `<div class="profile-field">
-        <div class="pf-label">${f.label}</div>
-        <div class="pf-value-wrap">
-          <input class="pf-input" type="text" id="pf-val-${f.id}" value="${escAttr(val)}"/>
-        </div>
-      </div>`;
+      return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><input class="pf-input" type="text" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;
     }
   }).join('');
 }
-
 function pfSelectChoice(fieldId, val) {
   document.getElementById('pf-val-'+fieldId).value = val;
   document.querySelectorAll(`#pf-choices-${fieldId} .pf-choice-pill`).forEach(p => {
     p.classList.toggle('selected', p.textContent === val);
   });
 }
-
 function toggleEdit(section) {
   const isNowEditing = !editState[section];
   editState[section] = isNowEditing;
   renderSectionFields(section, isNowEditing);
   const editBtn = document.getElementById('btn-edit-'+section);
   const saveBtn = document.getElementById('btn-save-'+section);
-  if (isNowEditing) {
-    editBtn.classList.add('editing');
-    editBtn.textContent = '✕ Cancel';
-    saveBtn.classList.remove('hide');
-  } else {
-    editBtn.classList.remove('editing');
-    editBtn.textContent = '✎ Edit';
-    saveBtn.classList.add('hide');
-  }
+  if (isNowEditing) { editBtn.classList.add('editing'); editBtn.textContent = '✕ Cancel'; saveBtn.classList.remove('hide'); }
+  else { editBtn.classList.remove('editing'); editBtn.textContent = '✎ Edit'; saveBtn.classList.add('hide'); }
 }
-
 function saveSection(section) {
   const fields = PROFILE_SECTIONS[section];
   if (!businessProfile) businessProfile = {};
-
-  fields.forEach(f => {
-    const el = document.getElementById('pf-val-'+f.id);
-    if (el) businessProfile[f.id] = el.value.trim();
-  });
-
-  localStorage.setItem('sai_profile', JSON.stringify(businessProfile));
-
-  // Exit edit mode
+  fields.forEach(f => { const el = document.getElementById('pf-val-'+f.id); if(el) businessProfile[f.id] = el.value.trim(); });
+  // Save per-user (will move to Supabase in next step)
+  localStorage.setItem('sai_profile_' + currentUser.id, JSON.stringify(businessProfile));
   editState[section] = false;
   renderSectionFields(section, false);
-  const editBtn = document.getElementById('btn-edit-'+section);
-  const saveBtn = document.getElementById('btn-save-'+section);
-  editBtn.classList.remove('editing');
-  editBtn.textContent = '✎ Edit';
-  saveBtn.classList.add('hide');
-
-  // Refresh hero + completeness
+  document.getElementById('btn-edit-'+section).classList.remove('editing');
+  document.getElementById('btn-edit-'+section).textContent = '✎ Edit';
+  document.getElementById('btn-save-'+section).classList.add('hide');
   const name = businessProfile.business_name || 'My Business';
   document.getElementById('profile-avatar-letter').textContent = name[0].toUpperCase();
   document.getElementById('profile-biz-name-display').textContent = name;
   document.getElementById('profile-industry-display').textContent = businessProfile.industry || 'No industry set';
-
   const allFields = ['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];
   const filled = allFields.filter(f => businessProfile[f] && businessProfile[f].trim() && businessProfile[f] !== 'none').length;
   const pct = Math.round((filled / allFields.length) * 100);
   document.getElementById('completeness-fill').style.width = pct + '%';
   document.getElementById('completeness-pct').textContent = pct + '%';
-
   showToast('✅', 'Profile updated and saved.');
 }
 
@@ -1113,23 +1011,9 @@ function renderAgentSlots() {
     const agent = agents.find(a=>a.type===type.key);
     if (agent) {
       const idx = agents.indexOf(agent);
-      return `<div class="agent-slot active-slot">
-        <div class="slot-status live">● Live</div>
-        <div class="slot-number">${i+1}</div>
-        <div class="slot-type">${type.name}</div>
-        <div class="slot-name">${agent.name}</div>
-        <div class="slot-desc">${type.desc}</div>
-        <div class="slot-actions">
-          ${agent.workflow_json?`<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>`:''}
-          <button class="slot-btn secondary" onclick="openConnectModal(${idx})">${agent.connected?'✓ Connected':'🔌 Connect'}</button>
-        </div>
-      </div>`;
+      return `<div class="agent-slot active-slot"><div class="slot-status live">● Live</div><div class="slot-number">${i+1}</div><div class="slot-type">${type.name}</div><div class="slot-name">${agent.name}</div><div class="slot-desc">${type.desc}</div><div class="slot-actions">${agent.workflow_json?`<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>`:''}<button class="slot-btn secondary" onclick="openConnectModal(${idx})">${agent.connected?'✓ Connected':'🔌 Connect'}</button></div></div>`;
     } else {
-      return `<div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')">
-        <div class="slot-empty-icon">${type.icon}</div>
-        <div class="slot-empty-label">${type.name}</div>
-        <div class="slot-empty-sub">Click to build this agent</div>
-      </div>`;
+      return `<div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')"><div class="slot-empty-icon">${type.icon}</div><div class="slot-empty-label">${type.name}</div><div class="slot-empty-sub">Click to build this agent</div></div>`;
     }
   }).join('');
 }
@@ -1160,7 +1044,7 @@ const AGENT_FORM_QUESTIONS = {
     { id:'whatsapp_number', type:'text', label:'WhatsApp number', title:'What WhatsApp number will this agent run on?', hint:'Include country code.', placeholder:'+1 514 000 0000' },
     { id:'confirmation_style', type:'choice', label:'Confirmation style', title:'How should the agent confirm the booking?', hint:'', choices:['Enthusiastic — celebrate the booking','Professional — confirm details clearly','Warm — make them feel excited','Minimal — just the essentials'] },
     { id:'reminder_timing', type:'choice', label:'Reminder timing', title:'When should reminders be sent before the call?', hint:'', choices:['24 hours before only','24h and 1h before','24h, 3h, and 30min before','Just 1 hour before'] },
-    { id:'pre_call_value', type:'choice', label:'Pre-call prep', title:'Should the agent send anything before the call?', hint:'To increase show-up rate and call quality.', choices:['Yes — send a prep question to answer before','Yes — send a short video or resource','Yes — send what to prepare / expect','No — just the reminders'] },
+    { id:'pre_call_value', type:'choice', label:'Pre-call prep', title:'Should the agent send anything before the call?', hint:'', choices:['Yes — send a prep question to answer before','Yes — send a short video or resource','Yes — send what to prepare / expect','No — just the reminders'] },
     { id:'no_show_recovery', type:'choice', label:'No-show recovery', title:"If they don't show up, what should the agent do?", hint:'', choices:['Send one reschedule message','Send 2 follow-ups to reschedule','Add them back to follow-up sequence','Do nothing — mark as lost'] },
   ]
 };
@@ -1188,7 +1072,7 @@ function renderAfStep() {
   }
   document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">${q.label}</div><div class="af-q-text">${q.title}</div>${q.hint?`<div class="af-q-hint">${q.hint}</div>`:''} ${inputHtml}</div><div class="af-footer"><div class="af-nav">${afStep>0?'<button class="btn-af-back" onclick="afBack()">← Back</button>':''}${q.type!=='choice'?`<button class="btn-af-next" onclick="afNext()">Continue →</button>`:''}</div><div class="af-tip">Answer and press Continue, or click an option to auto-advance.</div></div>`;
   const inp=document.getElementById('af-input');
-  if (inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();afNext();}});}
+  if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();afNext();}});}
 }
 function afSelectChoice(qId,val,el){document.querySelectorAll('.af-choice').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');afAnswers[qId]=val;setTimeout(()=>afNext(),320);}
 function afNext(){const inp=document.getElementById('af-input');const questions=AGENT_FORM_QUESTIONS[afType]||[];if(inp&&afStep<questions.length)afAnswers[questions[afStep].id]=inp.value.trim();afStep++;renderAfStep();}
@@ -1198,7 +1082,7 @@ function renderAfSummary(){
   const type=AGENT_TYPES.find(t=>t.key===afType);
   const stepsHtml=questions.map((sq,i)=>`<div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div><div class="af-step-connector"></div>`).join('')+`<div class="af-step-item active"><div class="af-step-num">${questions.length+1}</div>Confirm</div>`;
   const summaryRows=questions.map(q=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;width:160px;flex-shrink:0;">${q.label}</span><span style="font-size:14px;font-weight:500;text-align:right;">${afAnswers[q.id]||'—'}</span></div>`).join('');
-  document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">Summary</div><div class="af-q-text">Ready to build your ${type?.name}?</div><div class="af-q-hint" style="margin-bottom:20px;">Review your answers before we build. The AI will use your full business profile + these settings.</div><div>${summaryRows}</div></div><div class="af-footer"><div class="af-nav"><button class="btn-af-back" onclick="afBack()">← Edit</button><button class="btn-af-next" onclick="buildAgent()" style="background:var(--accent);color:var(--black);">Build Agent ✦</button></div></div>`;
+  document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">Summary</div><div class="af-q-text">Ready to build your ${type?.name}?</div><div class="af-q-hint" style="margin-bottom:20px;">Review your answers before we build.</div><div>${summaryRows}</div></div><div class="af-footer"><div class="af-nav"><button class="btn-af-back" onclick="afBack()">← Edit</button><button class="btn-af-next" onclick="buildAgent()" style="background:var(--accent);color:var(--black);">Build Agent ✦</button></div></div>`;
 }
 
 // ══════════════════════════════
@@ -1227,7 +1111,8 @@ function finishBuild(response){
   const newAgent={id:clientId,type:afType,name:businessProfile?.business_name||r.company||'My Business',agent_type_name:type?.name,whatsapp:afAnswers.whatsapp_number||'—',status:'live',leads:0,booked:0,created:new Date().toISOString(),workflow_json:r.workflow_json||null,workflow_name:r.workflow_name||null,connected:false,credentials:{}};
   const existing=agents.findIndex(a=>a.type===afType);
   if(existing>=0)agents[existing]=newAgent; else agents.push(newAgent);
-  localStorage.setItem('sai_agents',JSON.stringify(agents));
+  // Save per-user
+  localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));
   addActivity('🤖',`${type?.name} built for ${newAgent.name}`,'Just now');
   afType=null;afStep=0;afAnswers={};
   hideGeneratingOverlay(()=>{showScreen('dashboard',document.querySelector('.nav-item'));showToast('✅',`${type?.name} is live! Download the workflow to activate it.`);});
@@ -1269,7 +1154,7 @@ function injectAndDownload(){
   const final=JSON.stringify(patched);
   if(final.includes('YOUR_WHATSAPP_TOKEN')||final.includes('YOUR_PHONE_NUMBER_ID')){showToast('⚠️','Injection failed — placeholder not found.');return;}
   agents[connectAgentIdx].workflow_json=patched;agents[connectAgentIdx].connected=true;agents[connectAgentIdx].credentials={wa_token:waToken,phone_id:phoneId};
-  localStorage.setItem('sai_agents',JSON.stringify(agents));
+  localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));
   const blob=new Blob([JSON.stringify(patched,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(agent.workflow_name||agent.name).replace(/[^a-z0-9]/gi,'_')+'_connected.json';a.click();URL.revokeObjectURL(url);
   closeConnectModal();renderDashboard();addActivity('🔌',`Agent connected: ${agent.name}`,'Just now');showToast('✅','Connected JSON downloaded! Import in n8n and you\'re live.');
 }
@@ -1300,7 +1185,11 @@ function renderNodeCanvas(workflow){
 // ══════════════════════════════
 // ACTIVITY + UTILS
 // ══════════════════════════════
-function addActivity(icon,title,time){activities.unshift({icon,title,time});if(activities.length>20)activities=activities.slice(0,20);localStorage.setItem('sai_activities',JSON.stringify(activities));}
+function addActivity(icon,title,time){
+  activities.unshift({icon,title,time});
+  if(activities.length>20)activities=activities.slice(0,20);
+  localStorage.setItem('sai_activities_'+currentUser.id,JSON.stringify(activities));
+}
 function renderActivityFeed(){const list=document.getElementById('activity-list');if(!activities.length){list.innerHTML='<div class="empty-state"><div class="ei">📭</div><p>No activity yet</p></div>';return;}list.innerHTML=activities.slice(0,8).map(a=>`<div class="activity-item"><div class="activity-icon">${a.icon}</div><div class="activity-text"><div class="activity-title">${a.title}</div><div class="activity-time">${a.time}</div></div></div>`).join('');}
 function drawSparkline(id,data,line,fill){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);const min=Math.min(...data),max=Math.max(...data),rng=max-min||1;const pts=data.map((v,i)=>({x:(i/(data.length-1))*w,y:h-((v-min)/rng)*(h*0.75)-h*0.1}));ctx.beginPath();ctx.moveTo(pts[0].x,h);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,h);ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle=line;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();const l=pts[pts.length-1];ctx.beginPath();ctx.arc(l.x,l.y,3.5,0,Math.PI*2);ctx.fillStyle=line;ctx.fill();}
 function showToast(icon,text){document.getElementById('toast-icon').textContent=icon;document.getElementById('toast-text').textContent=text;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4200);}
@@ -1308,14 +1197,22 @@ function checkNotifs(){const p=localStorage.getItem('sai_notify');if(p){const n=
 setInterval(()=>{if(localStorage.getItem('sai_notify'))document.getElementById('notif-badge').classList.add('show');},5000);
 
 // ══════════════════════════════
-// INIT
+// INIT — check Supabase session on load
 // ══════════════════════════════
-(function init(){
-  user=JSON.parse(localStorage.getItem('sai_user')||'null');
-  businessProfile=JSON.parse(localStorage.getItem('sai_profile')||'null');
-  agents=JSON.parse(localStorage.getItem('sai_agents')||'[]');
-  activities=JSON.parse(localStorage.getItem('sai_activities')||'[]');
-  if(user)afterAuth();
+(async function init(){
+  const { data: { session } } = await sb.auth.getSession();
+  if (session?.user) {
+    currentUser = session.user;
+    await afterAuth();
+  }
+  // Listen for auth state changes (login/logout)
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session?.user) {
+      currentUser = session.user;
+    } else if (event === 'SIGNED_OUT') {
+      currentUser = null;
+    }
+  });
 })();
 </script>
 </body>

@@ -1173,7 +1173,7 @@ async function saveNewBooking() {
   const btn = document.getElementById('ab-save-btn');
   btn.disabled = true; btn.textContent = 'Saving…';
 
-  const booking = await insertBooking({ name, phone, datetime: date+'T'+time+':00', notes, status });
+  const booking = await insertBooking({ name, phone, datetime: new Date(date+'T'+time+':00').toISOString(), notes, status });
   btn.disabled = false; btn.textContent = 'Save booking';
 
   if (!booking) { showToast('⚠️','Failed to save. Check Supabase RLS.'); return; }

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Book a Call</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F7F5;
+  --white:#fff;
+  --black:#0A0A0A;
+  --accent:#C8F135;
+  --accent-dark:#6a8f0f;
+  --muted:#9A9A9A;
+  --border:rgba(0,0,0,0.08);
+  --shadow:0 1px 12px rgba(0,0,0,0.06);
+  --shadow-lg:0 12px 48px rgba(0,0,0,0.12);
+  --r:16px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--black);min-height:100vh;font-size:14px;}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;}
+input,textarea,select{font-family:'DM Sans',sans-serif;}
+
+/* ══ LAYOUT ══ */
+.page{display:flex;min-height:100vh;}
+
+/* ══ LEFT PANEL ══ */
+.left{width:380px;flex-shrink:0;background:var(--black);padding:48px 40px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:hidden;}
+.left::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.12) 0%,transparent 70%);pointer-events:none;}
+.left::after{content:'';position:absolute;bottom:-60px;left:-60px;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.06) 0%,transparent 70%);pointer-events:none;}
+.host-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.1);margin-bottom:20px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:24px;color:var(--black);}
+.host-photo-img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.1);margin-bottom:20px;}
+.host-name{font-family:'Instrument Serif',serif;font-size:18px;color:#fff;margin-bottom:4px;}
+.host-title{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:32px;}
+.host-headline{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;color:#fff;line-height:1.2;margin-bottom:16px;}
+.host-desc{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:32px;}
+.host-meta{display:flex;flex-direction:column;gap:10px;margin-bottom:auto;}
+.host-meta-item{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.45);}
+.host-meta-icon{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.host-social{display:flex;gap:10px;margin-top:32px;}
+.social-btn{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:14px;text-decoration:none;transition:all 0.15s;}
+.social-btn:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.15);}
+
+/* ══ RIGHT PANEL ══ */
+.right{flex:1;padding:48px;display:flex;flex-direction:column;align-items:center;overflow-y:auto;}
+.step{width:100%;max-width:600px;animation:step-in 0.4s ease;}
+@keyframes step-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ PROGRESS ══ */
+.progress-wrap{display:flex;align-items:center;gap:8px;margin-bottom:40px;width:100%;max-width:600px;}
+.progress-step{flex:1;height:3px;border-radius:2px;background:var(--border);transition:background 0.3s;}
+.progress-step.done{background:var(--black);}
+.progress-step.active{background:var(--accent-dark);}
+.progress-label{font-size:12px;color:var(--muted);white-space:nowrap;}
+
+/* ══ STEP TITLES ══ */
+.step-title{font-family:'Instrument Serif',serif;font-size:30px;font-weight:400;margin-bottom:8px;line-height:1.2;}
+.step-sub{font-size:14px;color:var(--muted);margin-bottom:32px;line-height:1.6;}
+
+/* ══ CALENDAR ══ */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.cal-month{font-family:'Instrument Serif',serif;font-size:20px;font-weight:400;}
+.cal-nav-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.15s;}
+.cal-nav-btn:hover{background:var(--black);color:#fff;border-color:var(--black);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:24px;}
+.cal-day-label{text-align:center;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;padding:8px 0;}
+.cal-day{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;border:1.5px solid transparent;}
+.cal-day:hover:not(.disabled):not(.empty){background:var(--bg);border-color:var(--border);}
+.cal-day.available{color:var(--black);}
+.cal-day.disabled{color:#ccc;cursor:default;}
+.cal-day.empty{cursor:default;}
+.cal-day.selected{background:var(--black);color:var(--accent);border-color:var(--black);}
+.cal-day.today{border-color:var(--accent-dark);}
+
+/* ══ TIME SLOTS ══ */
+.time-section{margin-top:8px;}
+.time-section-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;}
+.time-slots{display:flex;flex-wrap:wrap;gap:8px;}
+.time-slot{padding:10px 18px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-size:13px;font-weight:600;transition:all 0.15s;}
+.time-slot:hover{border-color:var(--black);}
+.time-slot.selected{background:var(--black);color:var(--accent);border-color:var(--black);}
+.time-slot.disabled{opacity:0.35;cursor:default;}
+
+/* ══ QUESTIONS ══ */
+.question-wrap{margin-bottom:24px;}
+.q-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.q-input{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;color:var(--black);background:var(--white);outline:none;transition:border-color 0.15s;}
+.q-input:focus{border-color:var(--black);}
+.q-input::placeholder{color:#ccc;}
+.q-textarea{width:100%;padding:14px 16px;min-height:100px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;color:var(--black);background:var(--white);outline:none;resize:vertical;line-height:1.6;transition:border-color 0.15s;}
+.q-textarea:focus{border-color:var(--black);}
+.q-textarea::placeholder{color:#ccc;}
+
+/* ══ CONFIRM SUMMARY ══ */
+.summary-card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:24px;box-shadow:var(--shadow);margin-bottom:24px;}
+.summary-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.summary-row:last-child{border-bottom:none;}
+.summary-icon{width:32px;height:32px;border-radius:9px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.summary-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;}
+.summary-value{font-size:14px;font-weight:500;}
+
+/* ══ BUTTONS ══ */
+.btn-next{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--black);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;transition:all 0.15s;margin-top:8px;}
+.btn-next:hover{opacity:0.85;}
+.btn-next:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-back{display:flex;align-items:center;gap:6px;padding:10px 0;background:transparent;border:none;font-size:13px;color:var(--muted);margin-bottom:16px;transition:color 0.15s;}
+.btn-back:hover{color:var(--black);}
+
+/* ══ SUCCESS ══ */
+.success-wrap{text-align:center;padding:60px 40px;animation:step-in 0.5s ease;}
+.success-icon{font-size:56px;margin-bottom:24px;}
+.success-title{font-family:'Instrument Serif',serif;font-size:36px;font-weight:400;margin-bottom:12px;}
+.success-sub{font-size:15px;color:var(--muted);line-height:1.6;max-width:400px;margin:0 auto;}
+
+/* ══ LOADING ══ */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;}
+.loading-ring{width:48px;height:48px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--black);animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{font-size:14px;color:var(--muted);}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--black);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+@media(max-width:768px){
+  .page{flex-direction:column;}
+  .left{width:100%;height:auto;position:relative;padding:32px 24px;}
+  .right{padding:32px 20px;}
+  .host-headline{font-size:24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page" id="page">
+  <div class="loading" id="loading-screen">
+    <div class="loading-ring"></div>
+    <p>Loading your booking page…</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toast-text">Done!</span></div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// SUPABASE
+// ══════════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://dvhnqeojwxrmqgtqmyyh.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2aG5xZW9qd3hybXFndHFteXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MjEzMTYsImV4cCI6MjA4NDA5NzMxNn0.DIdPYes2Ee2_02bzGWDxWDwJhNdbdifX6IujT3E91U8';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+const CONFIRMATION_WEBHOOK = 'https://rosegoldprojectai2.app.n8n.cloud/webhook/c7ce98ad-d781-410b-8030-8be2340c2a69';
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let formConfig   = null;
+let formId       = null;
+let hostUserId   = null;
+let currentStep  = 0; // 0=date, 1=time, 2=questions, 3=confirm, 4=success
+let selectedDate = null;
+let selectedTime = null;
+let answers      = {};
+let calYear, calMonth;
+
+const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+(async function init() {
+  const params = new URLSearchParams(window.location.search);
+  formId = params.get('id');
+
+  if (!formId) { showError('No form ID found in URL.'); return; }
+
+  const { data, error } = await sb
+    .from('forms')
+    .select('*')
+    .eq('id', formId)
+    .single();
+
+  if (error || !data) { showError('Form not found.'); return; }
+
+  formConfig = data.config;
+  hostUserId = data.user_id;
+
+  // Apply accent color
+  if (formConfig.accent_color) {
+    document.documentElement.style.setProperty('--accent', formConfig.accent_color);
+  }
+
+  document.title = `Book a call with ${formConfig.name || 'Us'}`;
+
+  const now = new Date();
+  calYear  = now.getFullYear();
+  calMonth = now.getMonth();
+
+  buildPage();
+})();
+
+// ══════════════════════════════════════════════════════
+// BUILD PAGE
+// ══════════════════════════════════════════════════════
+function buildPage() {
+  const page = document.getElementById('page');
+  page.innerHTML = `
+    <div class="left" id="left-panel">
+      ${buildLeftPanel()}
+    </div>
+    <div class="right" id="right-panel">
+      <div class="progress-wrap" id="progress-wrap"></div>
+      <div id="step-wrap"></div>
+    </div>
+  `;
+  renderProgress();
+  renderStep();
+}
+
+function buildLeftPanel() {
+  const c = formConfig;
+  const photoHtml = c.photo
+    ? `<img src="${c.photo}" class="host-photo-img" alt="${c.name}"/>`
+    : `<div class="host-photo">${(c.name||'?')[0].toUpperCase()}</div>`;
+
+  const daysText = (c.available_days||[]).join(', ') || 'Mon–Fri';
+  const tz = c.timezone || 'America/Toronto';
+
+  const socialHtml = c.social ? Object.entries(c.social).filter(([k,v])=>v).map(([k,v])=>`
+    <a href="${v}" target="_blank" class="social-btn">${socialIcon(k)}</a>
+  `).join('') : '';
+
+  return `
+    ${photoHtml}
+    <div class="host-name">${escHtml(c.name||'')}</div>
+    <div class="host-title">${escHtml(c.title||'')}</div>
+    <div class="host-headline">${escHtml(c.headline||'Book Your Call')}</div>
+    <div class="host-desc">${escHtml(c.description||'')}</div>
+    <div class="host-meta">
+      <div class="host-meta-item"><div class="host-meta-icon">📅</div>${daysText}</div>
+      <div class="host-meta-item"><div class="host-meta-icon">⏱</div>${c.call_duration||'30'} minutes</div>
+      <div class="host-meta-item"><div class="host-meta-icon">🌍</div>${tz.replace('_',' ')}</div>
+    </div>
+    ${socialHtml ? `<div class="host-social">${socialHtml}</div>` : ''}
+  `;
+}
+
+function socialIcon(k) {
+  const icons = { instagram:'📷', youtube:'▶️', twitter:'𝕏', linkedin:'in', facebook:'f', tiktok:'♪' };
+  return icons[k] || '🔗';
+}
+
+// ══════════════════════════════════════════════════════
+// PROGRESS
+// ══════════════════════════════════════════════════════
+const STEPS = ['Date','Time','Details','Confirm'];
+function renderProgress() {
+  if (currentStep >= 4) { document.getElementById('progress-wrap').innerHTML = ''; return; }
+  document.getElementById('progress-wrap').innerHTML =
+    STEPS.map((s,i) => `<div class="progress-step ${i<currentStep?'done':i===currentStep?'active':''}"></div>`).join('') +
+    `<span class="progress-label">Step ${currentStep+1} of ${STEPS.length}</span>`;
+}
+
+// ══════════════════════════════════════════════════════
+// STEP ROUTER
+// ══════════════════════════════════════════════════════
+function renderStep() {
+  renderProgress();
+  const wrap = document.getElementById('step-wrap');
+  if (currentStep === 0) wrap.innerHTML = buildDateStep();
+  else if (currentStep === 1) wrap.innerHTML = buildTimeStep();
+  else if (currentStep === 2) wrap.innerHTML = buildQuestionsStep();
+  else if (currentStep === 3) wrap.innerHTML = buildConfirmStep();
+  else if (currentStep === 4) wrap.innerHTML = buildSuccessStep();
+}
+
+// ══════════════════════════════════════════════════════
+// STEP 0 — DATE
+// ══════════════════════════════════════════════════════
+function buildDateStep() {
+  return `
+    <div class="step">
+      <div class="step-title">Pick a date</div>
+      <div class="step-sub">Choose a day that works for you.</div>
+      <div class="cal-header">
+        <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
+        <div class="cal-month" id="cal-month-label"></div>
+        <button class="cal-nav-btn" onclick="calNav(1)">›</button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <button class="btn-next" id="btn-date-next" onclick="goStep(1)" disabled>Continue →</button>
+    </div>
+  `;
+  setTimeout(renderCal, 0);
+}
+
+function renderCal() {
+  const label = document.getElementById('cal-month-label');
+  const grid  = document.getElementById('cal-grid');
+  if (!label || !grid) return;
+
+  label.textContent = MONTHS[calMonth] + ' ' + calYear;
+
+  const availDays = formConfig.available_days || ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+  const dayMap = { Sunday:0, Monday:1, Tuesday:2, Wednesday:3, Thursday:4, Friday:5, Saturday:6 };
+  const availNums = availDays.map(d => dayMap[d]).filter(d => d !== undefined);
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+
+  let html = DAYS.map(d => `<div class="cal-day-label">${d}</div>`).join('');
+
+  // Empty cells
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-day empty"></div>`;
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(calYear, calMonth, d);
+    const isPast = date < today;
+    const isAvail = availNums.includes(date.getDay()) && !isPast;
+    const dateStr = date.toISOString().split('T')[0];
+    const isSelected = dateStr === selectedDate;
+    const isToday = date.getTime() === today.getTime();
+    html += `<div class="cal-day ${isAvail?'available':'disabled'} ${isSelected?'selected':''} ${isToday?'today':''}"
+      onclick="${isAvail?`selectDate('${dateStr}')`:''}">${d}</div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderCal();
+}
+
+function selectDate(dateStr) {
+  selectedDate = dateStr;
+  selectedTime = null;
+  renderCal();
+  const btn = document.getElementById('btn-date-next');
+  if (btn) btn.disabled = false;
+}
+
+// ══════════════════════════════════════════════════════
+// STEP 1 — TIME
+// ══════════════════════════════════════════════════════
+function buildTimeStep() {
+  const slots = formConfig.available_times || ['09:00','10:00','11:00','14:00','15:00','16:00'];
+  const tz = formConfig.timezone || 'America/Toronto';
+  const slotsHtml = slots.map(t => {
+    const [h, m] = t.split(':');
+    const dt = new Date(); dt.setHours(+h, +m, 0, 0);
+    const label = dt.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+    return `<button class="time-slot ${selectedTime===t?'selected':''}" onclick="selectTime('${t}')">${label}</button>`;
+  }).join('');
+
+  const dateObj = new Date(selectedDate + 'T12:00:00');
+  const dateLabel = dateObj.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+
+  return `
+    <div class="step">
+      <button class="btn-back" onclick="goStep(0)">← Back</button>
+      <div class="step-title">Select a time</div>
+      <div class="step-sub">${dateLabel} · ${tz.replace('_',' ')}</div>
+      <div class="time-section">
+        <div class="time-section-title">Available times</div>
+        <div class="time-slots" id="time-slots">${slotsHtml}</div>
+      </div>
+      <button class="btn-next" id="btn-time-next" onclick="goStep(2)" style="margin-top:32px;" ${selectedTime?'':'disabled'}>Continue →</button>
+    </div>
+  `;
+}
+
+function selectTime(t) {
+  selectedTime = t;
+  document.querySelectorAll('.time-slot').forEach(el => {
+    el.classList.toggle('selected', el.textContent.trim() === formatTime12(t));
+  });
+  const btn = document.getElementById('btn-time-next');
+  if (btn) btn.disabled = false;
+}
+
+function formatTime12(t) {
+  const [h, m] = t.split(':');
+  const dt = new Date(); dt.setHours(+h, +m, 0, 0);
+  return dt.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+}
+
+// ══════════════════════════════════════════════════════
+// STEP 2 — QUESTIONS
+// ══════════════════════════════════════════════════════
+function buildQuestionsStep() {
+  const questions = formConfig.questions || ['What is your WhatsApp number?'];
+  const qHtml = questions.map((q, i) => {
+    const isPhone = q.toLowerCase().includes('phone') || q.toLowerCase().includes('whatsapp');
+    const isLong  = q.toLowerCase().includes('goal') || q.toLowerCase().includes('challenge') || q.toLowerCase().includes('tell');
+    const val = answers[i] || '';
+    if (isLong) {
+      return `<div class="question-wrap">
+        <div class="q-label">Question ${i+1}</div>
+        <div style="font-size:16px;font-weight:500;margin-bottom:10px;line-height:1.4;">${escHtml(q)}</div>
+        <textarea class="q-textarea" id="q-${i}" placeholder="Your answer…">${escHtml(val)}</textarea>
+      </div>`;
+    }
+    return `<div class="question-wrap">
+      <div class="q-label">Question ${i+1}</div>
+      <div style="font-size:16px;font-weight:500;margin-bottom:10px;line-height:1.4;">${escHtml(q)}</div>
+      <input class="q-input" type="${isPhone?'tel':'text'}" id="q-${i}" placeholder="Your answer…" value="${escHtml(val)}"/>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="step">
+      <button class="btn-back" onclick="goStep(1)">← Back</button>
+      <div class="step-title">A few quick questions</div>
+      <div class="step-sub">Help us prepare for your call.</div>
+      ${qHtml}
+      <button class="btn-next" onclick="submitQuestions()">Continue →</button>
+    </div>
+  `;
+}
+
+function submitQuestions() {
+  const questions = formConfig.questions || [];
+  let valid = true;
+  questions.forEach((q, i) => {
+    const el = document.getElementById(`q-${i}`);
+    if (el) answers[i] = el.value.trim();
+    if (!answers[i] && i === 0) valid = false; // at least first answer required
+  });
+
+  // Extract phone from answers
+  const phoneIdx = questions.findIndex(q => q.toLowerCase().includes('phone') || q.toLowerCase().includes('whatsapp'));
+  if (phoneIdx >= 0 && !answers[phoneIdx]) {
+    showToast('Please fill in your WhatsApp number.');
+    return;
+  }
+
+  goStep(3);
+}
+
+// ══════════════════════════════════════════════════════
+// STEP 3 — CONFIRM
+// ══════════════════════════════════════════════════════
+function buildConfirmStep() {
+  const questions = formConfig.questions || [];
+  const dateObj = new Date(selectedDate + 'T12:00:00');
+  const dateLabel = dateObj.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+  const [h, m] = selectedTime.split(':');
+  const dt = new Date(); dt.setHours(+h, +m, 0, 0);
+  const timeLabel = dt.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+
+  const answersHtml = questions.map((q, i) => answers[i] ? `
+    <div class="summary-row">
+      <div class="summary-icon">💬</div>
+      <div>
+        <div class="summary-label">${escHtml(q)}</div>
+        <div class="summary-value">${escHtml(answers[i])}</div>
+      </div>
+    </div>` : '').join('');
+
+  return `
+    <div class="step">
+      <button class="btn-back" onclick="goStep(2)">← Back</button>
+      <div class="step-title">Confirm your booking</div>
+      <div class="step-sub">Everything look good? Hit confirm and you're in.</div>
+      <div class="summary-card">
+        <div class="summary-row">
+          <div class="summary-icon">📅</div>
+          <div>
+            <div class="summary-label">Date</div>
+            <div class="summary-value">${dateLabel}</div>
+          </div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-icon">⏰</div>
+          <div>
+            <div class="summary-label">Time</div>
+            <div class="summary-value">${timeLabel} · ${(formConfig.timezone||'America/Toronto').replace('_',' ')}</div>
+          </div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-icon">⏱</div>
+          <div>
+            <div class="summary-label">Duration</div>
+            <div class="summary-value">${formConfig.call_duration||'30'} minutes</div>
+          </div>
+        </div>
+        ${answersHtml}
+      </div>
+      <button class="btn-next" id="confirm-btn" onclick="confirmBooking()">✓ Confirm booking</button>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════════════
+// CONFIRM BOOKING
+// ══════════════════════════════════════════════════════
+async function confirmBooking() {
+  const btn = document.getElementById('confirm-btn');
+  btn.disabled = true; btn.textContent = 'Booking…';
+
+  const questions = formConfig.questions || [];
+
+  // Extract name and phone from answers
+  const nameIdx  = questions.findIndex(q => q.toLowerCase().includes('name'));
+  const phoneIdx = questions.findIndex(q => q.toLowerCase().includes('phone') || q.toLowerCase().includes('whatsapp'));
+
+  const name  = answers[nameIdx]  || answers[0] || 'Guest';
+  const phone = answers[phoneIdx] || answers[1] || '';
+
+  // Build notes from all answers
+  const notes = questions.map((q, i) => `${q}: ${answers[i]||'—'}`).join('\n');
+
+  // Build datetime with timezone offset
+  const tz = formConfig.timezone || 'America/Toronto';
+  const offset = getTimezoneOffset(tz);
+  const datetime = `${selectedDate}T${selectedTime}:00${offset}`;
+
+  const { data, error } = await sb.from('bookings').insert({
+    user_id:  hostUserId,
+    name:     name,
+    phone:    phone,
+    datetime: datetime,
+    status:   'booked',
+    notes:    notes
+  }).select().single();
+
+  if (error) {
+    console.error(error);
+    btn.disabled = false;
+    btn.textContent = '✓ Confirm booking';
+    showToast('Something went wrong. Please try again.');
+    return;
+  }
+
+  goStep(4);
+}
+
+function getTimezoneOffset(tz) {
+  // Common timezone offsets (simplified)
+  const offsets = {
+    'America/Toronto': '-04:00',
+    'America/New_York': '-04:00',
+    'America/Chicago': '-05:00',
+    'America/Denver': '-06:00',
+    'America/Los_Angeles': '-07:00',
+    'Europe/London': '+01:00',
+    'Europe/Paris': '+02:00',
+    'Asia/Dubai': '+04:00',
+  };
+  return offsets[tz] || '-04:00';
+}
+
+// ══════════════════════════════════════════════════════
+// STEP 4 — SUCCESS
+// ══════════════════════════════════════════════════════
+function buildSuccessStep() {
+  const dateObj = new Date(selectedDate + 'T12:00:00');
+  const dateLabel = dateObj.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+  const [h, m] = selectedTime.split(':');
+  const dt = new Date(); dt.setHours(+h, +m, 0, 0);
+  const timeLabel = dt.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+
+  return `
+    <div class="success-wrap">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">You're booked!</div>
+      <div class="success-sub">
+        Your call with <strong>${escHtml(formConfig.name||'us')}</strong> is confirmed for<br/>
+        <strong>${dateLabel} at ${timeLabel}</strong>.<br/><br/>
+        You'll receive a WhatsApp confirmation shortly. See you then! 🚀
+      </div>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════════
+function goStep(n) {
+  currentStep = n;
+  renderStep();
+  if (n === 0) setTimeout(renderCal, 50);
+  document.getElementById('right-panel')?.scrollTo(0, 0);
+}
+
+function showError(msg) {
+  document.getElementById('page').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px;padding:40px;text-align:center;">
+      <div style="font-size:40px;">⚠️</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:24px;">Oops</div>
+      <div style="color:var(--muted);font-size:14px;">${msg}</div>
+    </div>`;
+}
+
+function showToast(text) {
+  document.getElementById('toast-text').textContent = text;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Trigger renderCal after DOM is ready for step 0
+const _origGoStep = goStep;
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(renderCal, 100);
+});
+</script>
+</body>
+</html>

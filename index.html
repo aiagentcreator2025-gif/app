@@ -49,11 +49,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .auth-btn:disabled{opacity:0.5;cursor:not-allowed;}
 .auth-error{margin-top:12px;padding:10px 14px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:8px;font-size:12px;color:#fca5a5;display:none;}
 .auth-error.show{display:block;}
-.auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
-.auth-divider span{font-size:12px;color:rgba(255,255,255,0.2);}
-.auth-divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08);}
-.auth-demo{width:100%;padding:12px;background:transparent;border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;font-size:13px;color:rgba(255,255,255,0.5);transition:border-color 0.15s,color 0.15s;}
-.auth-demo:hover{border-color:rgba(255,255,255,0.25);color:#fff;}
 .auth-bg-circle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.08) 0%,transparent 70%);pointer-events:none;}
 
 /* ══ ONBOARDING ══ */
@@ -345,112 +340,36 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .completeness-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.6s ease;}
 .completeness-pct{font-size:13px;font-weight:700;color:var(--accent-dark);white-space:nowrap;}
 
-/* ══════════════════════════════
-   CALENDAR SCREEN
-══════════════════════════════ */
+/* ══ CALENDAR ══ */
 .cal-wrap{display:flex;flex-direction:column;height:calc(100vh - 73px - 64px);}
-
-/* Header bar */
-.cal-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:24px;flex-shrink:0;
-}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-shrink:0;}
 .cal-nav{display:flex;align-items:center;gap:10px;}
-.cal-nav-btn{
-  width:34px;height:34px;border-radius:8px;
-  border:1px solid var(--border);background:var(--white);
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;transition:all 0.15s;
-}
+.cal-nav-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.15s;}
 .cal-nav-btn:hover{border-color:var(--black);background:var(--black);color:var(--white);}
-.cal-month-title{
-  font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;
-  min-width:200px;
-}
-.cal-today-btn{
-  padding:7px 16px;border-radius:8px;border:1px solid var(--border);
-  background:var(--white);font-size:12px;font-weight:600;color:var(--black);
-  transition:all 0.15s;
-}
+.cal-month-title{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;min-width:200px;}
+.cal-today-btn{padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--white);font-size:12px;font-weight:600;color:var(--black);transition:all 0.15s;}
 .cal-today-btn:hover{border-color:var(--black);}
 .cal-header-right{display:flex;align-items:center;gap:10px;}
 .cal-view-toggle{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
-.cal-view-btn{
-  padding:7px 14px;font-size:12px;font-weight:600;
-  border:none;background:var(--white);color:var(--muted);
-  transition:all 0.15s;border-right:1px solid var(--border);
-}
+.cal-view-btn{padding:7px 14px;font-size:12px;font-weight:600;border:none;background:var(--white);color:var(--muted);transition:all 0.15s;border-right:1px solid var(--border);}
 .cal-view-btn:last-child{border-right:none;}
 .cal-view-btn.active{background:var(--black);color:#fff;}
-.btn-add-booking{
-  display:flex;align-items:center;gap:7px;
-  padding:8px 18px;border-radius:8px;
-  background:var(--black);color:#fff;border:none;
-  font-size:12px;font-weight:600;transition:opacity 0.15s;
-}
+.btn-add-booking{display:flex;align-items:center;gap:7px;padding:8px 18px;border-radius:8px;background:var(--black);color:#fff;border:none;font-size:12px;font-weight:600;transition:opacity 0.15s;}
 .btn-add-booking:hover{opacity:0.85;}
-
-/* Calendar grid */
-.cal-grid-wrap{
-  flex:1;background:var(--white);border-radius:var(--r);
-  border:1px solid var(--border);box-shadow:var(--shadow);
-  overflow:hidden;display:flex;flex-direction:column;
-}
-.cal-day-headers{
-  display:grid;grid-template-columns:56px repeat(7,1fr);
-  border-bottom:1px solid var(--border);flex-shrink:0;
-}
-.cal-day-header{
-  padding:10px 8px;text-align:center;
-  font-size:11px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:0.5px;
-}
+.cal-grid-wrap{flex:1;background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;}
+.cal-day-headers{display:grid;grid-template-columns:56px repeat(7,1fr);border-bottom:1px solid var(--border);flex-shrink:0;}
+.cal-day-header{padding:10px 8px;text-align:center;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
 .cal-day-header.today-col{color:var(--black);}
-.cal-day-header-date{
-  font-size:20px;font-weight:400;font-family:'Instrument Serif',serif;
-  color:var(--black);display:block;margin-top:2px;line-height:1;
-}
-.cal-day-header-date.today-date{
-  width:32px;height:32px;background:var(--black);color:var(--accent);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  margin:2px auto 0;font-size:16px;
-}
+.cal-day-header-date{font-size:20px;font-weight:400;font-family:'Instrument Serif',serif;color:var(--black);display:block;margin-top:2px;line-height:1;}
+.cal-day-header-date.today-date{width:32px;height:32px;background:var(--black);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:2px auto 0;font-size:16px;}
 .cal-time-col{font-size:11px;color:var(--muted);font-weight:500;}
-
-/* Scrollable body */
 .cal-body{flex:1;overflow-y:auto;position:relative;}
 .cal-body-inner{display:grid;grid-template-columns:56px repeat(7,1fr);position:relative;}
-
-/* Time slots */
-.cal-time-slots{display:contents;}
-.cal-hour-row{
-  display:contents;
-}
-.cal-time-label{
-  padding:0 8px;text-align:right;
-  font-size:10px;color:var(--muted);font-weight:500;
-  height:60px;display:flex;align-items:flex-start;
-  padding-top:4px;border-top:1px solid var(--border);
-  grid-column:1;
-}
-.cal-hour-cell{
-  height:60px;border-top:1px solid var(--border);
-  border-left:1px solid var(--border);
-  position:relative;
-  transition:background 0.1s;
-}
+.cal-time-label{padding:0 8px;text-align:right;font-size:10px;color:var(--muted);font-weight:500;height:60px;display:flex;align-items:flex-start;padding-top:4px;border-top:1px solid var(--border);grid-column:1;}
+.cal-hour-cell{height:60px;border-top:1px solid var(--border);border-left:1px solid var(--border);position:relative;transition:background 0.1s;}
 .cal-hour-cell:hover{background:rgba(200,241,53,0.04);}
 .cal-hour-cell.today-col{background:rgba(200,241,53,0.02);}
-
-/* Events */
-.cal-event{
-  position:absolute;left:3px;right:3px;
-  border-radius:6px;padding:4px 7px;
-  font-size:11px;font-weight:600;line-height:1.3;
-  overflow:hidden;cursor:pointer;
-  transition:opacity 0.15s,transform 0.1s;
-  z-index:2;
-}
+.cal-event{position:absolute;left:3px;right:3px;border-radius:6px;padding:4px 7px;font-size:11px;font-weight:600;line-height:1.3;overflow:hidden;cursor:pointer;transition:opacity 0.15s,transform 0.1s;z-index:2;}
 .cal-event:hover{opacity:0.85;transform:scale(1.01);}
 .cal-event.status-booked{background:rgba(200,241,53,0.25);border-left:3px solid var(--accent-dark);color:var(--accent-dark);}
 .cal-event.status-confirmed{background:rgba(59,130,246,0.12);border-left:3px solid #3b82f6;color:#1d4ed8;}
@@ -458,17 +377,27 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .cal-event.status-no_show{background:rgba(239,68,68,0.1);border-left:3px solid #ef4444;color:#dc2626;}
 .cal-event-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .cal-event-time{font-size:10px;font-weight:400;opacity:0.75;white-space:nowrap;}
+.cal-now-line{position:absolute;left:0;right:0;height:2px;background:var(--black);z-index:10;pointer-events:none;}
+.cal-now-dot{position:absolute;left:-4px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--black);}
 
-/* Current time line */
-.cal-now-line{
-  position:absolute;left:0;right:0;height:2px;
-  background:var(--black);z-index:10;pointer-events:none;
-}
-.cal-now-dot{
-  position:absolute;left:-4px;top:-4px;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--black);
-}
+/* ══ API INFO BOX ══ */
+.api-info-box{background:var(--black);border-radius:var(--r);padding:20px 24px;margin-bottom:20px;display:flex;align-items:flex-start;gap:16px;flex-shrink:0;}
+.api-info-box-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.api-info-box-content{flex:1;}
+.api-info-box-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
+.api-info-box-desc{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:10px;}
+.api-endpoint{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--accent);font-family:monospace;display:flex;align-items:center;justify-content:space-between;gap:12px;word-break:break-all;}
+.api-copy-btn{padding:4px 10px;border-radius:5px;border:none;background:rgba(200,241,53,0.15);color:var(--accent);font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;transition:background 0.15s;}
+.api-copy-btn:hover{background:rgba(200,241,53,0.25);}
+
+/* ══ STATS ══ */
+.cal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;flex-shrink:0;}
+.cal-stat{background:var(--white);border-radius:var(--r-sm);border:1px solid var(--border);padding:14px 16px;box-shadow:var(--shadow);}
+.cal-stat-label{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;}
+.cal-stat-value{font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;line-height:1;}
+.cal-stat-value.green{color:#16a34a;}
+.cal-stat-value.blue{color:#2563eb;}
+.cal-stat-value.red{color:#dc2626;}
 
 /* ══ BOOKING DETAIL MODAL ══ */
 .booking-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);z-index:350;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
@@ -506,13 +435,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .ab-body{padding:0 24px;}
 .ab-field{margin-bottom:16px;}
 .ab-field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:7px;}
-.ab-field input,.ab-field select,.ab-field textarea{
-  width:100%;padding:10px 14px;
-  border:1.5px solid var(--border);border-radius:10px;
-  font-size:13px;color:var(--black);background:var(--bg);
-  outline:none;transition:border-color 0.15s;
-  font-family:'DM Sans',sans-serif;
-}
+.ab-field input,.ab-field select,.ab-field textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;color:var(--black);background:var(--bg);outline:none;transition:border-color 0.15s;font-family:'DM Sans',sans-serif;}
 .ab-field input:focus,.ab-field select:focus,.ab-field textarea:focus{border-color:var(--black);}
 .ab-field textarea{min-height:70px;resize:vertical;line-height:1.5;}
 .ab-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -521,41 +444,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .ab-btn-save{padding:11px 24px;border-radius:9px;background:var(--black);color:#fff;border:none;font-size:13px;font-weight:600;transition:opacity 0.15s;}
 .ab-btn-save:hover{opacity:0.85;}
 .ab-btn-save:disabled{opacity:0.5;cursor:not-allowed;}
-
-/* API info box */
-.api-info-box{
-  background:var(--black);border-radius:var(--r);
-  padding:20px 24px;margin-bottom:20px;
-  display:flex;align-items:flex-start;gap:16px;
-  flex-shrink:0;
-}
-.api-info-box-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
-.api-info-box-content{flex:1;}
-.api-info-box-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
-.api-info-box-desc{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:10px;}
-.api-endpoint{
-  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
-  border-radius:8px;padding:8px 12px;
-  font-size:11px;color:var(--accent);font-family:monospace;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  word-break:break-all;
-}
-.api-copy-btn{
-  padding:4px 10px;border-radius:5px;border:none;
-  background:rgba(200,241,53,0.15);color:var(--accent);
-  font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;
-  transition:background 0.15s;
-}
-.api-copy-btn:hover{background:rgba(200,241,53,0.25);}
-
-/* Stats row */
-.cal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;flex-shrink:0;}
-.cal-stat{background:var(--white);border-radius:var(--r-sm);border:1px solid var(--border);padding:14px 16px;box-shadow:var(--shadow);}
-.cal-stat-label{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;}
-.cal-stat-value{font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;line-height:1;}
-.cal-stat-value.green{color:#16a34a;}
-.cal-stat-value.blue{color:#2563eb;}
-.cal-stat-value.red{color:#dc2626;}
 
 /* ══ TOAST ══ */
 .toast{position:fixed;bottom:28px;right:28px;background:var(--black);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;max-width:320px;}
@@ -717,37 +605,25 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
       <div class="screen" id="screen-calendar">
         <div class="cal-wrap">
 
-          <!-- API info strip -->
+          <!-- n8n API info strip -->
           <div class="api-info-box">
             <div class="api-info-box-icon">🔌</div>
             <div class="api-info-box-content">
-              <div class="api-info-box-title">HTTP API — Add bookings from n8n or any tool</div>
-              <div class="api-info-box-desc">POST to this endpoint to add a booking. Send: name, phone, datetime (ISO 8601), notes (optional), status (optional: booked|confirmed).</div>
+              <div class="api-info-box-title">n8n Integration — POST bookings directly to Supabase</div>
+              <div class="api-info-box-desc">From n8n, use an HTTP Request node to POST to Supabase. The calendar reads from the same table in real time.</div>
               <div class="api-endpoint">
-                <span id="api-endpoint-url">POST https://your-app.com/api/bookings — handled in-browser via localStorage</span>
-                <button class="api-copy-btn" onclick="copyApiDocs()">Copy docs</button>
+                <span id="api-endpoint-url">POST https://dvhnqeojwxrmqgtqmyyh.supabase.co/rest/v1/bookings</span>
+                <button class="api-copy-btn" onclick="copyApiDocs()">Copy n8n config</button>
               </div>
             </div>
           </div>
 
           <!-- Stats -->
           <div class="cal-stats">
-            <div class="cal-stat">
-              <div class="cal-stat-label">This week</div>
-              <div class="cal-stat-value blue" id="stat-week">0</div>
-            </div>
-            <div class="cal-stat">
-              <div class="cal-stat-label">Confirmed</div>
-              <div class="cal-stat-value green" id="stat-confirmed">0</div>
-            </div>
-            <div class="cal-stat">
-              <div class="cal-stat-label">No-shows</div>
-              <div class="cal-stat-value red" id="stat-noshow">0</div>
-            </div>
-            <div class="cal-stat">
-              <div class="cal-stat-label">Total booked</div>
-              <div class="cal-stat-value" id="stat-total">0</div>
-            </div>
+            <div class="cal-stat"><div class="cal-stat-label">This week</div><div class="cal-stat-value blue" id="stat-week">—</div></div>
+            <div class="cal-stat"><div class="cal-stat-label">Confirmed</div><div class="cal-stat-value green" id="stat-confirmed">—</div></div>
+            <div class="cal-stat"><div class="cal-stat-label">No-shows</div><div class="cal-stat-value red" id="stat-noshow">—</div></div>
+            <div class="cal-stat"><div class="cal-stat-label">Total booked</div><div class="cal-stat-value" id="stat-total">—</div></div>
           </div>
 
           <!-- Calendar header -->
@@ -934,24 +810,12 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
     </div>
     <div class="ab-body">
       <div class="ab-row">
-        <div class="ab-field">
-          <label>Lead name</label>
-          <input type="text" id="ab-name" placeholder="Ahmed Al-Rashidi"/>
-        </div>
-        <div class="ab-field">
-          <label>WhatsApp number</label>
-          <input type="text" id="ab-phone" placeholder="+1 514 000 0000"/>
-        </div>
+        <div class="ab-field"><label>Lead name</label><input type="text" id="ab-name" placeholder="Ahmed Al-Rashidi"/></div>
+        <div class="ab-field"><label>WhatsApp number</label><input type="text" id="ab-phone" placeholder="+1 514 000 0000"/></div>
       </div>
       <div class="ab-row">
-        <div class="ab-field">
-          <label>Date</label>
-          <input type="date" id="ab-date"/>
-        </div>
-        <div class="ab-field">
-          <label>Time</label>
-          <input type="time" id="ab-time"/>
-        </div>
+        <div class="ab-field"><label>Date</label><input type="date" id="ab-date"/></div>
+        <div class="ab-field"><label>Time</label><input type="time" id="ab-time"/></div>
       </div>
       <div class="ab-field">
         <label>Status</label>
@@ -960,10 +824,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
           <option value="confirmed">Confirmed</option>
         </select>
       </div>
-      <div class="ab-field">
-        <label>Notes (optional)</label>
-        <textarea id="ab-notes" placeholder="Any context about this lead…"></textarea>
-      </div>
+      <div class="ab-field"><label>Notes (optional)</label><textarea id="ab-notes" placeholder="Any context about this lead…"></textarea></div>
     </div>
     <div class="ab-footer">
       <button class="ab-btn-cancel" onclick="closeAddBooking()">Cancel</button>
@@ -975,134 +836,157 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 <div class="toast" id="toast"><span id="toast-icon">✅</span><span id="toast-text">Done!</span></div>
 
 <script>
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // SUPABASE
-// ══════════════════════════════
-const SUPABASE_URL = 'https://dvhnqeojwxrmqgtqmyyh.supabase.co';
+// ══════════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://dvhnqeojwxrmqgtqmyyh.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2aG5xZW9qd3hybXFndHFteXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MjEzMTYsImV4cCI6MjA4NDA5NzMxNn0.DIdPYes2Ee2_02bzGWDxWDwJhNdbdifX6IujT3E91U8';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai2.app.n8n.cloud/webhook/e6682268-42b6-4a4d-9394-8b4b90cdc1b5';
 
-// ══════════════════════════════
-// CALENDAR STATE
-// ══════════════════════════════
-let calView = 'week'; // 'week' | 'day'
-let calAnchor = new Date(); // current week anchor (Monday)
-let bookings = []; // array of booking objects
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let currentUser   = null;
+let businessProfile = null;
+let agents        = [];
+let activities    = [];
+let activeAgentIdx  = null;
+let connectAgentIdx = null;
+let bookings        = [];   // live cache from Supabase
 let activeBookingId = null;
+let calView   = 'week';
+let calAnchor = new Date();
 
-// Booking schema:
-// { id, name, phone, datetime (ISO string), status: 'booked'|'confirmed'|'completed'|'no_show', notes, created }
+// ══════════════════════════════════════════════════════
+// SUPABASE BOOKING CRUD
+// All reads/writes go through Supabase.
+// n8n hits the Supabase REST API directly — no middleman.
+// ══════════════════════════════════════════════════════
 
-function getBookingKey() {
-  return currentUser ? 'sai_bookings_' + currentUser.id : 'sai_bookings_demo';
+async function fetchBookings() {
+  if (!currentUser) return;
+  const { data, error } = await sb
+    .from('bookings')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('datetime', { ascending: true });
+  if (error) { console.error('fetchBookings:', error); return; }
+  bookings = data || [];
 }
-function saveBookings() {
-  localStorage.setItem(getBookingKey(), JSON.stringify(bookings));
+
+async function insertBooking(payload) {
+  // payload: { name, phone, datetime (ISO), notes, status }
+  const { data, error } = await sb
+    .from('bookings')
+    .insert({
+      user_id:  currentUser.id,
+      name:     payload.name,
+      phone:    payload.phone,
+      datetime: payload.datetime,
+      status:   payload.status || 'booked',
+      notes:    payload.notes  || ''
+    })
+    .select()
+    .single();
+  if (error) { console.error('insertBooking:', error); return null; }
+  return data;
 }
-function loadBookings() {
-  bookings = JSON.parse(localStorage.getItem(getBookingKey()) || '[]');
+
+async function updateBookingRow(id, updates) {
+  const { data, error } = await sb
+    .from('bookings')
+    .update(updates)
+    .eq('id', id)
+    .eq('user_id', currentUser.id)
+    .select()
+    .single();
+  if (error) { console.error('updateBookingRow:', error); return null; }
+  return data;
 }
 
-// ══════════════════════════════
-// HTTP API — n8n calls this
-// ══════════════════════════════
-// This exposes a window.addBookingViaAPI function
-// n8n can call it via a custom JS node or via a webhook
-// that posts to the same domain and triggers this function.
-//
-// The n8n workflow should POST to:
-// /api/bookings  (or trigger via webhook)
-// Body: { name, phone, datetime, notes, status }
-//
-// For same-origin use, n8n can call this endpoint directly.
-// The function is also exposed globally for testing.
+async function deleteBookingRow(id) {
+  const { error } = await sb
+    .from('bookings')
+    .delete()
+    .eq('id', id)
+    .eq('user_id', currentUser.id);
+  if (error) { console.error('deleteBookingRow:', error); return false; }
+  return true;
+}
 
-window.addBookingViaAPI = function(payload) {
-  /*
-    payload = {
-      name: "Ahmed",
-      phone: "15141234567",
-      datetime: "2026-04-25T14:00:00",
-      notes: "Interested in coaching",   // optional
-      status: "booked"                    // optional, default: "booked"
-    }
-    Returns: { success: true, booking: {...} } or { success: false, error: "..." }
-  */
-  if (!payload.name || !payload.phone || !payload.datetime) {
-    return { success: false, error: 'name, phone, and datetime are required' };
-  }
-  const dt = new Date(payload.datetime);
-  if (isNaN(dt)) {
-    return { success: false, error: 'datetime must be a valid ISO 8601 string' };
-  }
-  const booking = {
-    id: 'bk_' + Date.now() + '_' + Math.random().toString(36).substr(2,6),
-    name: payload.name,
-    phone: payload.phone,
-    datetime: dt.toISOString(),
-    status: payload.status || 'booked',
-    notes: payload.notes || '',
-    created: new Date().toISOString()
-  };
-  loadBookings();
-  bookings.push(booking);
-  saveBookings();
-  if (document.getElementById('screen-calendar').classList.contains('active')) {
-    renderCalendar();
-    updateCalStats();
-  }
-  return { success: true, booking };
-};
+// ══════════════════════════════════════════════════════
+// REALTIME — calendar auto-updates when n8n inserts
+// ══════════════════════════════════════════════════════
+function subscribeBookings() {
+  sb.channel('bookings-realtime')
+    .on('postgres_changes',
+      { event: '*', schema: 'public', table: 'bookings',
+        filter: `user_id=eq.${currentUser.id}` },
+      async () => {
+        await fetchBookings();
+        if (document.getElementById('screen-calendar').classList.contains('active')) {
+          renderCalendar();
+          updateCalStats();
+        }
+      }
+    )
+    .subscribe();
+}
 
-// Also expose DELETE and UPDATE
-window.updateBookingViaAPI = function(id, updates) {
-  loadBookings();
-  const idx = bookings.findIndex(b => b.id === id);
-  if (idx === -1) return { success: false, error: 'Booking not found' };
-  bookings[idx] = { ...bookings[idx], ...updates };
-  saveBookings();
-  if (document.getElementById('screen-calendar').classList.contains('active')) {
-    renderCalendar(); updateCalStats();
-  }
-  return { success: true, booking: bookings[idx] };
-};
+// ══════════════════════════════════════════════════════
+// COPY n8n CONFIG
+// ══════════════════════════════════════════════════════
+function copyApiDocs() {
+  const userId = currentUser?.id || 'YOUR_USER_ID';
+  const docs =
+`=== Service.AI — n8n HTTP Request node config ===
 
-window.deleteBookingViaAPI = function(id) {
-  loadBookings();
-  const before = bookings.length;
-  bookings = bookings.filter(b => b.id !== id);
-  saveBookings();
-  return { success: bookings.length < before };
-};
+Method:  POST
+URL:     https://dvhnqeojwxrmqgtqmyyh.supabase.co/rest/v1/bookings
 
-window.getBookingsViaAPI = function() {
-  loadBookings();
-  return bookings;
-};
+Headers:
+  apikey:        ${SUPABASE_ANON}
+  Authorization: Bearer ${SUPABASE_ANON}
+  Content-Type:  application/json
+  Prefer:        return=representation
 
-// ══════════════════════════════
+Body (JSON):
+{
+  "user_id":  "${userId}",
+  "name":     "{{ $json.name }}",
+  "phone":    "{{ $json.phone }}",
+  "datetime": "{{ $json.datetime }}",
+  "status":   "booked",
+  "notes":    "{{ $json.notes }}"
+}
+
+The calendar will update automatically via Supabase Realtime.
+user_id must match the logged-in user's Supabase UID.`;
+
+  navigator.clipboard.writeText(docs).then(() => showToast('📋', 'n8n config copied!'));
+}
+
+// ══════════════════════════════════════════════════════
 // CALENDAR RENDER
-// ══════════════════════════════
-const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+// ══════════════════════════════════════════════════════
+const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const HOURS = Array.from({length:24},(_,i)=>i);
+const HOURS  = Array.from({length:24},(_,i)=>i);
 
 function getWeekStart(date) {
   const d = new Date(date);
-  const day = d.getDay(); // 0=Sun
-  d.setDate(d.getDate() - day + 1); // Monday
+  const day = d.getDay();
+  d.setDate(d.getDate() - day + 1);
   d.setHours(0,0,0,0);
   return d;
 }
 
 function renderCalendar() {
-  loadBookings();
   const weekStart = getWeekStart(calAnchor);
-  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 6);
+  const weekEnd   = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 6);
 
-  // Title
   const titleEl = document.getElementById('cal-title');
   if (weekStart.getMonth() === weekEnd.getMonth()) {
     titleEl.textContent = MONTHS[weekStart.getMonth()] + ' ' + weekStart.getFullYear();
@@ -1111,27 +995,26 @@ function renderCalendar() {
   }
 
   const today = new Date(); today.setHours(0,0,0,0);
+  const cols     = calView === 'week' ? 7 : 1;
+  const colStart = calView === 'week' ? 0 : (calAnchor.getDay() === 0 ? 6 : calAnchor.getDay() - 1);
 
   // Day headers
   const headersEl = document.getElementById('cal-day-headers');
-  const cols = calView === 'week' ? 7 : 1;
-  const colStart = calView === 'week' ? 0 : calAnchor.getDay() === 0 ? 6 : calAnchor.getDay() - 1;
-
   headersEl.style.gridTemplateColumns = `56px repeat(${cols},1fr)`;
-
   let headersHtml = '<div class="cal-day-header cal-time-col" style="border-bottom:none;"></div>';
   for (let i = 0; i < cols; i++) {
     const d = new Date(weekStart); d.setDate(d.getDate() + (calView === 'week' ? i : colStart));
     const isToday = d.getTime() === today.getTime();
-    const dateNum = calView === 'week' ? `<span class="cal-day-header-date${isToday?' today-date':''}">${d.getDate()}</span>` : `<span class="cal-day-header-date${isToday?' today-date':''}">${d.getDate()}</span>`;
-    headersHtml += `<div class="cal-day-header${isToday?' today-col':''}">${DAYS[d.getDay()]}<br/>${dateNum}</div>`;
+    const dateNumHtml = isToday
+      ? `<span class="cal-day-header-date today-date">${d.getDate()}</span>`
+      : `<span class="cal-day-header-date">${d.getDate()}</span>`;
+    headersHtml += `<div class="cal-day-header${isToday?' today-col':''}">${DAYS[d.getDay()]}<br/>${dateNumHtml}</div>`;
   }
   headersEl.innerHTML = headersHtml;
 
   // Body
   const bodyInner = document.getElementById('cal-body-inner');
   bodyInner.style.gridTemplateColumns = `56px repeat(${cols},1fr)`;
-
   let bodyHtml = '';
   HOURS.forEach(h => {
     const label = h === 0 ? '' : (h < 12 ? h + ' AM' : h === 12 ? '12 PM' : (h-12) + ' PM');
@@ -1146,31 +1029,26 @@ function renderCalendar() {
 
   // Place events
   bookings.forEach(bk => {
-    const dt = new Date(bk.datetime);
+    const dt      = new Date(bk.datetime);
     const dateStr = dt.toISOString().split('T')[0];
-    const hour = dt.getHours();
-    const minute = dt.getMinutes();
-
-    const cell = bodyInner.querySelector(`[data-date="${dateStr}"][data-hour="${hour}"]`);
+    const hour    = dt.getHours();
+    const minute  = dt.getMinutes();
+    const cell    = bodyInner.querySelector(`[data-date="${dateStr}"][data-hour="${hour}"]`);
     if (!cell) return;
-
-    const topPct = (minute / 60) * 100;
     const ev = document.createElement('div');
     ev.className = `cal-event status-${bk.status}`;
-    ev.style.top = topPct + '%';
+    ev.style.top    = (minute / 60 * 100) + '%';
     ev.style.height = '52px';
-    ev.innerHTML = `<div class="cal-event-name">${bk.name}</div><div class="cal-event-time">${formatTime(dt)} · ${bk.phone}</div>`;
+    ev.innerHTML = `<div class="cal-event-name">${escHtml(bk.name)}</div><div class="cal-event-time">${formatTime(dt)} · ${escHtml(bk.phone)}</div>`;
     ev.onclick = (e) => { e.stopPropagation(); openBookingDetail(bk.id); };
     cell.style.position = 'relative';
     cell.appendChild(ev);
   });
 
   // Current time line
-  const nowLine = bodyInner.querySelector('.cal-now-line');
-  if (nowLine) nowLine.remove();
-  const now = new Date();
+  const now        = new Date();
   const nowDateStr = now.toISOString().split('T')[0];
-  const todayCell = bodyInner.querySelector(`[data-date="${nowDateStr}"][data-hour="${now.getHours()}"]`);
+  const todayCell  = bodyInner.querySelector(`[data-date="${nowDateStr}"][data-hour="${now.getHours()}"]`);
   if (todayCell) {
     const line = document.createElement('div');
     line.className = 'cal-now-line';
@@ -1179,78 +1057,57 @@ function renderCalendar() {
     todayCell.appendChild(line);
   }
 
-  // Scroll to 8am
-  setTimeout(() => {
-    const calBody = document.getElementById('cal-body');
-    calBody.scrollTop = 8 * 60;
-  }, 50);
-}
-
-function formatTime(dt) {
-  const h = dt.getHours(); const m = dt.getMinutes();
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  const hh = h % 12 || 12;
-  return hh + (m ? ':' + String(m).padStart(2,'0') : '') + ' ' + ampm;
+  setTimeout(() => { document.getElementById('cal-body').scrollTop = 8 * 60; }, 50);
 }
 
 function updateCalStats() {
-  loadBookings();
-  const now = new Date();
+  const now       = new Date();
   const weekStart = getWeekStart(now);
-  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7);
+  const weekEnd   = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7);
 
-  const thisWeek = bookings.filter(b => {
-    const d = new Date(b.datetime);
-    return d >= weekStart && d < weekEnd;
-  }).length;
-
-  document.getElementById('stat-week').textContent = thisWeek;
+  document.getElementById('stat-week').textContent      = bookings.filter(b => { const d=new Date(b.datetime); return d>=weekStart&&d<weekEnd; }).length;
   document.getElementById('stat-confirmed').textContent = bookings.filter(b=>b.status==='confirmed').length;
-  document.getElementById('stat-noshow').textContent = bookings.filter(b=>b.status==='no_show').length;
-  document.getElementById('stat-total').textContent = bookings.length;
+  document.getElementById('stat-noshow').textContent    = bookings.filter(b=>b.status==='no_show').length;
+  document.getElementById('stat-total').textContent     = bookings.length;
+}
+
+function formatTime(dt) {
+  const h=dt.getHours(),m=dt.getMinutes(),ampm=h>=12?'PM':'AM',hh=h%12||12;
+  return hh+(m?':'+String(m).padStart(2,'0'):'')+' '+ampm;
 }
 
 function calNav(dir) {
-  if (calView === 'week') {
-    calAnchor.setDate(calAnchor.getDate() + dir * 7);
-  } else {
-    calAnchor.setDate(calAnchor.getDate() + dir);
-  }
+  if (calView==='week') calAnchor.setDate(calAnchor.getDate()+dir*7);
+  else calAnchor.setDate(calAnchor.getDate()+dir);
   renderCalendar();
 }
-
-function calGoToday() {
-  calAnchor = new Date();
-  renderCalendar();
-}
-
+function calGoToday() { calAnchor=new Date(); renderCalendar(); }
 function setCalView(v) {
-  calView = v;
-  document.getElementById('vbtn-week').classList.toggle('active', v==='week');
-  document.getElementById('vbtn-day').classList.toggle('active', v==='day');
+  calView=v;
+  document.getElementById('vbtn-week').classList.toggle('active',v==='week');
+  document.getElementById('vbtn-day').classList.toggle('active',v==='day');
   renderCalendar();
 }
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // BOOKING DETAIL MODAL
-// ══════════════════════════════
-const STATUS_CYCLE = ['booked','confirmed','completed','no_show'];
+// ══════════════════════════════════════════════════════
+const STATUS_CYCLE  = ['booked','confirmed','completed','no_show'];
 const STATUS_LABELS = { booked:'Booked', confirmed:'Confirmed', completed:'Completed', no_show:'No-show' };
 
 function openBookingDetail(id) {
-  loadBookings();
   const bk = bookings.find(b=>b.id===id);
   if (!bk) return;
   activeBookingId = id;
   document.getElementById('bm-title').textContent = bk.name;
   const dt = new Date(bk.datetime);
   document.getElementById('bm-body').innerHTML = `
-    <div class="bm-row"><div class="bm-icon">👤</div><div class="bm-label">Name</div><div class="bm-value">${bk.name}</div></div>
-    <div class="bm-row"><div class="bm-icon">📱</div><div class="bm-label">Phone</div><div class="bm-value">${bk.phone}</div></div>
+    <div class="bm-row"><div class="bm-icon">👤</div><div class="bm-label">Name</div><div class="bm-value">${escHtml(bk.name)}</div></div>
+    <div class="bm-row"><div class="bm-icon">📱</div><div class="bm-label">Phone</div><div class="bm-value">${escHtml(bk.phone)}</div></div>
     <div class="bm-row"><div class="bm-icon">📅</div><div class="bm-label">Date</div><div class="bm-value">${dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div></div>
     <div class="bm-row"><div class="bm-icon">⏰</div><div class="bm-label">Time</div><div class="bm-value">${formatTime(dt)}</div></div>
     <div class="bm-row"><div class="bm-icon">🏷</div><div class="bm-label">Status</div><div class="bm-value"><span class="bm-status-badge ${bk.status}">${STATUS_LABELS[bk.status]||bk.status}</span></div></div>
-    ${bk.notes ? `<div class="bm-row"><div class="bm-icon">📝</div><div class="bm-label">Notes</div><div class="bm-value">${bk.notes}</div></div>` : ''}
+    ${bk.notes ? `<div class="bm-row"><div class="bm-icon">📝</div><div class="bm-label">Notes</div><div class="bm-value">${escHtml(bk.notes)}</div></div>` : ''}
   `;
   document.getElementById('booking-detail-modal').classList.add('show');
 }
@@ -1260,150 +1117,103 @@ function closeBookingDetail() {
   activeBookingId = null;
 }
 
-function deleteCurrentBooking() {
+async function deleteCurrentBooking() {
   if (!activeBookingId) return;
+  const ok = await deleteBookingRow(activeBookingId);
+  if (!ok) { showToast('⚠️','Delete failed.'); return; }
   bookings = bookings.filter(b=>b.id!==activeBookingId);
-  saveBookings();
   closeBookingDetail();
   renderCalendar();
   updateCalStats();
   showToast('🗑','Booking deleted.');
 }
 
-function cycleBookingStatus() {
+async function cycleBookingStatus() {
   if (!activeBookingId) return;
+  const bk = bookings.find(b=>b.id===activeBookingId);
+  if (!bk) return;
+  const next = STATUS_CYCLE[(STATUS_CYCLE.indexOf(bk.status)+1) % STATUS_CYCLE.length];
+  const updated = await updateBookingRow(activeBookingId, { status: next });
+  if (!updated) { showToast('⚠️','Update failed.'); return; }
   const idx = bookings.findIndex(b=>b.id===activeBookingId);
-  if (idx===-1) return;
-  const cur = bookings[idx].status;
-  const curIdx = STATUS_CYCLE.indexOf(cur);
-  const next = STATUS_CYCLE[(curIdx+1) % STATUS_CYCLE.length];
-  bookings[idx].status = next;
-  saveBookings();
-  openBookingDetail(activeBookingId); // re-render modal
+  if (idx>=0) bookings[idx] = updated;
+  openBookingDetail(activeBookingId);
   renderCalendar();
   updateCalStats();
   showToast('✅', `Status → ${STATUS_LABELS[next]}`);
 }
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // ADD BOOKING MODAL
-// ══════════════════════════════
-function openAddBooking(preDate) {
+// ══════════════════════════════════════════════════════
+function openAddBooking() {
   const today = new Date();
-  document.getElementById('ab-date').value = preDate || today.toISOString().split('T')[0];
-  document.getElementById('ab-time').value = '10:00';
-  document.getElementById('ab-name').value = '';
+  document.getElementById('ab-date').value  = today.toISOString().split('T')[0];
+  document.getElementById('ab-time').value  = '10:00';
+  document.getElementById('ab-name').value  = '';
   document.getElementById('ab-phone').value = '';
   document.getElementById('ab-notes').value = '';
-  document.getElementById('ab-status').value = 'booked';
+  document.getElementById('ab-status').value= 'booked';
   document.getElementById('add-booking-modal').classList.add('show');
   setTimeout(()=>document.getElementById('ab-name').focus(), 100);
 }
-
 function closeAddBooking() {
   document.getElementById('add-booking-modal').classList.remove('show');
 }
 
-function saveNewBooking() {
-  const name = document.getElementById('ab-name').value.trim();
-  const phone = document.getElementById('ab-phone').value.trim();
-  const date = document.getElementById('ab-date').value;
-  const time = document.getElementById('ab-time').value;
-  const notes = document.getElementById('ab-notes').value.trim();
+async function saveNewBooking() {
+  const name   = document.getElementById('ab-name').value.trim();
+  const phone  = document.getElementById('ab-phone').value.trim();
+  const date   = document.getElementById('ab-date').value;
+  const time   = document.getElementById('ab-time').value;
+  const notes  = document.getElementById('ab-notes').value.trim();
   const status = document.getElementById('ab-status').value;
+  if (!name||!phone||!date||!time) { showToast('⚠️','Fill in name, phone, date and time.'); return; }
 
-  if (!name || !phone || !date || !time) {
-    showToast('⚠️','Fill in name, phone, date and time.');
-    return;
-  }
+  const btn = document.getElementById('ab-save-btn');
+  btn.disabled = true; btn.textContent = 'Saving…';
 
-  const result = window.addBookingViaAPI({
-    name, phone,
-    datetime: date + 'T' + time + ':00',
-    notes, status
-  });
+  const booking = await insertBooking({ name, phone, datetime: date+'T'+time+':00', notes, status });
+  btn.disabled = false; btn.textContent = 'Save booking';
 
-  if (result.success) {
-    closeAddBooking();
-    renderCalendar();
-    updateCalStats();
-    showToast('✅', `${name} booked for ${formatTime(new Date(result.booking.datetime))}`);
-  } else {
-    showToast('⚠️', result.error);
-  }
+  if (!booking) { showToast('⚠️','Failed to save. Check Supabase RLS.'); return; }
+  bookings.push(booking);
+  closeAddBooking();
+  renderCalendar();
+  updateCalStats();
+  showToast('✅', `${name} booked for ${formatTime(new Date(booking.datetime))}`);
 }
 
-function copyApiDocs() {
-  const docs = `=== Service.AI Booking API ===
-
-Add a booking (POST):
-window.addBookingViaAPI({
-  name: "Lead Name",
-  phone: "15141234567",
-  datetime: "2026-04-25T14:00:00",  // ISO 8601
-  notes: "optional notes",
-  status: "booked"  // booked | confirmed
-})
-
-Update a booking:
-window.updateBookingViaAPI(id, { status: "confirmed" })
-
-Delete a booking:
-window.deleteBookingViaAPI(id)
-
-Get all bookings:
-window.getBookingsViaAPI()
-
-=== n8n Integration ===
-In your n8n workflow, after a lead books:
-1. Add a "Execute Custom Code" node (or HTTP Request)
-2. Call window.addBookingViaAPI() with the lead data
-3. The calendar updates automatically
-4. The follow-up automation reads from getBookingsViaAPI()`;
-
-  navigator.clipboard.writeText(docs).then(() => showToast('📋','API docs copied!'));
-}
-
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // PROFILE SECTIONS
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 const PROFILE_SECTIONS = {
-  business: [
-    { id:'business_name', label:'Business name', type:'text' },
-    { id:'industry', label:'Industry', type:'choice', choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"] },
+  business:[
+    {id:'business_name',label:'Business name',type:'text'},
+    {id:'industry',label:'Industry',type:'choice',choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"]},
   ],
-  offer: [
-    { id:'offer', label:'Main offer', type:'textarea' },
-    { id:'price', label:'Price', type:'text' },
-    { id:'client_avatar', label:'Ideal client', type:'textarea' },
-    { id:'result', label:'#1 result', type:'textarea' },
-    { id:'lead_magnet', label:'Lead magnet', type:'text' },
-    { id:'objections', label:'Common objections', type:'textarea' },
+  offer:[
+    {id:'offer',label:'Main offer',type:'textarea'},
+    {id:'price',label:'Price',type:'text'},
+    {id:'client_avatar',label:'Ideal client',type:'textarea'},
+    {id:'result',label:'#1 result',type:'textarea'},
+    {id:'lead_magnet',label:'Lead magnet',type:'text'},
+    {id:'objections',label:'Common objections',type:'textarea'},
   ],
-  sales: [
-    { id:'call_type', label:'Call type', type:'choice', choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"] },
-    { id:'follow_up_style', label:'Follow-up style', type:'choice', choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"] },
+  sales:[
+    {id:'call_type',label:'Call type',type:'choice',choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"]},
+    {id:'follow_up_style',label:'Follow-up style',type:'choice',choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"]},
   ],
-  voice: [
-    { id:'tone', label:'Tone', type:'choice', choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"] },
-    { id:'brand_voice', label:'Brand voice notes', type:'textarea' },
+  voice:[
+    {id:'tone',label:'Tone',type:'choice',choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"]},
+    {id:'brand_voice',label:'Brand voice notes',type:'textarea'},
   ]
 };
-const editState = { business:false, offer:false, sales:false, voice:false };
+const editState = {business:false,offer:false,sales:false,voice:false};
 
-// ══════════════════════════════
-// STATE
-// ══════════════════════════════
-let currentUser = null;
-let businessProfile = null;
-let agents = [];
-let activities = [];
-let activeAgentIdx = null;
-let connectAgentIdx = null;
-
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // AUTH
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 function switchAuthTab(tab) {
   document.getElementById('tab-signin').classList.toggle('active',tab==='signin');
   document.getElementById('tab-signup').classList.toggle('active',tab==='signup');
@@ -1418,13 +1228,11 @@ async function doSignIn(){
   const email=document.getElementById('signin-email').value.trim();
   const pw=document.getElementById('signin-pw').value;
   if(!email||!pw){showAuthError('signin','Please fill in all fields.');return;}
-  const btn=document.getElementById('signin-btn');
-  btn.disabled=true;btn.textContent='Signing in…';
+  const btn=document.getElementById('signin-btn');btn.disabled=true;btn.textContent='Signing in…';
   const{data,error}=await sb.auth.signInWithPassword({email,password:pw});
   btn.disabled=false;btn.textContent='Sign in →';
   if(error){showAuthError('signin',error.message);return;}
-  currentUser=data.user;
-  await afterAuth();
+  currentUser=data.user;await afterAuth();
 }
 async function doSignUp(){
   clearAuthError('signup');
@@ -1433,8 +1241,7 @@ async function doSignUp(){
   const pw=document.getElementById('signup-pw').value;
   if(!name||!email||!pw){showAuthError('signup','Please fill in all fields.');return;}
   if(pw.length<6){showAuthError('signup','Password must be at least 6 characters.');return;}
-  const btn=document.getElementById('signup-btn');
-  btn.disabled=true;btn.textContent='Creating account…';
+  const btn=document.getElementById('signup-btn');btn.disabled=true;btn.textContent='Creating account…';
   const{data,error}=await sb.auth.signUp({email,password:pw});
   btn.disabled=false;btn.textContent='Create account →';
   if(error){showAuthError('signup',error.message);return;}
@@ -1444,7 +1251,7 @@ async function doSignUp(){
 }
 async function doSignOut(){
   await sb.auth.signOut();
-  currentUser=null;businessProfile=null;agents=[];activities=[];
+  currentUser=null;businessProfile=null;agents=[];activities=[];bookings=[];
   document.getElementById('app-screen').classList.add('hide');
   document.getElementById('auth-screen').classList.remove('hide');
   switchAuthTab('signin');
@@ -1459,13 +1266,16 @@ async function afterAuth(){
   document.getElementById('sidebar-name').textContent=displayName;
   document.getElementById('sidebar-email').textContent=currentUser.email;
   document.getElementById('sidebar-avatar').textContent=displayName[0].toUpperCase();
+  // Load bookings from Supabase + subscribe to realtime
+  await fetchBookings();
+  subscribeBookings();
   if(!businessProfile)startOnboarding();
   else startApp();
 }
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // ONBOARDING
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 const OB_QUESTIONS=[
   {id:'business_name',type:'text',title:"What's your business called?",sub:"This is how your agent will introduce your brand.",placeholder:"e.g. Alex Coaching"},
   {id:'industry',type:'choice',title:"What industry are you in?",sub:"Pick the one that fits best.",choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"]},
@@ -1489,7 +1299,7 @@ function renderObQuestion(){
   document.getElementById('ob-label').textContent=`${obIndex+1} of ${total}`;
   if(obIndex>=total){wrap.innerHTML=`<div class="ob-complete"><div class="ob-complete-icon">✦</div><h2>You're all set.</h2><p>We've got everything we need to build your three AI agents.</p><button class="ob-complete-btn" onclick="finishOnboarding()">Enter dashboard →</button></div>`;return;}
   const q=OB_QUESTIONS[obIndex];let inputHtml='';
-  if(q.type==='choice'){const alpha='ABCDEFGHIJ';inputHtml=`<div class="ob-choices" id="ob-choices">${q.choices.map((c,i)=>`<button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}',false)"><span class="ob-choice-key">${alpha[i]}</span> ${c}</button>`).join('')}</div>`;}
+  if(q.type==='choice'){const alpha='ABCDEFGHIJ';inputHtml=`<div class="ob-choices" id="ob-choices">${q.choices.map((c,i)=>`<button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}')"><span class="ob-choice-key">${alpha[i]}</span> ${c}</button>`).join('')}</div>`;}
   else if(q.type==='textarea'){inputHtml=`<textarea class="ob-textarea" id="ob-input" placeholder="${q.placeholder||''}">${obAnswers[q.id]||''}</textarea>`;}
   else{inputHtml=`<input class="ob-input" id="ob-input" type="text" placeholder="${q.placeholder||''}" value="${obAnswers[q.id]||''}"/>`;}
   wrap.innerHTML=`<div class="ob-question"><div class="ob-q-num">Question ${obIndex+1}</div><div class="ob-q-title">${q.title}</div><div class="ob-q-sub">${q.sub}</div>${inputHtml}<div class="ob-nav">${obIndex>0?'<button class="ob-btn-back" onclick="obBack()">← Back</button>':''}${q.type!=='choice'?`<button class="ob-btn-next" onclick="obNext()">Continue →</button>`:''}<span class="ob-enter-hint">Press <kbd>Enter</kbd> to continue</span></div></div>`;
@@ -1504,23 +1314,28 @@ function skipOnboarding(){obAnswers={business_name:'My Business',industry:'Coach
 function finishOnboarding(){businessProfile=obAnswers;localStorage.setItem('sai_profile_'+currentUser.id,JSON.stringify(businessProfile));document.getElementById('onboarding-screen').classList.add('hide');startApp();}
 function redoOnboarding(){document.getElementById('app-screen').classList.add('hide');startOnboarding();}
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // APP
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 function startApp(){document.getElementById('app-screen').classList.remove('hide');showScreen('dashboard',document.querySelector('.nav-item'));}
 function showScreen(name,navEl){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(name==='dashboard'){document.getElementById('screen-dashboard').classList.add('active');document.getElementById('topbar-title').textContent='Dashboard';document.getElementById('topbar-sub').textContent="Welcome back. Here's what's happening.";renderDashboard();}
   else if(name==='new-agent'){document.getElementById('screen-new-agent').classList.add('active');document.getElementById('topbar-title').textContent='New Agent';document.getElementById('topbar-sub').textContent='Build a new AI sales agent from your business profile.';renderAgentForm();}
-  else if(name==='calendar'){document.getElementById('screen-calendar').classList.add('active');document.getElementById('topbar-title').textContent='Calendar';document.getElementById('topbar-sub').textContent='All your booked calls in one place.';renderCalendar();updateCalStats();}
+  else if(name==='calendar'){
+    document.getElementById('screen-calendar').classList.add('active');
+    document.getElementById('topbar-title').textContent='Calendar';
+    document.getElementById('topbar-sub').textContent='All your booked calls in one place.';
+    fetchBookings().then(()=>{ renderCalendar(); updateCalStats(); });
+  }
   else if(name==='settings'){document.getElementById('screen-settings').classList.add('active');document.getElementById('topbar-title').textContent='Business Profile';document.getElementById('topbar-sub').textContent='Your business info — this powers every agent you build.';renderProfilePage();}
   if(navEl)navEl.classList.add('active');
 }
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // PROFILE PAGE
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 function renderProfilePage(){
   const p=businessProfile||{};
   const name=p.business_name||'My Business';
@@ -1547,16 +1362,14 @@ function renderSectionFields(section,isEditing){
 function pfSelectChoice(fieldId,val){document.getElementById('pf-val-'+fieldId).value=val;document.querySelectorAll(`#pf-choices-${fieldId} .pf-choice-pill`).forEach(p=>{p.classList.toggle('selected',p.textContent===val);});}
 function toggleEdit(section){const isNowEditing=!editState[section];editState[section]=isNowEditing;renderSectionFields(section,isNowEditing);const editBtn=document.getElementById('btn-edit-'+section);const saveBtn=document.getElementById('btn-save-'+section);if(isNowEditing){editBtn.classList.add('editing');editBtn.textContent='✕ Cancel';saveBtn.classList.remove('hide');}else{editBtn.classList.remove('editing');editBtn.textContent='✎ Edit';saveBtn.classList.add('hide');}}
 function saveSection(section){const fields=PROFILE_SECTIONS[section];if(!businessProfile)businessProfile={};fields.forEach(f=>{const el=document.getElementById('pf-val-'+f.id);if(el)businessProfile[f.id]=el.value.trim();});localStorage.setItem('sai_profile_'+currentUser.id,JSON.stringify(businessProfile));editState[section]=false;renderSectionFields(section,false);document.getElementById('btn-edit-'+section).classList.remove('editing');document.getElementById('btn-edit-'+section).textContent='✎ Edit';document.getElementById('btn-save-'+section).classList.add('hide');const name=businessProfile.business_name||'My Business';document.getElementById('profile-avatar-letter').textContent=name[0].toUpperCase();document.getElementById('profile-biz-name-display').textContent=name;document.getElementById('profile-industry-display').textContent=businessProfile.industry||'No industry set';const allFields=['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];const filled=allFields.filter(f=>businessProfile[f]&&businessProfile[f].trim()&&businessProfile[f]!=='none').length;const pct=Math.round((filled/allFields.length)*100);document.getElementById('completeness-fill').style.width=pct+'%';document.getElementById('completeness-pct').textContent=pct+'%';showToast('✅','Profile updated and saved.');}
-function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function escAttr(s){return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // DASHBOARD
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 function renderDashboard(){
   const h=new Date().getHours();document.getElementById('dash-greeting').textContent=(h<12?'Good morning':h<18?'Good afternoon':'Good evening')+' 👋';
   document.getElementById('m1-val').textContent=agents.reduce((s,a)=>s+(a.leads||0),0);
-  document.getElementById('m2-val').textContent=agents.reduce((s,a)=>s+(a.booked||0),0);
+  document.getElementById('m2-val').textContent=bookings.length;
   document.getElementById('m3-val').textContent='—';
   if(agents.length){document.getElementById('global-status').className='pill-live';document.getElementById('global-status').innerHTML='<div class="live-dot"></div> '+agents.length+' agent(s) live';}
   drawSparkline('spark1',[2,4,3,6,5,8,7,10,9,12],'rgba(34,197,94,0.6)','rgba(34,197,94,0.08)');
@@ -1564,6 +1377,7 @@ function renderDashboard(){
   drawSparkline('spark3',[0,0,0,0,0,0,0,0,0,0],'rgba(156,163,175,0.5)','rgba(0,0,0,0.03)');
   renderAgentSlots();renderActivityFeed();
 }
+
 const AGENT_TYPES=[
   {key:'lead-handler',icon:'📲',name:'New Lead Handler',desc:'Welcomes the lead, delivers the lead magnet, then sells the call — step by step, naturally.'},
   {key:'follow-up',icon:'🔁',name:'Follow-Up Automation',desc:'Follows up automatically after the call is booked to make sure they show up. No more ghosted calls.'},
@@ -1579,9 +1393,9 @@ function renderAgentSlots(){
 }
 function startNewAgentOfType(typeKey){showScreen('new-agent',document.querySelectorAll('.nav-item')[1]);setTimeout(()=>selectAgentType(typeKey),100);}
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // NEW AGENT FORM
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 const AGENT_FORM_QUESTIONS={
   'lead-handler':[
     {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
@@ -1613,9 +1427,9 @@ function afNext(){const inp=document.getElementById('af-input');const questions=
 function afBack(){if(afStep>0){afStep--;renderAfStep();}}
 function renderAfSummary(){const questions=AGENT_FORM_QUESTIONS[afType]||[];const type=AGENT_TYPES.find(t=>t.key===afType);const stepsHtml=questions.map((sq,i)=>`<div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div><div class="af-step-connector"></div>`).join('')+`<div class="af-step-item active"><div class="af-step-num">${questions.length+1}</div>Confirm</div>`;const summaryRows=questions.map(q=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;width:160px;flex-shrink:0;">${q.label}</span><span style="font-size:14px;font-weight:500;text-align:right;">${afAnswers[q.id]||'—'}</span></div>`).join('');document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">Summary</div><div class="af-q-text">Ready to build your ${type?.name}?</div><div class="af-q-hint" style="margin-bottom:20px;">Review your answers before we build.</div><div>${summaryRows}</div></div><div class="af-footer"><div class="af-nav"><button class="btn-af-back" onclick="afBack()">← Edit</button><button class="btn-af-next" onclick="buildAgent()" style="background:var(--accent);color:var(--black);">Build Agent ✦</button></div></div>`;}
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // BUILD AGENT
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 async function buildAgent(){showGeneratingOverlay();setGenStep(1);const type=AGENT_TYPES.find(t=>t.key===afType);const payload={agent_type:afType,agent_type_name:type?.name,business_profile:businessProfile,agent_config:afAnswers,session_id:'session_'+Date.now(),source:'service_ai_v3'};try{setTimeout(()=>setGenStep(2),900);const res=await fetch(PROVISIONING_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});setGenStep(3);await sleep(600);const data=await res.json();setGenStep(4);await sleep(600);setGenStep(5);await sleep(800);finishBuild(data);}catch(err){console.error(err);setGenStep(5);await sleep(600);finishBuild({});}}
 function finishBuild(response){const r=Array.isArray(response)?response[0]:response;const clientId=r.client_id||'agent_'+Date.now();const type=AGENT_TYPES.find(t=>t.key===afType);const newAgent={id:clientId,type:afType,name:businessProfile?.business_name||r.company||'My Business',agent_type_name:type?.name,whatsapp:afAnswers.whatsapp_number||'—',status:'live',leads:0,booked:0,created:new Date().toISOString(),workflow_json:r.workflow_json||null,workflow_name:r.workflow_name||null,connected:false,credentials:{}};const existing=agents.findIndex(a=>a.type===afType);if(existing>=0)agents[existing]=newAgent;else agents.push(newAgent);localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));addActivity('🤖',`${type?.name} built for ${newAgent.name}`,'Just now');afType=null;afStep=0;afAnswers={};hideGeneratingOverlay(()=>{showScreen('dashboard',document.querySelector('.nav-item'));showToast('✅',`${type?.name} is live! Download the workflow to activate it.`);});}
 function showGeneratingOverlay(){document.getElementById('gen-overlay').classList.add('show');['gs1','gs2','gs3','gs4','gs5'].forEach(s=>document.getElementById(s).classList.remove('active','done'));}
@@ -1623,9 +1437,9 @@ function hideGeneratingOverlay(cb){['gs1','gs2','gs3','gs4','gs5'].forEach(s=>{d
 function setGenStep(n){['gs1','gs2','gs3','gs4','gs5'].forEach((s,i)=>{const el=document.getElementById(s);el.classList.remove('active','done');if(i+1<n)el.classList.add('done');else if(i+1===n)el.classList.add('active');});}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // WORKFLOW MODAL
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 function openWorkflowModal(idx){activeAgentIdx=idx;const agent=agents[idx];if(!agent?.workflow_json)return;document.getElementById('modal-title').textContent=agent.workflow_name||agent.agent_type_name+' — Workflow';document.getElementById('modal-subtitle').textContent=`${agent.workflow_json.nodes?.length||0} nodes · Ready to import`;renderNodeCanvas(agent.workflow_json);document.getElementById('workflow-modal').classList.add('show');}
 function closeModal(){document.getElementById('workflow-modal').classList.remove('show');activeAgentIdx=null;}
 function downloadWorkflow(){if(activeAgentIdx===null)return;const agent=agents[activeAgentIdx];if(!agent?.workflow_json)return;const blob=new Blob([JSON.stringify(agent.workflow_json,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(agent.workflow_name||agent.name).replace(/[^a-z0-9]/gi,'_')+'.json';a.click();URL.revokeObjectURL(url);showToast('⬇','Workflow downloaded! Import it in n8n.');}
@@ -1634,30 +1448,32 @@ function openConnectModal(idx){connectAgentIdx=idx;const agent=agents[idx];const
 function closeConnectModal(){document.getElementById('connect-modal').classList.remove('show');connectAgentIdx=null;}
 function injectAndDownload(){if(connectAgentIdx===null)return;const agent=agents[connectAgentIdx];if(!agent?.workflow_json){showToast('⚠️','No workflow found.');return;}const waToken=document.getElementById('cred-wa-token').value.trim();const phoneId=document.getElementById('cred-phone-id').value.trim();if(!waToken||!phoneId){showToast('⚠️','Fill in both fields.');return;}const patched=JSON.parse(JSON.stringify(agent.workflow_json));patched.nodes.forEach(node=>{if(node.parameters?.headerParameters?.parameters){node.parameters.headerParameters.parameters.forEach(h=>{if(typeof h.value==='string'&&h.value.includes('YOUR_WHATSAPP_TOKEN'))h.value=h.value.replace(/YOUR_WHATSAPP_TOKEN/g,waToken);});}if(node.parameters?.phoneNumberId==='YOUR_PHONE_NUMBER_ID')node.parameters.phoneNumberId=phoneId;});const final=JSON.stringify(patched);if(final.includes('YOUR_WHATSAPP_TOKEN')||final.includes('YOUR_PHONE_NUMBER_ID')){showToast('⚠️','Injection failed — placeholder not found.');return;}agents[connectAgentIdx].workflow_json=patched;agents[connectAgentIdx].connected=true;agents[connectAgentIdx].credentials={wa_token:waToken,phone_id:phoneId};localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));const blob=new Blob([JSON.stringify(patched,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(agent.workflow_name||agent.name).replace(/[^a-z0-9]/gi,'_')+'_connected.json';a.click();URL.revokeObjectURL(url);closeConnectModal();renderDashboard();addActivity('🔌',`Agent connected: ${agent.name}`,'Just now');showToast('✅','Connected JSON downloaded! Import in n8n and you\'re live.');}
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // NODE CANVAS
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 function renderNodeCanvas(workflow){const NODE_W=160,NODE_H=72,PAD=60;const inner=document.getElementById('node-canvas-inner');inner.innerHTML='';const nodes=workflow.nodes||[];const connections=workflow.connections||{};if(!nodes.length){inner.style.width='400px';inner.style.height='200px';inner.innerHTML='<div style="padding:60px;color:#999;font-size:13px;">No nodes found.</div>';return;}const raw=nodes.map(n=>({x:Array.isArray(n.position)?n.position[0]:(n.position?.x||0),y:Array.isArray(n.position)?n.position[1]:(n.position?.y||0)}));const minX=Math.min(...raw.map(p=>p.x)),minY=Math.min(...raw.map(p=>p.y));const pos=raw.map(p=>({x:p.x-minX+PAD,y:p.y-minY+PAD}));const maxX=Math.max(...pos.map(p=>p.x)),maxY=Math.max(...pos.map(p=>p.y));const W=maxX+NODE_W+PAD,H=maxY+NODE_H+PAD;inner.style.width=W+'px';inner.style.height=H+'px';const svgNS='http://www.w3.org/2000/svg';const svg=document.createElementNS(svgNS,'svg');svg.setAttribute('width',W);svg.setAttribute('height',H);svg.style.cssText='position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';const defs=document.createElementNS(svgNS,'defs');defs.innerHTML='<marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(0,0,0,0.2)"/></marker>';svg.appendChild(defs);inner.appendChild(svg);function cls(t){if(!t)return'';const l=t.toLowerCase();if(l.includes('whatsapptrigger')||l.includes('webhook'))return'trigger';if(l.includes('agent'))return'agent';if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'memory';if(l.includes('code'))return'code';if(l.includes('httprequest')||l.includes('whatsapp'))return'http';if(l.includes('wait'))return'wait';if(l.includes('splitinbatches'))return'split';if(l.includes('filter'))return'filter';if(l.includes('switch'))return'switch-node';return'';}function ico(t){if(!t)return'⬡';const l=t.toLowerCase();if(l.includes('whatsapptrigger'))return'📲';if(l.includes('webhook'))return'🔗';if(l.includes('agent'))return'🤖';if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'🧠';if(l.includes('code'))return'{ }';if(l.includes('httprequest'))return'🌐';if(l.includes('whatsapp'))return'💬';if(l.includes('wait'))return'⏱';if(l.includes('splitinbatches'))return'🔄';if(l.includes('filter'))return'🔽';if(l.includes('switch'))return'⇄';return'⬡';}const centres={};nodes.forEach((node,i)=>{const x=pos[i].x,y=pos[i].y;centres[node.name]={ox:x+NODE_W,oy:y+NODE_H/2,ix:x,iy:y+NODE_H/2};const el=document.createElement('div');el.className='wf-node '+cls(node.type);el.style.left=x+'px';el.style.top=y+'px';el.style.width=NODE_W+'px';el.title=node.name;el.innerHTML=`<div class="wf-node-icon">${ico(node.type)}</div><div class="wf-node-name">${node.name}</div><div class="wf-node-type">${(node.type||'').split('.').pop().replace(/([A-Z])/g,' $1').trim()}</div>`;inner.appendChild(el);});Object.entries(connections).forEach(([from,outputs])=>{const f=centres[from];if(!f)return;Object.values(outputs).forEach(arr=>arr.forEach(list=>{if(!Array.isArray(list))return;list.forEach(conn=>{const t=centres[conn?.node];if(!t)return;const x1=f.ox,y1=f.oy,x2=t.ix,y2=t.iy;const pull=Math.max(60,Math.abs(x2-x1)*0.4);const path=document.createElementNS(svgNS,'path');path.setAttribute('d',`M${x1},${y1} C${x1+pull},${y1} ${x2-pull},${y2} ${x2},${y2}`);path.setAttribute('stroke','rgba(0,0,0,0.15)');path.setAttribute('stroke-width','1.5');path.setAttribute('fill','none');path.setAttribute('marker-end','url(#arrow)');svg.appendChild(path);});}));});}
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // ACTIVITY + UTILS
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 function addActivity(icon,title,time){activities.unshift({icon,title,time});if(activities.length>20)activities=activities.slice(0,20);localStorage.setItem('sai_activities_'+currentUser.id,JSON.stringify(activities));}
 function renderActivityFeed(){const list=document.getElementById('activity-list');if(!activities.length){list.innerHTML='<div class="empty-state"><div class="ei">📭</div><p>No activity yet</p></div>';return;}list.innerHTML=activities.slice(0,8).map(a=>`<div class="activity-item"><div class="activity-icon">${a.icon}</div><div class="activity-text"><div class="activity-title">${a.title}</div><div class="activity-time">${a.time}</div></div></div>`).join('');}
 function drawSparkline(id,data,line,fill){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);const min=Math.min(...data),max=Math.max(...data),rng=max-min||1;const pts=data.map((v,i)=>({x:(i/(data.length-1))*w,y:h-((v-min)/rng)*(h*0.75)-h*0.1}));ctx.beginPath();ctx.moveTo(pts[0].x,h);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,h);ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle=line;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();const l=pts[pts.length-1];ctx.beginPath();ctx.arc(l.x,l.y,3.5,0,Math.PI*2);ctx.fillStyle=line;ctx.fill();}
 function showToast(icon,text){document.getElementById('toast-icon').textContent=icon;document.getElementById('toast-text').textContent=text;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4200);}
 function checkNotifs(){const p=localStorage.getItem('sai_notify');if(p){const n=JSON.parse(p);showToast('🔔',n.message||'Update received');localStorage.removeItem('sai_notify');document.getElementById('notif-badge').classList.remove('show');}}
 setInterval(()=>{if(localStorage.getItem('sai_notify'))document.getElementById('notif-badge').classList.add('show');},5000);
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escAttr(s){return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 // INIT
-// ══════════════════════════════
+// ══════════════════════════════════════════════════════
 (async function init(){
   const{data:{session}}=await sb.auth.getSession();
   if(session?.user){currentUser=session.user;await afterAuth();}
   sb.auth.onAuthStateChange(async(event,session)=>{
-    if(event==='SIGNED_IN'&&session?.user)currentUser=session.user;
-    else if(event==='SIGNED_OUT')currentUser=null;
+    if(event==='SIGNED_IN'&&session?.user){currentUser=session.user;}
+    else if(event==='SIGNED_OUT'){currentUser=null;}
   });
 })();
 </script>

@@ -345,11 +345,223 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .completeness-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.6s ease;}
 .completeness-pct{font-size:13px;font-weight:700;color:var(--accent-dark);white-space:nowrap;}
 
+/* ══════════════════════════════
+   CALENDAR SCREEN
+══════════════════════════════ */
+.cal-wrap{display:flex;flex-direction:column;height:calc(100vh - 73px - 64px);}
+
+/* Header bar */
+.cal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;flex-shrink:0;
+}
+.cal-nav{display:flex;align-items:center;gap:10px;}
+.cal-nav-btn{
+  width:34px;height:34px;border-radius:8px;
+  border:1px solid var(--border);background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;transition:all 0.15s;
+}
+.cal-nav-btn:hover{border-color:var(--black);background:var(--black);color:var(--white);}
+.cal-month-title{
+  font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;
+  min-width:200px;
+}
+.cal-today-btn{
+  padding:7px 16px;border-radius:8px;border:1px solid var(--border);
+  background:var(--white);font-size:12px;font-weight:600;color:var(--black);
+  transition:all 0.15s;
+}
+.cal-today-btn:hover{border-color:var(--black);}
+.cal-header-right{display:flex;align-items:center;gap:10px;}
+.cal-view-toggle{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+.cal-view-btn{
+  padding:7px 14px;font-size:12px;font-weight:600;
+  border:none;background:var(--white);color:var(--muted);
+  transition:all 0.15s;border-right:1px solid var(--border);
+}
+.cal-view-btn:last-child{border-right:none;}
+.cal-view-btn.active{background:var(--black);color:#fff;}
+.btn-add-booking{
+  display:flex;align-items:center;gap:7px;
+  padding:8px 18px;border-radius:8px;
+  background:var(--black);color:#fff;border:none;
+  font-size:12px;font-weight:600;transition:opacity 0.15s;
+}
+.btn-add-booking:hover{opacity:0.85;}
+
+/* Calendar grid */
+.cal-grid-wrap{
+  flex:1;background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);box-shadow:var(--shadow);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.cal-day-headers{
+  display:grid;grid-template-columns:56px repeat(7,1fr);
+  border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.cal-day-header{
+  padding:10px 8px;text-align:center;
+  font-size:11px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+.cal-day-header.today-col{color:var(--black);}
+.cal-day-header-date{
+  font-size:20px;font-weight:400;font-family:'Instrument Serif',serif;
+  color:var(--black);display:block;margin-top:2px;line-height:1;
+}
+.cal-day-header-date.today-date{
+  width:32px;height:32px;background:var(--black);color:var(--accent);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:2px auto 0;font-size:16px;
+}
+.cal-time-col{font-size:11px;color:var(--muted);font-weight:500;}
+
+/* Scrollable body */
+.cal-body{flex:1;overflow-y:auto;position:relative;}
+.cal-body-inner{display:grid;grid-template-columns:56px repeat(7,1fr);position:relative;}
+
+/* Time slots */
+.cal-time-slots{display:contents;}
+.cal-hour-row{
+  display:contents;
+}
+.cal-time-label{
+  padding:0 8px;text-align:right;
+  font-size:10px;color:var(--muted);font-weight:500;
+  height:60px;display:flex;align-items:flex-start;
+  padding-top:4px;border-top:1px solid var(--border);
+  grid-column:1;
+}
+.cal-hour-cell{
+  height:60px;border-top:1px solid var(--border);
+  border-left:1px solid var(--border);
+  position:relative;
+  transition:background 0.1s;
+}
+.cal-hour-cell:hover{background:rgba(200,241,53,0.04);}
+.cal-hour-cell.today-col{background:rgba(200,241,53,0.02);}
+
+/* Events */
+.cal-event{
+  position:absolute;left:3px;right:3px;
+  border-radius:6px;padding:4px 7px;
+  font-size:11px;font-weight:600;line-height:1.3;
+  overflow:hidden;cursor:pointer;
+  transition:opacity 0.15s,transform 0.1s;
+  z-index:2;
+}
+.cal-event:hover{opacity:0.85;transform:scale(1.01);}
+.cal-event.status-booked{background:rgba(200,241,53,0.25);border-left:3px solid var(--accent-dark);color:var(--accent-dark);}
+.cal-event.status-confirmed{background:rgba(59,130,246,0.12);border-left:3px solid #3b82f6;color:#1d4ed8;}
+.cal-event.status-completed{background:rgba(156,163,175,0.15);border-left:3px solid #9ca3af;color:#6b7280;}
+.cal-event.status-no_show{background:rgba(239,68,68,0.1);border-left:3px solid #ef4444;color:#dc2626;}
+.cal-event-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cal-event-time{font-size:10px;font-weight:400;opacity:0.75;white-space:nowrap;}
+
+/* Current time line */
+.cal-now-line{
+  position:absolute;left:0;right:0;height:2px;
+  background:var(--black);z-index:10;pointer-events:none;
+}
+.cal-now-dot{
+  position:absolute;left:-4px;top:-4px;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--black);
+}
+
+/* ══ BOOKING DETAIL MODAL ══ */
+.booking-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);z-index:350;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+.booking-modal-overlay.show{opacity:1;pointer-events:all;}
+.booking-modal-box{background:var(--white);border-radius:20px;width:90%;max-width:440px;box-shadow:var(--shadow-lg);transform:translateY(12px);transition:transform 0.22s;overflow:hidden;}
+.booking-modal-overlay.show .booking-modal-box{transform:translateY(0);}
+.bm-header{padding:24px 24px 0;display:flex;align-items:flex-start;justify-content:space-between;}
+.bm-header h3{font-family:'Instrument Serif',serif;font-size:20px;font-weight:400;}
+.bm-close{width:30px;height:30px;border-radius:50%;background:var(--bg);border:1px solid var(--border);font-size:14px;display:flex;align-items:center;justify-content:center;}
+.bm-body{padding:20px 24px;}
+.bm-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.bm-row:last-child{border-bottom:none;}
+.bm-icon{width:28px;height:28px;border-radius:7px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.bm-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;width:80px;flex-shrink:0;}
+.bm-value{font-size:13px;font-weight:500;flex:1;}
+.bm-status-badge{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;}
+.bm-status-badge.booked{background:rgba(200,241,53,0.2);color:var(--accent-dark);}
+.bm-status-badge.confirmed{background:rgba(59,130,246,0.12);color:#1d4ed8;}
+.bm-status-badge.completed{background:rgba(156,163,175,0.15);color:#6b7280;}
+.bm-status-badge.no_show{background:rgba(239,68,68,0.1);color:#dc2626;}
+.bm-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;}
+.bm-btn-delete{padding:8px 16px;border-radius:8px;border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.06);color:#dc2626;font-size:12px;font-weight:600;transition:all 0.15s;}
+.bm-btn-delete:hover{background:rgba(239,68,68,0.12);}
+.bm-btn-status{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--black);font-size:12px;font-weight:600;transition:all 0.15s;}
+.bm-btn-status:hover{border-color:var(--black);}
+
+/* ══ ADD BOOKING MODAL ══ */
+.add-booking-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);z-index:350;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+.add-booking-overlay.show{opacity:1;pointer-events:all;}
+.add-booking-box{background:var(--white);border-radius:20px;width:90%;max-width:480px;box-shadow:var(--shadow-lg);transform:translateY(12px);transition:transform 0.22s;overflow:hidden;}
+.add-booking-overlay.show .add-booking-box{transform:translateY(0);}
+.ab-header{padding:24px 24px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.ab-header h3{font-family:'Instrument Serif',serif;font-size:20px;font-weight:400;}
+.ab-close{width:30px;height:30px;border-radius:50%;background:var(--bg);border:1px solid var(--border);font-size:14px;display:flex;align-items:center;justify-content:center;}
+.ab-body{padding:0 24px;}
+.ab-field{margin-bottom:16px;}
+.ab-field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:7px;}
+.ab-field input,.ab-field select,.ab-field textarea{
+  width:100%;padding:10px 14px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:13px;color:var(--black);background:var(--bg);
+  outline:none;transition:border-color 0.15s;
+  font-family:'DM Sans',sans-serif;
+}
+.ab-field input:focus,.ab-field select:focus,.ab-field textarea:focus{border-color:var(--black);}
+.ab-field textarea{min-height:70px;resize:vertical;line-height:1.5;}
+.ab-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ab-footer{padding:16px 24px 24px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border);margin-top:8px;}
+.ab-btn-cancel{padding:10px 18px;border-radius:9px;border:1px solid var(--border);background:transparent;font-size:13px;color:var(--muted);}
+.ab-btn-save{padding:11px 24px;border-radius:9px;background:var(--black);color:#fff;border:none;font-size:13px;font-weight:600;transition:opacity 0.15s;}
+.ab-btn-save:hover{opacity:0.85;}
+.ab-btn-save:disabled{opacity:0.5;cursor:not-allowed;}
+
+/* API info box */
+.api-info-box{
+  background:var(--black);border-radius:var(--r);
+  padding:20px 24px;margin-bottom:20px;
+  display:flex;align-items:flex-start;gap:16px;
+  flex-shrink:0;
+}
+.api-info-box-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.api-info-box-content{flex:1;}
+.api-info-box-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
+.api-info-box-desc{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:10px;}
+.api-endpoint{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;padding:8px 12px;
+  font-size:11px;color:var(--accent);font-family:monospace;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  word-break:break-all;
+}
+.api-copy-btn{
+  padding:4px 10px;border-radius:5px;border:none;
+  background:rgba(200,241,53,0.15);color:var(--accent);
+  font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;
+  transition:background 0.15s;
+}
+.api-copy-btn:hover{background:rgba(200,241,53,0.25);}
+
+/* Stats row */
+.cal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;flex-shrink:0;}
+.cal-stat{background:var(--white);border-radius:var(--r-sm);border:1px solid var(--border);padding:14px 16px;box-shadow:var(--shadow);}
+.cal-stat-label{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;}
+.cal-stat-value{font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;line-height:1;}
+.cal-stat-value.green{color:#16a34a;}
+.cal-stat-value.blue{color:#2563eb;}
+.cal-stat-value.red{color:#dc2626;}
+
 /* ══ TOAST ══ */
 .toast{position:fixed;bottom:28px;right:28px;background:var(--black);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;max-width:320px;}
 .toast.show{transform:translateY(0);opacity:1;}
 
-@media(max-width:1100px){.metrics-grid{grid-template-columns:1fr 1fr;}.agents-slots{grid-template-columns:1fr;}.dash-body{grid-template-columns:1fr;}}
+@media(max-width:1100px){.metrics-grid{grid-template-columns:1fr 1fr;}.agents-slots{grid-template-columns:1fr;}.dash-body{grid-template-columns:1fr;}.cal-stats{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -376,16 +588,12 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
         <button class="auth-tab active" id="tab-signin" onclick="switchAuthTab('signin')">Sign in</button>
         <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Create account</button>
       </div>
-
-      <!-- SIGN IN -->
       <div id="auth-signin">
         <div class="auth-field"><label>Email</label><input type="email" id="signin-email" placeholder="you@company.com"/></div>
         <div class="auth-field"><label>Password</label><input type="password" id="signin-pw" placeholder="••••••••"/></div>
         <div class="auth-error" id="signin-error"></div>
         <button class="auth-btn" id="signin-btn" onclick="doSignIn()">Sign in →</button>
       </div>
-
-      <!-- SIGN UP -->
       <div id="auth-signup" style="display:none">
         <div class="auth-field"><label>Full name</label><input type="text" id="signup-name" placeholder="Your name"/></div>
         <div class="auth-field"><label>Email</label><input type="email" id="signup-email" placeholder="you@company.com"/></div>
@@ -418,7 +626,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
       <div class="nav-label">Main</div>
       <div class="nav-item active" onclick="showScreen('dashboard',this)"><span class="nav-icon">⬛</span> Dashboard</div>
       <div class="nav-item" onclick="showScreen('new-agent',this)"><span class="nav-icon">✦</span> New Agent</div>
-      <div class="nav-item"><span class="nav-icon">💬</span> Conversations</div>
+      <div class="nav-item" onclick="showScreen('calendar',this)"><span class="nav-icon">📅</span> Calendar</div>
       <div class="nav-item"><span class="nav-icon">👥</span> Leads</div>
     </div>
     <div class="nav-section">
@@ -502,6 +710,71 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
             <p>Pick the type, answer a few questions, and we'll build it in 60 seconds.</p>
           </div>
           <div id="af-body"></div>
+        </div>
+      </div>
+
+      <!-- CALENDAR -->
+      <div class="screen" id="screen-calendar">
+        <div class="cal-wrap">
+
+          <!-- API info strip -->
+          <div class="api-info-box">
+            <div class="api-info-box-icon">🔌</div>
+            <div class="api-info-box-content">
+              <div class="api-info-box-title">HTTP API — Add bookings from n8n or any tool</div>
+              <div class="api-info-box-desc">POST to this endpoint to add a booking. Send: name, phone, datetime (ISO 8601), notes (optional), status (optional: booked|confirmed).</div>
+              <div class="api-endpoint">
+                <span id="api-endpoint-url">POST https://your-app.com/api/bookings — handled in-browser via localStorage</span>
+                <button class="api-copy-btn" onclick="copyApiDocs()">Copy docs</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="cal-stats">
+            <div class="cal-stat">
+              <div class="cal-stat-label">This week</div>
+              <div class="cal-stat-value blue" id="stat-week">0</div>
+            </div>
+            <div class="cal-stat">
+              <div class="cal-stat-label">Confirmed</div>
+              <div class="cal-stat-value green" id="stat-confirmed">0</div>
+            </div>
+            <div class="cal-stat">
+              <div class="cal-stat-label">No-shows</div>
+              <div class="cal-stat-value red" id="stat-noshow">0</div>
+            </div>
+            <div class="cal-stat">
+              <div class="cal-stat-label">Total booked</div>
+              <div class="cal-stat-value" id="stat-total">0</div>
+            </div>
+          </div>
+
+          <!-- Calendar header -->
+          <div class="cal-header">
+            <div class="cal-nav">
+              <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
+              <span class="cal-month-title" id="cal-title">April 2026</span>
+              <button class="cal-nav-btn" onclick="calNav(1)">›</button>
+              <button class="cal-today-btn" onclick="calGoToday()">Today</button>
+            </div>
+            <div class="cal-header-right">
+              <div class="cal-view-toggle">
+                <button class="cal-view-btn active" id="vbtn-week" onclick="setCalView('week')">Week</button>
+                <button class="cal-view-btn" id="vbtn-day" onclick="setCalView('day')">Day</button>
+              </div>
+              <button class="btn-add-booking" onclick="openAddBooking()">+ Add booking</button>
+            </div>
+          </div>
+
+          <!-- Calendar grid -->
+          <div class="cal-grid-wrap">
+            <div class="cal-day-headers" id="cal-day-headers"></div>
+            <div class="cal-body" id="cal-body">
+              <div class="cal-body-inner" id="cal-body-inner"></div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -628,7 +901,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
       </div>
     </div>
     <div class="connect-notice">
-      <strong>Also required in n8n:</strong> Create credentials named <strong>OpenRouter account</strong> and <strong>WhatsApp account</strong> — these can't be injected from here yet.
+      <strong>Also required in n8n:</strong> Create credentials named <strong>OpenRouter account</strong> and <strong>WhatsApp account</strong>.
     </div>
     <div class="connect-modal-footer">
       <button class="btn-cancel-connect" onclick="closeConnectModal()">Cancel</button>
@@ -637,48 +910,489 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
+<!-- BOOKING DETAIL MODAL -->
+<div class="booking-modal-overlay" id="booking-detail-modal" onclick="if(event.target===this)closeBookingDetail()">
+  <div class="booking-modal-box">
+    <div class="bm-header">
+      <h3 id="bm-title">Booking</h3>
+      <button class="bm-close" onclick="closeBookingDetail()">✕</button>
+    </div>
+    <div class="bm-body" id="bm-body"></div>
+    <div class="bm-footer">
+      <button class="bm-btn-delete" onclick="deleteCurrentBooking()">🗑 Delete</button>
+      <button class="bm-btn-status" onclick="cycleBookingStatus()">↻ Change status</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD BOOKING MODAL -->
+<div class="add-booking-overlay" id="add-booking-modal" onclick="if(event.target===this)closeAddBooking()">
+  <div class="add-booking-box">
+    <div class="ab-header">
+      <h3>Add booking</h3>
+      <button class="ab-close" onclick="closeAddBooking()">✕</button>
+    </div>
+    <div class="ab-body">
+      <div class="ab-row">
+        <div class="ab-field">
+          <label>Lead name</label>
+          <input type="text" id="ab-name" placeholder="Ahmed Al-Rashidi"/>
+        </div>
+        <div class="ab-field">
+          <label>WhatsApp number</label>
+          <input type="text" id="ab-phone" placeholder="+1 514 000 0000"/>
+        </div>
+      </div>
+      <div class="ab-row">
+        <div class="ab-field">
+          <label>Date</label>
+          <input type="date" id="ab-date"/>
+        </div>
+        <div class="ab-field">
+          <label>Time</label>
+          <input type="time" id="ab-time"/>
+        </div>
+      </div>
+      <div class="ab-field">
+        <label>Status</label>
+        <select id="ab-status">
+          <option value="booked">Booked</option>
+          <option value="confirmed">Confirmed</option>
+        </select>
+      </div>
+      <div class="ab-field">
+        <label>Notes (optional)</label>
+        <textarea id="ab-notes" placeholder="Any context about this lead…"></textarea>
+      </div>
+    </div>
+    <div class="ab-footer">
+      <button class="ab-btn-cancel" onclick="closeAddBooking()">Cancel</button>
+      <button class="ab-btn-save" id="ab-save-btn" onclick="saveNewBooking()">Save booking</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><span id="toast-icon">✅</span><span id="toast-text">Done!</span></div>
 
 <script>
 // ══════════════════════════════
-// SUPABASE INIT
+// SUPABASE
 // ══════════════════════════════
 const SUPABASE_URL = 'https://dvhnqeojwxrmqgtqmyyh.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2aG5xZW9qd3hybXFndHFteXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MjEzMTYsImV4cCI6MjA4NDA5NzMxNn0.DIdPYes2Ee2_02bzGWDxWDwJhNdbdifX6IujT3E91U8';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-// ══════════════════════════════
-// CONSTANTS
-// ══════════════════════════════
 const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai2.app.n8n.cloud/webhook/e6682268-42b6-4a4d-9394-8b4b90cdc1b5';
 
-const PROFILE_SECTIONS = {
-  business: [
-    { id: 'business_name', label: 'Business name', type: 'text' },
-    { id: 'industry', label: 'Industry', type: 'choice', choices: ["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"] },
-  ],
-  offer: [
-    { id: 'offer', label: 'Main offer', type: 'textarea' },
-    { id: 'price', label: 'Price', type: 'text' },
-    { id: 'client_avatar', label: 'Ideal client', type: 'textarea' },
-    { id: 'result', label: '#1 result', type: 'textarea' },
-    { id: 'lead_magnet', label: 'Lead magnet', type: 'text' },
-    { id: 'objections', label: 'Common objections', type: 'textarea' },
-  ],
-  sales: [
-    { id: 'call_type', label: 'Call type', type: 'choice', choices: ["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"] },
-    { id: 'follow_up_style', label: 'Follow-up style', type: 'choice', choices: ["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"] },
-  ],
-  voice: [
-    { id: 'tone', label: 'Tone', type: 'choice', choices: ["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"] },
-    { id: 'brand_voice', label: 'Brand voice notes', type: 'textarea' },
-  ]
-};
+// ══════════════════════════════
+// CALENDAR STATE
+// ══════════════════════════════
+let calView = 'week'; // 'week' | 'day'
+let calAnchor = new Date(); // current week anchor (Monday)
+let bookings = []; // array of booking objects
+let activeBookingId = null;
 
-const editState = { business: false, offer: false, sales: false, voice: false };
+// Booking schema:
+// { id, name, phone, datetime (ISO string), status: 'booked'|'confirmed'|'completed'|'no_show', notes, created }
+
+function getBookingKey() {
+  return currentUser ? 'sai_bookings_' + currentUser.id : 'sai_bookings_demo';
+}
+function saveBookings() {
+  localStorage.setItem(getBookingKey(), JSON.stringify(bookings));
+}
+function loadBookings() {
+  bookings = JSON.parse(localStorage.getItem(getBookingKey()) || '[]');
+}
 
 // ══════════════════════════════
-// STATE — now comes from Supabase, not localStorage
+// HTTP API — n8n calls this
+// ══════════════════════════════
+// This exposes a window.addBookingViaAPI function
+// n8n can call it via a custom JS node or via a webhook
+// that posts to the same domain and triggers this function.
+//
+// The n8n workflow should POST to:
+// /api/bookings  (or trigger via webhook)
+// Body: { name, phone, datetime, notes, status }
+//
+// For same-origin use, n8n can call this endpoint directly.
+// The function is also exposed globally for testing.
+
+window.addBookingViaAPI = function(payload) {
+  /*
+    payload = {
+      name: "Ahmed",
+      phone: "15141234567",
+      datetime: "2026-04-25T14:00:00",
+      notes: "Interested in coaching",   // optional
+      status: "booked"                    // optional, default: "booked"
+    }
+    Returns: { success: true, booking: {...} } or { success: false, error: "..." }
+  */
+  if (!payload.name || !payload.phone || !payload.datetime) {
+    return { success: false, error: 'name, phone, and datetime are required' };
+  }
+  const dt = new Date(payload.datetime);
+  if (isNaN(dt)) {
+    return { success: false, error: 'datetime must be a valid ISO 8601 string' };
+  }
+  const booking = {
+    id: 'bk_' + Date.now() + '_' + Math.random().toString(36).substr(2,6),
+    name: payload.name,
+    phone: payload.phone,
+    datetime: dt.toISOString(),
+    status: payload.status || 'booked',
+    notes: payload.notes || '',
+    created: new Date().toISOString()
+  };
+  loadBookings();
+  bookings.push(booking);
+  saveBookings();
+  if (document.getElementById('screen-calendar').classList.contains('active')) {
+    renderCalendar();
+    updateCalStats();
+  }
+  return { success: true, booking };
+};
+
+// Also expose DELETE and UPDATE
+window.updateBookingViaAPI = function(id, updates) {
+  loadBookings();
+  const idx = bookings.findIndex(b => b.id === id);
+  if (idx === -1) return { success: false, error: 'Booking not found' };
+  bookings[idx] = { ...bookings[idx], ...updates };
+  saveBookings();
+  if (document.getElementById('screen-calendar').classList.contains('active')) {
+    renderCalendar(); updateCalStats();
+  }
+  return { success: true, booking: bookings[idx] };
+};
+
+window.deleteBookingViaAPI = function(id) {
+  loadBookings();
+  const before = bookings.length;
+  bookings = bookings.filter(b => b.id !== id);
+  saveBookings();
+  return { success: bookings.length < before };
+};
+
+window.getBookingsViaAPI = function() {
+  loadBookings();
+  return bookings;
+};
+
+// ══════════════════════════════
+// CALENDAR RENDER
+// ══════════════════════════════
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const HOURS = Array.from({length:24},(_,i)=>i);
+
+function getWeekStart(date) {
+  const d = new Date(date);
+  const day = d.getDay(); // 0=Sun
+  d.setDate(d.getDate() - day + 1); // Monday
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function renderCalendar() {
+  loadBookings();
+  const weekStart = getWeekStart(calAnchor);
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 6);
+
+  // Title
+  const titleEl = document.getElementById('cal-title');
+  if (weekStart.getMonth() === weekEnd.getMonth()) {
+    titleEl.textContent = MONTHS[weekStart.getMonth()] + ' ' + weekStart.getFullYear();
+  } else {
+    titleEl.textContent = MONTHS[weekStart.getMonth()].slice(0,3) + ' – ' + MONTHS[weekEnd.getMonth()].slice(0,3) + ' ' + weekEnd.getFullYear();
+  }
+
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // Day headers
+  const headersEl = document.getElementById('cal-day-headers');
+  const cols = calView === 'week' ? 7 : 1;
+  const colStart = calView === 'week' ? 0 : calAnchor.getDay() === 0 ? 6 : calAnchor.getDay() - 1;
+
+  headersEl.style.gridTemplateColumns = `56px repeat(${cols},1fr)`;
+
+  let headersHtml = '<div class="cal-day-header cal-time-col" style="border-bottom:none;"></div>';
+  for (let i = 0; i < cols; i++) {
+    const d = new Date(weekStart); d.setDate(d.getDate() + (calView === 'week' ? i : colStart));
+    const isToday = d.getTime() === today.getTime();
+    const dateNum = calView === 'week' ? `<span class="cal-day-header-date${isToday?' today-date':''}">${d.getDate()}</span>` : `<span class="cal-day-header-date${isToday?' today-date':''}">${d.getDate()}</span>`;
+    headersHtml += `<div class="cal-day-header${isToday?' today-col':''}">${DAYS[d.getDay()]}<br/>${dateNum}</div>`;
+  }
+  headersEl.innerHTML = headersHtml;
+
+  // Body
+  const bodyInner = document.getElementById('cal-body-inner');
+  bodyInner.style.gridTemplateColumns = `56px repeat(${cols},1fr)`;
+
+  let bodyHtml = '';
+  HOURS.forEach(h => {
+    const label = h === 0 ? '' : (h < 12 ? h + ' AM' : h === 12 ? '12 PM' : (h-12) + ' PM');
+    bodyHtml += `<div class="cal-time-label">${label}</div>`;
+    for (let i = 0; i < cols; i++) {
+      const d = new Date(weekStart); d.setDate(d.getDate() + (calView === 'week' ? i : colStart));
+      const isToday = d.getTime() === today.getTime();
+      bodyHtml += `<div class="cal-hour-cell${isToday?' today-col':''}" data-date="${d.toISOString().split('T')[0]}" data-hour="${h}"></div>`;
+    }
+  });
+  bodyInner.innerHTML = bodyHtml;
+
+  // Place events
+  bookings.forEach(bk => {
+    const dt = new Date(bk.datetime);
+    const dateStr = dt.toISOString().split('T')[0];
+    const hour = dt.getHours();
+    const minute = dt.getMinutes();
+
+    const cell = bodyInner.querySelector(`[data-date="${dateStr}"][data-hour="${hour}"]`);
+    if (!cell) return;
+
+    const topPct = (minute / 60) * 100;
+    const ev = document.createElement('div');
+    ev.className = `cal-event status-${bk.status}`;
+    ev.style.top = topPct + '%';
+    ev.style.height = '52px';
+    ev.innerHTML = `<div class="cal-event-name">${bk.name}</div><div class="cal-event-time">${formatTime(dt)} · ${bk.phone}</div>`;
+    ev.onclick = (e) => { e.stopPropagation(); openBookingDetail(bk.id); };
+    cell.style.position = 'relative';
+    cell.appendChild(ev);
+  });
+
+  // Current time line
+  const nowLine = bodyInner.querySelector('.cal-now-line');
+  if (nowLine) nowLine.remove();
+  const now = new Date();
+  const nowDateStr = now.toISOString().split('T')[0];
+  const todayCell = bodyInner.querySelector(`[data-date="${nowDateStr}"][data-hour="${now.getHours()}"]`);
+  if (todayCell) {
+    const line = document.createElement('div');
+    line.className = 'cal-now-line';
+    line.style.top = ((now.getMinutes()/60)*100) + '%';
+    line.innerHTML = '<div class="cal-now-dot"></div>';
+    todayCell.appendChild(line);
+  }
+
+  // Scroll to 8am
+  setTimeout(() => {
+    const calBody = document.getElementById('cal-body');
+    calBody.scrollTop = 8 * 60;
+  }, 50);
+}
+
+function formatTime(dt) {
+  const h = dt.getHours(); const m = dt.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hh = h % 12 || 12;
+  return hh + (m ? ':' + String(m).padStart(2,'0') : '') + ' ' + ampm;
+}
+
+function updateCalStats() {
+  loadBookings();
+  const now = new Date();
+  const weekStart = getWeekStart(now);
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7);
+
+  const thisWeek = bookings.filter(b => {
+    const d = new Date(b.datetime);
+    return d >= weekStart && d < weekEnd;
+  }).length;
+
+  document.getElementById('stat-week').textContent = thisWeek;
+  document.getElementById('stat-confirmed').textContent = bookings.filter(b=>b.status==='confirmed').length;
+  document.getElementById('stat-noshow').textContent = bookings.filter(b=>b.status==='no_show').length;
+  document.getElementById('stat-total').textContent = bookings.length;
+}
+
+function calNav(dir) {
+  if (calView === 'week') {
+    calAnchor.setDate(calAnchor.getDate() + dir * 7);
+  } else {
+    calAnchor.setDate(calAnchor.getDate() + dir);
+  }
+  renderCalendar();
+}
+
+function calGoToday() {
+  calAnchor = new Date();
+  renderCalendar();
+}
+
+function setCalView(v) {
+  calView = v;
+  document.getElementById('vbtn-week').classList.toggle('active', v==='week');
+  document.getElementById('vbtn-day').classList.toggle('active', v==='day');
+  renderCalendar();
+}
+
+// ══════════════════════════════
+// BOOKING DETAIL MODAL
+// ══════════════════════════════
+const STATUS_CYCLE = ['booked','confirmed','completed','no_show'];
+const STATUS_LABELS = { booked:'Booked', confirmed:'Confirmed', completed:'Completed', no_show:'No-show' };
+
+function openBookingDetail(id) {
+  loadBookings();
+  const bk = bookings.find(b=>b.id===id);
+  if (!bk) return;
+  activeBookingId = id;
+  document.getElementById('bm-title').textContent = bk.name;
+  const dt = new Date(bk.datetime);
+  document.getElementById('bm-body').innerHTML = `
+    <div class="bm-row"><div class="bm-icon">👤</div><div class="bm-label">Name</div><div class="bm-value">${bk.name}</div></div>
+    <div class="bm-row"><div class="bm-icon">📱</div><div class="bm-label">Phone</div><div class="bm-value">${bk.phone}</div></div>
+    <div class="bm-row"><div class="bm-icon">📅</div><div class="bm-label">Date</div><div class="bm-value">${dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div></div>
+    <div class="bm-row"><div class="bm-icon">⏰</div><div class="bm-label">Time</div><div class="bm-value">${formatTime(dt)}</div></div>
+    <div class="bm-row"><div class="bm-icon">🏷</div><div class="bm-label">Status</div><div class="bm-value"><span class="bm-status-badge ${bk.status}">${STATUS_LABELS[bk.status]||bk.status}</span></div></div>
+    ${bk.notes ? `<div class="bm-row"><div class="bm-icon">📝</div><div class="bm-label">Notes</div><div class="bm-value">${bk.notes}</div></div>` : ''}
+  `;
+  document.getElementById('booking-detail-modal').classList.add('show');
+}
+
+function closeBookingDetail() {
+  document.getElementById('booking-detail-modal').classList.remove('show');
+  activeBookingId = null;
+}
+
+function deleteCurrentBooking() {
+  if (!activeBookingId) return;
+  bookings = bookings.filter(b=>b.id!==activeBookingId);
+  saveBookings();
+  closeBookingDetail();
+  renderCalendar();
+  updateCalStats();
+  showToast('🗑','Booking deleted.');
+}
+
+function cycleBookingStatus() {
+  if (!activeBookingId) return;
+  const idx = bookings.findIndex(b=>b.id===activeBookingId);
+  if (idx===-1) return;
+  const cur = bookings[idx].status;
+  const curIdx = STATUS_CYCLE.indexOf(cur);
+  const next = STATUS_CYCLE[(curIdx+1) % STATUS_CYCLE.length];
+  bookings[idx].status = next;
+  saveBookings();
+  openBookingDetail(activeBookingId); // re-render modal
+  renderCalendar();
+  updateCalStats();
+  showToast('✅', `Status → ${STATUS_LABELS[next]}`);
+}
+
+// ══════════════════════════════
+// ADD BOOKING MODAL
+// ══════════════════════════════
+function openAddBooking(preDate) {
+  const today = new Date();
+  document.getElementById('ab-date').value = preDate || today.toISOString().split('T')[0];
+  document.getElementById('ab-time').value = '10:00';
+  document.getElementById('ab-name').value = '';
+  document.getElementById('ab-phone').value = '';
+  document.getElementById('ab-notes').value = '';
+  document.getElementById('ab-status').value = 'booked';
+  document.getElementById('add-booking-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('ab-name').focus(), 100);
+}
+
+function closeAddBooking() {
+  document.getElementById('add-booking-modal').classList.remove('show');
+}
+
+function saveNewBooking() {
+  const name = document.getElementById('ab-name').value.trim();
+  const phone = document.getElementById('ab-phone').value.trim();
+  const date = document.getElementById('ab-date').value;
+  const time = document.getElementById('ab-time').value;
+  const notes = document.getElementById('ab-notes').value.trim();
+  const status = document.getElementById('ab-status').value;
+
+  if (!name || !phone || !date || !time) {
+    showToast('⚠️','Fill in name, phone, date and time.');
+    return;
+  }
+
+  const result = window.addBookingViaAPI({
+    name, phone,
+    datetime: date + 'T' + time + ':00',
+    notes, status
+  });
+
+  if (result.success) {
+    closeAddBooking();
+    renderCalendar();
+    updateCalStats();
+    showToast('✅', `${name} booked for ${formatTime(new Date(result.booking.datetime))}`);
+  } else {
+    showToast('⚠️', result.error);
+  }
+}
+
+function copyApiDocs() {
+  const docs = `=== Service.AI Booking API ===
+
+Add a booking (POST):
+window.addBookingViaAPI({
+  name: "Lead Name",
+  phone: "15141234567",
+  datetime: "2026-04-25T14:00:00",  // ISO 8601
+  notes: "optional notes",
+  status: "booked"  // booked | confirmed
+})
+
+Update a booking:
+window.updateBookingViaAPI(id, { status: "confirmed" })
+
+Delete a booking:
+window.deleteBookingViaAPI(id)
+
+Get all bookings:
+window.getBookingsViaAPI()
+
+=== n8n Integration ===
+In your n8n workflow, after a lead books:
+1. Add a "Execute Custom Code" node (or HTTP Request)
+2. Call window.addBookingViaAPI() with the lead data
+3. The calendar updates automatically
+4. The follow-up automation reads from getBookingsViaAPI()`;
+
+  navigator.clipboard.writeText(docs).then(() => showToast('📋','API docs copied!'));
+}
+
+// ══════════════════════════════
+// PROFILE SECTIONS
+// ══════════════════════════════
+const PROFILE_SECTIONS = {
+  business: [
+    { id:'business_name', label:'Business name', type:'text' },
+    { id:'industry', label:'Industry', type:'choice', choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"] },
+  ],
+  offer: [
+    { id:'offer', label:'Main offer', type:'textarea' },
+    { id:'price', label:'Price', type:'text' },
+    { id:'client_avatar', label:'Ideal client', type:'textarea' },
+    { id:'result', label:'#1 result', type:'textarea' },
+    { id:'lead_magnet', label:'Lead magnet', type:'text' },
+    { id:'objections', label:'Common objections', type:'textarea' },
+  ],
+  sales: [
+    { id:'call_type', label:'Call type', type:'choice', choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"] },
+    { id:'follow_up_style', label:'Follow-up style', type:'choice', choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"] },
+  ],
+  voice: [
+    { id:'tone', label:'Tone', type:'choice', choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"] },
+    { id:'brand_voice', label:'Brand voice notes', type:'textarea' },
+  ]
+};
+const editState = { business:false, offer:false, sales:false, voice:false };
+
+// ══════════════════════════════
+// STATE
 // ══════════════════════════════
 let currentUser = null;
 let businessProfile = null;
@@ -688,439 +1402,222 @@ let activeAgentIdx = null;
 let connectAgentIdx = null;
 
 // ══════════════════════════════
-// AUTH — Supabase
+// AUTH
 // ══════════════════════════════
 function switchAuthTab(tab) {
-  document.getElementById('tab-signin').classList.toggle('active', tab==='signin');
-  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
-  document.getElementById('auth-signin').style.display = tab==='signin'?'block':'none';
-  document.getElementById('auth-signup').style.display = tab==='signup'?'block':'none';
+  document.getElementById('tab-signin').classList.toggle('active',tab==='signin');
+  document.getElementById('tab-signup').classList.toggle('active',tab==='signup');
+  document.getElementById('auth-signin').style.display=tab==='signin'?'block':'none';
+  document.getElementById('auth-signup').style.display=tab==='signup'?'block':'none';
 }
+function showAuthError(f,m){const el=document.getElementById(f+'-error');el.textContent=m;el.classList.add('show');}
+function clearAuthError(f){document.getElementById(f+'-error').classList.remove('show');}
 
-function showAuthError(formId, msg) {
-  const el = document.getElementById(formId+'-error');
-  el.textContent = msg;
-  el.classList.add('show');
-}
-function clearAuthError(formId) {
-  document.getElementById(formId+'-error').classList.remove('show');
-}
-
-async function doSignIn() {
+async function doSignIn(){
   clearAuthError('signin');
-  const email = document.getElementById('signin-email').value.trim();
-  const pw = document.getElementById('signin-pw').value;
-  if (!email || !pw) { showAuthError('signin','Please fill in all fields.'); return; }
-
-  const btn = document.getElementById('signin-btn');
-  btn.disabled = true; btn.textContent = 'Signing in…';
-
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
-
-  btn.disabled = false; btn.textContent = 'Sign in →';
-
-  if (error) { showAuthError('signin', error.message); return; }
-  currentUser = data.user;
+  const email=document.getElementById('signin-email').value.trim();
+  const pw=document.getElementById('signin-pw').value;
+  if(!email||!pw){showAuthError('signin','Please fill in all fields.');return;}
+  const btn=document.getElementById('signin-btn');
+  btn.disabled=true;btn.textContent='Signing in…';
+  const{data,error}=await sb.auth.signInWithPassword({email,password:pw});
+  btn.disabled=false;btn.textContent='Sign in →';
+  if(error){showAuthError('signin',error.message);return;}
+  currentUser=data.user;
   await afterAuth();
 }
-
-async function doSignUp() {
+async function doSignUp(){
   clearAuthError('signup');
-  const name = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value.trim();
-  const pw = document.getElementById('signup-pw').value;
-
-  if (!name || !email || !pw) { showAuthError('signup','Please fill in all fields.'); return; }
-  if (pw.length < 6) { showAuthError('signup','Password must be at least 6 characters.'); return; }
-
-  const btn = document.getElementById('signup-btn');
-  btn.disabled = true; btn.textContent = 'Creating account…';
-
-  const { data, error } = await sb.auth.signUp({ email, password: pw });
-
-  btn.disabled = false; btn.textContent = 'Create account →';
-
-  if (error) { showAuthError('signup', error.message); return; }
-
-  currentUser = data.user;
-
-  // Insert profile row
-  await sb.from('profiles').insert({
-    id: currentUser.id,
-    full_name: name,
-    email: email
-  });
-
+  const name=document.getElementById('signup-name').value.trim();
+  const email=document.getElementById('signup-email').value.trim();
+  const pw=document.getElementById('signup-pw').value;
+  if(!name||!email||!pw){showAuthError('signup','Please fill in all fields.');return;}
+  if(pw.length<6){showAuthError('signup','Password must be at least 6 characters.');return;}
+  const btn=document.getElementById('signup-btn');
+  btn.disabled=true;btn.textContent='Creating account…';
+  const{data,error}=await sb.auth.signUp({email,password:pw});
+  btn.disabled=false;btn.textContent='Create account →';
+  if(error){showAuthError('signup',error.message);return;}
+  currentUser=data.user;
+  await sb.from('profiles').insert({id:currentUser.id,full_name:name,email});
   await afterAuth();
 }
-
-async function doSignOut() {
+async function doSignOut(){
   await sb.auth.signOut();
-  currentUser = null;
-  businessProfile = null;
-  agents = [];
-  activities = [];
+  currentUser=null;businessProfile=null;agents=[];activities=[];
   document.getElementById('app-screen').classList.add('hide');
   document.getElementById('auth-screen').classList.remove('hide');
   switchAuthTab('signin');
 }
-
-async function afterAuth() {
+async function afterAuth(){
   document.getElementById('auth-screen').classList.add('hide');
-
-  // Load profile from Supabase
-  const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
-
-  // Load business profile from localStorage for now (will migrate later)
-  businessProfile = JSON.parse(localStorage.getItem('sai_profile_' + currentUser.id) || 'null');
-  agents = JSON.parse(localStorage.getItem('sai_agents_' + currentUser.id) || '[]');
-  activities = JSON.parse(localStorage.getItem('sai_activities_' + currentUser.id) || '[]');
-
-  // Set sidebar user info from Supabase profile
-  const displayName = profile?.full_name || currentUser.email.split('@')[0];
-  document.getElementById('sidebar-name').textContent = displayName;
-  document.getElementById('sidebar-email').textContent = currentUser.email;
-  document.getElementById('sidebar-avatar').textContent = displayName[0].toUpperCase();
-
-  if (!businessProfile) startOnboarding();
+  const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
+  businessProfile=JSON.parse(localStorage.getItem('sai_profile_'+currentUser.id)||'null');
+  agents=JSON.parse(localStorage.getItem('sai_agents_'+currentUser.id)||'[]');
+  activities=JSON.parse(localStorage.getItem('sai_activities_'+currentUser.id)||'[]');
+  const displayName=profile?.full_name||currentUser.email.split('@')[0];
+  document.getElementById('sidebar-name').textContent=displayName;
+  document.getElementById('sidebar-email').textContent=currentUser.email;
+  document.getElementById('sidebar-avatar').textContent=displayName[0].toUpperCase();
+  if(!businessProfile)startOnboarding();
   else startApp();
 }
 
 // ══════════════════════════════
 // ONBOARDING
 // ══════════════════════════════
-const OB_QUESTIONS = [
-  { id:'business_name', type:'text', title:"What's your business called?", sub:"This is how your agent will introduce your brand.", placeholder:"e.g. Alex Coaching" },
-  { id:'industry', type:'choice', title:"What industry are you in?", sub:"Pick the one that fits best.", choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"] },
-  { id:'offer', type:'textarea', title:"Describe your main offer in one sentence.", sub:"What do you sell, who is it for, and what result does it deliver?", placeholder:"e.g. A 12-week 1-on-1 program that helps early-stage entrepreneurs sign their first 5 clients in 90 days." },
-  { id:'price', type:'text', title:"What does it cost?", sub:"Give the full price or payment plan.", placeholder:"e.g. $3,000 or $997/month for 3 months" },
-  { id:'client_avatar', type:'textarea', title:"Describe your ideal client.", sub:"Who is the perfect person for your offer? What's their situation right now?", placeholder:"e.g. Coaches and consultants who already have some experience but are struggling to get consistent clients online." },
-  { id:'result', type:'textarea', title:"What's the #1 result your clients get?", sub:"The most tangible, specific outcome from working with you.", placeholder:"e.g. They go from 0 to $10k/month in 90 days, with a repeatable system to keep growing." },
-  { id:'lead_magnet', type:'text', title:"Do you have a free lead magnet?", sub:"A PDF, mini-course, video, free call — anything you offer to attract leads. Type 'none' if you don't.", placeholder:"e.g. Free PDF: '5 Steps to Your First $10k Month'" },
-  { id:'objections', type:'textarea', title:"What objections do your leads usually raise?", sub:"List the most common hesitations before they buy.", placeholder:"e.g. 'Too expensive', 'I need to think about it', 'I've tried coaching before'" },
-  { id:'tone', type:'choice', title:"How should your agent communicate?", sub:"This shapes every message it sends.", choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"] },
-  { id:'call_type', type:'choice', title:"What kind of call are you booking?", sub:"This determines how the agent presents the next step.", choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"] },
-  { id:'follow_up_style', type:'choice', title:"How persistent should the follow-up agent be?", sub:"When a lead goes cold, how should the agent re-engage?", choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"] },
-  { id:'brand_voice', type:'textarea', title:"Any specific phrases, words, or style notes?", sub:"Things the agent should always say — or never say. Leave blank if not applicable.", placeholder:"e.g. Always say 'Let's get you results' not 'I hope this helps'." },
+const OB_QUESTIONS=[
+  {id:'business_name',type:'text',title:"What's your business called?",sub:"This is how your agent will introduce your brand.",placeholder:"e.g. Alex Coaching"},
+  {id:'industry',type:'choice',title:"What industry are you in?",sub:"Pick the one that fits best.",choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"]},
+  {id:'offer',type:'textarea',title:"Describe your main offer in one sentence.",sub:"What do you sell, who is it for, and what result does it deliver?",placeholder:"e.g. A 12-week 1-on-1 program that helps early-stage entrepreneurs sign their first 5 clients in 90 days."},
+  {id:'price',type:'text',title:"What does it cost?",sub:"Give the full price or payment plan.",placeholder:"e.g. $3,000 or $997/month for 3 months"},
+  {id:'client_avatar',type:'textarea',title:"Describe your ideal client.",sub:"Who is the perfect person for your offer?",placeholder:"e.g. Coaches and consultants who already have some experience but are struggling to get consistent clients online."},
+  {id:'result',type:'textarea',title:"What's the #1 result your clients get?",sub:"The most tangible, specific outcome from working with you.",placeholder:"e.g. They go from 0 to $10k/month in 90 days."},
+  {id:'lead_magnet',type:'text',title:"Do you have a free lead magnet?",sub:"A PDF, mini-course, video, free call — anything you offer to attract leads.",placeholder:"e.g. Free PDF: '5 Steps to Your First $10k Month'"},
+  {id:'objections',type:'textarea',title:"What objections do your leads usually raise?",sub:"List the most common hesitations before they buy.",placeholder:"e.g. 'Too expensive', 'I need to think about it'"},
+  {id:'tone',type:'choice',title:"How should your agent communicate?",sub:"This shapes every message it sends.",choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"]},
+  {id:'call_type',type:'choice',title:"What kind of call are you booking?",sub:"This determines how the agent presents the next step.",choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"]},
+  {id:'follow_up_style',type:'choice',title:"How persistent should the follow-up agent be?",sub:"When a lead goes cold, how should the agent re-engage?",choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"]},
+  {id:'brand_voice',type:'textarea',title:"Any specific phrases, words, or style notes?",sub:"Things the agent should always say — or never say.",placeholder:"e.g. Always say 'Let's get you results' not 'I hope this helps'."},
 ];
-
-let obIndex = 0;
-let obAnswers = {};
-
-function startOnboarding() {
-  document.getElementById('onboarding-screen').classList.remove('hide');
-  obIndex = 0; obAnswers = {};
-  renderObQuestion();
+let obIndex=0,obAnswers={};
+function startOnboarding(){document.getElementById('onboarding-screen').classList.remove('hide');obIndex=0;obAnswers={};renderObQuestion();}
+function renderObQuestion(){
+  const wrap=document.getElementById('ob-question-wrap');
+  const total=OB_QUESTIONS.length;
+  document.getElementById('ob-fill').style.width=Math.round((obIndex/total)*100)+'%';
+  document.getElementById('ob-label').textContent=`${obIndex+1} of ${total}`;
+  if(obIndex>=total){wrap.innerHTML=`<div class="ob-complete"><div class="ob-complete-icon">✦</div><h2>You're all set.</h2><p>We've got everything we need to build your three AI agents.</p><button class="ob-complete-btn" onclick="finishOnboarding()">Enter dashboard →</button></div>`;return;}
+  const q=OB_QUESTIONS[obIndex];let inputHtml='';
+  if(q.type==='choice'){const alpha='ABCDEFGHIJ';inputHtml=`<div class="ob-choices" id="ob-choices">${q.choices.map((c,i)=>`<button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}',false)"><span class="ob-choice-key">${alpha[i]}</span> ${c}</button>`).join('')}</div>`;}
+  else if(q.type==='textarea'){inputHtml=`<textarea class="ob-textarea" id="ob-input" placeholder="${q.placeholder||''}">${obAnswers[q.id]||''}</textarea>`;}
+  else{inputHtml=`<input class="ob-input" id="ob-input" type="text" placeholder="${q.placeholder||''}" value="${obAnswers[q.id]||''}"/>`;}
+  wrap.innerHTML=`<div class="ob-question"><div class="ob-q-num">Question ${obIndex+1}</div><div class="ob-q-title">${q.title}</div><div class="ob-q-sub">${q.sub}</div>${inputHtml}<div class="ob-nav">${obIndex>0?'<button class="ob-btn-back" onclick="obBack()">← Back</button>':''}${q.type!=='choice'?`<button class="ob-btn-next" onclick="obNext()">Continue →</button>`:''}<span class="ob-enter-hint">Press <kbd>Enter</kbd> to continue</span></div></div>`;
+  const inp=document.getElementById('ob-input');
+  if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();obNext();}});}
+  if(q.type==='choice'&&obAnswers[q.id]){document.querySelectorAll('.ob-choice').forEach(el=>{if(el.dataset.val===obAnswers[q.id])el.classList.add('selected');});}
 }
-function renderObQuestion() {
-  const wrap = document.getElementById('ob-question-wrap');
-  const total = OB_QUESTIONS.length;
-  document.getElementById('ob-fill').style.width = Math.round((obIndex/total)*100)+'%';
-  document.getElementById('ob-label').textContent = `${obIndex+1} of ${total}`;
-  if (obIndex >= total) {
-    wrap.innerHTML = `<div class="ob-complete"><div class="ob-complete-icon">✦</div><h2>You're all set.</h2><p>We've got everything we need to build your three AI agents. Time to enter your dashboard and create them.</p><button class="ob-complete-btn" onclick="finishOnboarding()">Enter dashboard →</button></div>`;
-    return;
-  }
-  const q = OB_QUESTIONS[obIndex];
-  let inputHtml = '';
-  if (q.type==='choice') {
-    const alpha='ABCDEFGHIJ';
-    inputHtml = `<div class="ob-choices" id="ob-choices">${q.choices.map((c,i)=>`<button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}',false)"><span class="ob-choice-key">${alpha[i]}</span> ${c}</button>`).join('')}</div>`;
-  } else if (q.type==='textarea') {
-    inputHtml = `<textarea class="ob-textarea" id="ob-input" placeholder="${q.placeholder||''}">${obAnswers[q.id]||''}</textarea>`;
-  } else {
-    inputHtml = `<input class="ob-input" id="ob-input" type="text" placeholder="${q.placeholder||''}" value="${obAnswers[q.id]||''}"/>`;
-  }
-  wrap.innerHTML = `<div class="ob-question"><div class="ob-q-num">Question ${obIndex+1}</div><div class="ob-q-title">${q.title}</div><div class="ob-q-sub">${q.sub}</div>${inputHtml}<div class="ob-nav">${obIndex>0?'<button class="ob-btn-back" onclick="obBack()">← Back</button>':''}${q.type!=='choice'?`<button class="ob-btn-next" onclick="obNext()">Continue →</button>`:''}<span class="ob-enter-hint">Press <kbd>Enter</kbd> to continue</span></div></div>`;
-  const inp = document.getElementById('ob-input');
-  if (inp) { inp.focus(); inp.addEventListener('keydown', e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();obNext();} }); }
-  if (q.type==='choice'&&obAnswers[q.id]) {
-    document.querySelectorAll('.ob-choice').forEach(el=>{ if(el.dataset.val===obAnswers[q.id]) el.classList.add('selected'); });
-  }
-}
-function obSelectChoice(el, qId, val, multi) {
-  document.querySelectorAll('.ob-choice').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  obAnswers[qId] = val;
-  setTimeout(()=>obNext(), 350);
-}
-function obNext() {
-  const q = OB_QUESTIONS[obIndex];
-  if (q.type!=='choice') { const inp=document.getElementById('ob-input'); if(inp) obAnswers[q.id]=inp.value.trim(); }
-  obIndex++;
-  renderObQuestion();
-}
-function obBack() { if(obIndex>0){obIndex--;renderObQuestion();} }
-function skipOnboarding() {
-  obAnswers={business_name:'My Business',industry:'Coaching',offer:'',price:'',client_avatar:'',result:'',lead_magnet:'none',objections:'',tone:'Warm & friendly — like a trusted advisor',call_type:'Discovery call (free, to qualify)',follow_up_style:'Medium — 2-3 messages over a few days',brand_voice:''};
-  finishOnboarding();
-}
-function finishOnboarding() {
-  businessProfile = obAnswers;
-  // Save per-user in localStorage (will move to Supabase in next step)
-  localStorage.setItem('sai_profile_' + currentUser.id, JSON.stringify(businessProfile));
-  document.getElementById('onboarding-screen').classList.add('hide');
-  startApp();
-}
-function redoOnboarding() {
-  document.getElementById('app-screen').classList.add('hide');
-  startOnboarding();
-}
+function obSelectChoice(el,qId,val){document.querySelectorAll('.ob-choice').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');obAnswers[qId]=val;setTimeout(()=>obNext(),350);}
+function obNext(){const q=OB_QUESTIONS[obIndex];if(q.type!=='choice'){const inp=document.getElementById('ob-input');if(inp)obAnswers[q.id]=inp.value.trim();}obIndex++;renderObQuestion();}
+function obBack(){if(obIndex>0){obIndex--;renderObQuestion();}}
+function skipOnboarding(){obAnswers={business_name:'My Business',industry:'Coaching',offer:'',price:'',client_avatar:'',result:'',lead_magnet:'none',objections:'',tone:'Warm & friendly — like a trusted advisor',call_type:'Discovery call (free, to qualify)',follow_up_style:'Medium — 2-3 messages over a few days',brand_voice:''};finishOnboarding();}
+function finishOnboarding(){businessProfile=obAnswers;localStorage.setItem('sai_profile_'+currentUser.id,JSON.stringify(businessProfile));document.getElementById('onboarding-screen').classList.add('hide');startApp();}
+function redoOnboarding(){document.getElementById('app-screen').classList.add('hide');startOnboarding();}
 
 // ══════════════════════════════
 // APP
 // ══════════════════════════════
-function startApp() {
-  document.getElementById('app-screen').classList.remove('hide');
-  showScreen('dashboard', document.querySelector('.nav-item'));
-}
-function showScreen(name, navEl) {
+function startApp(){document.getElementById('app-screen').classList.remove('hide');showScreen('dashboard',document.querySelector('.nav-item'));}
+function showScreen(name,navEl){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if (name==='dashboard') {
-    document.getElementById('screen-dashboard').classList.add('active');
-    document.getElementById('topbar-title').textContent='Dashboard';
-    document.getElementById('topbar-sub').textContent="Welcome back. Here's what's happening.";
-    renderDashboard();
-  } else if (name==='new-agent') {
-    document.getElementById('screen-new-agent').classList.add('active');
-    document.getElementById('topbar-title').textContent='New Agent';
-    document.getElementById('topbar-sub').textContent='Build a new AI sales agent from your business profile.';
-    renderAgentForm();
-  } else if (name==='settings') {
-    document.getElementById('screen-settings').classList.add('active');
-    document.getElementById('topbar-title').textContent='Business Profile';
-    document.getElementById('topbar-sub').textContent='Your business info — this powers every agent you build.';
-    renderProfilePage();
-  }
-  if (navEl) navEl.classList.add('active');
+  if(name==='dashboard'){document.getElementById('screen-dashboard').classList.add('active');document.getElementById('topbar-title').textContent='Dashboard';document.getElementById('topbar-sub').textContent="Welcome back. Here's what's happening.";renderDashboard();}
+  else if(name==='new-agent'){document.getElementById('screen-new-agent').classList.add('active');document.getElementById('topbar-title').textContent='New Agent';document.getElementById('topbar-sub').textContent='Build a new AI sales agent from your business profile.';renderAgentForm();}
+  else if(name==='calendar'){document.getElementById('screen-calendar').classList.add('active');document.getElementById('topbar-title').textContent='Calendar';document.getElementById('topbar-sub').textContent='All your booked calls in one place.';renderCalendar();updateCalStats();}
+  else if(name==='settings'){document.getElementById('screen-settings').classList.add('active');document.getElementById('topbar-title').textContent='Business Profile';document.getElementById('topbar-sub').textContent='Your business info — this powers every agent you build.';renderProfilePage();}
+  if(navEl)navEl.classList.add('active');
 }
 
 // ══════════════════════════════
 // PROFILE PAGE
 // ══════════════════════════════
-function renderProfilePage() {
-  const p = businessProfile || {};
-  const name = p.business_name || 'My Business';
-  document.getElementById('profile-avatar-letter').textContent = name[0].toUpperCase();
-  document.getElementById('profile-biz-name-display').textContent = name;
-  document.getElementById('profile-industry-display').textContent = p.industry || 'No industry set';
-  const allFields = ['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];
-  const filled = allFields.filter(f => p[f] && p[f].trim() && p[f] !== 'none').length;
-  const pct = Math.round((filled / allFields.length) * 100);
-  document.getElementById('completeness-fill').style.width = pct + '%';
-  document.getElementById('completeness-pct').textContent = pct + '%';
-  ['business','offer','sales','voice'].forEach(sec => {
-    editState[sec] = false;
-    renderSectionFields(sec, false);
-    document.getElementById('btn-edit-'+sec).classList.remove('editing');
-    document.getElementById('btn-save-'+sec).classList.add('hide');
-    document.getElementById('btn-edit-'+sec).classList.remove('hide');
-  });
+function renderProfilePage(){
+  const p=businessProfile||{};
+  const name=p.business_name||'My Business';
+  document.getElementById('profile-avatar-letter').textContent=name[0].toUpperCase();
+  document.getElementById('profile-biz-name-display').textContent=name;
+  document.getElementById('profile-industry-display').textContent=p.industry||'No industry set';
+  const allFields=['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];
+  const filled=allFields.filter(f=>p[f]&&p[f].trim()&&p[f]!=='none').length;
+  const pct=Math.round((filled/allFields.length)*100);
+  document.getElementById('completeness-fill').style.width=pct+'%';
+  document.getElementById('completeness-pct').textContent=pct+'%';
+  ['business','offer','sales','voice'].forEach(sec=>{editState[sec]=false;renderSectionFields(sec,false);document.getElementById('btn-edit-'+sec).classList.remove('editing');document.getElementById('btn-save-'+sec).classList.add('hide');document.getElementById('btn-edit-'+sec).classList.remove('hide');});
 }
-function renderSectionFields(section, isEditing) {
-  const fields = PROFILE_SECTIONS[section];
-  const p = businessProfile || {};
-  const container = document.getElementById('fields-'+section);
-  container.innerHTML = fields.map(f => {
-    const val = p[f.id] || '';
-    const isEmpty = !val || val.trim() === '';
-    if (!isEditing) {
-      return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-value ${isEmpty?'empty':''}">${isEmpty?'Not set':escHtml(val)}</div></div></div>`;
-    }
-    if (f.type === 'choice') {
-      const pillsHtml = f.choices.map(c => `<button class="pf-choice-pill ${val===c?'selected':''}" onclick="pfSelectChoice('${f.id}','${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');
-      return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-choices" id="pf-choices-${f.id}">${pillsHtml}</div><input type="hidden" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;
-    } else if (f.type === 'textarea') {
-      return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><textarea class="pf-textarea" id="pf-val-${f.id}">${escHtml(val)}</textarea></div></div>`;
-    } else {
-      return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><input class="pf-input" type="text" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;
-    }
+function renderSectionFields(section,isEditing){
+  const fields=PROFILE_SECTIONS[section];const p=businessProfile||{};const container=document.getElementById('fields-'+section);
+  container.innerHTML=fields.map(f=>{
+    const val=p[f.id]||'';const isEmpty=!val||val.trim()==='';
+    if(!isEditing){return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-value ${isEmpty?'empty':''}">${isEmpty?'Not set':escHtml(val)}</div></div></div>`;}
+    if(f.type==='choice'){const pillsHtml=f.choices.map(c=>`<button class="pf-choice-pill ${val===c?'selected':''}" onclick="pfSelectChoice('${f.id}','${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-choices" id="pf-choices-${f.id}">${pillsHtml}</div><input type="hidden" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;}
+    else if(f.type==='textarea'){return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><textarea class="pf-textarea" id="pf-val-${f.id}">${escHtml(val)}</textarea></div></div>`;}
+    else{return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><input class="pf-input" type="text" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;}
   }).join('');
 }
-function pfSelectChoice(fieldId, val) {
-  document.getElementById('pf-val-'+fieldId).value = val;
-  document.querySelectorAll(`#pf-choices-${fieldId} .pf-choice-pill`).forEach(p => {
-    p.classList.toggle('selected', p.textContent === val);
-  });
-}
-function toggleEdit(section) {
-  const isNowEditing = !editState[section];
-  editState[section] = isNowEditing;
-  renderSectionFields(section, isNowEditing);
-  const editBtn = document.getElementById('btn-edit-'+section);
-  const saveBtn = document.getElementById('btn-save-'+section);
-  if (isNowEditing) { editBtn.classList.add('editing'); editBtn.textContent = '✕ Cancel'; saveBtn.classList.remove('hide'); }
-  else { editBtn.classList.remove('editing'); editBtn.textContent = '✎ Edit'; saveBtn.classList.add('hide'); }
-}
-function saveSection(section) {
-  const fields = PROFILE_SECTIONS[section];
-  if (!businessProfile) businessProfile = {};
-  fields.forEach(f => { const el = document.getElementById('pf-val-'+f.id); if(el) businessProfile[f.id] = el.value.trim(); });
-  // Save per-user (will move to Supabase in next step)
-  localStorage.setItem('sai_profile_' + currentUser.id, JSON.stringify(businessProfile));
-  editState[section] = false;
-  renderSectionFields(section, false);
-  document.getElementById('btn-edit-'+section).classList.remove('editing');
-  document.getElementById('btn-edit-'+section).textContent = '✎ Edit';
-  document.getElementById('btn-save-'+section).classList.add('hide');
-  const name = businessProfile.business_name || 'My Business';
-  document.getElementById('profile-avatar-letter').textContent = name[0].toUpperCase();
-  document.getElementById('profile-biz-name-display').textContent = name;
-  document.getElementById('profile-industry-display').textContent = businessProfile.industry || 'No industry set';
-  const allFields = ['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];
-  const filled = allFields.filter(f => businessProfile[f] && businessProfile[f].trim() && businessProfile[f] !== 'none').length;
-  const pct = Math.round((filled / allFields.length) * 100);
-  document.getElementById('completeness-fill').style.width = pct + '%';
-  document.getElementById('completeness-pct').textContent = pct + '%';
-  showToast('✅', 'Profile updated and saved.');
-}
-
-function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function escAttr(s){ return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function pfSelectChoice(fieldId,val){document.getElementById('pf-val-'+fieldId).value=val;document.querySelectorAll(`#pf-choices-${fieldId} .pf-choice-pill`).forEach(p=>{p.classList.toggle('selected',p.textContent===val);});}
+function toggleEdit(section){const isNowEditing=!editState[section];editState[section]=isNowEditing;renderSectionFields(section,isNowEditing);const editBtn=document.getElementById('btn-edit-'+section);const saveBtn=document.getElementById('btn-save-'+section);if(isNowEditing){editBtn.classList.add('editing');editBtn.textContent='✕ Cancel';saveBtn.classList.remove('hide');}else{editBtn.classList.remove('editing');editBtn.textContent='✎ Edit';saveBtn.classList.add('hide');}}
+function saveSection(section){const fields=PROFILE_SECTIONS[section];if(!businessProfile)businessProfile={};fields.forEach(f=>{const el=document.getElementById('pf-val-'+f.id);if(el)businessProfile[f.id]=el.value.trim();});localStorage.setItem('sai_profile_'+currentUser.id,JSON.stringify(businessProfile));editState[section]=false;renderSectionFields(section,false);document.getElementById('btn-edit-'+section).classList.remove('editing');document.getElementById('btn-edit-'+section).textContent='✎ Edit';document.getElementById('btn-save-'+section).classList.add('hide');const name=businessProfile.business_name||'My Business';document.getElementById('profile-avatar-letter').textContent=name[0].toUpperCase();document.getElementById('profile-biz-name-display').textContent=name;document.getElementById('profile-industry-display').textContent=businessProfile.industry||'No industry set';const allFields=['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];const filled=allFields.filter(f=>businessProfile[f]&&businessProfile[f].trim()&&businessProfile[f]!=='none').length;const pct=Math.round((filled/allFields.length)*100);document.getElementById('completeness-fill').style.width=pct+'%';document.getElementById('completeness-pct').textContent=pct+'%';showToast('✅','Profile updated and saved.');}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escAttr(s){return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
 // ══════════════════════════════
 // DASHBOARD
 // ══════════════════════════════
-function renderDashboard() {
-  const h = new Date().getHours();
-  document.getElementById('dash-greeting').textContent = (h<12?'Good morning':h<18?'Good afternoon':'Good evening')+' 👋';
-  document.getElementById('m1-val').textContent = agents.reduce((s,a)=>s+(a.leads||0),0);
-  document.getElementById('m2-val').textContent = agents.reduce((s,a)=>s+(a.booked||0),0);
-  document.getElementById('m3-val').textContent = '—';
-  if (agents.length) {
-    document.getElementById('global-status').className='pill-live';
-    document.getElementById('global-status').innerHTML='<div class="live-dot"></div> '+agents.length+' agent(s) live';
-  }
+function renderDashboard(){
+  const h=new Date().getHours();document.getElementById('dash-greeting').textContent=(h<12?'Good morning':h<18?'Good afternoon':'Good evening')+' 👋';
+  document.getElementById('m1-val').textContent=agents.reduce((s,a)=>s+(a.leads||0),0);
+  document.getElementById('m2-val').textContent=agents.reduce((s,a)=>s+(a.booked||0),0);
+  document.getElementById('m3-val').textContent='—';
+  if(agents.length){document.getElementById('global-status').className='pill-live';document.getElementById('global-status').innerHTML='<div class="live-dot"></div> '+agents.length+' agent(s) live';}
   drawSparkline('spark1',[2,4,3,6,5,8,7,10,9,12],'rgba(34,197,94,0.6)','rgba(34,197,94,0.08)');
   drawSparkline('spark2',[1,2,2,3,4,5,5,7,6,9],'rgba(59,130,246,0.6)','rgba(59,130,246,0.08)');
   drawSparkline('spark3',[0,0,0,0,0,0,0,0,0,0],'rgba(156,163,175,0.5)','rgba(0,0,0,0.03)');
-  renderAgentSlots();
-  renderActivityFeed();
+  renderAgentSlots();renderActivityFeed();
 }
-
-const AGENT_TYPES = [
-  { key:'lead-handler', icon:'📲', name:'New Lead Handler', desc:'Welcomes the lead, delivers the lead magnet, then sells the call — step by step, naturally.' },
-  { key:'follow-up', icon:'🔁', name:'Follow-Up Automation', desc:'Follows up automatically after the call is booked to make sure they show up. No more ghosted calls.' },
-  { key:'booked-handler', icon:'📅', name:'Follow-up Agent', desc:'Confirms booked calls and follows up to ensure show-up.' },
+const AGENT_TYPES=[
+  {key:'lead-handler',icon:'📲',name:'New Lead Handler',desc:'Welcomes the lead, delivers the lead magnet, then sells the call — step by step, naturally.'},
+  {key:'follow-up',icon:'🔁',name:'Follow-Up Automation',desc:'Follows up automatically after the call is booked to make sure they show up. No more ghosted calls.'},
+  {key:'booked-handler',icon:'📅',name:'Follow-up Agent',desc:'Confirms booked calls and follows up to ensure show-up.'},
 ];
-
-function renderAgentSlots() {
-  const wrap = document.getElementById('agents-slots');
-  wrap.innerHTML = AGENT_TYPES.map((type,i) => {
-    const agent = agents.find(a=>a.type===type.key);
-    if (agent) {
-      const idx = agents.indexOf(agent);
-      return `<div class="agent-slot active-slot"><div class="slot-status live">● Live</div><div class="slot-number">${i+1}</div><div class="slot-type">${type.name}</div><div class="slot-name">${agent.name}</div><div class="slot-desc">${type.desc}</div><div class="slot-actions">${agent.workflow_json?`<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>`:''}<button class="slot-btn secondary" onclick="openConnectModal(${idx})">${agent.connected?'✓ Connected':'🔌 Connect'}</button></div></div>`;
-    } else {
-      return `<div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')"><div class="slot-empty-icon">${type.icon}</div><div class="slot-empty-label">${type.name}</div><div class="slot-empty-sub">Click to build this agent</div></div>`;
-    }
+function renderAgentSlots(){
+  const wrap=document.getElementById('agents-slots');
+  wrap.innerHTML=AGENT_TYPES.map((type,i)=>{
+    const agent=agents.find(a=>a.type===type.key);
+    if(agent){const idx=agents.indexOf(agent);return `<div class="agent-slot active-slot"><div class="slot-status live">● Live</div><div class="slot-number">${i+1}</div><div class="slot-type">${type.name}</div><div class="slot-name">${agent.name}</div><div class="slot-desc">${type.desc}</div><div class="slot-actions">${agent.workflow_json?`<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>`:''}<button class="slot-btn secondary" onclick="openConnectModal(${idx})">${agent.connected?'✓ Connected':'🔌 Connect'}</button></div></div>`;}
+    else{return `<div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')"><div class="slot-empty-icon">${type.icon}</div><div class="slot-empty-label">${type.name}</div><div class="slot-empty-sub">Click to build this agent</div></div>`;}
   }).join('');
 }
-
-function startNewAgentOfType(typeKey) {
-  showScreen('new-agent', document.querySelectorAll('.nav-item')[1]);
-  setTimeout(()=>selectAgentType(typeKey), 100);
-}
+function startNewAgentOfType(typeKey){showScreen('new-agent',document.querySelectorAll('.nav-item')[1]);setTimeout(()=>selectAgentType(typeKey),100);}
 
 // ══════════════════════════════
 // NEW AGENT FORM
 // ══════════════════════════════
-const AGENT_FORM_QUESTIONS = {
-  'lead-handler': [
-    { id:'whatsapp_number', type:'text', label:'WhatsApp number', title:'What WhatsApp number will this agent run on?', hint:'Include country code. e.g. +1 514 000 0000', placeholder:'+1 514 000 0000' },
-    { id:'opener', type:'choice', label:'Opening message style', title:'How should the agent open the conversation?', hint:'This is the first thing leads see.', choices:['Casual & warm — like a friend','Curious — ask a question right away','Value-first — lead with a benefit','Direct — get to the point instantly'] },
-    { id:'lead_magnet_delivery', type:'choice', label:'Lead magnet delivery', title:'How do you want the lead magnet delivered?', hint:'', choices:['Send it immediately after first message','Qualify first then send','Ask for name before sending','Skip lead magnet — go straight to call pitch'] },
-    { id:'call_cta', type:'text', label:'Call CTA', title:'What do you call your discovery call?', hint:"This exact phrase will appear in the agent's messages.", placeholder:'e.g. free strategy session, clarity call, discovery call' },
-    { id:'urgency', type:'choice', label:'Urgency approach', title:'Should the agent create urgency to book?', hint:'', choices:['Yes — limited spots available','Yes — time-sensitive offer','Soft — just mention availability','No urgency — keep it pressure-free'] },
+const AGENT_FORM_QUESTIONS={
+  'lead-handler':[
+    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
+    {id:'opener',type:'choice',label:'Opening message style',title:'How should the agent open the conversation?',hint:'This is the first thing leads see.',choices:['Casual & warm — like a friend','Curious — ask a question right away','Value-first — lead with a benefit','Direct — get to the point instantly']},
+    {id:'lead_magnet_delivery',type:'choice',label:'Lead magnet delivery',title:'How do you want the lead magnet delivered?',hint:'',choices:['Send it immediately after first message','Qualify first then send','Ask for name before sending','Skip lead magnet — go straight to call pitch']},
+    {id:'call_cta',type:'text',label:'Call CTA',title:'What do you call your discovery call?',hint:"This exact phrase will appear in the agent's messages.",placeholder:'e.g. free strategy session, clarity call, discovery call'},
+    {id:'urgency',type:'choice',label:'Urgency approach',title:'Should the agent create urgency to book?',hint:'',choices:['Yes — limited spots available','Yes — time-sensitive offer','Soft — just mention availability','No urgency — keep it pressure-free']},
   ],
-  'follow-up': [
-    { id:'whatsapp_number', type:'text', label:'WhatsApp number', title:'What WhatsApp number will this agent run on?', hint:'Include country code.', placeholder:'+1 514 000 0000' },
-    { id:'delay', type:'choice', label:'First follow-up delay', title:'When should the first follow-up message be sent?', hint:'After the lead goes silent.', choices:['24 hours after last message','48 hours after last message','3 days after last message','1 week after last message'] },
-    { id:'reengagement_hook', type:'choice', label:'Re-engagement hook', title:'What angle should the agent use to re-engage?', hint:'', choices:['New value — share something useful','Direct check-in — just ask if still interested','FOMO — limited spots / expiring offer','Personal — reference their specific situation'] },
-    { id:'max_follow_ups', type:'choice', label:'Max follow-ups', title:'How many times should the agent follow up before stopping?', hint:'', choices:['1 time then stop','2 times then stop','3 times then stop','Keep going until they respond'] },
+  'follow-up':[
+    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
+    {id:'delay',type:'choice',label:'First follow-up delay',title:'When should the first follow-up message be sent?',hint:'After the lead goes silent.',choices:['24 hours after last message','48 hours after last message','3 days after last message','1 week after last message']},
+    {id:'reengagement_hook',type:'choice',label:'Re-engagement hook',title:'What angle should the agent use to re-engage?',hint:'',choices:['New value — share something useful','Direct check-in — just ask if still interested','FOMO — limited spots / expiring offer','Personal — reference their specific situation']},
+    {id:'max_follow_ups',type:'choice',label:'Max follow-ups',title:'How many times should the agent follow up before stopping?',hint:'',choices:['1 time then stop','2 times then stop','3 times then stop','Keep going until they respond']},
   ],
-  'booked-handler': [
-    { id:'whatsapp_number', type:'text', label:'WhatsApp number', title:'What WhatsApp number will this agent run on?', hint:'Include country code.', placeholder:'+1 514 000 0000' },
-    { id:'confirmation_style', type:'choice', label:'Confirmation style', title:'How should the agent confirm the booking?', hint:'', choices:['Enthusiastic — celebrate the booking','Professional — confirm details clearly','Warm — make them feel excited','Minimal — just the essentials'] },
-    { id:'reminder_timing', type:'choice', label:'Reminder timing', title:'When should reminders be sent before the call?', hint:'', choices:['24 hours before only','24h and 1h before','24h, 3h, and 30min before','Just 1 hour before'] },
-    { id:'pre_call_value', type:'choice', label:'Pre-call prep', title:'Should the agent send anything before the call?', hint:'', choices:['Yes — send a prep question to answer before','Yes — send a short video or resource','Yes — send what to prepare / expect','No — just the reminders'] },
-    { id:'no_show_recovery', type:'choice', label:'No-show recovery', title:"If they don't show up, what should the agent do?", hint:'', choices:['Send one reschedule message','Send 2 follow-ups to reschedule','Add them back to follow-up sequence','Do nothing — mark as lost'] },
+  'booked-handler':[
+    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
+    {id:'confirmation_style',type:'choice',label:'Confirmation style',title:'How should the agent confirm the booking?',hint:'',choices:['Enthusiastic — celebrate the booking','Professional — confirm details clearly','Warm — make them feel excited','Minimal — just the essentials']},
+    {id:'reminder_timing',type:'choice',label:'Reminder timing',title:'When should reminders be sent before the call?',hint:'',choices:['24 hours before only','24h and 1h before','24h, 3h, and 30min before','Just 1 hour before']},
+    {id:'pre_call_value',type:'choice',label:'Pre-call prep',title:'Should the agent send anything before the call?',hint:'',choices:['Yes — send a prep question to answer before','Yes — send a short video or resource','Yes — send what to prepare / expect','No — just the reminders']},
+    {id:'no_show_recovery',type:'choice',label:'No-show recovery',title:"If they don't show up, what should the agent do?",hint:'',choices:['Send one reschedule message','Send 2 follow-ups to reschedule','Add them back to follow-up sequence','Do nothing — mark as lost']},
   ]
 };
-
-let afType = null, afStep = 0, afAnswers = {};
-
-function renderAgentForm() {
-  const body = document.getElementById('af-body');
-  body.innerHTML = `<div class="af-type-grid">${AGENT_TYPES.map(t=>`<button class="af-type-card ${afType===t.key?'selected':''}" onclick="selectAgentType('${t.key}')"><div class="af-type-icon">${t.icon}</div><div class="af-type-name">${t.name}</div><div class="af-type-desc">${t.desc}</div></button>`).join('')}</div><div id="af-form-steps"></div>`;
-  if (afType) renderAfStep();
-}
-function selectAgentType(key) { afType=key; afStep=0; afAnswers={}; renderAgentForm(); }
-function renderAfStep() {
-  const questions = AGENT_FORM_QUESTIONS[afType]||[];
-  if (afStep>=questions.length) { renderAfSummary(); return; }
-  const q = questions[afStep];
-  const stepsHtml = questions.map((sq,i)=>`<div class="af-step-item ${i<afStep?'done':i===afStep?'active':''}"><div class="af-step-num">${i<afStep?'✓':i+1}</div>${sq.label}</div>${i<questions.length-1?'<div class="af-step-connector"></div>':''}`).join('')+`<div class="af-step-connector"></div><div class="af-step-item ${afStep>=questions.length?'active':''}"><div class="af-step-num">${questions.length+1}</div>Confirm</div>`;
-  let inputHtml='';
-  if (q.type==='choice') {
-    inputHtml=`<div class="af-choices one-col" id="af-choices">${q.choices.map(c=>`<button class="af-choice ${afAnswers[q.id]===c?'sel':''}" onclick="afSelectChoice('${q.id}','${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('')}</div>`;
-  } else if (q.type==='textarea') {
-    inputHtml=`<textarea class="af-textarea" id="af-input" placeholder="${q.placeholder||''}">${afAnswers[q.id]||''}</textarea>`;
-  } else {
-    inputHtml=`<input class="af-input" id="af-input" type="text" placeholder="${q.placeholder||''}" value="${afAnswers[q.id]||''}"/>`;
-  }
-  document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">${q.label}</div><div class="af-q-text">${q.title}</div>${q.hint?`<div class="af-q-hint">${q.hint}</div>`:''} ${inputHtml}</div><div class="af-footer"><div class="af-nav">${afStep>0?'<button class="btn-af-back" onclick="afBack()">← Back</button>':''}${q.type!=='choice'?`<button class="btn-af-next" onclick="afNext()">Continue →</button>`:''}</div><div class="af-tip">Answer and press Continue, or click an option to auto-advance.</div></div>`;
-  const inp=document.getElementById('af-input');
-  if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();afNext();}});}
-}
+let afType=null,afStep=0,afAnswers={};
+function renderAgentForm(){const body=document.getElementById('af-body');body.innerHTML=`<div class="af-type-grid">${AGENT_TYPES.map(t=>`<button class="af-type-card ${afType===t.key?'selected':''}" onclick="selectAgentType('${t.key}')"><div class="af-type-icon">${t.icon}</div><div class="af-type-name">${t.name}</div><div class="af-type-desc">${t.desc}</div></button>`).join('')}</div><div id="af-form-steps"></div>`;if(afType)renderAfStep();}
+function selectAgentType(key){afType=key;afStep=0;afAnswers={};renderAgentForm();}
+function renderAfStep(){const questions=AGENT_FORM_QUESTIONS[afType]||[];if(afStep>=questions.length){renderAfSummary();return;}const q=questions[afStep];const stepsHtml=questions.map((sq,i)=>`<div class="af-step-item ${i<afStep?'done':i===afStep?'active':''}"><div class="af-step-num">${i<afStep?'✓':i+1}</div>${sq.label}</div>${i<questions.length-1?'<div class="af-step-connector"></div>':''}`).join('')+`<div class="af-step-connector"></div><div class="af-step-item ${afStep>=questions.length?'active':''}"><div class="af-step-num">${questions.length+1}</div>Confirm</div>`;let inputHtml='';if(q.type==='choice'){inputHtml=`<div class="af-choices one-col" id="af-choices">${q.choices.map(c=>`<button class="af-choice ${afAnswers[q.id]===c?'sel':''}" onclick="afSelectChoice('${q.id}','${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('')}</div>`;}else if(q.type==='textarea'){inputHtml=`<textarea class="af-textarea" id="af-input" placeholder="${q.placeholder||''}">${afAnswers[q.id]||''}</textarea>`;}else{inputHtml=`<input class="af-input" id="af-input" type="text" placeholder="${q.placeholder||''}" value="${afAnswers[q.id]||''}"/>`;}document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">${q.label}</div><div class="af-q-text">${q.title}</div>${q.hint?`<div class="af-q-hint">${q.hint}</div>`:''} ${inputHtml}</div><div class="af-footer"><div class="af-nav">${afStep>0?'<button class="btn-af-back" onclick="afBack()">← Back</button>':''}${q.type!=='choice'?`<button class="btn-af-next" onclick="afNext()">Continue →</button>`:''}</div><div class="af-tip">Answer and press Continue, or click an option to auto-advance.</div></div>`;const inp=document.getElementById('af-input');if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();afNext();}});}}
 function afSelectChoice(qId,val,el){document.querySelectorAll('.af-choice').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');afAnswers[qId]=val;setTimeout(()=>afNext(),320);}
 function afNext(){const inp=document.getElementById('af-input');const questions=AGENT_FORM_QUESTIONS[afType]||[];if(inp&&afStep<questions.length)afAnswers[questions[afStep].id]=inp.value.trim();afStep++;renderAfStep();}
 function afBack(){if(afStep>0){afStep--;renderAfStep();}}
-function renderAfSummary(){
-  const questions=AGENT_FORM_QUESTIONS[afType]||[];
-  const type=AGENT_TYPES.find(t=>t.key===afType);
-  const stepsHtml=questions.map((sq,i)=>`<div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div><div class="af-step-connector"></div>`).join('')+`<div class="af-step-item active"><div class="af-step-num">${questions.length+1}</div>Confirm</div>`;
-  const summaryRows=questions.map(q=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;width:160px;flex-shrink:0;">${q.label}</span><span style="font-size:14px;font-weight:500;text-align:right;">${afAnswers[q.id]||'—'}</span></div>`).join('');
-  document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">Summary</div><div class="af-q-text">Ready to build your ${type?.name}?</div><div class="af-q-hint" style="margin-bottom:20px;">Review your answers before we build.</div><div>${summaryRows}</div></div><div class="af-footer"><div class="af-nav"><button class="btn-af-back" onclick="afBack()">← Edit</button><button class="btn-af-next" onclick="buildAgent()" style="background:var(--accent);color:var(--black);">Build Agent ✦</button></div></div>`;
-}
+function renderAfSummary(){const questions=AGENT_FORM_QUESTIONS[afType]||[];const type=AGENT_TYPES.find(t=>t.key===afType);const stepsHtml=questions.map((sq,i)=>`<div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div><div class="af-step-connector"></div>`).join('')+`<div class="af-step-item active"><div class="af-step-num">${questions.length+1}</div>Confirm</div>`;const summaryRows=questions.map(q=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;width:160px;flex-shrink:0;">${q.label}</span><span style="font-size:14px;font-weight:500;text-align:right;">${afAnswers[q.id]||'—'}</span></div>`).join('');document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${stepsHtml}</div><div class="af-question"><div class="af-q-label">Summary</div><div class="af-q-text">Ready to build your ${type?.name}?</div><div class="af-q-hint" style="margin-bottom:20px;">Review your answers before we build.</div><div>${summaryRows}</div></div><div class="af-footer"><div class="af-nav"><button class="btn-af-back" onclick="afBack()">← Edit</button><button class="btn-af-next" onclick="buildAgent()" style="background:var(--accent);color:var(--black);">Build Agent ✦</button></div></div>`;}
 
 // ══════════════════════════════
 // BUILD AGENT
 // ══════════════════════════════
-async function buildAgent() {
-  showGeneratingOverlay(); setGenStep(1);
-  const type=AGENT_TYPES.find(t=>t.key===afType);
-  const payload={agent_type:afType,agent_type_name:type?.name,business_profile:businessProfile,agent_config:afAnswers,session_id:'session_'+Date.now(),source:'service_ai_v3'};
-  try {
-    setTimeout(()=>setGenStep(2),900);
-    const res=await fetch(PROVISIONING_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    setGenStep(3); await sleep(600);
-    const data=await res.json();
-    setGenStep(4); await sleep(600);
-    setGenStep(5); await sleep(800);
-    finishBuild(data);
-  } catch(err) {
-    console.error(err); setGenStep(5); await sleep(600); finishBuild({});
-  }
-}
-function finishBuild(response){
-  const r=Array.isArray(response)?response[0]:response;
-  const clientId=r.client_id||'agent_'+Date.now();
-  const type=AGENT_TYPES.find(t=>t.key===afType);
-  const newAgent={id:clientId,type:afType,name:businessProfile?.business_name||r.company||'My Business',agent_type_name:type?.name,whatsapp:afAnswers.whatsapp_number||'—',status:'live',leads:0,booked:0,created:new Date().toISOString(),workflow_json:r.workflow_json||null,workflow_name:r.workflow_name||null,connected:false,credentials:{}};
-  const existing=agents.findIndex(a=>a.type===afType);
-  if(existing>=0)agents[existing]=newAgent; else agents.push(newAgent);
-  // Save per-user
-  localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));
-  addActivity('🤖',`${type?.name} built for ${newAgent.name}`,'Just now');
-  afType=null;afStep=0;afAnswers={};
-  hideGeneratingOverlay(()=>{showScreen('dashboard',document.querySelector('.nav-item'));showToast('✅',`${type?.name} is live! Download the workflow to activate it.`);});
-}
-
-// ══════════════════════════════
-// GENERATING OVERLAY
-// ══════════════════════════════
+async function buildAgent(){showGeneratingOverlay();setGenStep(1);const type=AGENT_TYPES.find(t=>t.key===afType);const payload={agent_type:afType,agent_type_name:type?.name,business_profile:businessProfile,agent_config:afAnswers,session_id:'session_'+Date.now(),source:'service_ai_v3'};try{setTimeout(()=>setGenStep(2),900);const res=await fetch(PROVISIONING_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});setGenStep(3);await sleep(600);const data=await res.json();setGenStep(4);await sleep(600);setGenStep(5);await sleep(800);finishBuild(data);}catch(err){console.error(err);setGenStep(5);await sleep(600);finishBuild({});}}
+function finishBuild(response){const r=Array.isArray(response)?response[0]:response;const clientId=r.client_id||'agent_'+Date.now();const type=AGENT_TYPES.find(t=>t.key===afType);const newAgent={id:clientId,type:afType,name:businessProfile?.business_name||r.company||'My Business',agent_type_name:type?.name,whatsapp:afAnswers.whatsapp_number||'—',status:'live',leads:0,booked:0,created:new Date().toISOString(),workflow_json:r.workflow_json||null,workflow_name:r.workflow_name||null,connected:false,credentials:{}};const existing=agents.findIndex(a=>a.type===afType);if(existing>=0)agents[existing]=newAgent;else agents.push(newAgent);localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));addActivity('🤖',`${type?.name} built for ${newAgent.name}`,'Just now');afType=null;afStep=0;afAnswers={};hideGeneratingOverlay(()=>{showScreen('dashboard',document.querySelector('.nav-item'));showToast('✅',`${type?.name} is live! Download the workflow to activate it.`);});}
 function showGeneratingOverlay(){document.getElementById('gen-overlay').classList.add('show');['gs1','gs2','gs3','gs4','gs5'].forEach(s=>document.getElementById(s).classList.remove('active','done'));}
 function hideGeneratingOverlay(cb){['gs1','gs2','gs3','gs4','gs5'].forEach(s=>{document.getElementById(s).classList.remove('active');document.getElementById(s).classList.add('done');});setTimeout(()=>{document.getElementById('gen-overlay').classList.remove('show');if(cb)cb();},500);}
 function setGenStep(n){['gs1','gs2','gs3','gs4','gs5'].forEach((s,i)=>{const el=document.getElementById(s);el.classList.remove('active','done');if(i+1<n)el.classList.add('done');else if(i+1===n)el.classList.add('active');});}
@@ -1133,63 +1630,19 @@ function openWorkflowModal(idx){activeAgentIdx=idx;const agent=agents[idx];if(!a
 function closeModal(){document.getElementById('workflow-modal').classList.remove('show');activeAgentIdx=null;}
 function downloadWorkflow(){if(activeAgentIdx===null)return;const agent=agents[activeAgentIdx];if(!agent?.workflow_json)return;const blob=new Blob([JSON.stringify(agent.workflow_json,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(agent.workflow_name||agent.name).replace(/[^a-z0-9]/gi,'_')+'.json';a.click();URL.revokeObjectURL(url);showToast('⬇','Workflow downloaded! Import it in n8n.');}
 function openConnectFromModal(){if(activeAgentIdx!==null)openConnectModal(activeAgentIdx);}
-
-// ══════════════════════════════
-// CONNECT MODAL
-// ══════════════════════════════
 function openConnectModal(idx){connectAgentIdx=idx;const agent=agents[idx];const creds=agent?.credentials||{};document.getElementById('cred-wa-token').value=creds.wa_token||'';document.getElementById('cred-phone-id').value=creds.phone_id||'';document.getElementById('connect-modal').classList.add('show');}
 function closeConnectModal(){document.getElementById('connect-modal').classList.remove('show');connectAgentIdx=null;}
-function injectAndDownload(){
-  if(connectAgentIdx===null)return;
-  const agent=agents[connectAgentIdx];
-  if(!agent?.workflow_json){showToast('⚠️','No workflow found.');return;}
-  const waToken=document.getElementById('cred-wa-token').value.trim();
-  const phoneId=document.getElementById('cred-phone-id').value.trim();
-  if(!waToken||!phoneId){showToast('⚠️','Fill in both fields.');return;}
-  const patched=JSON.parse(JSON.stringify(agent.workflow_json));
-  patched.nodes.forEach(node=>{
-    if(node.parameters?.headerParameters?.parameters){node.parameters.headerParameters.parameters.forEach(h=>{if(typeof h.value==='string'&&h.value.includes('YOUR_WHATSAPP_TOKEN'))h.value=h.value.replace(/YOUR_WHATSAPP_TOKEN/g,waToken);});}
-    if(node.parameters?.phoneNumberId==='YOUR_PHONE_NUMBER_ID')node.parameters.phoneNumberId=phoneId;
-  });
-  const final=JSON.stringify(patched);
-  if(final.includes('YOUR_WHATSAPP_TOKEN')||final.includes('YOUR_PHONE_NUMBER_ID')){showToast('⚠️','Injection failed — placeholder not found.');return;}
-  agents[connectAgentIdx].workflow_json=patched;agents[connectAgentIdx].connected=true;agents[connectAgentIdx].credentials={wa_token:waToken,phone_id:phoneId};
-  localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));
-  const blob=new Blob([JSON.stringify(patched,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(agent.workflow_name||agent.name).replace(/[^a-z0-9]/gi,'_')+'_connected.json';a.click();URL.revokeObjectURL(url);
-  closeConnectModal();renderDashboard();addActivity('🔌',`Agent connected: ${agent.name}`,'Just now');showToast('✅','Connected JSON downloaded! Import in n8n and you\'re live.');
-}
+function injectAndDownload(){if(connectAgentIdx===null)return;const agent=agents[connectAgentIdx];if(!agent?.workflow_json){showToast('⚠️','No workflow found.');return;}const waToken=document.getElementById('cred-wa-token').value.trim();const phoneId=document.getElementById('cred-phone-id').value.trim();if(!waToken||!phoneId){showToast('⚠️','Fill in both fields.');return;}const patched=JSON.parse(JSON.stringify(agent.workflow_json));patched.nodes.forEach(node=>{if(node.parameters?.headerParameters?.parameters){node.parameters.headerParameters.parameters.forEach(h=>{if(typeof h.value==='string'&&h.value.includes('YOUR_WHATSAPP_TOKEN'))h.value=h.value.replace(/YOUR_WHATSAPP_TOKEN/g,waToken);});}if(node.parameters?.phoneNumberId==='YOUR_PHONE_NUMBER_ID')node.parameters.phoneNumberId=phoneId;});const final=JSON.stringify(patched);if(final.includes('YOUR_WHATSAPP_TOKEN')||final.includes('YOUR_PHONE_NUMBER_ID')){showToast('⚠️','Injection failed — placeholder not found.');return;}agents[connectAgentIdx].workflow_json=patched;agents[connectAgentIdx].connected=true;agents[connectAgentIdx].credentials={wa_token:waToken,phone_id:phoneId};localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));const blob=new Blob([JSON.stringify(patched,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(agent.workflow_name||agent.name).replace(/[^a-z0-9]/gi,'_')+'_connected.json';a.click();URL.revokeObjectURL(url);closeConnectModal();renderDashboard();addActivity('🔌',`Agent connected: ${agent.name}`,'Just now');showToast('✅','Connected JSON downloaded! Import in n8n and you\'re live.');}
 
 // ══════════════════════════════
 // NODE CANVAS
 // ══════════════════════════════
-function renderNodeCanvas(workflow){
-  const NODE_W=160,NODE_H=72,PAD=60;
-  const inner=document.getElementById('node-canvas-inner');inner.innerHTML='';
-  const nodes=workflow.nodes||[];const connections=workflow.connections||{};
-  if(!nodes.length){inner.style.width='400px';inner.style.height='200px';inner.innerHTML='<div style="padding:60px;color:#999;font-size:13px;">No nodes found.</div>';return;}
-  const raw=nodes.map(n=>({x:Array.isArray(n.position)?n.position[0]:(n.position?.x||0),y:Array.isArray(n.position)?n.position[1]:(n.position?.y||0)}));
-  const minX=Math.min(...raw.map(p=>p.x)),minY=Math.min(...raw.map(p=>p.y));
-  const pos=raw.map(p=>({x:p.x-minX+PAD,y:p.y-minY+PAD}));
-  const maxX=Math.max(...pos.map(p=>p.x)),maxY=Math.max(...pos.map(p=>p.y));
-  const W=maxX+NODE_W+PAD,H=maxY+NODE_H+PAD;
-  inner.style.width=W+'px';inner.style.height=H+'px';
-  const svgNS='http://www.w3.org/2000/svg';const svg=document.createElementNS(svgNS,'svg');svg.setAttribute('width',W);svg.setAttribute('height',H);svg.style.cssText='position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';
-  const defs=document.createElementNS(svgNS,'defs');defs.innerHTML='<marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(0,0,0,0.2)"/></marker>';svg.appendChild(defs);inner.appendChild(svg);
-  function cls(t){if(!t)return'';const l=t.toLowerCase();if(l.includes('whatsapptrigger')||l.includes('webhook'))return'trigger';if(l.includes('agent'))return'agent';if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'memory';if(l.includes('code'))return'code';if(l.includes('httprequest')||l.includes('whatsapp'))return'http';if(l.includes('wait'))return'wait';if(l.includes('splitinbatches'))return'split';if(l.includes('filter'))return'filter';if(l.includes('switch'))return'switch-node';return'';}
-  function ico(t){if(!t)return'⬡';const l=t.toLowerCase();if(l.includes('whatsapptrigger'))return'📲';if(l.includes('webhook'))return'🔗';if(l.includes('agent'))return'🤖';if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'🧠';if(l.includes('code'))return'{ }';if(l.includes('httprequest'))return'🌐';if(l.includes('whatsapp'))return'💬';if(l.includes('wait'))return'⏱';if(l.includes('splitinbatches'))return'🔄';if(l.includes('filter'))return'🔽';if(l.includes('switch'))return'⇄';return'⬡';}
-  const centres={};
-  nodes.forEach((node,i)=>{const x=pos[i].x,y=pos[i].y;centres[node.name]={ox:x+NODE_W,oy:y+NODE_H/2,ix:x,iy:y+NODE_H/2};const el=document.createElement('div');el.className='wf-node '+cls(node.type);el.style.left=x+'px';el.style.top=y+'px';el.style.width=NODE_W+'px';el.title=node.name;el.innerHTML=`<div class="wf-node-icon">${ico(node.type)}</div><div class="wf-node-name">${node.name}</div><div class="wf-node-type">${(node.type||'').split('.').pop().replace(/([A-Z])/g,' $1').trim()}</div>`;inner.appendChild(el);});
-  Object.entries(connections).forEach(([from,outputs])=>{const f=centres[from];if(!f)return;Object.values(outputs).forEach(arr=>arr.forEach(list=>{if(!Array.isArray(list))return;list.forEach(conn=>{const t=centres[conn?.node];if(!t)return;const x1=f.ox,y1=f.oy,x2=t.ix,y2=t.iy;const pull=Math.max(60,Math.abs(x2-x1)*0.4);const path=document.createElementNS(svgNS,'path');path.setAttribute('d',`M${x1},${y1} C${x1+pull},${y1} ${x2-pull},${y2} ${x2},${y2}`);path.setAttribute('stroke','rgba(0,0,0,0.15)');path.setAttribute('stroke-width','1.5');path.setAttribute('fill','none');path.setAttribute('marker-end','url(#arrow)');svg.appendChild(path);});}));});
-}
+function renderNodeCanvas(workflow){const NODE_W=160,NODE_H=72,PAD=60;const inner=document.getElementById('node-canvas-inner');inner.innerHTML='';const nodes=workflow.nodes||[];const connections=workflow.connections||{};if(!nodes.length){inner.style.width='400px';inner.style.height='200px';inner.innerHTML='<div style="padding:60px;color:#999;font-size:13px;">No nodes found.</div>';return;}const raw=nodes.map(n=>({x:Array.isArray(n.position)?n.position[0]:(n.position?.x||0),y:Array.isArray(n.position)?n.position[1]:(n.position?.y||0)}));const minX=Math.min(...raw.map(p=>p.x)),minY=Math.min(...raw.map(p=>p.y));const pos=raw.map(p=>({x:p.x-minX+PAD,y:p.y-minY+PAD}));const maxX=Math.max(...pos.map(p=>p.x)),maxY=Math.max(...pos.map(p=>p.y));const W=maxX+NODE_W+PAD,H=maxY+NODE_H+PAD;inner.style.width=W+'px';inner.style.height=H+'px';const svgNS='http://www.w3.org/2000/svg';const svg=document.createElementNS(svgNS,'svg');svg.setAttribute('width',W);svg.setAttribute('height',H);svg.style.cssText='position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';const defs=document.createElementNS(svgNS,'defs');defs.innerHTML='<marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(0,0,0,0.2)"/></marker>';svg.appendChild(defs);inner.appendChild(svg);function cls(t){if(!t)return'';const l=t.toLowerCase();if(l.includes('whatsapptrigger')||l.includes('webhook'))return'trigger';if(l.includes('agent'))return'agent';if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'memory';if(l.includes('code'))return'code';if(l.includes('httprequest')||l.includes('whatsapp'))return'http';if(l.includes('wait'))return'wait';if(l.includes('splitinbatches'))return'split';if(l.includes('filter'))return'filter';if(l.includes('switch'))return'switch-node';return'';}function ico(t){if(!t)return'⬡';const l=t.toLowerCase();if(l.includes('whatsapptrigger'))return'📲';if(l.includes('webhook'))return'🔗';if(l.includes('agent'))return'🤖';if(l.includes('memory')||l.includes('lmchat')||l.includes('openrouter'))return'🧠';if(l.includes('code'))return'{ }';if(l.includes('httprequest'))return'🌐';if(l.includes('whatsapp'))return'💬';if(l.includes('wait'))return'⏱';if(l.includes('splitinbatches'))return'🔄';if(l.includes('filter'))return'🔽';if(l.includes('switch'))return'⇄';return'⬡';}const centres={};nodes.forEach((node,i)=>{const x=pos[i].x,y=pos[i].y;centres[node.name]={ox:x+NODE_W,oy:y+NODE_H/2,ix:x,iy:y+NODE_H/2};const el=document.createElement('div');el.className='wf-node '+cls(node.type);el.style.left=x+'px';el.style.top=y+'px';el.style.width=NODE_W+'px';el.title=node.name;el.innerHTML=`<div class="wf-node-icon">${ico(node.type)}</div><div class="wf-node-name">${node.name}</div><div class="wf-node-type">${(node.type||'').split('.').pop().replace(/([A-Z])/g,' $1').trim()}</div>`;inner.appendChild(el);});Object.entries(connections).forEach(([from,outputs])=>{const f=centres[from];if(!f)return;Object.values(outputs).forEach(arr=>arr.forEach(list=>{if(!Array.isArray(list))return;list.forEach(conn=>{const t=centres[conn?.node];if(!t)return;const x1=f.ox,y1=f.oy,x2=t.ix,y2=t.iy;const pull=Math.max(60,Math.abs(x2-x1)*0.4);const path=document.createElementNS(svgNS,'path');path.setAttribute('d',`M${x1},${y1} C${x1+pull},${y1} ${x2-pull},${y2} ${x2},${y2}`);path.setAttribute('stroke','rgba(0,0,0,0.15)');path.setAttribute('stroke-width','1.5');path.setAttribute('fill','none');path.setAttribute('marker-end','url(#arrow)');svg.appendChild(path);});}));});}
 
 // ══════════════════════════════
 // ACTIVITY + UTILS
 // ══════════════════════════════
-function addActivity(icon,title,time){
-  activities.unshift({icon,title,time});
-  if(activities.length>20)activities=activities.slice(0,20);
-  localStorage.setItem('sai_activities_'+currentUser.id,JSON.stringify(activities));
-}
+function addActivity(icon,title,time){activities.unshift({icon,title,time});if(activities.length>20)activities=activities.slice(0,20);localStorage.setItem('sai_activities_'+currentUser.id,JSON.stringify(activities));}
 function renderActivityFeed(){const list=document.getElementById('activity-list');if(!activities.length){list.innerHTML='<div class="empty-state"><div class="ei">📭</div><p>No activity yet</p></div>';return;}list.innerHTML=activities.slice(0,8).map(a=>`<div class="activity-item"><div class="activity-icon">${a.icon}</div><div class="activity-text"><div class="activity-title">${a.title}</div><div class="activity-time">${a.time}</div></div></div>`).join('');}
 function drawSparkline(id,data,line,fill){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);const min=Math.min(...data),max=Math.max(...data),rng=max-min||1;const pts=data.map((v,i)=>({x:(i/(data.length-1))*w,y:h-((v-min)/rng)*(h*0.75)-h*0.1}));ctx.beginPath();ctx.moveTo(pts[0].x,h);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,h);ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle=line;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();const l=pts[pts.length-1];ctx.beginPath();ctx.arc(l.x,l.y,3.5,0,Math.PI*2);ctx.fillStyle=line;ctx.fill();}
 function showToast(icon,text){document.getElementById('toast-icon').textContent=icon;document.getElementById('toast-text').textContent=text;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4200);}
@@ -1197,21 +1650,14 @@ function checkNotifs(){const p=localStorage.getItem('sai_notify');if(p){const n=
 setInterval(()=>{if(localStorage.getItem('sai_notify'))document.getElementById('notif-badge').classList.add('show');},5000);
 
 // ══════════════════════════════
-// INIT — check Supabase session on load
+// INIT
 // ══════════════════════════════
 (async function init(){
-  const { data: { session } } = await sb.auth.getSession();
-  if (session?.user) {
-    currentUser = session.user;
-    await afterAuth();
-  }
-  // Listen for auth state changes (login/logout)
-  sb.auth.onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_IN' && session?.user) {
-      currentUser = session.user;
-    } else if (event === 'SIGNED_OUT') {
-      currentUser = null;
-    }
+  const{data:{session}}=await sb.auth.getSession();
+  if(session?.user){currentUser=session.user;await afterAuth();}
+  sb.auth.onAuthStateChange(async(event,session)=>{
+    if(event==='SIGNED_IN'&&session?.user)currentUser=session.user;
+    else if(event==='SIGNED_OUT')currentUser=null;
   });
 })();
 </script>

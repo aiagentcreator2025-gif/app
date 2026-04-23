@@ -445,11 +445,90 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .ab-btn-save:hover{opacity:0.85;}
 .ab-btn-save:disabled{opacity:0.5;cursor:not-allowed;}
 
+/* ══ FORM BUILDER ══ */
+.fb-wrap{max-width:900px;margin:0 auto;}
+.fb-header{margin-bottom:28px;display:flex;align-items:flex-start;justify-content:space-between;}
+.fb-header-left h2{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin-bottom:6px;}
+.fb-header-left p{font-size:14px;color:var(--muted);}
+.fb-header-right{display:flex;gap:10px;flex-shrink:0;}
+.btn-fb-preview{display:flex;align-items:center;gap:7px;padding:10px 20px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-size:13px;font-weight:600;color:var(--black);transition:all 0.15s;}
+.btn-fb-preview:hover{border-color:var(--black);}
+.btn-fb-publish{display:flex;align-items:center;gap:7px;padding:10px 20px;border-radius:10px;border:none;background:var(--black);color:#fff;font-size:13px;font-weight:600;transition:opacity 0.15s;}
+.btn-fb-publish:hover{opacity:0.85;}
+.btn-fb-publish:disabled{opacity:0.5;cursor:not-allowed;}
+.fb-layout{display:grid;grid-template-columns:1fr 340px;gap:24px;}
+.fb-main{display:flex;flex-direction:column;gap:16px;}
+.fb-card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+.fb-card-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border);}
+.fb-card-icon{width:28px;height:28px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.fb-card-title{font-size:13px;font-weight:700;}
+.fb-card-body{padding:20px;}
+.fb-field{margin-bottom:16px;}
+.fb-field:last-child{margin-bottom:0;}
+.fb-field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:7px;}
+.fb-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;color:var(--black);background:var(--bg);outline:none;transition:border-color 0.15s;}
+.fb-input:focus{border-color:var(--black);}
+.fb-input::placeholder{color:#bbb;}
+.fb-textarea{width:100%;padding:10px 14px;min-height:80px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;color:var(--black);background:var(--bg);outline:none;resize:vertical;line-height:1.6;transition:border-color 0.15s;}
+.fb-textarea:focus{border-color:var(--black);}
+.fb-textarea::placeholder{color:#bbb;}
+.fb-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fb-color-row{display:flex;align-items:center;gap:10px;}
+.fb-color-input{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--border);padding:2px;cursor:pointer;background:var(--bg);}
+.fb-color-hex{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;color:var(--black);background:var(--bg);outline:none;}
+.fb-color-hex:focus{border-color:var(--black);}
+/* Days toggle */
+.fb-days{display:flex;flex-wrap:wrap;gap:6px;}
+.fb-day-btn{padding:7px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-size:12px;font-weight:600;color:var(--muted);transition:all 0.15s;}
+.fb-day-btn.active{background:var(--black);border-color:var(--black);color:#fff;}
+/* Time slots */
+.fb-times{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.fb-time-tag{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;background:var(--black);color:#fff;font-size:12px;font-weight:600;}
+.fb-time-remove{background:none;border:none;color:rgba(255,255,255,0.5);font-size:14px;padding:0;line-height:1;cursor:pointer;}
+.fb-time-remove:hover{color:#fff;}
+.fb-add-time{display:flex;gap:8px;}
+.fb-time-pick{padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--black);outline:none;}
+.fb-add-time-btn{padding:8px 14px;border-radius:8px;border:none;background:var(--bg);border:1.5px solid var(--border);font-size:12px;font-weight:600;color:var(--black);transition:all 0.15s;}
+.fb-add-time-btn:hover{border-color:var(--black);}
+/* Questions */
+.fb-questions{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.fb-question-item{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);}
+.fb-question-drag{color:var(--muted);font-size:14px;cursor:grab;}
+.fb-question-text{flex:1;font-size:13px;font-weight:500;}
+.fb-question-remove{background:none;border:none;color:var(--muted);font-size:16px;padding:0;cursor:pointer;transition:color 0.15s;}
+.fb-question-remove:hover{color:#ef4444;}
+.fb-add-question{display:flex;gap:8px;}
+.fb-add-q-input{flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;color:var(--black);background:var(--bg);outline:none;}
+.fb-add-q-input:focus{border-color:var(--black);}
+.fb-add-q-btn{padding:9px 16px;border-radius:10px;border:none;background:var(--black);color:#fff;font-size:12px;font-weight:600;}
+/* Preview panel */
+.fb-preview{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;position:sticky;top:24px;}
+.fb-preview-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.fb-preview-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+.fb-preview-body{padding:20px;}
+.fb-preview-host{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.fb-preview-avatar{width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:18px;color:var(--black);flex-shrink:0;}
+.fb-preview-name{font-weight:700;font-size:14px;margin-bottom:2px;}
+.fb-preview-title-text{font-size:12px;color:var(--muted);}
+.fb-preview-headline{font-family:'Instrument Serif',serif;font-size:20px;font-weight:400;margin-bottom:8px;line-height:1.3;}
+.fb-preview-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.fb-preview-meta{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.fb-preview-meta-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.fb-preview-link{background:var(--bg);border-radius:10px;border:1px solid var(--border);padding:10px 14px;font-size:11px;color:var(--accent-dark);font-family:monospace;word-break:break-all;margin-top:8px;}
+.fb-link-box{background:var(--black);border-radius:var(--r);padding:16px 20px;margin-top:16px;}
+.fb-link-box-title{font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.fb-link-display{font-size:12px;color:var(--accent);font-family:monospace;word-break:break-all;margin-bottom:10px;line-height:1.5;}
+.fb-link-actions{display:flex;gap:8px;}
+.fb-copy-btn{flex:1;padding:8px;border-radius:8px;border:none;background:rgba(200,241,53,0.15);color:var(--accent);font-size:12px;font-weight:700;transition:background 0.15s;}
+.fb-copy-btn:hover{background:rgba(200,241,53,0.25);}
+.fb-open-btn{padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;transition:all 0.15s;}
+.fb-open-btn:hover{border-color:rgba(255,255,255,0.3);color:#fff;}
+
 /* ══ TOAST ══ */
 .toast{position:fixed;bottom:28px;right:28px;background:var(--black);color:#fff;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:999;pointer-events:none;max-width:320px;}
 .toast.show{transform:translateY(0);opacity:1;}
 
-@media(max-width:1100px){.metrics-grid{grid-template-columns:1fr 1fr;}.agents-slots{grid-template-columns:1fr;}.dash-body{grid-template-columns:1fr;}.cal-stats{grid-template-columns:1fr 1fr;}}
+@media(max-width:1100px){.metrics-grid{grid-template-columns:1fr 1fr;}.agents-slots{grid-template-columns:1fr;}.dash-body{grid-template-columns:1fr;}.cal-stats{grid-template-columns:1fr 1fr;}.fb-layout{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -515,10 +594,11 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
       <div class="nav-item active" onclick="showScreen('dashboard',this)"><span class="nav-icon">⬛</span> Dashboard</div>
       <div class="nav-item" onclick="showScreen('new-agent',this)"><span class="nav-icon">✦</span> New Agent</div>
       <div class="nav-item" onclick="showScreen('calendar',this)"><span class="nav-icon">📅</span> Calendar</div>
-      <div class="nav-item"><span class="nav-icon">👥</span> Leads</div>
+      <div class="nav-item" onclick="showScreen('form-builder',this)"><span class="nav-icon">📋</span> Booking Form</div>
     </div>
     <div class="nav-section">
       <div class="nav-label">Analytics</div>
+      <div class="nav-item"><span class="nav-icon">👥</span> Leads</div>
       <div class="nav-item"><span class="nav-icon">📊</span> Reports</div>
       <div class="nav-item" onclick="showScreen('settings',this)"><span class="nav-icon">⚙️</span> Settings</div>
     </div>
@@ -604,8 +684,6 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
       <!-- CALENDAR -->
       <div class="screen" id="screen-calendar">
         <div class="cal-wrap">
-
-          <!-- n8n API info strip -->
           <div class="api-info-box">
             <div class="api-info-box-icon">🔌</div>
             <div class="api-info-box-content">
@@ -617,16 +695,12 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
               </div>
             </div>
           </div>
-
-          <!-- Stats -->
           <div class="cal-stats">
             <div class="cal-stat"><div class="cal-stat-label">This week</div><div class="cal-stat-value blue" id="stat-week">—</div></div>
             <div class="cal-stat"><div class="cal-stat-label">Confirmed</div><div class="cal-stat-value green" id="stat-confirmed">—</div></div>
             <div class="cal-stat"><div class="cal-stat-label">No-shows</div><div class="cal-stat-value red" id="stat-noshow">—</div></div>
             <div class="cal-stat"><div class="cal-stat-label">Total booked</div><div class="cal-stat-value" id="stat-total">—</div></div>
           </div>
-
-          <!-- Calendar header -->
           <div class="cal-header">
             <div class="cal-nav">
               <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
@@ -642,15 +716,158 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
               <button class="btn-add-booking" onclick="openAddBooking()">+ Add booking</button>
             </div>
           </div>
-
-          <!-- Calendar grid -->
           <div class="cal-grid-wrap">
             <div class="cal-day-headers" id="cal-day-headers"></div>
             <div class="cal-body" id="cal-body">
               <div class="cal-body-inner" id="cal-body-inner"></div>
             </div>
           </div>
+        </div>
+      </div>
 
+      <!-- FORM BUILDER -->
+      <div class="screen" id="screen-form-builder">
+        <div class="fb-wrap">
+          <div class="fb-header">
+            <div class="fb-header-left">
+              <h2>Booking Form</h2>
+              <p>Customize your public booking page. Share the link with your leads.</p>
+            </div>
+            <div class="fb-header-right">
+              <button class="btn-fb-preview" onclick="fbPreviewLink()">👁 Preview</button>
+              <button class="btn-fb-publish" id="fb-publish-btn" onclick="fbPublish()">✦ Publish</button>
+            </div>
+          </div>
+          <div class="fb-layout">
+            <div class="fb-main">
+
+              <!-- Identity -->
+              <div class="fb-card">
+                <div class="fb-card-header"><div class="fb-card-icon">👤</div><div class="fb-card-title">Your Identity</div></div>
+                <div class="fb-card-body">
+                  <div class="fb-row">
+                    <div class="fb-field"><label>Your name</label><input class="fb-input" id="fb-name" placeholder="Yassine Tizguiouine"/></div>
+                    <div class="fb-field"><label>Your title</label><input class="fb-input" id="fb-title" placeholder="Your Strategic Partner in Growth"/></div>
+                  </div>
+                  <div class="fb-field"><label>Photo URL (optional)</label><input class="fb-input" id="fb-photo" placeholder="https://your-photo.jpg"/></div>
+                  <div class="fb-field"><label>Accent color</label>
+                    <div class="fb-color-row">
+                      <input type="color" class="fb-color-input" id="fb-color-picker" value="#C8F135" oninput="fbSyncColor('picker')"/>
+                      <input class="fb-color-hex" id="fb-color-hex" value="#C8F135" placeholder="#C8F135" oninput="fbSyncColor('hex')"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Page Content -->
+              <div class="fb-card">
+                <div class="fb-card-header"><div class="fb-card-icon">✍️</div><div class="fb-card-title">Page Content</div></div>
+                <div class="fb-card-body">
+                  <div class="fb-field"><label>Headline</label><input class="fb-input" id="fb-headline" placeholder="Book Your Free Strategy Call"/></div>
+                  <div class="fb-field"><label>Description</label><textarea class="fb-textarea" id="fb-description" placeholder="Tell leads what this call is about and what they'll get…"></textarea></div>
+                  <div class="fb-row">
+                    <div class="fb-field"><label>Call duration (min)</label><input class="fb-input" id="fb-duration" type="number" value="30" min="15" max="120"/></div>
+                    <div class="fb-field"><label>Timezone</label>
+                      <select class="fb-input" id="fb-timezone">
+                        <option value="America/Toronto">Montreal / Toronto (EDT)</option>
+                        <option value="America/New_York">New York (EDT)</option>
+                        <option value="America/Chicago">Chicago (CDT)</option>
+                        <option value="America/Los_Angeles">Los Angeles (PDT)</option>
+                        <option value="Europe/London">London (BST)</option>
+                        <option value="Europe/Paris">Paris (CEST)</option>
+                        <option value="Asia/Dubai">Dubai (GST)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Availability -->
+              <div class="fb-card">
+                <div class="fb-card-header"><div class="fb-card-icon">📅</div><div class="fb-card-title">Availability</div></div>
+                <div class="fb-card-body">
+                  <div class="fb-field">
+                    <label>Available days</label>
+                    <div class="fb-days" id="fb-days">
+                      <button class="fb-day-btn active" data-day="Monday" onclick="fbToggleDay(this)">Mon</button>
+                      <button class="fb-day-btn active" data-day="Tuesday" onclick="fbToggleDay(this)">Tue</button>
+                      <button class="fb-day-btn active" data-day="Wednesday" onclick="fbToggleDay(this)">Wed</button>
+                      <button class="fb-day-btn active" data-day="Thursday" onclick="fbToggleDay(this)">Thu</button>
+                      <button class="fb-day-btn active" data-day="Friday" onclick="fbToggleDay(this)">Fri</button>
+                      <button class="fb-day-btn" data-day="Saturday" onclick="fbToggleDay(this)">Sat</button>
+                      <button class="fb-day-btn" data-day="Sunday" onclick="fbToggleDay(this)">Sun</button>
+                    </div>
+                  </div>
+                  <div class="fb-field">
+                    <label>Available time slots</label>
+                    <div class="fb-times" id="fb-times"></div>
+                    <div class="fb-add-time">
+                      <input type="time" class="fb-time-pick" id="fb-time-pick" value="09:00"/>
+                      <button class="fb-add-time-btn" onclick="fbAddTime()">+ Add time</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Questions -->
+              <div class="fb-card">
+                <div class="fb-card-header"><div class="fb-card-icon">💬</div><div class="fb-card-title">Qualification Questions</div></div>
+                <div class="fb-card-body">
+                  <div class="fb-questions" id="fb-questions"></div>
+                  <div class="fb-add-question">
+                    <input class="fb-add-q-input" id="fb-q-input" placeholder="e.g. What is your current monthly income?" onkeydown="if(event.key==='Enter')fbAddQuestion()"/>
+                    <button class="fb-add-q-btn" onclick="fbAddQuestion()">+ Add</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Social Links -->
+              <div class="fb-card">
+                <div class="fb-card-header"><div class="fb-card-icon">🔗</div><div class="fb-card-title">Social Links (optional)</div></div>
+                <div class="fb-card-body">
+                  <div class="fb-row">
+                    <div class="fb-field"><label>Instagram</label><input class="fb-input" id="fb-instagram" placeholder="https://instagram.com/..."/></div>
+                    <div class="fb-field"><label>YouTube</label><input class="fb-input" id="fb-youtube" placeholder="https://youtube.com/..."/></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="fb-preview">
+              <div class="fb-preview-header">
+                <div class="fb-preview-title">Live Preview</div>
+                <div style="font-size:10px;color:var(--muted);">Updates as you type</div>
+              </div>
+              <div class="fb-preview-body">
+                <div class="fb-preview-host">
+                  <div class="fb-preview-avatar" id="prev-avatar">Y</div>
+                  <div>
+                    <div class="fb-preview-name" id="prev-name">Yassine Tizguiouine</div>
+                    <div class="fb-preview-title-text" id="prev-title">Your Strategic Partner in Growth</div>
+                  </div>
+                </div>
+                <div class="fb-preview-headline" id="prev-headline">Book Your Free Strategy Call</div>
+                <div class="fb-preview-desc" id="prev-desc">Tell leads what this call is about…</div>
+                <div class="fb-preview-meta">
+                  <div class="fb-preview-meta-item">📅 <span id="prev-days">Mon–Fri</span></div>
+                  <div class="fb-preview-meta-item">⏱ <span id="prev-duration">30</span> minutes</div>
+                  <div class="fb-preview-meta-item">🌍 <span id="prev-tz">Montreal</span></div>
+                </div>
+                <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Questions</div>
+                <div id="prev-questions" style="display:flex;flex-direction:column;gap:4px;"></div>
+              </div>
+              <div class="fb-link-box" id="fb-link-box" style="display:none;">
+                <div class="fb-link-box-title">Your booking link</div>
+                <div class="fb-link-display" id="fb-link-display">—</div>
+                <div class="fb-link-actions">
+                  <button class="fb-copy-btn" onclick="fbCopyLink()">📋 Copy link</button>
+                  <button class="fb-open-btn" onclick="fbOpenLink()">↗ Open</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -842,391 +1059,326 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 const SUPABASE_URL  = 'https://dvhnqeojwxrmqgtqmyyh.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2aG5xZW9qd3hybXFndHFteXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1MjEzMTYsImV4cCI6MjA4NDA5NzMxNn0.DIdPYes2Ee2_02bzGWDxWDwJhNdbdifX6IujT3E91U8';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
 const PROVISIONING_WEBHOOK = 'https://rosegoldprojectai2.app.n8n.cloud/webhook/e6682268-42b6-4a4d-9394-8b4b90cdc1b5';
+const FORM_CONFIG_WEBHOOK  = 'https://rosegoldprojectai2.app.n8n.cloud/webhook/b00f90a8-b247-4bc0-92be-be0e689b62d6';
+const BOOK_BASE_URL = 'https://aiagentcreator2025-gif.github.io/app/book.html';
 
 // ══════════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════════
-let currentUser   = null;
+let currentUser     = null;
 let businessProfile = null;
-let agents        = [];
-let activities    = [];
+let agents          = [];
+let activities      = [];
 let activeAgentIdx  = null;
 let connectAgentIdx = null;
-let bookings        = [];   // live cache from Supabase
+let bookings        = [];
 let activeBookingId = null;
-let calView   = 'week';
-let calAnchor = new Date();
+let calView         = 'week';
+let calAnchor       = new Date();
+let formId          = null;  // current user's form ID
+
+// Form builder state
+let fbTimes     = ['09:00','10:00','11:00','14:00','15:00','16:00'];
+let fbQuestions = ['What is your full name?','What is your WhatsApp number?','What is your current monthly income?','What is your #1 goal right now?'];
 
 // ══════════════════════════════════════════════════════
 // SUPABASE BOOKING CRUD
-// All reads/writes go through Supabase.
-// n8n hits the Supabase REST API directly — no middleman.
 // ══════════════════════════════════════════════════════
-
-async function fetchBookings() {
-  if (!currentUser) return;
-  const { data, error } = await sb
-    .from('bookings')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .order('datetime', { ascending: true });
-  if (error) { console.error('fetchBookings:', error); return; }
-  bookings = data || [];
+async function fetchBookings(){
+  if(!currentUser)return;
+  const{data,error}=await sb.from('bookings').select('*').eq('user_id',currentUser.id).order('datetime',{ascending:true});
+  if(error){console.error('fetchBookings:',error);return;}
+  bookings=data||[];
 }
-
-async function insertBooking(payload) {
-  // payload: { name, phone, datetime (ISO), notes, status }
-  const { data, error } = await sb
-    .from('bookings')
-    .insert({
-      user_id:  currentUser.id,
-      name:     payload.name,
-      phone:    payload.phone,
-      datetime: payload.datetime,
-      status:   payload.status || 'booked',
-      notes:    payload.notes  || ''
-    })
-    .select()
-    .single();
-  if (error) { console.error('insertBooking:', error); return null; }
+async function insertBooking(payload){
+  const{data,error}=await sb.from('bookings').insert({user_id:currentUser.id,name:payload.name,phone:payload.phone,datetime:payload.datetime,status:payload.status||'booked',notes:payload.notes||''}).select().single();
+  if(error){console.error('insertBooking:',error);return null;}
   return data;
 }
-
-async function updateBookingRow(id, updates) {
-  const { data, error } = await sb
-    .from('bookings')
-    .update(updates)
-    .eq('id', id)
-    .eq('user_id', currentUser.id)
-    .select()
-    .single();
-  if (error) { console.error('updateBookingRow:', error); return null; }
+async function updateBookingRow(id,updates){
+  const{data,error}=await sb.from('bookings').update(updates).eq('id',id).eq('user_id',currentUser.id).select().single();
+  if(error){console.error('updateBookingRow:',error);return null;}
   return data;
 }
-
-async function deleteBookingRow(id) {
-  const { error } = await sb
-    .from('bookings')
-    .delete()
-    .eq('id', id)
-    .eq('user_id', currentUser.id);
-  if (error) { console.error('deleteBookingRow:', error); return false; }
+async function deleteBookingRow(id){
+  const{error}=await sb.from('bookings').delete().eq('id',id).eq('user_id',currentUser.id);
+  if(error){console.error('deleteBookingRow:',error);return false;}
   return true;
 }
 
 // ══════════════════════════════════════════════════════
-// REALTIME — calendar auto-updates when n8n inserts
+// REALTIME
 // ══════════════════════════════════════════════════════
-function subscribeBookings() {
-  sb.channel('bookings-realtime')
-    .on('postgres_changes',
-      { event: '*', schema: 'public', table: 'bookings',
-        filter: `user_id=eq.${currentUser.id}` },
-      async () => {
-        await fetchBookings();
-        if (document.getElementById('screen-calendar').classList.contains('active')) {
-          renderCalendar();
-          updateCalStats();
-        }
-      }
-    )
-    .subscribe();
+function subscribeBookings(){
+  sb.channel('bookings-realtime').on('postgres_changes',{event:'*',schema:'public',table:'bookings',filter:`user_id=eq.${currentUser.id}`},async()=>{
+    await fetchBookings();
+    if(document.getElementById('screen-calendar').classList.contains('active')){renderCalendar();updateCalStats();}
+  }).subscribe();
 }
 
 // ══════════════════════════════════════════════════════
 // COPY n8n CONFIG
 // ══════════════════════════════════════════════════════
-function copyApiDocs() {
-  const userId = currentUser?.id || 'YOUR_USER_ID';
-  const docs =
-`=== Service.AI — n8n HTTP Request node config ===
-
-Method:  POST
-URL:     https://dvhnqeojwxrmqgtqmyyh.supabase.co/rest/v1/bookings
-
-Headers:
-  apikey:        ${SUPABASE_ANON}
-  Authorization: Bearer ${SUPABASE_ANON}
-  Content-Type:  application/json
-  Prefer:        return=representation
-
-Body (JSON):
-{
-  "user_id":  "${userId}",
-  "name":     "{{ $json.name }}",
-  "phone":    "{{ $json.phone }}",
-  "datetime": "{{ $json.datetime }}",
-  "status":   "booked",
-  "notes":    "{{ $json.notes }}"
-}
-
-The calendar will update automatically via Supabase Realtime.
-user_id must match the logged-in user's Supabase UID.`;
-
-  navigator.clipboard.writeText(docs).then(() => showToast('📋', 'n8n config copied!'));
+function copyApiDocs(){
+  const userId=currentUser?.id||'YOUR_USER_ID';
+  const docs=`=== Service.AI — n8n HTTP Request node config ===\n\nMethod:  POST\nURL:     https://dvhnqeojwxrmqgtqmyyh.supabase.co/rest/v1/bookings\n\nHeaders:\n  apikey:        ${SUPABASE_ANON}\n  Authorization: Bearer ${SUPABASE_ANON}\n  Content-Type:  application/json\n  Prefer:        return=representation\n\nBody (JSON):\n{\n  "user_id":  "${userId}",\n  "name":     "{{ $json.name }}",\n  "phone":    "{{ $json.phone }}",\n  "datetime": "{{ $json.datetime }}",\n  "status":   "booked",\n  "notes":    "{{ $json.notes }}"\n}`;
+  navigator.clipboard.writeText(docs).then(()=>showToast('📋','n8n config copied!'));
 }
 
 // ══════════════════════════════════════════════════════
-// CALENDAR RENDER
+// CALENDAR
 // ══════════════════════════════════════════════════════
-const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const HOURS  = Array.from({length:24},(_,i)=>i);
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const HOURS=Array.from({length:24},(_,i)=>i);
+function getWeekStart(date){const d=new Date(date);const day=d.getDay();d.setDate(d.getDate()-day+1);d.setHours(0,0,0,0);return d;}
+function renderCalendar(){
+  const weekStart=getWeekStart(calAnchor);const weekEnd=new Date(weekStart);weekEnd.setDate(weekEnd.getDate()+6);
+  const titleEl=document.getElementById('cal-title');
+  if(weekStart.getMonth()===weekEnd.getMonth()){titleEl.textContent=MONTHS[weekStart.getMonth()]+' '+weekStart.getFullYear();}
+  else{titleEl.textContent=MONTHS[weekStart.getMonth()].slice(0,3)+' – '+MONTHS[weekEnd.getMonth()].slice(0,3)+' '+weekEnd.getFullYear();}
+  const today=new Date();today.setHours(0,0,0,0);
+  const cols=calView==='week'?7:1;const colStart=calView==='week'?0:(calAnchor.getDay()===0?6:calAnchor.getDay()-1);
+  const headersEl=document.getElementById('cal-day-headers');
+  headersEl.style.gridTemplateColumns=`56px repeat(${cols},1fr)`;
+  let headersHtml='<div class="cal-day-header cal-time-col" style="border-bottom:none;"></div>';
+  for(let i=0;i<cols;i++){const d=new Date(weekStart);d.setDate(d.getDate()+(calView==='week'?i:colStart));const isToday=d.getTime()===today.getTime();const dateNumHtml=isToday?`<span class="cal-day-header-date today-date">${d.getDate()}</span>`:`<span class="cal-day-header-date">${d.getDate()}</span>`;headersHtml+=`<div class="cal-day-header${isToday?' today-col':''}">${DAYS[d.getDay()]}<br/>${dateNumHtml}</div>`;}
+  headersEl.innerHTML=headersHtml;
+  const bodyInner=document.getElementById('cal-body-inner');
+  bodyInner.style.gridTemplateColumns=`56px repeat(${cols},1fr)`;
+  let bodyHtml='';
+  HOURS.forEach(h=>{const label=h===0?'':(h<12?h+' AM':h===12?'12 PM':(h-12)+' PM');bodyHtml+=`<div class="cal-time-label">${label}</div>`;for(let i=0;i<cols;i++){const d=new Date(weekStart);d.setDate(d.getDate()+(calView==='week'?i:colStart));const isToday=d.getTime()===today.getTime();bodyHtml+=`<div class="cal-hour-cell${isToday?' today-col':''}" data-date="${d.toISOString().split('T')[0]}" data-hour="${h}"></div>`;}});
+  bodyInner.innerHTML=bodyHtml;
+  bookings.forEach(bk=>{const dt=new Date(bk.datetime);const dateStr=dt.toISOString().split('T')[0];const hour=dt.getHours();const minute=dt.getMinutes();const cell=bodyInner.querySelector(`[data-date="${dateStr}"][data-hour="${hour}"]`);if(!cell)return;const ev=document.createElement('div');ev.className=`cal-event status-${bk.status}`;ev.style.top=(minute/60*100)+'%';ev.style.height='52px';ev.innerHTML=`<div class="cal-event-name">${escHtml(bk.name)}</div><div class="cal-event-time">${formatTime(dt)} · ${escHtml(bk.phone)}</div>`;ev.onclick=(e)=>{e.stopPropagation();openBookingDetail(bk.id);};cell.style.position='relative';cell.appendChild(ev);});
+  const now=new Date();const nowDateStr=now.toISOString().split('T')[0];const todayCell=bodyInner.querySelector(`[data-date="${nowDateStr}"][data-hour="${now.getHours()}"]`);
+  if(todayCell){const line=document.createElement('div');line.className='cal-now-line';line.style.top=((now.getMinutes()/60)*100)+'%';line.innerHTML='<div class="cal-now-dot"></div>';todayCell.appendChild(line);}
+  setTimeout(()=>{document.getElementById('cal-body').scrollTop=8*60;},50);
+}
+function updateCalStats(){
+  const now=new Date();const weekStart=getWeekStart(now);const weekEnd=new Date(weekStart);weekEnd.setDate(weekEnd.getDate()+7);
+  document.getElementById('stat-week').textContent=bookings.filter(b=>{const d=new Date(b.datetime);return d>=weekStart&&d<weekEnd;}).length;
+  document.getElementById('stat-confirmed').textContent=bookings.filter(b=>b.status==='confirmed').length;
+  document.getElementById('stat-noshow').textContent=bookings.filter(b=>b.status==='no_show').length;
+  document.getElementById('stat-total').textContent=bookings.length;
+}
+function formatTime(dt){const h=dt.getHours(),m=dt.getMinutes(),ampm=h>=12?'PM':'AM',hh=h%12||12;return hh+(m?':'+String(m).padStart(2,'0'):'')+' '+ampm;}
+function calNav(dir){if(calView==='week')calAnchor.setDate(calAnchor.getDate()+dir*7);else calAnchor.setDate(calAnchor.getDate()+dir);renderCalendar();}
+function calGoToday(){calAnchor=new Date();renderCalendar();}
+function setCalView(v){calView=v;document.getElementById('vbtn-week').classList.toggle('active',v==='week');document.getElementById('vbtn-day').classList.toggle('active',v==='day');renderCalendar();}
 
-function getWeekStart(date) {
-  const d = new Date(date);
-  const day = d.getDay();
-  d.setDate(d.getDate() - day + 1);
-  d.setHours(0,0,0,0);
-  return d;
+// ══════════════════════════════════════════════════════
+// BOOKING DETAIL
+// ══════════════════════════════════════════════════════
+const STATUS_CYCLE=['booked','confirmed','completed','no_show'];
+const STATUS_LABELS={booked:'Booked',confirmed:'Confirmed',completed:'Completed',no_show:'No-show'};
+function openBookingDetail(id){const bk=bookings.find(b=>b.id===id);if(!bk)return;activeBookingId=id;document.getElementById('bm-title').textContent=bk.name;const dt=new Date(bk.datetime);document.getElementById('bm-body').innerHTML=`<div class="bm-row"><div class="bm-icon">👤</div><div class="bm-label">Name</div><div class="bm-value">${escHtml(bk.name)}</div></div><div class="bm-row"><div class="bm-icon">📱</div><div class="bm-label">Phone</div><div class="bm-value">${escHtml(bk.phone)}</div></div><div class="bm-row"><div class="bm-icon">📅</div><div class="bm-label">Date</div><div class="bm-value">${dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div></div><div class="bm-row"><div class="bm-icon">⏰</div><div class="bm-label">Time</div><div class="bm-value">${formatTime(dt)}</div></div><div class="bm-row"><div class="bm-icon">🏷</div><div class="bm-label">Status</div><div class="bm-value"><span class="bm-status-badge ${bk.status}">${STATUS_LABELS[bk.status]||bk.status}</span></div></div>${bk.notes?`<div class="bm-row"><div class="bm-icon">📝</div><div class="bm-label">Notes</div><div class="bm-value">${escHtml(bk.notes)}</div></div>`:''}`; document.getElementById('booking-detail-modal').classList.add('show');}
+function closeBookingDetail(){document.getElementById('booking-detail-modal').classList.remove('show');activeBookingId=null;}
+async function deleteCurrentBooking(){if(!activeBookingId)return;const ok=await deleteBookingRow(activeBookingId);if(!ok){showToast('⚠️','Delete failed.');return;}bookings=bookings.filter(b=>b.id!==activeBookingId);closeBookingDetail();renderCalendar();updateCalStats();showToast('🗑','Booking deleted.');}
+async function cycleBookingStatus(){if(!activeBookingId)return;const bk=bookings.find(b=>b.id===activeBookingId);if(!bk)return;const next=STATUS_CYCLE[(STATUS_CYCLE.indexOf(bk.status)+1)%STATUS_CYCLE.length];const updated=await updateBookingRow(activeBookingId,{status:next});if(!updated){showToast('⚠️','Update failed.');return;}const idx=bookings.findIndex(b=>b.id===activeBookingId);if(idx>=0)bookings[idx]=updated;openBookingDetail(activeBookingId);renderCalendar();updateCalStats();showToast('✅',`Status → ${STATUS_LABELS[next]}`);}
+
+// ══════════════════════════════════════════════════════
+// ADD BOOKING
+// ══════════════════════════════════════════════════════
+function openAddBooking(){const today=new Date();document.getElementById('ab-date').value=today.toISOString().split('T')[0];document.getElementById('ab-time').value='10:00';document.getElementById('ab-name').value='';document.getElementById('ab-phone').value='';document.getElementById('ab-notes').value='';document.getElementById('ab-status').value='booked';document.getElementById('add-booking-modal').classList.add('show');setTimeout(()=>document.getElementById('ab-name').focus(),100);}
+function closeAddBooking(){document.getElementById('add-booking-modal').classList.remove('show');}
+async function saveNewBooking(){
+  const name=document.getElementById('ab-name').value.trim();const phone=document.getElementById('ab-phone').value.trim();const date=document.getElementById('ab-date').value;const time=document.getElementById('ab-time').value;const notes=document.getElementById('ab-notes').value.trim();const status=document.getElementById('ab-status').value;
+  if(!name||!phone||!date||!time){showToast('⚠️','Fill in name, phone, date and time.');return;}
+  const btn=document.getElementById('ab-save-btn');btn.disabled=true;btn.textContent='Saving…';
+  const booking=await insertBooking({name,phone,datetime:new Date(date+'T'+time+':00').toISOString(),notes,status});
+  btn.disabled=false;btn.textContent='Save booking';
+  if(!booking){showToast('⚠️','Failed to save. Check Supabase RLS.');return;}
+  bookings.push(booking);closeAddBooking();renderCalendar();updateCalStats();showToast('✅',`${name} booked for ${formatTime(new Date(booking.datetime))}`);
 }
 
-function renderCalendar() {
-  const weekStart = getWeekStart(calAnchor);
-  const weekEnd   = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 6);
-
-  const titleEl = document.getElementById('cal-title');
-  if (weekStart.getMonth() === weekEnd.getMonth()) {
-    titleEl.textContent = MONTHS[weekStart.getMonth()] + ' ' + weekStart.getFullYear();
-  } else {
-    titleEl.textContent = MONTHS[weekStart.getMonth()].slice(0,3) + ' – ' + MONTHS[weekEnd.getMonth()].slice(0,3) + ' ' + weekEnd.getFullYear();
-  }
-
-  const today = new Date(); today.setHours(0,0,0,0);
-  const cols     = calView === 'week' ? 7 : 1;
-  const colStart = calView === 'week' ? 0 : (calAnchor.getDay() === 0 ? 6 : calAnchor.getDay() - 1);
-
-  // Day headers
-  const headersEl = document.getElementById('cal-day-headers');
-  headersEl.style.gridTemplateColumns = `56px repeat(${cols},1fr)`;
-  let headersHtml = '<div class="cal-day-header cal-time-col" style="border-bottom:none;"></div>';
-  for (let i = 0; i < cols; i++) {
-    const d = new Date(weekStart); d.setDate(d.getDate() + (calView === 'week' ? i : colStart));
-    const isToday = d.getTime() === today.getTime();
-    const dateNumHtml = isToday
-      ? `<span class="cal-day-header-date today-date">${d.getDate()}</span>`
-      : `<span class="cal-day-header-date">${d.getDate()}</span>`;
-    headersHtml += `<div class="cal-day-header${isToday?' today-col':''}">${DAYS[d.getDay()]}<br/>${dateNumHtml}</div>`;
-  }
-  headersEl.innerHTML = headersHtml;
-
-  // Body
-  const bodyInner = document.getElementById('cal-body-inner');
-  bodyInner.style.gridTemplateColumns = `56px repeat(${cols},1fr)`;
-  let bodyHtml = '';
-  HOURS.forEach(h => {
-    const label = h === 0 ? '' : (h < 12 ? h + ' AM' : h === 12 ? '12 PM' : (h-12) + ' PM');
-    bodyHtml += `<div class="cal-time-label">${label}</div>`;
-    for (let i = 0; i < cols; i++) {
-      const d = new Date(weekStart); d.setDate(d.getDate() + (calView === 'week' ? i : colStart));
-      const isToday = d.getTime() === today.getTime();
-      bodyHtml += `<div class="cal-hour-cell${isToday?' today-col':''}" data-date="${d.toISOString().split('T')[0]}" data-hour="${h}"></div>`;
+// ══════════════════════════════════════════════════════
+// FORM BUILDER
+// ══════════════════════════════════════════════════════
+async function loadFormBuilder(){
+  // Try to load existing form for this user
+  const{data,error}=await sb.from('forms').select('*').eq('user_id',currentUser.id).single();
+  if(data){
+    formId=data.id;
+    const c=data.config;
+    // Populate fields
+    if(c.name)document.getElementById('fb-name').value=c.name;
+    if(c.title)document.getElementById('fb-title').value=c.title;
+    if(c.photo)document.getElementById('fb-photo').value=c.photo;
+    if(c.accent_color){document.getElementById('fb-color-picker').value=c.accent_color;document.getElementById('fb-color-hex').value=c.accent_color;}
+    if(c.headline)document.getElementById('fb-headline').value=c.headline;
+    if(c.description)document.getElementById('fb-description').value=c.description;
+    if(c.call_duration)document.getElementById('fb-duration').value=c.call_duration;
+    if(c.timezone)document.getElementById('fb-timezone').value=c.timezone;
+    if(c.available_days){
+      document.querySelectorAll('.fb-day-btn').forEach(btn=>{btn.classList.toggle('active',c.available_days.includes(btn.dataset.day));});
     }
+    if(c.available_times)fbTimes=[...c.available_times];
+    if(c.questions)fbQuestions=[...c.questions];
+    if(c.social){
+      if(c.social.instagram)document.getElementById('fb-instagram').value=c.social.instagram;
+      if(c.social.youtube)document.getElementById('fb-youtube').value=c.social.youtube;
+    }
+    showFormLink();
+  }
+  renderFbTimes();
+  renderFbQuestions();
+  fbUpdatePreview();
+  // Live preview on input
+  ['fb-name','fb-title','fb-headline','fb-description','fb-duration','fb-timezone'].forEach(id=>{
+    document.getElementById(id)?.addEventListener('input',fbUpdatePreview);
   });
-  bodyInner.innerHTML = bodyHtml;
+}
 
-  // Place events
-  bookings.forEach(bk => {
-    const dt      = new Date(bk.datetime);
-    const dateStr = dt.toISOString().split('T')[0];
-    const hour    = dt.getHours();
-    const minute  = dt.getMinutes();
-    const cell    = bodyInner.querySelector(`[data-date="${dateStr}"][data-hour="${hour}"]`);
-    if (!cell) return;
-    const ev = document.createElement('div');
-    ev.className = `cal-event status-${bk.status}`;
-    ev.style.top    = (minute / 60 * 100) + '%';
-    ev.style.height = '52px';
-    ev.innerHTML = `<div class="cal-event-name">${escHtml(bk.name)}</div><div class="cal-event-time">${formatTime(dt)} · ${escHtml(bk.phone)}</div>`;
-    ev.onclick = (e) => { e.stopPropagation(); openBookingDetail(bk.id); };
-    cell.style.position = 'relative';
-    cell.appendChild(ev);
-  });
+function fbGetActiveDays(){
+  const days=[];document.querySelectorAll('.fb-day-btn.active').forEach(btn=>days.push(btn.dataset.day));return days;
+}
+function fbToggleDay(btn){btn.classList.toggle('active');fbUpdatePreview();}
 
-  // Current time line
-  const now        = new Date();
-  const nowDateStr = now.toISOString().split('T')[0];
-  const todayCell  = bodyInner.querySelector(`[data-date="${nowDateStr}"][data-hour="${now.getHours()}"]`);
-  if (todayCell) {
-    const line = document.createElement('div');
-    line.className = 'cal-now-line';
-    line.style.top = ((now.getMinutes()/60)*100) + '%';
-    line.innerHTML = '<div class="cal-now-dot"></div>';
-    todayCell.appendChild(line);
+function renderFbTimes(){
+  const wrap=document.getElementById('fb-times');
+  wrap.innerHTML=fbTimes.map((t,i)=>{
+    const[h,m]=t.split(':');const dt=new Date();dt.setHours(+h,+m,0,0);
+    const label=dt.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="fb-time-tag">${label}<button class="fb-time-remove" onclick="fbRemoveTime(${i})">✕</button></div>`;
+  }).join('');
+}
+function fbAddTime(){
+  const t=document.getElementById('fb-time-pick').value;
+  if(!t||fbTimes.includes(t))return;
+  fbTimes.push(t);fbTimes.sort();renderFbTimes();fbUpdatePreview();
+}
+function fbRemoveTime(i){fbTimes.splice(i,1);renderFbTimes();fbUpdatePreview();}
+
+function renderFbQuestions(){
+  const wrap=document.getElementById('fb-questions');
+  wrap.innerHTML=fbQuestions.map((q,i)=>`
+    <div class="fb-question-item">
+      <span class="fb-question-drag">⠿</span>
+      <span class="fb-question-text">${escHtml(q)}</span>
+      <button class="fb-question-remove" onclick="fbRemoveQuestion(${i})">✕</button>
+    </div>`).join('');
+  fbUpdatePreview();
+}
+function fbAddQuestion(){
+  const inp=document.getElementById('fb-q-input');const q=inp.value.trim();
+  if(!q)return;fbQuestions.push(q);inp.value='';renderFbQuestions();
+}
+function fbRemoveQuestion(i){fbQuestions.splice(i,1);renderFbQuestions();}
+
+function fbSyncColor(source){
+  if(source==='picker'){document.getElementById('fb-color-hex').value=document.getElementById('fb-color-picker').value;}
+  else{const hex=document.getElementById('fb-color-hex').value;if(/^#[0-9A-Fa-f]{6}$/.test(hex))document.getElementById('fb-color-picker').value=hex;}
+  fbUpdatePreview();
+}
+
+function fbUpdatePreview(){
+  const name=document.getElementById('fb-name')?.value||'Your Name';
+  const title=document.getElementById('fb-title')?.value||'Your title';
+  const headline=document.getElementById('fb-headline')?.value||'Book Your Call';
+  const desc=document.getElementById('fb-description')?.value||'';
+  const duration=document.getElementById('fb-duration')?.value||'30';
+  const tz=document.getElementById('fb-timezone')?.value||'America/Toronto';
+  const days=fbGetActiveDays();
+  const color=document.getElementById('fb-color-hex')?.value||'#C8F135';
+
+  document.getElementById('prev-avatar').textContent=name[0]?.toUpperCase()||'?';
+  document.getElementById('prev-name').textContent=name;
+  document.getElementById('prev-title').textContent=title;
+  document.getElementById('prev-headline').textContent=headline;
+  document.getElementById('prev-desc').textContent=desc||'Tell leads what this call is about…';
+  document.getElementById('prev-days').textContent=days.length?days.map(d=>d.slice(0,3)).join(', '):'None';
+  document.getElementById('prev-duration').textContent=duration;
+  document.getElementById('prev-tz').textContent=tz.split('/')[1]?.replace('_',' ')||tz;
+  document.getElementById('prev-questions').innerHTML=fbQuestions.map(q=>`<div style="font-size:11px;color:var(--muted);padding:3px 0;border-bottom:1px solid var(--border);">• ${escHtml(q)}</div>`).join('');
+  // Apply accent color to preview avatar
+  document.getElementById('prev-avatar').style.background=color;
+}
+
+function fbBuildConfig(){
+  return{
+    name:document.getElementById('fb-name').value.trim()||'',
+    title:document.getElementById('fb-title').value.trim()||'',
+    photo:document.getElementById('fb-photo').value.trim()||'',
+    accent_color:document.getElementById('fb-color-hex').value.trim()||'#C8F135',
+    headline:document.getElementById('fb-headline').value.trim()||'Book Your Call',
+    description:document.getElementById('fb-description').value.trim()||'',
+    call_duration:document.getElementById('fb-duration').value||'30',
+    timezone:document.getElementById('fb-timezone').value||'America/Toronto',
+    available_days:fbGetActiveDays(),
+    available_times:fbTimes,
+    questions:fbQuestions,
+    social:{
+      instagram:document.getElementById('fb-instagram').value.trim()||'',
+      youtube:document.getElementById('fb-youtube').value.trim()||''
+    }
+  };
+}
+
+async function fbPublish(){
+  const btn=document.getElementById('fb-publish-btn');
+  btn.disabled=true;btn.textContent='Publishing…';
+  const config=fbBuildConfig();
+
+  let result;
+  if(formId){
+    // Update existing
+    const{data,error}=await sb.from('forms').update({config,updated:new Date().toISOString()}).eq('id',formId).eq('user_id',currentUser.id).select().single();
+    if(error){console.error(error);showToast('⚠️','Failed to save.');btn.disabled=false;btn.textContent='✦ Publish';return;}
+    result=data;
+  }else{
+    // Insert new
+    const{data,error}=await sb.from('forms').insert({user_id:currentUser.id,config}).select().single();
+    if(error){console.error(error);showToast('⚠️','Failed to create form.');btn.disabled=false;btn.textContent='✦ Publish';return;}
+    result=data;formId=result.id;
   }
 
-  setTimeout(() => { document.getElementById('cal-body').scrollTop = 8 * 60; }, 50);
+  // Fire webhook with config + form ID
+  try{
+    await fetch(FORM_CONFIG_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({form_id:formId,user_id:currentUser.id,config})});
+  }catch(e){console.warn('Webhook failed:',e);}
+
+  showFormLink();
+  addActivity('📋',`Booking form published`,'Just now');
+  btn.disabled=false;btn.textContent='✦ Publish';
+  showToast('✅','Form published! Share your link.');
 }
 
-function updateCalStats() {
-  const now       = new Date();
-  const weekStart = getWeekStart(now);
-  const weekEnd   = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7);
-
-  document.getElementById('stat-week').textContent      = bookings.filter(b => { const d=new Date(b.datetime); return d>=weekStart&&d<weekEnd; }).length;
-  document.getElementById('stat-confirmed').textContent = bookings.filter(b=>b.status==='confirmed').length;
-  document.getElementById('stat-noshow').textContent    = bookings.filter(b=>b.status==='no_show').length;
-  document.getElementById('stat-total').textContent     = bookings.length;
+function showFormLink(){
+  if(!formId)return;
+  const link=`${BOOK_BASE_URL}?id=${formId}`;
+  document.getElementById('fb-link-display').textContent=link;
+  document.getElementById('fb-link-box').style.display='block';
 }
-
-function formatTime(dt) {
-  const h=dt.getHours(),m=dt.getMinutes(),ampm=h>=12?'PM':'AM',hh=h%12||12;
-  return hh+(m?':'+String(m).padStart(2,'0'):'')+' '+ampm;
+function fbCopyLink(){
+  if(!formId)return;
+  const link=`${BOOK_BASE_URL}?id=${formId}`;
+  navigator.clipboard.writeText(link).then(()=>showToast('📋','Booking link copied!'));
 }
-
-function calNav(dir) {
-  if (calView==='week') calAnchor.setDate(calAnchor.getDate()+dir*7);
-  else calAnchor.setDate(calAnchor.getDate()+dir);
-  renderCalendar();
+function fbOpenLink(){
+  if(!formId)return;
+  window.open(`${BOOK_BASE_URL}?id=${formId}`,'_blank');
 }
-function calGoToday() { calAnchor=new Date(); renderCalendar(); }
-function setCalView(v) {
-  calView=v;
-  document.getElementById('vbtn-week').classList.toggle('active',v==='week');
-  document.getElementById('vbtn-day').classList.toggle('active',v==='day');
-  renderCalendar();
-}
-
-// ══════════════════════════════════════════════════════
-// BOOKING DETAIL MODAL
-// ══════════════════════════════════════════════════════
-const STATUS_CYCLE  = ['booked','confirmed','completed','no_show'];
-const STATUS_LABELS = { booked:'Booked', confirmed:'Confirmed', completed:'Completed', no_show:'No-show' };
-
-function openBookingDetail(id) {
-  const bk = bookings.find(b=>b.id===id);
-  if (!bk) return;
-  activeBookingId = id;
-  document.getElementById('bm-title').textContent = bk.name;
-  const dt = new Date(bk.datetime);
-  document.getElementById('bm-body').innerHTML = `
-    <div class="bm-row"><div class="bm-icon">👤</div><div class="bm-label">Name</div><div class="bm-value">${escHtml(bk.name)}</div></div>
-    <div class="bm-row"><div class="bm-icon">📱</div><div class="bm-label">Phone</div><div class="bm-value">${escHtml(bk.phone)}</div></div>
-    <div class="bm-row"><div class="bm-icon">📅</div><div class="bm-label">Date</div><div class="bm-value">${dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div></div>
-    <div class="bm-row"><div class="bm-icon">⏰</div><div class="bm-label">Time</div><div class="bm-value">${formatTime(dt)}</div></div>
-    <div class="bm-row"><div class="bm-icon">🏷</div><div class="bm-label">Status</div><div class="bm-value"><span class="bm-status-badge ${bk.status}">${STATUS_LABELS[bk.status]||bk.status}</span></div></div>
-    ${bk.notes ? `<div class="bm-row"><div class="bm-icon">📝</div><div class="bm-label">Notes</div><div class="bm-value">${escHtml(bk.notes)}</div></div>` : ''}
-  `;
-  document.getElementById('booking-detail-modal').classList.add('show');
-}
-
-function closeBookingDetail() {
-  document.getElementById('booking-detail-modal').classList.remove('show');
-  activeBookingId = null;
-}
-
-async function deleteCurrentBooking() {
-  if (!activeBookingId) return;
-  const ok = await deleteBookingRow(activeBookingId);
-  if (!ok) { showToast('⚠️','Delete failed.'); return; }
-  bookings = bookings.filter(b=>b.id!==activeBookingId);
-  closeBookingDetail();
-  renderCalendar();
-  updateCalStats();
-  showToast('🗑','Booking deleted.');
-}
-
-async function cycleBookingStatus() {
-  if (!activeBookingId) return;
-  const bk = bookings.find(b=>b.id===activeBookingId);
-  if (!bk) return;
-  const next = STATUS_CYCLE[(STATUS_CYCLE.indexOf(bk.status)+1) % STATUS_CYCLE.length];
-  const updated = await updateBookingRow(activeBookingId, { status: next });
-  if (!updated) { showToast('⚠️','Update failed.'); return; }
-  const idx = bookings.findIndex(b=>b.id===activeBookingId);
-  if (idx>=0) bookings[idx] = updated;
-  openBookingDetail(activeBookingId);
-  renderCalendar();
-  updateCalStats();
-  showToast('✅', `Status → ${STATUS_LABELS[next]}`);
-}
-
-// ══════════════════════════════════════════════════════
-// ADD BOOKING MODAL
-// ══════════════════════════════════════════════════════
-function openAddBooking() {
-  const today = new Date();
-  document.getElementById('ab-date').value  = today.toISOString().split('T')[0];
-  document.getElementById('ab-time').value  = '10:00';
-  document.getElementById('ab-name').value  = '';
-  document.getElementById('ab-phone').value = '';
-  document.getElementById('ab-notes').value = '';
-  document.getElementById('ab-status').value= 'booked';
-  document.getElementById('add-booking-modal').classList.add('show');
-  setTimeout(()=>document.getElementById('ab-name').focus(), 100);
-}
-function closeAddBooking() {
-  document.getElementById('add-booking-modal').classList.remove('show');
-}
-
-async function saveNewBooking() {
-  const name   = document.getElementById('ab-name').value.trim();
-  const phone  = document.getElementById('ab-phone').value.trim();
-  const date   = document.getElementById('ab-date').value;
-  const time   = document.getElementById('ab-time').value;
-  const notes  = document.getElementById('ab-notes').value.trim();
-  const status = document.getElementById('ab-status').value;
-  if (!name||!phone||!date||!time) { showToast('⚠️','Fill in name, phone, date and time.'); return; }
-
-  const btn = document.getElementById('ab-save-btn');
-  btn.disabled = true; btn.textContent = 'Saving…';
-
-  const booking = await insertBooking({ name, phone, datetime: new Date(date+'T'+time+':00').toISOString(), notes, status });
-  btn.disabled = false; btn.textContent = 'Save booking';
-
-  if (!booking) { showToast('⚠️','Failed to save. Check Supabase RLS.'); return; }
-  bookings.push(booking);
-  closeAddBooking();
-  renderCalendar();
-  updateCalStats();
-  showToast('✅', `${name} booked for ${formatTime(new Date(booking.datetime))}`);
+function fbPreviewLink(){
+  if(!formId){showToast('⚠️','Publish your form first to get a link.');return;}
+  fbOpenLink();
 }
 
 // ══════════════════════════════════════════════════════
 // PROFILE SECTIONS
 // ══════════════════════════════════════════════════════
-const PROFILE_SECTIONS = {
-  business:[
-    {id:'business_name',label:'Business name',type:'text'},
-    {id:'industry',label:'Industry',type:'choice',choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"]},
-  ],
-  offer:[
-    {id:'offer',label:'Main offer',type:'textarea'},
-    {id:'price',label:'Price',type:'text'},
-    {id:'client_avatar',label:'Ideal client',type:'textarea'},
-    {id:'result',label:'#1 result',type:'textarea'},
-    {id:'lead_magnet',label:'Lead magnet',type:'text'},
-    {id:'objections',label:'Common objections',type:'textarea'},
-  ],
-  sales:[
-    {id:'call_type',label:'Call type',type:'choice',choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"]},
-    {id:'follow_up_style',label:'Follow-up style',type:'choice',choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"]},
-  ],
-  voice:[
-    {id:'tone',label:'Tone',type:'choice',choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"]},
-    {id:'brand_voice',label:'Brand voice notes',type:'textarea'},
-  ]
-};
-const editState = {business:false,offer:false,sales:false,voice:false};
+const PROFILE_SECTIONS={business:[{id:'business_name',label:'Business name',type:'text'},{id:'industry',label:'Industry',type:'choice',choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"]}],offer:[{id:'offer',label:'Main offer',type:'textarea'},{id:'price',label:'Price',type:'text'},{id:'client_avatar',label:'Ideal client',type:'textarea'},{id:'result',label:'#1 result',type:'textarea'},{id:'lead_magnet',label:'Lead magnet',type:'text'},{id:'objections',label:'Common objections',type:'textarea'}],sales:[{id:'call_type',label:'Call type',type:'choice',choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"]},{id:'follow_up_style',label:'Follow-up style',type:'choice',choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"]}],voice:[{id:'tone',label:'Tone',type:'choice',choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"]},{id:'brand_voice',label:'Brand voice notes',type:'textarea'}]};
+const editState={business:false,offer:false,sales:false,voice:false};
 
 // ══════════════════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════════════════
-function switchAuthTab(tab) {
-  document.getElementById('tab-signin').classList.toggle('active',tab==='signin');
-  document.getElementById('tab-signup').classList.toggle('active',tab==='signup');
-  document.getElementById('auth-signin').style.display=tab==='signin'?'block':'none';
-  document.getElementById('auth-signup').style.display=tab==='signup'?'block':'none';
-}
+function switchAuthTab(tab){document.getElementById('tab-signin').classList.toggle('active',tab==='signin');document.getElementById('tab-signup').classList.toggle('active',tab==='signup');document.getElementById('auth-signin').style.display=tab==='signin'?'block':'none';document.getElementById('auth-signup').style.display=tab==='signup'?'block':'none';}
 function showAuthError(f,m){const el=document.getElementById(f+'-error');el.textContent=m;el.classList.add('show');}
 function clearAuthError(f){document.getElementById(f+'-error').classList.remove('show');}
-
 async function doSignIn(){
   clearAuthError('signin');
-  const email=document.getElementById('signin-email').value.trim();
-  const pw=document.getElementById('signin-pw').value;
+  const email=document.getElementById('signin-email').value.trim();const pw=document.getElementById('signin-pw').value;
   if(!email||!pw){showAuthError('signin','Please fill in all fields.');return;}
   const btn=document.getElementById('signin-btn');btn.disabled=true;btn.textContent='Signing in…';
   const{data,error}=await sb.auth.signInWithPassword({email,password:pw});
@@ -1236,9 +1388,7 @@ async function doSignIn(){
 }
 async function doSignUp(){
   clearAuthError('signup');
-  const name=document.getElementById('signup-name').value.trim();
-  const email=document.getElementById('signup-email').value.trim();
-  const pw=document.getElementById('signup-pw').value;
+  const name=document.getElementById('signup-name').value.trim();const email=document.getElementById('signup-email').value.trim();const pw=document.getElementById('signup-pw').value;
   if(!name||!email||!pw){showAuthError('signup','Please fill in all fields.');return;}
   if(pw.length<6){showAuthError('signup','Password must be at least 6 characters.');return;}
   const btn=document.getElementById('signup-btn');btn.disabled=true;btn.textContent='Creating account…';
@@ -1249,13 +1399,7 @@ async function doSignUp(){
   await sb.from('profiles').insert({id:currentUser.id,full_name:name,email});
   await afterAuth();
 }
-async function doSignOut(){
-  await sb.auth.signOut();
-  currentUser=null;businessProfile=null;agents=[];activities=[];bookings=[];
-  document.getElementById('app-screen').classList.add('hide');
-  document.getElementById('auth-screen').classList.remove('hide');
-  switchAuthTab('signin');
-}
+async function doSignOut(){await sb.auth.signOut();currentUser=null;businessProfile=null;agents=[];activities=[];bookings=[];document.getElementById('app-screen').classList.add('hide');document.getElementById('auth-screen').classList.remove('hide');switchAuthTab('signin');}
 async function afterAuth(){
   document.getElementById('auth-screen').classList.add('hide');
   const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
@@ -1266,7 +1410,6 @@ async function afterAuth(){
   document.getElementById('sidebar-name').textContent=displayName;
   document.getElementById('sidebar-email').textContent=currentUser.email;
   document.getElementById('sidebar-avatar').textContent=displayName[0].toUpperCase();
-  // Load bookings from Supabase + subscribe to realtime
   await fetchBookings();
   subscribeBookings();
   if(!businessProfile)startOnboarding();
@@ -1276,37 +1419,10 @@ async function afterAuth(){
 // ══════════════════════════════════════════════════════
 // ONBOARDING
 // ══════════════════════════════════════════════════════
-const OB_QUESTIONS=[
-  {id:'business_name',type:'text',title:"What's your business called?",sub:"This is how your agent will introduce your brand.",placeholder:"e.g. Alex Coaching"},
-  {id:'industry',type:'choice',title:"What industry are you in?",sub:"Pick the one that fits best.",choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"]},
-  {id:'offer',type:'textarea',title:"Describe your main offer in one sentence.",sub:"What do you sell, who is it for, and what result does it deliver?",placeholder:"e.g. A 12-week 1-on-1 program that helps early-stage entrepreneurs sign their first 5 clients in 90 days."},
-  {id:'price',type:'text',title:"What does it cost?",sub:"Give the full price or payment plan.",placeholder:"e.g. $3,000 or $997/month for 3 months"},
-  {id:'client_avatar',type:'textarea',title:"Describe your ideal client.",sub:"Who is the perfect person for your offer?",placeholder:"e.g. Coaches and consultants who already have some experience but are struggling to get consistent clients online."},
-  {id:'result',type:'textarea',title:"What's the #1 result your clients get?",sub:"The most tangible, specific outcome from working with you.",placeholder:"e.g. They go from 0 to $10k/month in 90 days."},
-  {id:'lead_magnet',type:'text',title:"Do you have a free lead magnet?",sub:"A PDF, mini-course, video, free call — anything you offer to attract leads.",placeholder:"e.g. Free PDF: '5 Steps to Your First $10k Month'"},
-  {id:'objections',type:'textarea',title:"What objections do your leads usually raise?",sub:"List the most common hesitations before they buy.",placeholder:"e.g. 'Too expensive', 'I need to think about it'"},
-  {id:'tone',type:'choice',title:"How should your agent communicate?",sub:"This shapes every message it sends.",choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"]},
-  {id:'call_type',type:'choice',title:"What kind of call are you booking?",sub:"This determines how the agent presents the next step.",choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"]},
-  {id:'follow_up_style',type:'choice',title:"How persistent should the follow-up agent be?",sub:"When a lead goes cold, how should the agent re-engage?",choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"]},
-  {id:'brand_voice',type:'textarea',title:"Any specific phrases, words, or style notes?",sub:"Things the agent should always say — or never say.",placeholder:"e.g. Always say 'Let's get you results' not 'I hope this helps'."},
-];
+const OB_QUESTIONS=[{id:'business_name',type:'text',title:"What's your business called?",sub:"This is how your agent will introduce your brand.",placeholder:"e.g. Alex Coaching"},{id:'industry',type:'choice',title:"What industry are you in?",sub:"Pick the one that fits best.",choices:["Business coaching","Sales coaching","Marketing / growth","Fitness & wellness","Real estate","Finance & investing","Other"]},{id:'offer',type:'textarea',title:"Describe your main offer in one sentence.",sub:"What do you sell, who is it for, and what result does it deliver?",placeholder:"e.g. A 12-week 1-on-1 program that helps early-stage entrepreneurs sign their first 5 clients in 90 days."},{id:'price',type:'text',title:"What does it cost?",sub:"Give the full price or payment plan.",placeholder:"e.g. $3,000 or $997/month for 3 months"},{id:'client_avatar',type:'textarea',title:"Describe your ideal client.",sub:"Who is the perfect person for your offer?",placeholder:"e.g. Coaches and consultants who already have some experience but are struggling to get consistent clients online."},{id:'result',type:'textarea',title:"What's the #1 result your clients get?",sub:"The most tangible, specific outcome from working with you.",placeholder:"e.g. They go from 0 to $10k/month in 90 days."},{id:'lead_magnet',type:'text',title:"Do you have a free lead magnet?",sub:"A PDF, mini-course, video, free call — anything you offer to attract leads.",placeholder:"e.g. Free PDF: '5 Steps to Your First $10k Month'"},{id:'objections',type:'textarea',title:"What objections do your leads usually raise?",sub:"List the most common hesitations before they buy.",placeholder:"e.g. 'Too expensive', 'I need to think about it'"},{id:'tone',type:'choice',title:"How should your agent communicate?",sub:"This shapes every message it sends.",choices:["Warm & friendly — like a trusted advisor","Direct & confident — gets to the point fast","Premium & refined — high-ticket energy","Empathetic & patient — builds deep trust","Chill & casual — like a knowledgeable friend"]},{id:'call_type',type:'choice',title:"What kind of call are you booking?",sub:"This determines how the agent presents the next step.",choices:["Discovery call (free, to qualify)","Strategy session (free, high-value)","Sales call (paid or free)","Intro call (short, 15-20 min)"]},{id:'follow_up_style',type:'choice',title:"How persistent should the follow-up agent be?",sub:"When a lead goes cold, how should the agent re-engage?",choices:["Soft — one gentle message, then leave them","Medium — 2-3 messages over a few days","Aggressive — daily check-ins until they respond or unsubscribe"]},{id:'brand_voice',type:'textarea',title:"Any specific phrases, words, or style notes?",sub:"Things the agent should always say — or never say.",placeholder:"e.g. Always say 'Let's get you results' not 'I hope this helps'."}];
 let obIndex=0,obAnswers={};
 function startOnboarding(){document.getElementById('onboarding-screen').classList.remove('hide');obIndex=0;obAnswers={};renderObQuestion();}
-function renderObQuestion(){
-  const wrap=document.getElementById('ob-question-wrap');
-  const total=OB_QUESTIONS.length;
-  document.getElementById('ob-fill').style.width=Math.round((obIndex/total)*100)+'%';
-  document.getElementById('ob-label').textContent=`${obIndex+1} of ${total}`;
-  if(obIndex>=total){wrap.innerHTML=`<div class="ob-complete"><div class="ob-complete-icon">✦</div><h2>You're all set.</h2><p>We've got everything we need to build your three AI agents.</p><button class="ob-complete-btn" onclick="finishOnboarding()">Enter dashboard →</button></div>`;return;}
-  const q=OB_QUESTIONS[obIndex];let inputHtml='';
-  if(q.type==='choice'){const alpha='ABCDEFGHIJ';inputHtml=`<div class="ob-choices" id="ob-choices">${q.choices.map((c,i)=>`<button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}')"><span class="ob-choice-key">${alpha[i]}</span> ${c}</button>`).join('')}</div>`;}
-  else if(q.type==='textarea'){inputHtml=`<textarea class="ob-textarea" id="ob-input" placeholder="${q.placeholder||''}">${obAnswers[q.id]||''}</textarea>`;}
-  else{inputHtml=`<input class="ob-input" id="ob-input" type="text" placeholder="${q.placeholder||''}" value="${obAnswers[q.id]||''}"/>`;}
-  wrap.innerHTML=`<div class="ob-question"><div class="ob-q-num">Question ${obIndex+1}</div><div class="ob-q-title">${q.title}</div><div class="ob-q-sub">${q.sub}</div>${inputHtml}<div class="ob-nav">${obIndex>0?'<button class="ob-btn-back" onclick="obBack()">← Back</button>':''}${q.type!=='choice'?`<button class="ob-btn-next" onclick="obNext()">Continue →</button>`:''}<span class="ob-enter-hint">Press <kbd>Enter</kbd> to continue</span></div></div>`;
-  const inp=document.getElementById('ob-input');
-  if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();obNext();}});}
-  if(q.type==='choice'&&obAnswers[q.id]){document.querySelectorAll('.ob-choice').forEach(el=>{if(el.dataset.val===obAnswers[q.id])el.classList.add('selected');});}
-}
+function renderObQuestion(){const wrap=document.getElementById('ob-question-wrap');const total=OB_QUESTIONS.length;document.getElementById('ob-fill').style.width=Math.round((obIndex/total)*100)+'%';document.getElementById('ob-label').textContent=`${obIndex+1} of ${total}`;if(obIndex>=total){wrap.innerHTML=`<div class="ob-complete"><div class="ob-complete-icon">✦</div><h2>You're all set.</h2><p>We've got everything we need to build your three AI agents.</p><button class="ob-complete-btn" onclick="finishOnboarding()">Enter dashboard →</button></div>`;return;}const q=OB_QUESTIONS[obIndex];let inputHtml='';if(q.type==='choice'){const alpha='ABCDEFGHIJ';inputHtml=`<div class="ob-choices" id="ob-choices">${q.choices.map((c,i)=>`<button class="ob-choice" data-val="${c}" onclick="obSelectChoice(this,'${q.id}','${c}')"><span class="ob-choice-key">${alpha[i]}</span> ${c}</button>`).join('')}</div>`;}else if(q.type==='textarea'){inputHtml=`<textarea class="ob-textarea" id="ob-input" placeholder="${q.placeholder||''}">${obAnswers[q.id]||''}</textarea>`;}else{inputHtml=`<input class="ob-input" id="ob-input" type="text" placeholder="${q.placeholder||''}" value="${obAnswers[q.id]||''}"/>`;}wrap.innerHTML=`<div class="ob-question"><div class="ob-q-num">Question ${obIndex+1}</div><div class="ob-q-title">${q.title}</div><div class="ob-q-sub">${q.sub}</div>${inputHtml}<div class="ob-nav">${obIndex>0?'<button class="ob-btn-back" onclick="obBack()">← Back</button>':''}${q.type!=='choice'?`<button class="ob-btn-next" onclick="obNext()">Continue →</button>`:''}<span class="ob-enter-hint">Press <kbd>Enter</kbd> to continue</span></div></div>`;const inp=document.getElementById('ob-input');if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();obNext();}});}if(q.type==='choice'&&obAnswers[q.id]){document.querySelectorAll('.ob-choice').forEach(el=>{if(el.dataset.val===obAnswers[q.id])el.classList.add('selected');});}}
 function obSelectChoice(el,qId,val){document.querySelectorAll('.ob-choice').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');obAnswers[qId]=val;setTimeout(()=>obNext(),350);}
 function obNext(){const q=OB_QUESTIONS[obIndex];if(q.type!=='choice'){const inp=document.getElementById('ob-input');if(inp)obAnswers[q.id]=inp.value.trim();}obIndex++;renderObQuestion();}
 function obBack(){if(obIndex>0){obIndex--;renderObQuestion();}}
@@ -1323,12 +1439,8 @@ function showScreen(name,navEl){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(name==='dashboard'){document.getElementById('screen-dashboard').classList.add('active');document.getElementById('topbar-title').textContent='Dashboard';document.getElementById('topbar-sub').textContent="Welcome back. Here's what's happening.";renderDashboard();}
   else if(name==='new-agent'){document.getElementById('screen-new-agent').classList.add('active');document.getElementById('topbar-title').textContent='New Agent';document.getElementById('topbar-sub').textContent='Build a new AI sales agent from your business profile.';renderAgentForm();}
-  else if(name==='calendar'){
-    document.getElementById('screen-calendar').classList.add('active');
-    document.getElementById('topbar-title').textContent='Calendar';
-    document.getElementById('topbar-sub').textContent='All your booked calls in one place.';
-    fetchBookings().then(()=>{ renderCalendar(); updateCalStats(); });
-  }
+  else if(name==='calendar'){document.getElementById('screen-calendar').classList.add('active');document.getElementById('topbar-title').textContent='Calendar';document.getElementById('topbar-sub').textContent='All your booked calls in one place.';fetchBookings().then(()=>{renderCalendar();updateCalStats();});}
+  else if(name==='form-builder'){document.getElementById('screen-form-builder').classList.add('active');document.getElementById('topbar-title').textContent='Booking Form';document.getElementById('topbar-sub').textContent='Your public booking page — share the link with leads.';loadFormBuilder();}
   else if(name==='settings'){document.getElementById('screen-settings').classList.add('active');document.getElementById('topbar-title').textContent='Business Profile';document.getElementById('topbar-sub').textContent='Your business info — this powers every agent you build.';renderProfilePage();}
   if(navEl)navEl.classList.add('active');
 }
@@ -1336,29 +1448,8 @@ function showScreen(name,navEl){
 // ══════════════════════════════════════════════════════
 // PROFILE PAGE
 // ══════════════════════════════════════════════════════
-function renderProfilePage(){
-  const p=businessProfile||{};
-  const name=p.business_name||'My Business';
-  document.getElementById('profile-avatar-letter').textContent=name[0].toUpperCase();
-  document.getElementById('profile-biz-name-display').textContent=name;
-  document.getElementById('profile-industry-display').textContent=p.industry||'No industry set';
-  const allFields=['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];
-  const filled=allFields.filter(f=>p[f]&&p[f].trim()&&p[f]!=='none').length;
-  const pct=Math.round((filled/allFields.length)*100);
-  document.getElementById('completeness-fill').style.width=pct+'%';
-  document.getElementById('completeness-pct').textContent=pct+'%';
-  ['business','offer','sales','voice'].forEach(sec=>{editState[sec]=false;renderSectionFields(sec,false);document.getElementById('btn-edit-'+sec).classList.remove('editing');document.getElementById('btn-save-'+sec).classList.add('hide');document.getElementById('btn-edit-'+sec).classList.remove('hide');});
-}
-function renderSectionFields(section,isEditing){
-  const fields=PROFILE_SECTIONS[section];const p=businessProfile||{};const container=document.getElementById('fields-'+section);
-  container.innerHTML=fields.map(f=>{
-    const val=p[f.id]||'';const isEmpty=!val||val.trim()==='';
-    if(!isEditing){return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-value ${isEmpty?'empty':''}">${isEmpty?'Not set':escHtml(val)}</div></div></div>`;}
-    if(f.type==='choice'){const pillsHtml=f.choices.map(c=>`<button class="pf-choice-pill ${val===c?'selected':''}" onclick="pfSelectChoice('${f.id}','${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-choices" id="pf-choices-${f.id}">${pillsHtml}</div><input type="hidden" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;}
-    else if(f.type==='textarea'){return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><textarea class="pf-textarea" id="pf-val-${f.id}">${escHtml(val)}</textarea></div></div>`;}
-    else{return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><input class="pf-input" type="text" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;}
-  }).join('');
-}
+function renderProfilePage(){const p=businessProfile||{};const name=p.business_name||'My Business';document.getElementById('profile-avatar-letter').textContent=name[0].toUpperCase();document.getElementById('profile-biz-name-display').textContent=name;document.getElementById('profile-industry-display').textContent=p.industry||'No industry set';const allFields=['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];const filled=allFields.filter(f=>p[f]&&p[f].trim()&&p[f]!=='none').length;const pct=Math.round((filled/allFields.length)*100);document.getElementById('completeness-fill').style.width=pct+'%';document.getElementById('completeness-pct').textContent=pct+'%';['business','offer','sales','voice'].forEach(sec=>{editState[sec]=false;renderSectionFields(sec,false);document.getElementById('btn-edit-'+sec).classList.remove('editing');document.getElementById('btn-save-'+sec).classList.add('hide');document.getElementById('btn-edit-'+sec).classList.remove('hide');});}
+function renderSectionFields(section,isEditing){const fields=PROFILE_SECTIONS[section];const p=businessProfile||{};const container=document.getElementById('fields-'+section);container.innerHTML=fields.map(f=>{const val=p[f.id]||'';const isEmpty=!val||val.trim()==='';if(!isEditing){return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-value ${isEmpty?'empty':''}">${isEmpty?'Not set':escHtml(val)}</div></div></div>`;}if(f.type==='choice'){const pillsHtml=f.choices.map(c=>`<button class="pf-choice-pill ${val===c?'selected':''}" onclick="pfSelectChoice('${f.id}','${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><div class="pf-choices" id="pf-choices-${f.id}">${pillsHtml}</div><input type="hidden" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;}else if(f.type==='textarea'){return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><textarea class="pf-textarea" id="pf-val-${f.id}">${escHtml(val)}</textarea></div></div>`;}else{return `<div class="profile-field"><div class="pf-label">${f.label}</div><div class="pf-value-wrap"><input class="pf-input" type="text" id="pf-val-${f.id}" value="${escAttr(val)}"/></div></div>`;}}).join('');}
 function pfSelectChoice(fieldId,val){document.getElementById('pf-val-'+fieldId).value=val;document.querySelectorAll(`#pf-choices-${fieldId} .pf-choice-pill`).forEach(p=>{p.classList.toggle('selected',p.textContent===val);});}
 function toggleEdit(section){const isNowEditing=!editState[section];editState[section]=isNowEditing;renderSectionFields(section,isNowEditing);const editBtn=document.getElementById('btn-edit-'+section);const saveBtn=document.getElementById('btn-save-'+section);if(isNowEditing){editBtn.classList.add('editing');editBtn.textContent='✕ Cancel';saveBtn.classList.remove('hide');}else{editBtn.classList.remove('editing');editBtn.textContent='✎ Edit';saveBtn.classList.add('hide');}}
 function saveSection(section){const fields=PROFILE_SECTIONS[section];if(!businessProfile)businessProfile={};fields.forEach(f=>{const el=document.getElementById('pf-val-'+f.id);if(el)businessProfile[f.id]=el.value.trim();});localStorage.setItem('sai_profile_'+currentUser.id,JSON.stringify(businessProfile));editState[section]=false;renderSectionFields(section,false);document.getElementById('btn-edit-'+section).classList.remove('editing');document.getElementById('btn-edit-'+section).textContent='✎ Edit';document.getElementById('btn-save-'+section).classList.add('hide');const name=businessProfile.business_name||'My Business';document.getElementById('profile-avatar-letter').textContent=name[0].toUpperCase();document.getElementById('profile-biz-name-display').textContent=name;document.getElementById('profile-industry-display').textContent=businessProfile.industry||'No industry set';const allFields=['business_name','industry','offer','price','client_avatar','result','lead_magnet','objections','tone','call_type','follow_up_style','brand_voice'];const filled=allFields.filter(f=>businessProfile[f]&&businessProfile[f].trim()&&businessProfile[f]!=='none').length;const pct=Math.round((filled/allFields.length)*100);document.getElementById('completeness-fill').style.width=pct+'%';document.getElementById('completeness-pct').textContent=pct+'%';showToast('✅','Profile updated and saved.');}
@@ -1366,58 +1457,15 @@ function saveSection(section){const fields=PROFILE_SECTIONS[section];if(!busines
 // ══════════════════════════════════════════════════════
 // DASHBOARD
 // ══════════════════════════════════════════════════════
-function renderDashboard(){
-  const h=new Date().getHours();document.getElementById('dash-greeting').textContent=(h<12?'Good morning':h<18?'Good afternoon':'Good evening')+' 👋';
-  document.getElementById('m1-val').textContent=agents.reduce((s,a)=>s+(a.leads||0),0);
-  document.getElementById('m2-val').textContent=bookings.length;
-  document.getElementById('m3-val').textContent='—';
-  if(agents.length){document.getElementById('global-status').className='pill-live';document.getElementById('global-status').innerHTML='<div class="live-dot"></div> '+agents.length+' agent(s) live';}
-  drawSparkline('spark1',[2,4,3,6,5,8,7,10,9,12],'rgba(34,197,94,0.6)','rgba(34,197,94,0.08)');
-  drawSparkline('spark2',[1,2,2,3,4,5,5,7,6,9],'rgba(59,130,246,0.6)','rgba(59,130,246,0.08)');
-  drawSparkline('spark3',[0,0,0,0,0,0,0,0,0,0],'rgba(156,163,175,0.5)','rgba(0,0,0,0.03)');
-  renderAgentSlots();renderActivityFeed();
-}
-
-const AGENT_TYPES=[
-  {key:'lead-handler',icon:'📲',name:'New Lead Handler',desc:'Welcomes the lead, delivers the lead magnet, then sells the call — step by step, naturally.'},
-  {key:'follow-up',icon:'🔁',name:'Follow-Up Automation',desc:'Follows up automatically after the call is booked to make sure they show up. No more ghosted calls.'},
-  {key:'booked-handler',icon:'📅',name:'Follow-up Agent',desc:'Confirms booked calls and follows up to ensure show-up.'},
-];
-function renderAgentSlots(){
-  const wrap=document.getElementById('agents-slots');
-  wrap.innerHTML=AGENT_TYPES.map((type,i)=>{
-    const agent=agents.find(a=>a.type===type.key);
-    if(agent){const idx=agents.indexOf(agent);return `<div class="agent-slot active-slot"><div class="slot-status live">● Live</div><div class="slot-number">${i+1}</div><div class="slot-type">${type.name}</div><div class="slot-name">${agent.name}</div><div class="slot-desc">${type.desc}</div><div class="slot-actions">${agent.workflow_json?`<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>`:''}<button class="slot-btn secondary" onclick="openConnectModal(${idx})">${agent.connected?'✓ Connected':'🔌 Connect'}</button></div></div>`;}
-    else{return `<div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')"><div class="slot-empty-icon">${type.icon}</div><div class="slot-empty-label">${type.name}</div><div class="slot-empty-sub">Click to build this agent</div></div>`;}
-  }).join('');
-}
+function renderDashboard(){const h=new Date().getHours();document.getElementById('dash-greeting').textContent=(h<12?'Good morning':h<18?'Good afternoon':'Good evening')+' 👋';document.getElementById('m1-val').textContent=agents.reduce((s,a)=>s+(a.leads||0),0);document.getElementById('m2-val').textContent=bookings.length;document.getElementById('m3-val').textContent='—';if(agents.length){document.getElementById('global-status').className='pill-live';document.getElementById('global-status').innerHTML='<div class="live-dot"></div> '+agents.length+' agent(s) live';}drawSparkline('spark1',[2,4,3,6,5,8,7,10,9,12],'rgba(34,197,94,0.6)','rgba(34,197,94,0.08)');drawSparkline('spark2',[1,2,2,3,4,5,5,7,6,9],'rgba(59,130,246,0.6)','rgba(59,130,246,0.08)');drawSparkline('spark3',[0,0,0,0,0,0,0,0,0,0],'rgba(156,163,175,0.5)','rgba(0,0,0,0.03)');renderAgentSlots();renderActivityFeed();}
+const AGENT_TYPES=[{key:'lead-handler',icon:'📲',name:'New Lead Handler',desc:'Welcomes the lead, delivers the lead magnet, then sells the call — step by step, naturally.'},{key:'follow-up',icon:'🔁',name:'Follow-Up Automation',desc:'Follows up automatically after the call is booked to make sure they show up. No more ghosted calls.'},{key:'booked-handler',icon:'📅',name:'Follow-up Agent',desc:'Confirms booked calls and follows up to ensure show-up.'}];
+function renderAgentSlots(){const wrap=document.getElementById('agents-slots');wrap.innerHTML=AGENT_TYPES.map((type,i)=>{const agent=agents.find(a=>a.type===type.key);if(agent){const idx=agents.indexOf(agent);return `<div class="agent-slot active-slot"><div class="slot-status live">● Live</div><div class="slot-number">${i+1}</div><div class="slot-type">${type.name}</div><div class="slot-name">${agent.name}</div><div class="slot-desc">${type.desc}</div><div class="slot-actions">${agent.workflow_json?`<button class="slot-btn primary" onclick="openWorkflowModal(${idx})">⬡ Preview</button>`:''}<button class="slot-btn secondary" onclick="openConnectModal(${idx})">${agent.connected?'✓ Connected':'🔌 Connect'}</button></div></div>`;}else{return `<div class="agent-slot empty-slot" onclick="startNewAgentOfType('${type.key}')"><div class="slot-empty-icon">${type.icon}</div><div class="slot-empty-label">${type.name}</div><div class="slot-empty-sub">Click to build this agent</div></div>`;}}).join('');}
 function startNewAgentOfType(typeKey){showScreen('new-agent',document.querySelectorAll('.nav-item')[1]);setTimeout(()=>selectAgentType(typeKey),100);}
 
 // ══════════════════════════════════════════════════════
 // NEW AGENT FORM
 // ══════════════════════════════════════════════════════
-const AGENT_FORM_QUESTIONS={
-  'lead-handler':[
-    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
-    {id:'opener',type:'choice',label:'Opening message style',title:'How should the agent open the conversation?',hint:'This is the first thing leads see.',choices:['Casual & warm — like a friend','Curious — ask a question right away','Value-first — lead with a benefit','Direct — get to the point instantly']},
-    {id:'lead_magnet_delivery',type:'choice',label:'Lead magnet delivery',title:'How do you want the lead magnet delivered?',hint:'',choices:['Send it immediately after first message','Qualify first then send','Ask for name before sending','Skip lead magnet — go straight to call pitch']},
-    {id:'call_cta',type:'text',label:'Call CTA',title:'What do you call your discovery call?',hint:"This exact phrase will appear in the agent's messages.",placeholder:'e.g. free strategy session, clarity call, discovery call'},
-    {id:'urgency',type:'choice',label:'Urgency approach',title:'Should the agent create urgency to book?',hint:'',choices:['Yes — limited spots available','Yes — time-sensitive offer','Soft — just mention availability','No urgency — keep it pressure-free']},
-  ],
-  'follow-up':[
-    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
-    {id:'delay',type:'choice',label:'First follow-up delay',title:'When should the first follow-up message be sent?',hint:'After the lead goes silent.',choices:['24 hours after last message','48 hours after last message','3 days after last message','1 week after last message']},
-    {id:'reengagement_hook',type:'choice',label:'Re-engagement hook',title:'What angle should the agent use to re-engage?',hint:'',choices:['New value — share something useful','Direct check-in — just ask if still interested','FOMO — limited spots / expiring offer','Personal — reference their specific situation']},
-    {id:'max_follow_ups',type:'choice',label:'Max follow-ups',title:'How many times should the agent follow up before stopping?',hint:'',choices:['1 time then stop','2 times then stop','3 times then stop','Keep going until they respond']},
-  ],
-  'booked-handler':[
-    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
-    {id:'confirmation_style',type:'choice',label:'Confirmation style',title:'How should the agent confirm the booking?',hint:'',choices:['Enthusiastic — celebrate the booking','Professional — confirm details clearly','Warm — make them feel excited','Minimal — just the essentials']},
-    {id:'reminder_timing',type:'choice',label:'Reminder timing',title:'When should reminders be sent before the call?',hint:'',choices:['24 hours before only','24h and 1h before','24h, 3h, and 30min before','Just 1 hour before']},
-    {id:'pre_call_value',type:'choice',label:'Pre-call prep',title:'Should the agent send anything before the call?',hint:'',choices:['Yes — send a prep question to answer before','Yes — send a short video or resource','Yes — send what to prepare / expect','No — just the reminders']},
-    {id:'no_show_recovery',type:'choice',label:'No-show recovery',title:"If they don't show up, what should the agent do?",hint:'',choices:['Send one reschedule message','Send 2 follow-ups to reschedule','Add them back to follow-up sequence','Do nothing — mark as lost']},
-  ]
-};
+const AGENT_FORM_QUESTIONS={'lead-handler':[{id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},{id:'opener',type:'choice',label:'Opening message style',title:'How should the agent open the conversation?',hint:'This is the first thing leads see.',choices:['Casual & warm — like a friend','Curious — ask a question right away','Value-first — lead with a benefit','Direct — get to the point instantly']},{id:'lead_magnet_delivery',type:'choice',label:'Lead magnet delivery',title:'How do you want the lead magnet delivered?',hint:'',choices:['Send it immediately after first message','Qualify first then send','Ask for name before sending','Skip lead magnet — go straight to call pitch']},{id:'call_cta',type:'text',label:'Call CTA',title:'What do you call your discovery call?',hint:"This exact phrase will appear in the agent's messages.",placeholder:'e.g. free strategy session, clarity call, discovery call'},{id:'urgency',type:'choice',label:'Urgency approach',title:'Should the agent create urgency to book?',hint:'',choices:['Yes — limited spots available','Yes — time-sensitive offer','Soft — just mention availability','No urgency — keep it pressure-free']}],'follow-up':[{id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},{id:'delay',type:'choice',label:'First follow-up delay',title:'When should the first follow-up message be sent?',hint:'After the lead goes silent.',choices:['24 hours after last message','48 hours after last message','3 days after last message','1 week after last message']},{id:'reengagement_hook',type:'choice',label:'Re-engagement hook',title:'What angle should the agent use to re-engage?',hint:'',choices:['New value — share something useful','Direct check-in — just ask if still interested','FOMO — limited spots / expiring offer','Personal — reference their specific situation']},{id:'max_follow_ups',type:'choice',label:'Max follow-ups',title:'How many times should the agent follow up before stopping?',hint:'',choices:['1 time then stop','2 times then stop','3 times then stop','Keep going until they respond']}],'booked-handler':[{id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},{id:'confirmation_style',type:'choice',label:'Confirmation style',title:'How should the agent confirm the booking?',hint:'',choices:['Enthusiastic — celebrate the booking','Professional — confirm details clearly','Warm — make them feel excited','Minimal — just the essentials']},{id:'reminder_timing',type:'choice',label:'Reminder timing',title:'When should reminders be sent before the call?',hint:'',choices:['24 hours before only','24h and 1h before','24h, 3h, and 30min before','Just 1 hour before']},{id:'pre_call_value',type:'choice',label:'Pre-call prep',title:'Should the agent send anything before the call?',hint:'',choices:['Yes — send a prep question to answer before','Yes — send a short video or resource','Yes — send what to prepare / expect','No — just the reminders']},{id:'no_show_recovery',type:'choice',label:'No-show recovery',title:"If they don't show up, what should the agent do?",hint:'',choices:['Send one reschedule message','Send 2 follow-ups to reschedule','Add them back to follow-up sequence','Do nothing — mark as lost']}]};
 let afType=null,afStep=0,afAnswers={};
 function renderAgentForm(){const body=document.getElementById('af-body');body.innerHTML=`<div class="af-type-grid">${AGENT_TYPES.map(t=>`<button class="af-type-card ${afType===t.key?'selected':''}" onclick="selectAgentType('${t.key}')"><div class="af-type-icon">${t.icon}</div><div class="af-type-name">${t.name}</div><div class="af-type-desc">${t.desc}</div></button>`).join('')}</div><div id="af-form-steps"></div>`;if(afType)renderAfStep();}
 function selectAgentType(key){afType=key;afStep=0;afAnswers={};renderAgentForm();}

@@ -227,18 +227,38 @@ input,textarea,select{font-family:'Sora',sans-serif;}
 .empty-agent-icon svg{width:15px;height:15px;stroke:var(--text3);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
 .empty-agent-info .empty-agent-name{font-size:12px;font-weight:700;color:var(--text2);}
 .empty-agent-info .empty-agent-sub{font-size:10px;color:var(--text3);}
+
+/* ── NEW EMPLOYEE: Team selection ── */
+.ne-team-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.ne-team-card{padding:28px 24px;border-radius:var(--r);border:2px solid var(--border);background:var(--white);cursor:pointer;transition:all 0.18s;text-align:left;position:relative;overflow:hidden;}
+.ne-team-card:hover{border-color:var(--accent);box-shadow:0 6px 24px rgba(123,110,246,0.1);transform:translateY(-2px);}
+.ne-team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity 0.18s;}
+.ne-team-card:hover::before{opacity:1;}
+.ne-team-card.booking::before{background:linear-gradient(90deg,#7B6EF6,#A78BFA);}
+.ne-team-card.followup::before{background:linear-gradient(90deg,#4FC3F7,#0277BD);}
+.ne-team-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.ne-team-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.ne-team-name{font-size:16px;font-weight:700;margin-bottom:6px;color:var(--black);}
+.ne-team-desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:16px;}
+.ne-team-agents-list{display:flex;flex-direction:column;gap:5px;}
+.ne-team-agent-pill{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:500;color:var(--text2);}
+.ne-team-agent-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.ne-team-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text3);transition:all 0.18s;}
+.ne-team-card:hover .ne-team-arrow{background:var(--accent);color:#fff;}
+
+/* Agent config within team */
+.ne-back-btn{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:11px;font-weight:600;color:var(--text2);margin-bottom:20px;transition:all 0.14s;width:fit-content;}
+.ne-back-btn:hover{border-color:var(--accent);color:var(--accent);}
+.ne-team-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:14px 18px;background:var(--white);border-radius:var(--r-sm);border:1px solid var(--border);}
+.ne-team-header-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ne-team-header-icon svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.ne-team-header-name{font-size:14px;font-weight:700;color:var(--black);}
+.ne-team-header-sub{font-size:10px;color:var(--text3);margin-top:1px;}
+
 .af-wrap{max-width:680px;margin:0 auto;}
 .af-header{margin-bottom:24px;}
 .af-header h2{font-size:22px;font-weight:700;margin-bottom:4px;letter-spacing:-0.3px;}
 .af-header p{font-size:12px;color:var(--text2);}
-.af-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
-.af-type-card{padding:16px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all 0.15s;text-align:left;}
-.af-type-card:hover{border-color:var(--accent);}
-.af-type-card.selected{border-color:var(--accent);background:rgba(123,110,246,0.05);}
-.af-type-icon{width:32px;height:32px;border-radius:8px;background:var(--border2);display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
-.af-type-icon svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
-.af-type-name{font-size:12px;font-weight:700;margin-bottom:3px;color:var(--black);}
-.af-type-desc{font-size:10px;color:var(--text2);line-height:1.5;}
 .af-steps{display:flex;gap:0;margin-bottom:20px;overflow-x:auto;padding-bottom:4px;}
 .af-step-item{display:flex;align-items:center;gap:6px;padding:6px 10px;font-size:10px;font-weight:600;color:var(--text3);white-space:nowrap;}
 .af-step-item.active{color:var(--black);}
@@ -449,7 +469,7 @@ input,textarea,select{font-family:'Sora',sans-serif;}
 .fb-color-hex{flex:1;padding:8px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:11px;color:var(--black);background:#FAFAFA;outline:none;}
 .fb-color-hex:focus{border-color:var(--accent);}
 .fb-days{display:flex;flex-wrap:wrap;gap:4px;}
-.fb-day-btn{padding:5px 10px;border-radius:6px;border:1.5px solid var(--border);background:#FAFAFA;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.14s;}
+.fb-day-btn{padding:5px 10px;border-radius:6px;border:1.5px solid var(--border);background:#FAFAFA;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.14px;}
 .fb-day-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .fb-times{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;}
 .fb-time-tag{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;background:rgba(123,110,246,0.08);border:1px solid rgba(123,110,246,0.2);color:#4C3BC7;font-size:10px;font-weight:600;}
@@ -534,6 +554,7 @@ input,textarea,select{font-family:'Sora',sans-serif;}
   .dash-grid{grid-template-columns:1fr;}
   .cal-stats{grid-template-columns:1fr 1fr;}
   .fb-layout{grid-template-columns:1fr;}
+  .ne-team-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -617,7 +638,7 @@ input,textarea,select{font-family:'Sora',sans-serif;}
       </div>
       <div class="nav-item" onclick="showScreen('new-agent',this)">
         <svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3.31 2.69-5 6-5s6 1.69 6 5"/><path d="M11 3l2 2M13 3l-2 2"/></svg>
-        New Agent
+        New Employee
       </div>
       <div class="nav-item" onclick="showScreen('calendar',this)">
         <svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/></svg>
@@ -673,7 +694,7 @@ input,textarea,select{font-family:'Sora',sans-serif;}
         </div>
         <button class="btn-new-agent" onclick="showScreen('new-agent',null)">
           <svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12"/></svg>
-          New Agent
+          New Employee
         </button>
       </div>
     </div>
@@ -718,10 +739,13 @@ input,textarea,select{font-family:'Sora',sans-serif;}
         </div>
       </div>
 
-      <!-- NEW AGENT -->
+      <!-- NEW EMPLOYEE -->
       <div class="screen" id="screen-new-agent">
         <div class="af-wrap">
-          <div class="af-header"><h2>Create a new agent</h2><p>Pick the type, answer a few questions, and we'll build it in 60 seconds.</p></div>
+          <div class="af-header">
+            <h2 id="ne-page-title">New Employee</h2>
+            <p id="ne-page-sub">Choose a team to configure your AI sales agent.</p>
+          </div>
           <div id="af-body"></div>
         </div>
       </div>
@@ -1025,6 +1049,284 @@ const TEAMS=[
 ];
 let teamOpen={booking:true,followup:true};
 
+// ─── New Employee state ───
+let neSelectedTeam=null; // null = team picker, 'booking' / 'followup' = inside team
+let afType=null,afStep=0,afAnswers={};
+
+const AGENT_FORM_Q={
+  'lead-handler':[
+    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
+    {id:'opener',type:'choice',label:'Opening style',title:'How should the agent open the conversation?',hint:'',choices:['Casual & warm','Curious — ask a question right away','Value-first — lead with a benefit','Direct — get to the point']},
+    {id:'lead_magnet_delivery',type:'choice',label:'Lead magnet delivery',title:'How do you want the lead magnet delivered?',hint:'',choices:['Send it immediately','Qualify first then send','Ask for name before sending','Skip lead magnet']},
+    {id:'call_cta',type:'text',label:'Call CTA',title:'What do you call your discovery call?',hint:'This phrase will appear in messages.',placeholder:'e.g. free strategy session'},
+    {id:'urgency',type:'choice',label:'Urgency approach',title:'Should the agent create urgency to book?',hint:'',choices:['Yes — limited spots','Yes — time-sensitive','Soft — just mention availability','No urgency']}
+  ],
+  'follow-up':[
+    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
+    {id:'delay',type:'choice',label:'First follow-up delay',title:'When should the first follow-up be sent?',hint:'',choices:['24 hours after last message','48 hours after last message','3 days after last message','1 week after last message']},
+    {id:'reengagement_hook',type:'choice',label:'Re-engagement hook',title:'What angle should the agent use to re-engage?',hint:'',choices:['New value — share something useful','Direct check-in','FOMO — limited spots','Personal — reference their situation']},
+    {id:'max_follow_ups',type:'choice',label:'Max follow-ups',title:'How many times should the agent follow up?',hint:'',choices:['1 time then stop','2 times then stop','3 times then stop','Keep going until they respond']}
+  ],
+  'booked-handler':[
+    {id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},
+    {id:'confirmation_style',type:'choice',label:'Confirmation style',title:'How should the agent confirm the booking?',hint:'',choices:['Enthusiastic — celebrate','Professional — confirm details','Warm — make them feel excited','Minimal — just the essentials']},
+    {id:'reminder_timing',type:'choice',label:'Reminder timing',title:'When should reminders be sent?',hint:'',choices:['24 hours before only','24h and 1h before','24h, 3h, and 30min before','Just 1 hour before']},
+    {id:'pre_call_value',type:'choice',label:'Pre-call prep',title:'Should the agent send anything before the call?',hint:'',choices:['Yes — a prep question','Yes — a short video','Yes — what to prepare','No — just reminders']},
+    {id:'no_show_recovery',type:'choice',label:'No-show recovery',title:"If they don't show up, what should the agent do?",hint:'',choices:['Send one reschedule message','Send 2 follow-ups to reschedule','Add back to follow-up sequence','Do nothing — mark as lost']}
+  ]
+};
+
+const AGENT_TYPES=[
+  {key:'lead-handler',name:'Lead Handler',desc:'Welcomes leads, delivers the lead magnet, then books the call.'},
+  {key:'follow-up',name:'Follow-Up Automation',desc:'Re-engages cold leads until they book — automatically.'},
+  {key:'booked-handler',name:'Follow-Up Agent',desc:'Confirms bookings and follows up to ensure show-ups.'}
+];
+
+// ─── Render the New Employee page ───
+function renderAgentForm(){
+  const body=document.getElementById('af-body');
+
+  if(!neSelectedTeam){
+    // Step 1: Team picker
+    document.getElementById('ne-page-title').textContent='New Employee';
+    document.getElementById('ne-page-sub').textContent='Choose a team to configure your AI sales agent.';
+    body.innerHTML=`
+      <div class="ne-team-grid">
+        <button class="ne-team-card booking" onclick="selectTeamFlow('booking')">
+          <div class="ne-team-icon" style="background:rgba(123,110,246,0.1);color:#7B6EF6;">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/>
+            </svg>
+          </div>
+          <div class="ne-team-name">Booking Team</div>
+          <div class="ne-team-desc">Set up the agent that greets every lead, delivers your lead magnet, and books the call — on autopilot.</div>
+          <div class="ne-team-agents-list">
+            <div class="ne-team-agent-pill"><div class="ne-team-agent-dot" style="background:#7B6EF6;"></div>Lead Handler</div>
+          </div>
+          <div class="ne-team-arrow">→</div>
+        </button>
+        <button class="ne-team-card followup" onclick="selectTeamFlow('followup')">
+          <div class="ne-team-icon" style="background:rgba(79,195,247,0.1);color:#0277BD;">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 8c2-4 8-4 8 0M10 8c2 0 4 1.5 4 4H2c0-2.5 2-4 4-4"/><path d="M14 4l-4 2"/>
+            </svg>
+          </div>
+          <div class="ne-team-name">Follow-Up Team</div>
+          <div class="ne-team-desc">Configure agents that re-engage cold leads and confirm bookings to maximise show-up rates.</div>
+          <div class="ne-team-agents-list">
+            <div class="ne-team-agent-pill"><div class="ne-team-agent-dot" style="background:#4FC3F7;"></div>Follow-Up Automation</div>
+            <div class="ne-team-agent-pill"><div class="ne-team-agent-dot" style="background:#0277BD;"></div>Follow-Up Agent</div>
+          </div>
+          <div class="ne-team-arrow">→</div>
+        </button>
+      </div>`;
+    return;
+  }
+
+  // Step 2: Inside a team — show its agents
+  const team=TEAMS.find(t=>t.key===neSelectedTeam);
+  const teamColor=neSelectedTeam==='booking'?'rgba(123,110,246,0.1)':'rgba(79,195,247,0.1)';
+  const teamIconColor=neSelectedTeam==='booking'?'#7B6EF6':'#0277BD';
+  const teamIcon=neSelectedTeam==='booking'
+    ?`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/></svg>`
+    :`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2-4 8-4 8 0M10 8c2 0 4 1.5 4 4H2c0-2.5 2-4 4-4"/><path d="M14 4l-4 2"/></svg>`;
+
+  if(!afType){
+    // Show agents within this team
+    document.getElementById('ne-page-title').textContent=team.name;
+    document.getElementById('ne-page-sub').textContent='Select an agent to configure.';
+    const agentCards=team.agents.map(agentDef=>{
+      const found=agents.find(a=>a.type===agentDef.key);
+      const isLive=!!found;
+      return`<div class="agent-card ${isLive?'active-agent':''}" style="cursor:pointer;margin-bottom:10px;" onclick="selectAgentType('${agentDef.key}')">
+        ${isLive?'<div class="agent-live-dot">Live</div>':''}
+        <div class="agent-card-row"><div class="agent-card-name">${agentDef.name}</div><span style="font-size:10px;color:var(--accent);font-weight:600;">${isLive?'Reconfigure →':'Configure →'}</span></div>
+        <div class="agent-card-desc">${agentDef.desc}</div>
+      </div>`;
+    }).join('');
+    body.innerHTML=`
+      <button class="ne-back-btn" onclick="neGoBack()">← Back to Teams</button>
+      <div class="ne-team-header">
+        <div class="ne-team-header-icon" style="background:${teamColor};color:${teamIconColor};">${teamIcon}</div>
+        <div>
+          <div class="ne-team-header-name">${team.name}</div>
+          <div class="ne-team-header-sub">${team.agents.length} agent${team.agents.length!==1?'s':''} in this team</div>
+        </div>
+      </div>
+      <div id="af-form-steps">${agentCards}</div>`;
+  } else {
+    // Configure the selected agent
+    renderAfStep();
+  }
+}
+
+function selectTeamFlow(teamKey){
+  neSelectedTeam=teamKey;
+  afType=null;
+  afStep=0;
+  afAnswers={};
+  renderAgentForm();
+}
+
+function neGoBack(){
+  if(afType){
+    // Go back to team's agent list
+    afType=null;
+    afStep=0;
+    afAnswers={};
+    renderAgentForm();
+  } else {
+    // Go back to team picker
+    neSelectedTeam=null;
+    renderAgentForm();
+  }
+}
+
+function selectAgentType(k){
+  afType=k;
+  afStep=0;
+  afAnswers={};
+  renderAgentForm();
+}
+
+function renderAfStep(){
+  const qs=AGENT_FORM_Q[afType]||[];
+  if(afStep>=qs.length){renderAfSummary();return;}
+  const q=qs[afStep];
+  const sh=qs.map((sq,i)=>`<div class="af-step-item ${i<afStep?'done':i===afStep?'active':''}"><div class="af-step-num">${i<afStep?'✓':i+1}</div>${sq.label}</div>${i<qs.length-1?'<div class="af-step-connector"></div>':''}`).join('')+`<div class="af-step-connector"></div><div class="af-step-item ${afStep>=qs.length?'active':''}"><div class="af-step-num">${qs.length+1}</div>Confirm</div>`;
+  let ih='';
+  if(q.type==='choice')ih=`<div class="af-choices one-col" id="af-choices">${q.choices.map(c=>`<button class="af-choice ${afAnswers[q.id]===c?'sel':''}" onclick="afSelectChoice('${q.id}','${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('')}</div>`;
+  else if(q.type==='textarea')ih=`<textarea class="af-textarea" id="af-input" placeholder="${q.placeholder||''}">${afAnswers[q.id]||''}</textarea>`;
+  else ih=`<input class="af-input" id="af-input" type="text" placeholder="${q.placeholder||''}" value="${afAnswers[q.id]||''}"/>`;
+
+  const team=TEAMS.find(t=>t.key===neSelectedTeam);
+  const teamColor=neSelectedTeam==='booking'?'rgba(123,110,246,0.1)':'rgba(79,195,247,0.1)';
+  const teamIconColor=neSelectedTeam==='booking'?'#7B6EF6':'#0277BD';
+  const teamIcon=neSelectedTeam==='booking'
+    ?`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/></svg>`
+    :`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2-4 8-4 8 0M10 8c2 0 4 1.5 4 4H2c0-2.5 2-4 4-4"/><path d="M14 4l-4 2"/></svg>`;
+
+  const agentTypeName=AGENT_TYPES.find(t=>t.key===afType)?.name||'';
+
+  document.getElementById('af-body').innerHTML=`
+    <button class="ne-back-btn" onclick="neGoBack()">← Back to ${team?.name||'Teams'}</button>
+    <div class="ne-team-header">
+      <div class="ne-team-header-icon" style="background:${teamColor};color:${teamIconColor};">${teamIcon}</div>
+      <div>
+        <div class="ne-team-header-name">${agentTypeName}</div>
+        <div class="ne-team-header-sub">${team?.name||''}</div>
+      </div>
+    </div>
+    <div class="af-steps">${sh}</div>
+    <div class="af-question">
+      <div class="af-q-label">${q.label}</div>
+      <div class="af-q-text">${q.title}</div>
+      ${q.hint?`<div class="af-q-hint">${q.hint}</div>`:''}
+      ${ih}
+    </div>
+    <div class="af-footer">
+      <div class="af-nav">
+        ${afStep>0?'<button class="btn-af-back" onclick="afBack()">← Back</button>':''}
+        ${q.type!=='choice'?`<button class="btn-af-next" onclick="afNext()">Continue →</button>`:''}
+      </div>
+      <div class="af-tip">Click an option to auto-advance.</div>
+    </div>`;
+  const inp=document.getElementById('af-input');
+  if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();afNext();}});}
+}
+
+function afSelectChoice(qId,val,el){
+  document.querySelectorAll('.af-choice').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  afAnswers[qId]=val;
+  setTimeout(()=>afNext(),320);
+}
+
+function afNext(){
+  const inp=document.getElementById('af-input'),qs=AGENT_FORM_Q[afType]||[];
+  if(inp&&afStep<qs.length)afAnswers[qs[afStep].id]=inp.value.trim();
+  afStep++;
+  renderAfStep();
+}
+
+function afBack(){
+  if(afStep>0){afStep--;renderAfStep();}
+}
+
+function renderAfSummary(){
+  const qs=AGENT_FORM_Q[afType]||[],type=AGENT_TYPES.find(t=>t.key===afType);
+  const team=TEAMS.find(t=>t.key===neSelectedTeam);
+  const teamColor=neSelectedTeam==='booking'?'rgba(123,110,246,0.1)':'rgba(79,195,247,0.1)';
+  const teamIconColor=neSelectedTeam==='booking'?'#7B6EF6':'#0277BD';
+  const teamIcon=neSelectedTeam==='booking'
+    ?`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/></svg>`
+    :`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2-4 8-4 8 0M10 8c2 0 4 1.5 4 4H2c0-2.5 2-4 4-4"/><path d="M14 4l-4 2"/></svg>`;
+  const sh=qs.map((sq,i)=>`<div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div><div class="af-step-connector"></div>`).join('')+`<div class="af-step-item active"><div class="af-step-num">${qs.length+1}</div>Confirm</div>`;
+  const sr=qs.map(q=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border2);"><span style="font-size:9px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.4px;width:140px;flex-shrink:0;">${q.label}</span><span style="font-size:11px;font-weight:500;text-align:right;color:var(--black);">${afAnswers[q.id]||'—'}</span></div>`).join('');
+  document.getElementById('af-body').innerHTML=`
+    <button class="ne-back-btn" onclick="neGoBack()">← Back to ${team?.name||'Teams'}</button>
+    <div class="ne-team-header">
+      <div class="ne-team-header-icon" style="background:${teamColor};color:${teamIconColor};">${teamIcon}</div>
+      <div>
+        <div class="ne-team-header-name">${type?.name||''}</div>
+        <div class="ne-team-header-sub">${team?.name||''}</div>
+      </div>
+    </div>
+    <div class="af-steps">${sh}</div>
+    <div class="af-question">
+      <div class="af-q-label">Summary</div>
+      <div class="af-q-text">Ready to build your ${type?.name}?</div>
+      <div class="af-q-hint" style="margin-bottom:14px;">Review your answers before we build.</div>
+      <div>${sr}</div>
+    </div>
+    <div class="af-footer">
+      <div class="af-nav">
+        <button class="btn-af-back" onclick="afBack()">← Edit</button>
+        <button class="btn-af-next" onclick="buildAgent()">Build Agent →</button>
+      </div>
+    </div>`;
+}
+
+async function buildAgent(){
+  showGeneratingOverlay();
+  setGenStep(1);
+  const type=AGENT_TYPES.find(t=>t.key===afType),payload={agent_type:afType,agent_type_name:type?.name,business_profile:businessProfile,agent_config:afAnswers,session_id:'session_'+Date.now(),source:'leadflow_v1'};
+  try{
+    setTimeout(()=>setGenStep(2),900);
+    const res=await fetch(PROVISIONING_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    setGenStep(3);await sleep(600);
+    const data=await res.json();
+    setGenStep(4);await sleep(600);
+    setGenStep(5);await sleep(800);
+    finishBuild(data);
+  }catch(err){
+    console.error(err);setGenStep(5);await sleep(600);finishBuild({});
+  }
+}
+
+function finishBuild(response){
+  const r=Array.isArray(response)?response[0]:response,clientId=r.client_id||'agent_'+Date.now(),type=AGENT_TYPES.find(t=>t.key===afType);
+  const na={id:clientId,type:afType,name:businessProfile?.business_name||r.company||'My Business',agent_type_name:type?.name,whatsapp:afAnswers.whatsapp_number||'—',status:'live',leads:0,booked:0,created:new Date().toISOString(),workflow_json:r.workflow_json||null,workflow_name:r.workflow_name||null,connected:false,credentials:{}};
+  const ex=agents.findIndex(a=>a.type===afType);
+  if(ex>=0)agents[ex]=na;else agents.push(na);
+  localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));
+  addActivity('🤖',`${type?.name} built for ${na.name}`,'Just now');
+  // Reset all NE state
+  neSelectedTeam=null;afType=null;afStep=0;afAnswers={};
+  hideGeneratingOverlay(()=>{showScreen('dashboard',document.querySelector('.nav-item'));showToast('✅',`${type?.name} is live!`);});
+}
+
+function startNewAgentOfType(k){
+  // Determine team from agent key
+  const team=TEAMS.find(t=>t.agents.some(a=>a.key===k));
+  neSelectedTeam=team?team.key:null;
+  afType=k;afStep=0;afAnswers={};
+  showScreen('new-agent',document.querySelectorAll('.nav-item')[1]);
+  setTimeout(()=>renderAgentForm(),50);
+}
+
+// ─── Rest of app (unchanged) ───
+
 async function fetchBookings(){if(!currentUser)return;const{data,error}=await sb.from('bookings').select('*').eq('user_id',currentUser.id).order('datetime',{ascending:true});if(error){console.error(error);return;}bookings=data||[];}
 async function insertBooking(p){const{data,error}=await sb.from('bookings').insert({user_id:currentUser.id,name:p.name,phone:p.phone,datetime:p.datetime,status:p.status||'booked',notes:p.notes||''}).select().single();if(error){console.error(error);return null;}return data;}
 async function updateBookingRow(id,u){const{data,error}=await sb.from('bookings').update(u).eq('id',id).eq('user_id',currentUser.id).select().single();if(error){console.error(error);return null;}return data;}
@@ -1118,7 +1420,22 @@ function finishOnboarding(){businessProfile=obAnswers;localStorage.setItem('sai_
 function redoOnboarding(){document.getElementById('app-screen').classList.add('hide');startOnboarding();}
 
 function startApp(){document.getElementById('app-screen').classList.remove('hide');showScreen('dashboard',document.querySelector('.nav-item'));}
-function showScreen(name,navEl){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(name==='dashboard'){document.getElementById('screen-dashboard').classList.add('active');document.getElementById('topbar-title').textContent='Dashboard';renderDashboard();}else if(name==='new-agent'){document.getElementById('screen-new-agent').classList.add('active');document.getElementById('topbar-title').textContent='New Agent';renderAgentForm();}else if(name==='calendar'){document.getElementById('screen-calendar').classList.add('active');document.getElementById('topbar-title').textContent='Calendar';fetchBookings().then(()=>{renderCalendar();updateCalStats();});}else if(name==='form-builder'){document.getElementById('screen-form-builder').classList.add('active');document.getElementById('topbar-title').textContent='Booking Form';loadFormBuilder();}else if(name==='settings'){document.getElementById('screen-settings').classList.add('active');document.getElementById('topbar-title').textContent='Settings';renderProfilePage();}if(navEl)navEl.classList.add('active');}
+function showScreen(name,navEl){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(name==='dashboard'){document.getElementById('screen-dashboard').classList.add('active');document.getElementById('topbar-title').textContent='Dashboard';renderDashboard();}
+  else if(name==='new-agent'){
+    document.getElementById('screen-new-agent').classList.add('active');
+    document.getElementById('topbar-title').textContent='New Employee';
+    // Reset NE state when navigating fresh from sidebar/topbar
+    if(!navEl||navEl.tagName==='DIV'){neSelectedTeam=null;afType=null;afStep=0;afAnswers={};}
+    renderAgentForm();
+  }
+  else if(name==='calendar'){document.getElementById('screen-calendar').classList.add('active');document.getElementById('topbar-title').textContent='Calendar';fetchBookings().then(()=>{renderCalendar();updateCalStats();});}
+  else if(name==='form-builder'){document.getElementById('screen-form-builder').classList.add('active');document.getElementById('topbar-title').textContent='Booking Form';loadFormBuilder();}
+  else if(name==='settings'){document.getElementById('screen-settings').classList.add('active');document.getElementById('topbar-title').textContent='Settings';renderProfilePage();}
+  if(navEl)navEl.classList.add('active');
+}
 
 function renderDashboard(){
   const h=new Date().getHours();
@@ -1147,21 +1464,7 @@ function renderTeamGroups(){
   }).join('');
 }
 function toggleTeam(key){teamOpen[key]=!teamOpen[key];renderTeamGroups();}
-function startNewAgentOfType(k){showScreen('new-agent',document.querySelectorAll('.nav-item')[1]);setTimeout(()=>selectAgentType(k),100);}
 
-const AGENT_FORM_Q={'lead-handler':[{id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},{id:'opener',type:'choice',label:'Opening style',title:'How should the agent open the conversation?',hint:'',choices:['Casual & warm','Curious — ask a question right away','Value-first — lead with a benefit','Direct — get to the point']},{id:'lead_magnet_delivery',type:'choice',label:'Lead magnet delivery',title:'How do you want the lead magnet delivered?',hint:'',choices:['Send it immediately','Qualify first then send','Ask for name before sending','Skip lead magnet']},{id:'call_cta',type:'text',label:'Call CTA',title:'What do you call your discovery call?',hint:'This phrase will appear in messages.',placeholder:'e.g. free strategy session'},{id:'urgency',type:'choice',label:'Urgency approach',title:'Should the agent create urgency to book?',hint:'',choices:['Yes — limited spots','Yes — time-sensitive','Soft — just mention availability','No urgency']}],'follow-up':[{id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},{id:'delay',type:'choice',label:'First follow-up delay',title:'When should the first follow-up be sent?',hint:'',choices:['24 hours after last message','48 hours after last message','3 days after last message','1 week after last message']},{id:'reengagement_hook',type:'choice',label:'Re-engagement hook',title:'What angle should the agent use to re-engage?',hint:'',choices:['New value — share something useful','Direct check-in','FOMO — limited spots','Personal — reference their situation']},{id:'max_follow_ups',type:'choice',label:'Max follow-ups',title:'How many times should the agent follow up?',hint:'',choices:['1 time then stop','2 times then stop','3 times then stop','Keep going until they respond']}],'booked-handler':[{id:'whatsapp_number',type:'text',label:'WhatsApp number',title:'What WhatsApp number will this agent run on?',hint:'Include country code.',placeholder:'+1 514 000 0000'},{id:'confirmation_style',type:'choice',label:'Confirmation style',title:'How should the agent confirm the booking?',hint:'',choices:['Enthusiastic — celebrate','Professional — confirm details','Warm — make them feel excited','Minimal — just the essentials']},{id:'reminder_timing',type:'choice',label:'Reminder timing',title:'When should reminders be sent?',hint:'',choices:['24 hours before only','24h and 1h before','24h, 3h, and 30min before','Just 1 hour before']},{id:'pre_call_value',type:'choice',label:'Pre-call prep',title:'Should the agent send anything before the call?',hint:'',choices:['Yes — a prep question','Yes — a short video','Yes — what to prepare','No — just reminders']},{id:'no_show_recovery',type:'choice',label:'No-show recovery',title:"If they don't show up, what should the agent do?",hint:'',choices:['Send one reschedule message','Send 2 follow-ups to reschedule','Add back to follow-up sequence','Do nothing — mark as lost']}]};
-let afType=null,afStep=0,afAnswers={};
-const AGENT_TYPES=[{key:'lead-handler',name:'Lead Handler',desc:'Welcomes leads, delivers the lead magnet, then books the call.'},{key:'follow-up',name:'Follow-Up Automation',desc:'Re-engages cold leads until they book — automatically.'},{key:'booked-handler',name:'Follow-Up Agent',desc:'Confirms bookings and follows up to ensure show-ups.'}];
-function renderAgentForm(){const body=document.getElementById('af-body');body.innerHTML=`<div class="af-type-grid">${AGENT_TYPES.map(t=>`<button class="af-type-card ${afType===t.key?'selected':''}" onclick="selectAgentType('${t.key}')"><div class="af-type-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3.31 2.69-5 6-5s6 1.69 6 5"/></svg></div><div class="af-type-name">${t.name}</div><div class="af-type-desc">${t.desc}</div></button>`).join('')}</div><div id="af-form-steps"></div>`;if(afType)renderAfStep();}
-function selectAgentType(k){afType=k;afStep=0;afAnswers={};renderAgentForm();}
-function renderAfStep(){const qs=AGENT_FORM_Q[afType]||[];if(afStep>=qs.length){renderAfSummary();return;}const q=qs[afStep];const sh=qs.map((sq,i)=>`<div class="af-step-item ${i<afStep?'done':i===afStep?'active':''}"><div class="af-step-num">${i<afStep?'✓':i+1}</div>${sq.label}</div>${i<qs.length-1?'<div class="af-step-connector"></div>':''}`).join('')+`<div class="af-step-connector"></div><div class="af-step-item ${afStep>=qs.length?'active':''}"><div class="af-step-num">${qs.length+1}</div>Confirm</div>`;let ih='';if(q.type==='choice')ih=`<div class="af-choices one-col" id="af-choices">${q.choices.map(c=>`<button class="af-choice ${afAnswers[q.id]===c?'sel':''}" onclick="afSelectChoice('${q.id}','${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('')}</div>`;else if(q.type==='textarea')ih=`<textarea class="af-textarea" id="af-input" placeholder="${q.placeholder||''}">${afAnswers[q.id]||''}</textarea>`;else ih=`<input class="af-input" id="af-input" type="text" placeholder="${q.placeholder||''}" value="${afAnswers[q.id]||''}"/>`;document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${sh}</div><div class="af-question"><div class="af-q-label">${q.label}</div><div class="af-q-text">${q.title}</div>${q.hint?`<div class="af-q-hint">${q.hint}</div>`:''} ${ih}</div><div class="af-footer"><div class="af-nav">${afStep>0?'<button class="btn-af-back" onclick="afBack()">← Back</button>':''}${q.type!=='choice'?`<button class="btn-af-next" onclick="afNext()">Continue →</button>`:''}</div><div class="af-tip">Click an option to auto-advance.</div></div>`;const inp=document.getElementById('af-input');if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();afNext();}});}}
-function afSelectChoice(qId,val,el){document.querySelectorAll('.af-choice').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');afAnswers[qId]=val;setTimeout(()=>afNext(),320);}
-function afNext(){const inp=document.getElementById('af-input'),qs=AGENT_FORM_Q[afType]||[];if(inp&&afStep<qs.length)afAnswers[qs[afStep].id]=inp.value.trim();afStep++;renderAfStep();}
-function afBack(){if(afStep>0){afStep--;renderAfStep();}}
-function renderAfSummary(){const qs=AGENT_FORM_Q[afType]||[],type=AGENT_TYPES.find(t=>t.key===afType);const sh=qs.map((sq,i)=>`<div class="af-step-item done"><div class="af-step-num">✓</div>${sq.label}</div><div class="af-step-connector"></div>`).join('')+`<div class="af-step-item active"><div class="af-step-num">${qs.length+1}</div>Confirm</div>`;const sr=qs.map(q=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border2);"><span style="font-size:9px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.4px;width:140px;flex-shrink:0;">${q.label}</span><span style="font-size:11px;font-weight:500;text-align:right;color:var(--black);">${afAnswers[q.id]||'—'}</span></div>`).join('');document.getElementById('af-form-steps').innerHTML=`<div class="af-steps">${sh}</div><div class="af-question"><div class="af-q-label">Summary</div><div class="af-q-text">Ready to build your ${type?.name}?</div><div class="af-q-hint" style="margin-bottom:14px;">Review your answers before we build.</div><div>${sr}</div></div><div class="af-footer"><div class="af-nav"><button class="btn-af-back" onclick="afBack()">← Edit</button><button class="btn-af-next" onclick="buildAgent()">Build Agent →</button></div></div>`;}
-
-async function buildAgent(){showGeneratingOverlay();setGenStep(1);const type=AGENT_TYPES.find(t=>t.key===afType),payload={agent_type:afType,agent_type_name:type?.name,business_profile:businessProfile,agent_config:afAnswers,session_id:'session_'+Date.now(),source:'leadflow_v1'};try{setTimeout(()=>setGenStep(2),900);const res=await fetch(PROVISIONING_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});setGenStep(3);await sleep(600);const data=await res.json();setGenStep(4);await sleep(600);setGenStep(5);await sleep(800);finishBuild(data);}catch(err){console.error(err);setGenStep(5);await sleep(600);finishBuild({});}}
-function finishBuild(response){const r=Array.isArray(response)?response[0]:response,clientId=r.client_id||'agent_'+Date.now(),type=AGENT_TYPES.find(t=>t.key===afType);const na={id:clientId,type:afType,name:businessProfile?.business_name||r.company||'My Business',agent_type_name:type?.name,whatsapp:afAnswers.whatsapp_number||'—',status:'live',leads:0,booked:0,created:new Date().toISOString(),workflow_json:r.workflow_json||null,workflow_name:r.workflow_name||null,connected:false,credentials:{}};const ex=agents.findIndex(a=>a.type===afType);if(ex>=0)agents[ex]=na;else agents.push(na);localStorage.setItem('sai_agents_'+currentUser.id,JSON.stringify(agents));addActivity('🤖',`${type?.name} built for ${na.name}`,'Just now');afType=null;afStep=0;afAnswers={};hideGeneratingOverlay(()=>{showScreen('dashboard',document.querySelector('.nav-item'));showToast('✅',`${type?.name} is live!`);});}
 function showGeneratingOverlay(){document.getElementById('gen-overlay').classList.add('show');['gs1','gs2','gs3','gs4','gs5'].forEach(s=>document.getElementById(s).classList.remove('active','done'));}
 function hideGeneratingOverlay(cb){['gs1','gs2','gs3','gs4','gs5'].forEach(s=>{document.getElementById(s).classList.remove('active');document.getElementById(s).classList.add('done');});setTimeout(()=>{document.getElementById('gen-overlay').classList.remove('show');if(cb)cb();},500);}
 function setGenStep(n){['gs1','gs2','gs3','gs4','gs5'].forEach((s,i)=>{const el=document.getElementById(s);el.classList.remove('active','done');if(i+1<n)el.classList.add('done');else if(i+1===n)el.classList.add('active');});}

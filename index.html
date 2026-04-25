@@ -182,15 +182,17 @@ input,textarea,select{font-family:'Sora',sans-serif;}
 
 /* Taskk-style decorative blobs */
 .stat-card-art{position:absolute;right:-12px;top:-12px;width:140px;height:140px;pointer-events:none;opacity:0.6;}
-
 .stat-card-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;}
-.stat-card-icon{width:34px;height:34px;border-radius:10px;background:transparent;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
-.stat-card-icon svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.stat-card-icon{width:34px;height:34px;border-radius:0;background:transparent;display:flex;align-items:center;justify-content:center;}
+.stat-card-icon svg{width:15px;height:15px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.stat-card-1 .stat-card-icon svg{stroke:#6B5FD4;}
+.stat-card-2 .stat-card-icon svg{stroke:#2E9E6B;}
+.stat-card-3 .stat-card-icon svg{stroke:#D4714A;}
 .stat-view-btn{padding:5px 12px;border-radius:20px;background:rgba(255,255,255,0.7);color:rgba(0,0,0,0.5);font-size:9px;font-weight:600;border:none;cursor:pointer;transition:all 0.14s;backdrop-filter:blur(4px);}
 .stat-view-btn:hover{background:rgba(255,255,255,0.92);}
 .stat-card-value{font-size:42px;font-weight:800;color:rgba(0,0,0,0.68);line-height:1;letter-spacing:-2px;position:relative;z-index:2;}
 .stat-card-label{font-size:11px;font-weight:500;color:rgba(0,0,0,0.38);margin-top:4px;position:relative;z-index:2;letter-spacing:0.1px;}
-
+  
 /* ─── DASH GRID ─── */
 .dash-grid{display:grid;grid-template-columns:1fr 320px;gap:18px;margin-bottom:22px;}
 .dash-left{display:flex;flex-direction:column;gap:18px;}

@@ -34,34 +34,234 @@ button{cursor:pointer;font-family:'Sora',sans-serif;}
 input,textarea,select{font-family:'Sora',sans-serif;}
 .icon{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 
-/* ─── AUTH ─── */
-#auth-screen{min-height:100vh;display:flex;background:#0B0C12;position:relative;overflow:hidden;}
-.auth-glow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(100px);}
-.auth-left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:72px;position:relative;z-index:2;}
-.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:72px;}
-.auth-hero h1{font-size:32px;font-weight:700;color:#fff;line-height:1.12;margin-bottom:18px;letter-spacing:-1px;}
-.auth-hero h1 em{background:linear-gradient(135deg,#A29BFE,#6C5CE7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal;}
-.auth-hero p{font-size:14px;color:rgba(255,255,255,0.38);line-height:1.8;max-width:400px;}
-.auth-features{margin-top:56px;display:flex;flex-direction:column;gap:18px;}
-.auth-feat{display:flex;align-items:center;gap:14px;font-size:12px;color:rgba(255,255,255,0.4);}
-.auth-feat-icon{width:34px;height:34px;border-radius:10px;background:rgba(108,92,231,0.12);border:1px solid rgba(108,92,231,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.auth-right{width:480px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:48px;background:rgba(255,255,255,0.015);border-left:1px solid rgba(255,255,255,0.04);}
-.auth-card{width:100%;max-width:370px;}
-.auth-card-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-0.4px;}
-.auth-card-sub{font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:32px;}
-.auth-tabs{display:flex;gap:3px;background:rgba(255,255,255,0.04);border-radius:11px;padding:4px;margin-bottom:28px;}
-.auth-tab{flex:1;padding:10px;border-radius:8px;border:none;background:transparent;font-size:12px;font-weight:600;color:rgba(255,255,255,0.32);transition:all 0.2s;}
-.auth-tab.active{background:rgba(108,92,231,0.22);color:#fff;border:1px solid rgba(108,92,231,0.28);}
+/* ─── AUTH (WHITE BRANDING) ─── */
+#auth-screen{
+  min-height:100vh;
+  display:flex;
+  background:#FFFFFF;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Soft decorative blobs — light blue/purple, not dark */
+.auth-glow{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(80px);
+}
+
+.auth-left{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:72px;
+  position:relative;
+  z-index:2;
+}
+
+.auth-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:64px;
+}
+
+.auth-hero h1{
+  font-size:38px;
+  font-weight:800;
+  color:#111318;
+  line-height:1.1;
+  margin-bottom:18px;
+  letter-spacing:-1.5px;
+}
+
+.auth-hero h1 em{
+  background:linear-gradient(135deg,#6C5CE7,#A29BFE);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-style:normal;
+}
+
+.auth-hero p{
+  font-size:14px;
+  color:#64748B;
+  line-height:1.8;
+  max-width:420px;
+}
+
+.auth-features{
+  margin-top:52px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.auth-feat{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:13px;
+  color:#475569;
+  font-weight:500;
+}
+
+.auth-feat-icon{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:rgba(108,92,231,0.08);
+  border:1px solid rgba(108,92,231,0.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+/* right panel — light card on white */
+.auth-right{
+  width:500px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:48px;
+  background:#F8F9FE;
+  border-left:1px solid #E9ECF3;
+  position:relative;
+  z-index:2;
+}
+
+.auth-card{
+  width:100%;
+  max-width:380px;
+}
+
+.auth-card-title{
+  font-size:22px;
+  font-weight:700;
+  color:#111318;
+  margin-bottom:6px;
+  letter-spacing:-0.4px;
+}
+
+.auth-card-sub{
+  font-size:12px;
+  color:#94A3B8;
+  margin-bottom:28px;
+}
+
+.auth-tabs{
+  display:flex;
+  gap:3px;
+  background:#EDEEF5;
+  border-radius:11px;
+  padding:4px;
+  margin-bottom:24px;
+}
+
+.auth-tab{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  background:transparent;
+  font-size:12px;
+  font-weight:600;
+  color:#94A3B8;
+  transition:all 0.2s;
+}
+
+.auth-tab.active{
+  background:#FFFFFF;
+  color:#111318;
+  box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+
 .auth-field{margin-bottom:14px;}
-.auth-field label{display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.28);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:7px;}
-.auth-field input{width:100%;padding:12px 14px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.07);border-radius:10px;font-size:12px;color:#fff;outline:none;transition:border-color 0.15s;}
-.auth-field input::placeholder{color:rgba(255,255,255,0.18);}
-.auth-field input:focus{border-color:rgba(108,92,231,0.5);background:rgba(255,255,255,0.06);}
-.auth-btn{width:100%;padding:13px;margin-top:6px;background:linear-gradient(135deg,#6C5CE7,#A29BFE);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:700;transition:all 0.15s;letter-spacing:0.2px;box-shadow:0 8px 24px rgba(108,92,231,0.3);}
-.auth-btn:hover{opacity:0.9;transform:translateY(-1px);box-shadow:0 12px 32px rgba(108,92,231,0.38);}
+
+.auth-field label{
+  display:block;
+  font-size:10px;
+  font-weight:700;
+  color:#94A3B8;
+  text-transform:uppercase;
+  letter-spacing:0.8px;
+  margin-bottom:7px;
+}
+
+.auth-field input{
+  width:100%;
+  padding:12px 14px;
+  background:#FFFFFF;
+  border:1.5px solid #E9ECF3;
+  border-radius:10px;
+  font-size:12px;
+  color:#111318;
+  outline:none;
+  transition:border-color 0.15s;
+}
+
+.auth-field input::placeholder{color:#CBD5E1;}
+
+.auth-field input:focus{
+  border-color:rgba(108,92,231,0.5);
+  background:#FDFCFF;
+}
+
+.auth-btn{
+  width:100%;
+  padding:13px;
+  margin-top:6px;
+  background:linear-gradient(135deg,#6C5CE7,#A29BFE);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+  transition:all 0.15s;
+  letter-spacing:0.2px;
+  box-shadow:0 6px 20px rgba(108,92,231,0.25);
+}
+
+.auth-btn:hover{
+  opacity:0.9;
+  transform:translateY(-1px);
+  box-shadow:0 10px 28px rgba(108,92,231,0.32);
+}
+
 .auth-btn:disabled{opacity:0.5;cursor:not-allowed;}
-.auth-error{margin-top:10px;padding:10px 14px;background:rgba(253,121,168,0.1);border:1px solid rgba(253,121,168,0.22);border-radius:8px;font-size:11px;color:#FD79A8;display:none;}
+
+.auth-error{
+  margin-top:10px;
+  padding:10px 14px;
+  background:rgba(214,48,49,0.06);
+  border:1px solid rgba(214,48,49,0.18);
+  border-radius:8px;
+  font-size:11px;
+  color:#d63031;
+  display:none;
+}
 .auth-error.show{display:block;}
+
+/* trust badge below form */
+.auth-trust{
+  margin-top:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  font-size:10px;
+  color:#CBD5E1;
+}
+
+.auth-trust-dot{
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#CBD5E1;
+}
 
 /* ─── ONBOARDING ─── */
 #onboarding-screen{min-height:100vh;display:flex;flex-direction:column;background:var(--white);}
@@ -564,7 +764,7 @@ input,textarea,select{font-family:'Sora',sans-serif;}
 .pf-input{width:100%;padding:7px 10px;border:1.5px solid var(--accent);border-radius:8px;font-size:12px;color:var(--black);background:#fff;outline:none;font-family:'Sora',sans-serif;}
 .pf-textarea{width:100%;padding:7px 10px;min-height:60px;border:1.5px solid var(--accent);border-radius:8px;font-size:12px;color:var(--black);background:#fff;outline:none;resize:vertical;line-height:1.6;font-family:'Sora',sans-serif;}
 .pf-choices{display:flex;flex-direction:column;gap:4px;}
-.pf-choice-pill{padding:6px 10px;border-radius:8px;border:1.5px solid var(--border);background:#FAFBFE;font-size:11px;font-weight:500;text-align:left;cursor:pointer;color:var(--black);transition:all 0.14s;}
+.pf-choice-pill{padding:6px 10px;border-radius:8px;border:1.5px solid var(--border);background:#FAFBFE;font-size:11px;font-weight:500;text-align:left;cursor:pointer;color:var(--black);transition:all 0.14px;}
 .pf-choice-pill:hover{border-color:var(--accent);background:rgba(108,92,231,0.04);}
 .pf-choice-pill.selected{border-color:var(--accent);background:rgba(108,92,231,0.06);color:#4830C7;font-weight:600;}
 
@@ -591,23 +791,42 @@ input,textarea,select{font-family:'Sora',sans-serif;}
 
 <!-- AUTH -->
 <div id="auth-screen">
-  <div class="auth-glow" style="width:520px;height:520px;background:rgba(108,92,231,0.1);top:-160px;left:-110px;"></div>
-  <div class="auth-glow" style="width:320px;height:320px;background:rgba(162,155,254,0.07);bottom:60px;left:320px;"></div>
+  <!-- Soft decorative blobs -->
+  <div class="auth-glow" style="width:500px;height:500px;background:rgba(108,92,231,0.06);top:-180px;left:-100px;"></div>
+  <div class="auth-glow" style="width:400px;height:400px;background:rgba(162,155,254,0.07);bottom:-100px;left:200px;"></div>
+  <div class="auth-glow" style="width:300px;height:300px;background:rgba(108,92,231,0.04);top:30%;right:420px;"></div>
+
   <div class="auth-left">
-    <!-- LOGO: Auth screen (dark bg — white filter applied) -->
+    <!-- LOGO: white bg — shows naturally, no filter needed -->
     <div class="auth-logo">
-      <img src="https://raw.githubusercontent.com/aiagentcreator2025-gif/app/main/LeadFlow.png" style="height:36px;object-fit:contain;filter:brightness(0) invert(1);" alt="LeadFlow"/>
+      <img src="https://raw.githubusercontent.com/aiagentcreator2025-gif/app/main/LeadFlow.png" style="height:36px;object-fit:contain;" alt="LeadFlow"/>
     </div>
     <div class="auth-hero">
       <h1>Your leads.<br/>Booked.<br/><em>Automatically.</em></h1>
       <p>Build an AI sales agent on WhatsApp in under 10 minutes. Handles every lead from cold DM to confirmed call — 24/7.</p>
     </div>
     <div class="auth-features">
-      <div class="auth-feat"><div class="auth-feat-icon"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#A29BFE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2a6 6 0 100 12A6 6 0 008 2z"/><path d="M8 6v4M6 8h4"/></svg></div>Welcomes every lead instantly with your lead magnet</div>
-      <div class="auth-feat"><div class="auth-feat-icon"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#A29BFE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M5 7h6M5 10h4"/></svg></div>Sells the call without being salesy</div>
-      <div class="auth-feat"><div class="auth-feat-icon"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#A29BFE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2-4 8-4 8 0s6 4 6 0"/></svg></div>Follows up until they show up</div>
+      <div class="auth-feat">
+        <div class="auth-feat-icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#6C5CE7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2a6 6 0 100 12A6 6 0 008 2z"/><path d="M8 6v4M6 8h4"/></svg>
+        </div>
+        Welcomes every lead instantly with your lead magnet
+      </div>
+      <div class="auth-feat">
+        <div class="auth-feat-icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#6C5CE7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M5 7h6M5 10h4"/></svg>
+        </div>
+        Sells the call without being salesy
+      </div>
+      <div class="auth-feat">
+        <div class="auth-feat-icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#6C5CE7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2-4 8-4 8 0s6 4 6 0"/></svg>
+        </div>
+        Follows up until they show up
+      </div>
     </div>
   </div>
+
   <div class="auth-right">
     <div class="auth-card">
       <div class="auth-card-title">Welcome back</div>
@@ -629,6 +848,13 @@ input,textarea,select{font-family:'Sora',sans-serif;}
         <div class="auth-error" id="signup-error"></div>
         <button class="auth-btn" id="signup-btn" onclick="doSignUp()">Create account →</button>
       </div>
+      <div class="auth-trust">
+        <span>SSL secured</span>
+        <div class="auth-trust-dot"></div>
+        <span>No credit card required</span>
+        <div class="auth-trust-dot"></div>
+        <span>Cancel anytime</span>
+      </div>
     </div>
   </div>
 </div>
@@ -636,7 +862,6 @@ input,textarea,select{font-family:'Sora',sans-serif;}
 <!-- ONBOARDING -->
 <div id="onboarding-screen" class="hide">
   <div class="ob-topbar">
-    <!-- LOGO: Onboarding (white bg — logo shows naturally) -->
     <div class="ob-logo">
       <img src="https://raw.githubusercontent.com/aiagentcreator2025-gif/app/main/LeadFlow.png" style="height:28px;object-fit:contain;" alt="LeadFlow"/>
     </div>
@@ -652,7 +877,6 @@ input,textarea,select{font-family:'Sora',sans-serif;}
 <!-- APP -->
 <div id="app-screen" class="hide">
   <aside class="sidebar">
-    <!-- LOGO: Sidebar (white bg — logo shows naturally) -->
     <div class="sidebar-logo">
       <img src="https://raw.githubusercontent.com/aiagentcreator2025-gif/app/main/LeadFlow.png" style="height:28px;object-fit:contain;" alt="LeadFlow"/>
     </div>
